@@ -54,19 +54,15 @@
                         </div>
 
                       <div class="form-group">
-
-                                        <select name="select" id="select" class="form-control">
-                                            <option value="0">Please select Payement Mode</option>
-                                            <option value="1">Cash</option>
-                                            <option value="1">Cheque</option>
-                                            <option value="1">RTGS/NEFT</option>
-                                        </select>
+                            <select class="form-control" v-model="selected">
+                                <option v-for="option in options" v-bind:value="option.id">{{option.name}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8">
-                                    <div class="card">
+                        <div class="card">
                             <div class="card-header">
                                 <strong class="card-title">Client Details</strong>
                             </div>
@@ -132,7 +128,7 @@
                                 </div>
 
                             </div>
-                                                    <div class="card">
+                        <div class="card" v-if="selected === 2">
                             <div class="card-header">
                                 <strong class="card-title">Cash</strong>
                             </div>
@@ -160,7 +156,60 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                        <div class="card" v-if="selected === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Cheque</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card" v-if="selected === 4">
+                            <div class="card-header">
+                                <strong class="card-title">RTGS/NEFT</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Phone no">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             </div>
                         </div> <!-- .card -->
@@ -210,7 +259,21 @@ export default {
         start: '00:00',
         step: '00:30',
         end: '23:30'
-      }
+      },
+      selected: "1",
+            options: [
+                { id: 1, name: 'Select Payment Method'},
+                { id: 2, name: 'Cash' },
+                { id: 3, name: 'Cheque' },
+                { id: 4, name: 'RTGS/NEFT' }
+            ],
+    //    clientTypeSelection: "Select Client Type",
+    //             options: [
+    //                 { id: 1, name: 'Individual'},
+    //                 {id: 2, name: 'Govt'},
+    //                 {id: 3, name: 'Pvt Ltd'},
+    //                 {id: 4, name: 'NGO'}
+    //             ],
     }
 },
         mounted() {
