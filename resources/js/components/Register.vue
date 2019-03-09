@@ -57,9 +57,78 @@
                             <select class="form-control" v-model="selected">
                                 <option v-for="option in options" v-bind:value="option.id">{{option.name}}</option>
                             </select>
-                        </div>
+                    </div>
                     </div>
                 </div>
+                        <div class="card" v-if="selected === 2">
+                            <div class="card-header">
+                                <strong class="card-title">Cash</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="number" class="form-control">
+                                            </div>
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card" v-if="selected === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Cheque</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number">
+                                            </div>
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card" v-if="selected === 4">
+                            <div class="card-header">
+                                <strong class="card-title">RTGS/NEFT</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
+                                            </div>
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Phone no">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
             </div>
             <div class="col-lg-8">
                         <div class="card">
@@ -128,89 +197,7 @@
                                 </div>
 
                             </div>
-                        <div class="card" v-if="selected === 2">
-                            <div class="card-header">
-                                <strong class="card-title">Cash</strong>
-                            </div>
-                            <div class="card-body">
-                                <!-- Credit Card -->
-                                <div id="client's_info">
-                                    <div class="card-body">
-                                        <form action="" method="post" novalidate="novalidate">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="" name="name" type="number" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
-                                            </div>
-                                        </div>
-                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
-                                            </div>
-                                        </div>
-                                        </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="card" v-if="selected === 3">
-                            <div class="card-header">
-                                <strong class="card-title">Cheque</strong>
-                            </div>
-                            <div class="card-body">
-                                <!-- Credit Card -->
-                                <div id="client's_info">
-                                    <div class="card-body">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
-                                            </div>
-                                        </div>
-                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone">
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="card" v-if="selected === 4">
-                            <div class="card-header">
-                                <strong class="card-title">RTGS/NEFT</strong>
-                            </div>
-                            <div class="card-body">
-                                <!-- Credit Card -->
-                                <div id="client's_info">
-                                    <div class="card-body">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="" name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
-                                            </div>
-                                        </div>
-                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Phone no">
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             </div>
                         </div> <!-- .card -->
                         <hr/>
