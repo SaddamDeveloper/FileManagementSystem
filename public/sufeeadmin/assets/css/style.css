@@ -1220,7 +1220,7 @@ body.open .navbar .navbar-brand.hidden {
         display: none; }
     .open aside.left-panel .navbar .navbar-nav li > a {
       max-width: 60px;
-      padding-left: 0; }
+      padding-left: 9px; }
     .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children {
       overflow: hidden; }
       .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children a:before {
@@ -2396,7 +2396,7 @@ header .form-inline {
         float: right;
         margin-top: 8px; }
       aside.left-panel .navbar .navbar-nav li > a {
-        padding: 5px 0; }
+        padding: 5px 13px; }
       aside.left-panel .navbar .navbar-nav li.menu-item-has-children a:before {
         top: 5px; }
       aside.left-panel .navbar .menu-title {

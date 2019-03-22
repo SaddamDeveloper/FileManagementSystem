@@ -40,7 +40,7 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <h3 class="menu-title">Master Controller</h3><!-- /.menu-title -->
+                    <h3 class="menu-title">Master</h3><!-- /.menu-title -->
                     <li class="active">
                             <router-link to="/managerdashboard"> <i class="menu-icon fa fa-laptop"></i> Dashboard </router-link>
                     </li>

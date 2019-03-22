@@ -19,6 +19,7 @@
                 </div>
             </div>
         </div>
+        <form @submit.prevent="createCase" @keydown="form.onKeydown($event)">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card">
@@ -27,21 +28,20 @@
                     </div>
                     <div class="card-body card-block">
                         <div class="form-group">
-                                <strong>Case ID:</strong>
+                            <div class="form-group">
+                                <strong>Case ID: 675465KN6754</strong>
+                            </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-12">
-                                        <select name="select" id="select" class="form-control">
-                                            <option value="0">Please select client type</option>
-                                            <option value="1">Govt</option>
-                                            <option value="1">Pvt Ltd</option>
-                                            <option value="1">Individual</option>
-                                            <option value="1">NGO</option>
+                                        <select v-model="clientTypeSelection" class="form-control">
+                                            <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                         </select>
                                     </div>
                                 </div>
                         <div class="form-group">
-                            <input type="text" id="company" placeholder="Type of work" class="form-control">
+                            <input type="text" v-model="form.typeofwork" id="typeofwork" name="typeofwork" placeholder="Type of work" class="form-control" :class="{ 'is-invalid': form.errors.has('typeofwork') }">
+                            <has-error :form="form" field="typeofwork"></has-error>
                         </div>
                         <div class="form-group">
                             <date-picker v-model="time1" :lang="lang"></date-picker>
@@ -54,9 +54,10 @@
                         </div>
 
                       <div class="form-group">
-                            <select class="form-control" v-model="selected">
-                                <option v-for="option in options" v-bind:value="option.id">{{option.name}}</option>
+                            <select class="form-control" v-model="selected" name="selected">
+                                <option v-for="optiontype in optiontypes" v-bind:value="optiontype.id">{{ optiontype.name}}</option>
                             </select>
+                            <has-error :form="form" field="selected"></has-error>
                     </div>
                     </div>
                 </div>
@@ -70,7 +71,10 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="" name="name" type="number" class="form-control">
+                                                <input id="" name="name" placeholder="Advance Amount" type="number" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <span> Due Amount: <i class="fa fa-inr"></i> 120.00</span>
                                             </div>
                                             <div class="form-group has-success">
                                                 <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
@@ -111,7 +115,6 @@
                                 <strong class="card-title">RTGS/NEFT</strong>
                             </div>
                             <div class="card-body">
-                                <!-- Credit Card -->
                                 <div id="client's_info">
                                     <div class="card-body">
                                         <div class="col-md-12">
@@ -131,25 +134,20 @@
                             </div>
             </div>
             <div class="col-lg-8">
-                        <div class="card">
+                        <div class="card" v-if="clientTypeSelection === 2">
                             <div class="card-header">
-                                <strong class="card-title">Client Details</strong>
+                                <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
                             <div class="card-body">
-                                <!-- Credit Card -->
                                 <div id="client's_info">
                                     <div class="card-body">
-                                        <!-- <div class="card-title">
-                                            <h3 class="text-center">Client's Info</h3>
-                                        </div> -->
-                                        <!-- <hr> -->
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <input id="name" name="name" type="text" class="form-control" placeholder="Client ID">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
                                             <div class="form-group has-success">
                                                 <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
                                             </div>
@@ -159,18 +157,69 @@
                                         </div>
                                     </div>
                                 </div>
-                        <div class="card">
+                        <div class="card" v-if="clientTypeSelection === 3">
                             <div class="card-header">
-                                <strong class="card-title">Client Details</strong>
+                                <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
                             <div class="card-body">
-                                <!-- Credit Card -->
                                 <div id="client's_info">
                                     <div class="card-body">
-                                        <!-- <div class="card-title">
-                                            <h3 class="text-center">Client's Info</h3>
-                                        </div> -->
-                                        <!-- <hr> -->
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="name" name="name" type="text" class="form-control" placeholder="Broker's ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="card" v-if="clientTypeSelection === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (New Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="name" name="name" type="text" class="form-control" placeholder="Brokers's Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Govt ID Card No">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        <div class="card" v-if="clientTypeSelection === 2">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (New Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -211,6 +260,7 @@
                             </button>
                             </div>
                         </div>
+                </form>
             </div>
 </template>
 
@@ -248,19 +298,25 @@ export default {
         end: '23:30'
       },
       selected: "1",
-            options: [
+            optiontypes: [
                 { id: 1, name: 'Select Payment Method'},
                 { id: 2, name: 'Cash' },
                 { id: 3, name: 'Cheque' },
                 { id: 4, name: 'RTGS/NEFT' }
             ],
-    //    clientTypeSelection: "Select Client Type",
-    //             options: [
-    //                 { id: 1, name: 'Individual'},
-    //                 {id: 2, name: 'Govt'},
-    //                 {id: 3, name: 'Pvt Ltd'},
-    //                 {id: 4, name: 'NGO'}
-    //             ],
+       clientTypeSelection: "1",
+                options: [
+                    {id: 1, name: 'Select Payment Method'},
+                    {id: 2, name: 'Individual'},
+                    {id: 3, name: 'Govt'},
+                    {id: 4, name: 'Pvt Ltd'},
+                    {id: 5, name: 'NGO'}
+                ],
+
+        form: new Form({
+            typeofwork: '',
+            clientTypeSelection: '',
+        })
     }
 },
         mounted() {

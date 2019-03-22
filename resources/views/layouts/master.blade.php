@@ -34,10 +34,10 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
+                <a class="navbar-brand" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
             </div>
-                <h3 class="menu-title">Master Controller</h3>
+                <h3 class="menu-title">Master</h3>
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
