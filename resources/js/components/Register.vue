@@ -34,9 +34,10 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-12">
-                                        <select v-model="clientTypeSelection" class="form-control">
+                                        <select name="clientTypeSelection" v-model="form.clientTypeSelection" class="form-control" :class="{ 'is-invalid': form.errors.has('clientTypeSelection') }">
                                             <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                         </select>
+                                        <has-error :form="form" field="clientTypeSelection"></has-error>
                                     </div>
                                 </div>
                         <div class="form-group">
@@ -44,12 +45,14 @@
                             <has-error :form="form" field="typeofwork"></has-error>
                         </div>
                         <div class="form-group">
-                            <date-picker v-model="time1" :lang="lang"></date-picker>
+                            <date-picker name="time2" v-model="form.time2" :lang="lang" :class="{ 'is-invalid': form.errors.has('time2') }"></date-picker>
+                            <has-error :form="form" field="time2"></has-error>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-inr"></i></div>
-                                <input class="form-control" type="number" placeholder="Amount">
+                                <input class="form-control" name="amount" v-model="form.amount" type="number" placeholder="Amount" :class="{ 'is-invalid': form.errors.has('amount') }">
+                                <has-error :form="form" field="amount"></has-error>
                         </div>
                         </div>
 
@@ -71,16 +74,87 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="" name="name" placeholder="Advance Amount" type="number" class="form-control">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-inr"></i>
+                                                    </div>
+                                                    <input type="number" placeholder="Advance Amount" class="form-control">
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <span> Due Amount: <i class="fa fa-inr"></i> 120.00</span>
                                             </div>
-                                            <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 2000
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 500
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 200
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 100
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 50
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 20
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 10
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 5
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
                                             </div>
                                         </div>
                                         </div>
@@ -133,8 +207,143 @@
                                 </div>
                             </div>
             </div>
+
             <div class="col-lg-8">
-                        <div class="card" v-if="clientTypeSelection === 2">
+                        <div class="card" v-if="form.clientTypeSelection === 5">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    <div class="card" v-if="form.clientTypeSelection === 5">
+                        <div class="card-header">
+                            <strong class="card-title">Client Details (New Client)</strong>
+                        </div>
+                        <div class="card-body">
+                            <div id="client's_info">
+                                <div class="card-body">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card" v-if="form.clientTypeSelection === 4">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    <div class="card" v-if="form.clientTypeSelection === 4">
+                        <div class="card-header">
+                            <strong class="card-title">Client Details (New Client)</strong>
+                        </div>
+                        <div class="card-body">
+                            <div id="client's_info">
+                                <div class="card-body">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card" v-if="form.clientTypeSelection === 2">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -157,7 +366,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        <div class="card" v-if="clientTypeSelection === 3">
+                        <div class="card" v-if="form.clientTypeSelection === 3">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -166,13 +375,13 @@
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input id="name" name="name" type="text" class="form-control" placeholder="Broker's ID">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
                                             </div>
                                         </div>
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
                                         <div class="col-md-5">
                                             <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
                                             </div>
                                         </div>
 
@@ -180,7 +389,8 @@
                                         </div>
                                     </div>
                         </div>
-                        <div class="card" v-if="clientTypeSelection === 3">
+
+                        <div class="card" v-if="form.clientTypeSelection === 3">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
@@ -190,17 +400,22 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="name" name="name" type="text" class="form-control" placeholder="Brokers's Name">
+                                                <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Govt ID Card No">
+                                                <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
+                                                <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -208,37 +423,52 @@
                                                 <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                            </div>
+                                        </div>
+
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                        <div class="card" v-if="clientTypeSelection === 2">
+                        <div class="card" v-if="form.clientTypeSelection === 2">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
                             <div class="card-body">
                                 <div id="client's_info">
                                     <div class="card-body">
-
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="name" name="name" type="text" class="form-control" placeholder="Client's Name">
+                                                <input id="clientname" v-model="form.clientname" name="clientname" type="text" class="form-control" placeholder="Client's Name" :class="{ 'is-invalid': form.errors.has('password') }">
+                                                <has-error :form="form" field="clientname"></has-error>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Contact No">
+                                                <input id="contactno" v-model="form.contactno" name="contactno" type="text" class="form-control" placeholder="Contact No" :class="{ 'is-invalid': form.errors.has('contactno') }">
+                                                <has-error :form="form" field="contactno"></has-error>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No">
+                                                <input id="altno" v-model="form.altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No" :class="{ 'is-invalid': form.errors.has('altno') }">
+                                                <has-error :form="form" field="altno"></has-error>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <textarea id="address" name="adress" class="form-control" placeholder="Address"></textarea>
+                                                <input type="email" v-model="form.email" id="email" name="email" class="form-control" placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }">
+                                                <has-error :form="form" field="email"></has-error>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group has-success">
+                                                <textarea id="address" v-model="form.address" name="adress" class="form-control" placeholder="Address" :class="{ 'is-invalid': form.errors.has('address') }"></textarea>
+                                                <has-error :form="form" field="address"></has-error>
                                             </div>
                                         </div>
                                         </div>
@@ -314,8 +544,31 @@ export default {
                 ],
 
         form: new Form({
-            typeofwork: '',
             clientTypeSelection: '',
+            typeofwork: '',
+            amount: '',
+            clientname: '',
+            contactno: '',
+            altno: '',
+            email: '',
+            address: '',
+            time2: '',
+        })
+    }
+},
+methods: {
+    createCase(){
+        this.$Progress.start();
+        this.form.post('api/case')
+        .then(()=>{
+            toast.fire({
+                type: 'success',
+                title: 'Saved successfully'
+            })
+            this.$Progress.finish();
+        })
+        .catch(()=> {
+
         })
     }
 },

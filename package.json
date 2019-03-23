@@ -24,7 +24,9 @@
         "vue-template-compiler": "^2.6.8"
     },
     "dependencies": {
+        "sweetalert2": "^8.5.0",
         "vform": "^1.0.0",
+        "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
         "vue2-datepicker": "^2.10.0"
     }

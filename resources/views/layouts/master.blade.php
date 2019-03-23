@@ -139,6 +139,7 @@
             <!--/.col-->
 <div class="col-md-12 col-lg-12 col-sm-12">
     <router-view></router-view>
+    <vue-progress-bar></vue-progress-bar>
 </div>
 
 

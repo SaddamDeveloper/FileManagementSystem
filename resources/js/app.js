@@ -10,6 +10,23 @@ require('./bootstrap');
 window.Vue = require('vue');
 import { Form, HasError, AlertError } from 'vform'
 import VueRouter from 'vue-router'
+import VueProgressBar from 'vue-progressbar'
+import Swal from 'sweetalert2'
+window.Swal = Swal;
+
+const toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+window.toast = toast;
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '3px'
+  })
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
@@ -25,7 +42,8 @@ let routes = [
     { path: '/gst', component: require('./components/Gst.vue').default },
     { path: '/worktype', component: require('./components/Worktype.vue').default },
     { path: '/client', component: require('./components/Client.vue').default },
-    { path: '/managerregister', component: require('./components/ManagerRegister.vue').default }
+    { path: '/managerregister', component: require('./components/ManagerRegister.vue').default },
+    { path: '/registeredcase', component: require('./components/RegisteredCase.vue').default },
   ]
 
 const router = new VueRouter({
