@@ -17,10 +17,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('/admin', 'HomeController@showAdminPanel');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'AdminController@index')->name('admin');
+Route::prefix('admin')->group(function(){
+    Route::get('login', 'Auth\AdminLoginController@showLoginForm');
+    Route::post('login', 'Auth\AdminLoginController@login')->name('admin-login');
+});
+// Route::get('/admin', 'AdminController@index');
 
-Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
+    Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
+    Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
+
 // Route::get('{path}', 'HomeController@showAdminPanel')->where('path', '([A-z\d-\/_.]+)?');
 
 // Route::GET('admin/home', 'AdminController@index');

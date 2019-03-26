@@ -34,20 +34,17 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
+                <a class="navbar-brand" href="/admindashboard"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="/admindashboard"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
             </div>
                 <h3 class="menu-title">Master</h3>
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <router-link to="/dashboard"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </router-link>
+                        <router-link to="/admindashboard"> <i class="menu-icon fa fa-dashboard"></i>Admin Dashboard </router-link>
                     </li>
                     <li class="active">
-                            <router-link to="/registercase"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
-                    </li>
-                    <li class="active">
-                            <router-link to="/user"> <i class="menu-icon fa fa-laptop"></i> User</router-link>
+                            <router-link to="/adminregistercase"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -164,3 +161,4 @@
 </body>
 
 </html>
+

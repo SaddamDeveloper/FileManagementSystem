@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Registerd Case</strong></h1>
+                        <h1><strong>New Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Registerd Case</li>
+                            <li class="active">New Case</li>
                         </ol>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                             <th scope="col">Contact No</th>
                             <th scope="col">Email</th>
                             <th scope="col">Delivery Date</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Asign Employee</th>
                         </tr>
                     </thead>
                     <tbody>

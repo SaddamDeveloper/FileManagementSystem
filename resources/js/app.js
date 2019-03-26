@@ -12,14 +12,20 @@ import { Form, HasError, AlertError } from 'vform'
 import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
-window.Swal = Swal;
+// import { Printd } from 'printd'
 
+window.Swal = Swal;
+// const d = new Printd()
+// window.d = d;
 const toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000
   });
+
+
+window.Fire = new Vue();
 
 window.toast = toast;
 Vue.use(VueProgressBar, {
@@ -37,6 +43,8 @@ Vue.use(VueRouter)
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/registercase', component: require('./components/Register.vue').default },
+    { path: '/admindashboard', component: require('./components/Admindashboard.vue').default },
+    { path: '/adminregistercase', component: require('./components/Adminregister.vue').default },
     { path: '/managerdashboard', component: require('./components/ManagerDashboard.vue').default },
     { path: '/employee', component: require('./components/Employee.vue').default },
     { path: '/gst', component: require('./components/Gst.vue').default },
@@ -44,6 +52,7 @@ let routes = [
     { path: '/client', component: require('./components/Client.vue').default },
     { path: '/managerregister', component: require('./components/ManagerRegister.vue').default },
     { path: '/registeredcase', component: require('./components/RegisteredCase.vue').default },
+    { path: '/newcase', component: require('./components/NewCase.vue').default },
   ]
 
 const router = new VueRouter({
