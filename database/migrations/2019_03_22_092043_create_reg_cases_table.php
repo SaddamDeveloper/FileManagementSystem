@@ -14,16 +14,12 @@ class CreateRegCasesTable extends Migration
     public function up()
     {
         Schema::create('reg_cases', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('clientTypeSelection');
+            $table->string('caseid')->primary();
+            $table->string('clientType');
             $table->string('typeofwork');
-            $table->string('amount');
-            $table->string('clientname');
-            $table->string('contactno')->unique();
-            $table->string('email')->unique();
             $table->string('time2');
-            $table->string('altno');
-            $table->string('address');
+            $table->string('amount');
+            $table->string('paymentmode');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RegCase;
+use App\indClientDetails;
 class CaseController extends Controller
 {
     /**
@@ -26,25 +27,31 @@ class CaseController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'clientTypeSelection' => 'required',
+            'clientType' => 'required',
             'typeofwork' => 'required|string|max:191',
             'amount' => 'required',
-            'clientname' => 'required|string|max:191',
-            'contactno' => 'required',
+            'clientName' => 'required|string|max:191',
+            'contactNo' => 'required',
             'email' => 'required|string|email|max:191',
             'time2' => 'required'
 
         ]);
         return RegCase::create([
-            'clientTypeSelection' => $request['clientTypeSelection'],
+            'caseid' => $request['caseid'],
+            'clientType' => $request['clientType'],
             'typeofwork' => $request['typeofwork'],
-            'amount' => $request['amount'],
-            'clientname' => $request['clientname'],
-            'contactno' => $request['contactno'],
-            'email' => $request['email'],
             'time2' => $request['time2'],
-            'altno' => $request['altno'],
+            'amount' => $request['amount'],
+            'paymentmode' => $request['paymentmode'],
+        ]);
+        return indClientDetails::create([
+            'clientid' => $request['clientid'],
+            'clientName' => $request['clientName'],
+            'contactNo' => $request['contactNo'],
+            'altContactNo' => $request['altContactNo'],
+            'email' => $request['email'],
             'address' => $request['address'],
+            'caseid' => $request['caseid'],
         ]);
     }
 

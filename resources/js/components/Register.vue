@@ -34,10 +34,10 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-12">
-                                        <select name="clientTypeSelection" v-model="form.clientTypeSelection" class="form-control" :class="{ 'is-invalid': form.errors.has('clientTypeSelection') }">
+                                        <select name="clientType" v-model="form.clientType" class="form-control" :class="{ 'is-invalid': form.errors.has('clientType') }">
                                             <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                         </select>
-                                        <has-error :form="form" field="clientTypeSelection"></has-error>
+                                        <has-error :form="form" field="clientType"></has-error>
                                     </div>
                                 </div>
                         <div class="form-group">
@@ -213,7 +213,7 @@
             </div>
 
             <div class="col-lg-8">
-                        <div class="card" v-if="form.clientTypeSelection === 5">
+                        <div class="card" v-if="form.clientType === 5">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -236,7 +236,7 @@
                                         </div>
                                     </div>
                         </div>
-                    <div class="card" v-if="form.clientTypeSelection === 5">
+                    <div class="card" v-if="form.clientType === 5">
                         <div class="card-header">
                             <strong class="card-title">Client Details (New Client)</strong>
                         </div>
@@ -251,7 +251,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
+                                            <input id="percontactNo" name="percontactNo" type="text" class="form-control" placeholder="Conatct No">
                                         </div>
                                     </div>
                                         <div class="col-md-6">
@@ -280,7 +280,7 @@
                             </div>
 
                         </div>
-                        <div class="card" v-if="form.clientTypeSelection === 4">
+                        <div class="card" v-if="form.clientType === 4">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -303,7 +303,7 @@
                                         </div>
                                     </div>
                         </div>
-                    <div class="card" v-if="form.clientTypeSelection === 4">
+                    <div class="card" v-if="form.clientType === 4">
                         <div class="card-header">
                             <strong class="card-title">Client Details (New Client)</strong>
                         </div>
@@ -318,7 +318,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
+                                            <input id="perscontactno" name="perscontactno" type="text" class="form-control" placeholder="Conatct No">
                                         </div>
                                     </div>
                                         <div class="col-md-6">
@@ -347,7 +347,7 @@
                             </div>
 
                         </div>
-                        <div class="card" v-if="form.clientTypeSelection === 2">
+                        <div class="card" v-if="form.clientType === 2">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -370,7 +370,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        <div class="card" v-if="form.clientTypeSelection === 3">
+                        <div class="card" v-if="form.clientType === 3">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
@@ -394,7 +394,7 @@
                                     </div>
                         </div>
 
-                        <div class="card" v-if="form.clientTypeSelection === 3">
+                        <div class="card" v-if="form.clientType === 3">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
@@ -409,7 +409,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="conractno" name="contactno" type="text" class="form-control" placeholder="Conatct No">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
@@ -438,7 +438,7 @@
                                 </div>
 
                             </div>
-                        <div class="card" v-if="form.clientTypeSelection === 2">
+                        <div class="card" v-if="form.clientType === 2">
                             <div class="card-header">
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
@@ -447,20 +447,20 @@
                                     <div class="card-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="clientname" v-model="form.clientname" name="clientname" type="text" class="form-control" placeholder="Client's Name" :class="{ 'is-invalid': form.errors.has('password') }">
-                                                <has-error :form="form" field="clientname"></has-error>
+                                                <input id="clientName" v-model="form.clientName" name="clientName" type="text" class="form-control" placeholder="Client's Name" :class="{ 'is-invalid': form.errors.has('clientName') }">
+                                                <has-error :form="form" field="clientName"></has-error>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="contactno" v-model="form.contactno" name="contactno" type="text" class="form-control" placeholder="Contact No" :class="{ 'is-invalid': form.errors.has('contactno') }">
-                                                <has-error :form="form" field="contactno"></has-error>
+                                                <input id="contactNo" v-model="form.contactNo" name="contactNo" type="text" class="form-control" placeholder="Contact No" :class="{ 'is-invalid': form.errors.has('contactNo') }">
+                                                <has-error :form="form" field="contactNo"></has-error>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="altno" v-model="form.altno" name="altno" type="text" class="form-control" placeholder="Alternate Contact No" :class="{ 'is-invalid': form.errors.has('altno') }">
-                                                <has-error :form="form" field="altno"></has-error>
+                                                <input id="altContactNo" v-model="form.altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" :class="{ 'is-invalid': form.errors.has('altContactNo') }">
+                                                <has-error :form="form" field="altContactNo"></has-error>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -550,15 +550,18 @@ export default {
                 ],
 
         form: new Form({
-            clientTypeSelection: '',
+            caseid: 'XYZ123',
+            clientType: '',
             typeofwork: '',
             amount: '',
-            clientname: '',
-            contactno: '',
-            altno: '',
+            clientName: '',
+            contactNo: '',
+            altContactNo: '',
             email: '',
             address: '',
             time2: '',
+            clientid: 'TRY123',
+            paymentmode: '1',
         })
     }
 },

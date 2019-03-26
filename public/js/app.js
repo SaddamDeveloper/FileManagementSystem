@@ -4535,15 +4535,18 @@ __webpack_require__.r(__webpack_exports__);
         name: 'NGO'
       }],
       form: new Form({
-        clientTypeSelection: '',
+        caseid: 'XYZ123',
+        clientType: '',
         typeofwork: '',
         amount: '',
-        clientname: '',
-        contactno: '',
-        altno: '',
+        clientName: '',
+        contactNo: '',
+        altContactNo: '',
         email: '',
         address: '',
-        time2: ''
+        time2: '',
+        clientid: 'TRY123',
+        paymentmode: '1'
       })
     };
   },
@@ -50511,17 +50514,15 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.form.clientTypeSelection,
-                              expression: "form.clientTypeSelection"
+                              value: _vm.form.clientType,
+                              expression: "form.clientType"
                             }
                           ],
                           staticClass: "form-control",
                           class: {
-                            "is-invalid": _vm.form.errors.has(
-                              "clientTypeSelection"
-                            )
+                            "is-invalid": _vm.form.errors.has("clientType")
                           },
-                          attrs: { name: "clientTypeSelection" },
+                          attrs: { name: "clientType" },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
@@ -50534,7 +50535,7 @@ var render = function() {
                                 })
                               _vm.$set(
                                 _vm.form,
-                                "clientTypeSelection",
+                                "clientType",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -50553,7 +50554,7 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("has-error", {
-                        attrs: { form: _vm.form, field: "clientTypeSelection" }
+                        attrs: { form: _vm.form, field: "clientType" }
                       })
                     ],
                     1
@@ -50744,7 +50745,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-8" }, [
-            _vm.form.clientTypeSelection === 5
+            _vm.form.clientType === 5
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(10),
                   _vm._v(" "),
@@ -50752,7 +50753,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 5
+            _vm.form.clientType === 5
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(12),
                   _vm._v(" "),
@@ -50760,7 +50761,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 4
+            _vm.form.clientType === 4
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(14),
                   _vm._v(" "),
@@ -50768,7 +50769,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 4
+            _vm.form.clientType === 4
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(16),
                   _vm._v(" "),
@@ -50776,7 +50777,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 2
+            _vm.form.clientType === 2
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(18),
                   _vm._v(" "),
@@ -50784,7 +50785,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 3
+            _vm.form.clientType === 3
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(20),
                   _vm._v(" "),
@@ -50792,7 +50793,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 3
+            _vm.form.clientType === 3
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(22),
                   _vm._v(" "),
@@ -50800,7 +50801,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.form.clientTypeSelection === 2
+            _vm.form.clientType === 2
               ? _c("div", { staticClass: "card" }, [
                   _vm._m(24),
                   _vm._v(" "),
@@ -50817,21 +50818,23 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.form.clientname,
-                                    expression: "form.clientname"
+                                    value: _vm.form.clientName,
+                                    expression: "form.clientName"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 class: {
-                                  "is-invalid": _vm.form.errors.has("password")
+                                  "is-invalid": _vm.form.errors.has(
+                                    "clientName"
+                                  )
                                 },
                                 attrs: {
-                                  id: "clientname",
-                                  name: "clientname",
+                                  id: "clientName",
+                                  name: "clientName",
                                   type: "text",
                                   placeholder: "Client's Name"
                                 },
-                                domProps: { value: _vm.form.clientname },
+                                domProps: { value: _vm.form.clientName },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -50839,7 +50842,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.form,
-                                      "clientname",
+                                      "clientName",
                                       $event.target.value
                                     )
                                   }
@@ -50847,7 +50850,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("has-error", {
-                                attrs: { form: _vm.form, field: "clientname" }
+                                attrs: { form: _vm.form, field: "clientName" }
                               })
                             ],
                             1
@@ -50864,21 +50867,21 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.form.contactno,
-                                    expression: "form.contactno"
+                                    value: _vm.form.contactNo,
+                                    expression: "form.contactNo"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 class: {
-                                  "is-invalid": _vm.form.errors.has("contactno")
+                                  "is-invalid": _vm.form.errors.has("contactNo")
                                 },
                                 attrs: {
-                                  id: "contactno",
-                                  name: "contactno",
+                                  id: "contactNo",
+                                  name: "contactNo",
                                   type: "text",
                                   placeholder: "Contact No"
                                 },
-                                domProps: { value: _vm.form.contactno },
+                                domProps: { value: _vm.form.contactNo },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -50886,7 +50889,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.form,
-                                      "contactno",
+                                      "contactNo",
                                       $event.target.value
                                     )
                                   }
@@ -50894,7 +50897,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("has-error", {
-                                attrs: { form: _vm.form, field: "contactno" }
+                                attrs: { form: _vm.form, field: "contactNo" }
                               })
                             ],
                             1
@@ -50911,21 +50914,23 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.form.altno,
-                                    expression: "form.altno"
+                                    value: _vm.form.altContactNo,
+                                    expression: "form.altContactNo"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 class: {
-                                  "is-invalid": _vm.form.errors.has("altno")
+                                  "is-invalid": _vm.form.errors.has(
+                                    "altContactNo"
+                                  )
                                 },
                                 attrs: {
-                                  id: "altno",
-                                  name: "altno",
+                                  id: "altContactNo",
+                                  name: "altContactNo",
                                   type: "text",
                                   placeholder: "Alternate Contact No"
                                 },
-                                domProps: { value: _vm.form.altno },
+                                domProps: { value: _vm.form.altContactNo },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -50933,7 +50938,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.form,
-                                      "altno",
+                                      "altContactNo",
                                       $event.target.value
                                     )
                                   }
@@ -50941,7 +50946,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("has-error", {
-                                attrs: { form: _vm.form, field: "altno" }
+                                attrs: { form: _vm.form, field: "altContactNo" }
                               })
                             ],
                             1
@@ -51493,8 +51498,8 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-control",
                 attrs: {
-                  id: "conractno",
-                  name: "contactno",
+                  id: "percontactNo",
+                  name: "percontactNo",
                   type: "text",
                   placeholder: "Conatct No"
                 }
@@ -51651,8 +51656,8 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-control",
                 attrs: {
-                  id: "conractno",
-                  name: "contactno",
+                  id: "perscontactno",
+                  name: "perscontactno",
                   type: "text",
                   placeholder: "Conatct No"
                 }
@@ -51863,8 +51868,8 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-control",
                 attrs: {
-                  id: "conractno",
-                  name: "contactno",
+                  id: "pcontactNo",
+                  name: "pcontactNo",
                   type: "text",
                   placeholder: "Conatct No"
                 }
