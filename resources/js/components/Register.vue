@@ -550,7 +550,6 @@ export default {
                 ],
 
         form: new Form({
-            caseid: 'XYZ123',
             clientType: '',
             typeofwork: '',
             amount: '',
@@ -560,7 +559,6 @@ export default {
             email: '',
             address: '',
             time2: '',
-            clientid: 'TRY123',
             paymentmode: '1',
         })
     }

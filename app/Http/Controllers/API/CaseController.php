@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RegCase;
 use App\indClientDetails;
+use DB;
 class CaseController extends Controller
 {
     /**
@@ -15,7 +16,15 @@ class CaseController extends Controller
      */
     public function index()
     {
-        return RegCase::latest()->paginate(10);
+        // $data1 = indClientDetails::with(['RegCase'])->latest()->paginate(10);
+        // return $data1;
+        $data = DB::table('ind_client_details')
+            ->join('reg_cases', 'ind_client_details.caseid', '=', 'reg_cases.caseid')
+            ->select('ind_client_details.*', 'reg_cases.caseid', 'reg_cases.clientType','reg_cases.typeofwork', 'reg_cases.time2', 'reg_cases.amount', 'reg_cases.paymentmode')
+            ->latest()->paginate(10);
+        return $data;
+        // $data2 = RegCase::with(['clientDetails'])->latest()->paginate(10);
+        // return RegCase::latest()->paginate(10);
     }
 
     /**
@@ -34,24 +43,39 @@ class CaseController extends Controller
             'contactNo' => 'required',
             'email' => 'required|string|email|max:191',
             'time2' => 'required'
-
-        ]);
-        return RegCase::create([
-            'caseid' => $request['caseid'],
+            ]);
+        if(indClientDetails::count() == 0){
+            $lastOneClient = 'CLI000001';
+        }
+        else{
+            $lastClientId = indClientDetails::select('clientid')->orderBy('clientid','desc')->first();
+            $lastOneClient = $lastClientId->clientid;
+            $lastOneClient++;
+        }
+        if (RegCase::count() == 0){
+            $lastOne = 'CASE000001';
+        }
+        else{
+        $lastCaseId = RegCase::select('caseid')->orderBy('caseid','desc')->first();
+        $lastOne = $lastCaseId->caseid;
+        $lastOne++;
+        }
+        RegCase::create([
+            'caseid' => $lastOne,
             'clientType' => $request['clientType'],
             'typeofwork' => $request['typeofwork'],
             'time2' => $request['time2'],
             'amount' => $request['amount'],
             'paymentmode' => $request['paymentmode'],
         ]);
-        return indClientDetails::create([
-            'clientid' => $request['clientid'],
+        indClientDetails::create([
+            'clientid' => $lastOneClient,
             'clientName' => $request['clientName'],
             'contactNo' => $request['contactNo'],
             'altContactNo' => $request['altContactNo'],
             'email' => $request['email'],
             'address' => $request['address'],
-            'caseid' => $request['caseid'],
+            'caseid' => $lastOne,
         ]);
     }
 
@@ -63,7 +87,7 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        //
+        return ['message' => 'Hello'];
     }
 
     /**

@@ -29,7 +29,7 @@
                         <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">#Case</th>
                             <th scope="col">Types of Work</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Client Name</th>
@@ -41,14 +41,14 @@
                     </thead>
                     <tbody>
                     <tr v-for="item in cases" :key="item.id">
-                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.amount }}</td>
-                        <td>{{ item.clientname }}</td>
-                        <td>{{ item.contactno }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><button type="button" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(user)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -89,6 +89,9 @@
             }
         },
     methods: {
+        editCase(user){
+
+        },
         loadCases(){
             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
         },

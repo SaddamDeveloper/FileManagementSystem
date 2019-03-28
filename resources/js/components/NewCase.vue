@@ -29,7 +29,7 @@
                         <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">#Case</th>
                             <th scope="col">Types of Work</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Client Name</th>
@@ -41,14 +41,14 @@
                     </thead>
                     <tbody>
                     <tr v-for="item in cases" :key="item.id">
-                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.amount }}</td>
-                        <td>{{ item.clientname }}</td>
-                        <td>{{ item.contactno }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><button type="button" @click="assignEmployee(caseId)" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -58,19 +58,40 @@
         </div>
                 <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Acknowledgment</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#Case</th>
+                            <th scope="col">Client Name</th>
+                            <th scope="col">Contact No</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Asign Employee</th>
+                            <th scope="col">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in cases" :key="item.id">
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.contactNo }}</td>
+                        <td>{{ item.time2 }}</td>
+                        <td><select></select></td>
+                        <td><textarea name="remarks" class="form-control"></textarea></td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Print</button>
+                <button type="button" class="btn btn-primary">Send</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
             </div>
@@ -89,6 +110,10 @@
             }
         },
     methods: {
+        assignEmployee(caseId){
+                jQuery('#exampleModal').modal('show');
+                axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
+        },
         loadCases(){
             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
         },

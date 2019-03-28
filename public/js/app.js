@@ -3180,7 +3180,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      form: new Form({
+        name: '',
+        no: '',
+        email: '',
+        designation: '',
+        select: [],
+        address: ''
+      })
+    };
+  },
+  methods: {
+    createEmployee: function createEmployee() {
+      // this.$Progress.start();
+      this.form.post('api/employee'); // .then(()=>{
+      //     toast.fire({
+      //         type: 'success',
+      //         title: 'Saved successfully'
+      //     })
+      //     this.$Progress.finish();
+      // })
+      // .catch(()=> {
+      // })
+    }
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -3911,6 +3969,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3919,16 +3998,25 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    loadCases: function loadCases() {
+    assignEmployee: function assignEmployee(caseId) {
       var _this = this;
 
-      axios.get("api/case").then(function (_ref) {
+      jQuery('#exampleModal').modal('show');
+      axios.get("api/case/" + caseId).then(function (_ref) {
         var data = _ref.data;
         return _this.cases = data.data;
       });
     },
-    deleteCase: function deleteCase(id) {
+    loadCases: function loadCases() {
       var _this2 = this;
+
+      axios.get("api/case").then(function (_ref2) {
+        var data = _ref2.data;
+        return _this2.cases = data.data;
+      });
+    },
+    deleteCase: function deleteCase(id) {
+      var _this3 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -3940,7 +4028,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          _this2.form.delete('api/case/' + id).then(function () {
+          _this3.form.delete('api/case/' + id).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
@@ -4535,7 +4623,6 @@ __webpack_require__.r(__webpack_exports__);
         name: 'NGO'
       }],
       form: new Form({
-        caseid: 'XYZ123',
         clientType: '',
         typeofwork: '',
         amount: '',
@@ -4545,7 +4632,6 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         address: '',
         time2: '',
-        clientid: 'TRY123',
         paymentmode: '1'
       })
     };
@@ -4671,6 +4757,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    editCase: function editCase(user) {},
     loadCases: function loadCases() {
       var _this = this;
 
@@ -48045,197 +48132,429 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createEmployee($event)
+              },
+              keydown: function($event) {
+                return _vm.form.onKeydown($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Create Employee\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.name,
+                            expression: "form.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("name") },
+                        attrs: {
+                          id: "name",
+                          name: "name",
+                          type: "text",
+                          placeholder: "Employee Name"
+                        },
+                        domProps: { value: _vm.form.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "name" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group has-success" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.no,
+                            expression: "form.no"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("no") },
+                        attrs: {
+                          id: "no",
+                          name: "no",
+                          type: "text",
+                          placeholder: "Contact No"
+                        },
+                        domProps: { value: _vm.form.no },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "no", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "no" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.email,
+                            expression: "form.email"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("email") },
+                        attrs: {
+                          id: "email",
+                          name: "email",
+                          type: "text",
+                          placeholder: "Email"
+                        },
+                        domProps: { value: _vm.form.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "email", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "email" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group has-success" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.designation,
+                            expression: "form.designation"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("designation")
+                        },
+                        attrs: {
+                          id: "designation",
+                          name: "designation",
+                          type: "text",
+                          placeholder: "Designation"
+                        },
+                        domProps: { value: _vm.form.designation },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "designation",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "designation" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.select,
+                              expression: "form.select"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("select")
+                          },
+                          attrs: {
+                            name: "select[]",
+                            placeholder: "Area of Expertise",
+                            id: "multiple-select",
+                            multiple: ""
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "select",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "it" } }, [
+                            _vm._v("IT")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "banking" } }, [
+                            _vm._v("Banking")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "accounting" } }, [
+                            _vm._v("Accounting")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "boffice" } }, [
+                            _vm._v("Back Office")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "5" } }, [
+                            _vm._v("Peon")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "6" } }, [
+                            _vm._v("Project Manager")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "7" } }, [
+                            _vm._v("Software")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "8" } }, [
+                            _vm._v("Business Standard")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "9" } }, [
+                            _vm._v("Option #9")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "10" } }, [
+                            _vm._v("Option #10")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "select" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group has-success" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.address,
+                          expression: "form.address"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "address",
+                        name: "address",
+                        type: "text",
+                        placeholder: "Address"
+                      },
+                      domProps: { value: _vm.form.address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "address", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(2)
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "breadcrumbs" }, [
-        _c("div", { staticClass: "col-sm-4" }, [
-          _c("div", { staticClass: "page-header float-left" }, [
-            _c("div", { staticClass: "page-title" }, [
-              _c("h1", [_c("strong", [_vm._v("Create Employee")])])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-8" }, [
-          _c("div", { staticClass: "page-header float-right" }, [
-            _c("div", { staticClass: "page-title" }, [
-              _c("ol", { staticClass: "breadcrumb text-right" }, [
-                _c("li", [
-                  _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "active" }, [_vm._v("Create Employee")])
-              ])
-            ])
+    return _c("div", { staticClass: "breadcrumbs" }, [
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "page-header float-left" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("h1", [_c("strong", [_vm._v("Create Employee")])])
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("\n                    Create Employee\n                ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "name",
-                      name: "name",
-                      type: "text",
-                      placeholder: "Employee Name"
-                    }
-                  })
-                ])
+      _c("div", { staticClass: "col-sm-8" }, [
+        _c("div", { staticClass: "page-header float-right" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("ol", { staticClass: "breadcrumb text-right" }, [
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group has-success" }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "no",
-                      name: "no",
-                      type: "text",
-                      placeholder: "Contact No"
-                    }
-                  })
-                ])
-              ]),
+              _c("li", { staticClass: "active" }, [_vm._v("Create Employee")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-footer" }, [
+      _c("div", { staticStyle: { float: "right" } }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-sm", attrs: { type: "submit" } },
+          [
+            _c("i", { staticClass: "fa fa-dot-circle-o" }),
+            _vm._v(" Submit\n                    ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-danger btn-sm", attrs: { type: "reset" } },
+          [
+            _c("i", { staticClass: "fa fa-ban" }),
+            _vm._v(" Reset\n                    ")
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("strong", { staticClass: "card-title" }, [_vm._v("Employees")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("table", { staticClass: "table" }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "name",
-                      name: "name",
-                      type: "text",
-                      placeholder: "Email"
-                    }
-                  })
-                ])
-              ]),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group has-success" }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "no",
-                      name: "no",
-                      type: "text",
-                      placeholder: "Designation"
-                    }
-                  })
-                ])
-              ]),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("No")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "select",
-                    {
-                      staticClass: "form-control",
-                      attrs: {
-                        name: "multiple-select",
-                        placeholder: "Area of Expertise",
-                        id: "multiple-select",
-                        multiple: ""
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "1" } }, [_vm._v("IT")]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Banking")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "3" } }, [
-                        _vm._v("Accounting")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "4" } }, [
-                        _vm._v("Back Office")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "5" } }, [_vm._v("Peon")]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "6" } }, [
-                        _vm._v("Project Manager")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "7" } }, [
-                        _vm._v("Software")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "8" } }, [
-                        _vm._v("Business Standard")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "9" } }, [
-                        _vm._v("Option #9")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "10" } }, [
-                        _vm._v("Option #10")
-                      ])
-                    ]
-                  )
-                ])
-              ]),
+              _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group has-success" }, [
-                  _c("textarea", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "no",
-                      name: "no",
-                      type: "text",
-                      placeholder: "Address"
-                    }
-                  })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-footer" }, [
-              _c("div", { staticStyle: { float: "right" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-sm",
-                    attrs: { type: "submit" }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-dot-circle-o" }),
-                    _vm._v(" Submit\n                    ")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-sm",
-                    attrs: { type: "reset" }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-ban" }),
-                    _vm._v(" Reset\n                    ")
-                  ]
-                )
-              ])
+              _c("td", [_vm._v("Mark")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Otto")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("@mdo")])
             ])
           ])
         ])
@@ -50247,25 +50566,39 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.cases, function(item) {
                   return _c("tr", { key: item.id }, [
-                    _c("th", { attrs: { scope: "row" } }, [
-                      _vm._v(_vm._s(item.id))
-                    ]),
+                    _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.typeofwork))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.amount))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.clientname))]),
+                    _c("td", [_vm._v(_vm._s(item.clientName))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.contactno))]),
+                    _c("td", [_vm._v(_vm._s(item.contactNo))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.email))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.time2))]),
                     _vm._v(" "),
                     _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success btn-sm",
+                          attrs: {
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#exampleModal"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.assignEmployee(_vm.caseId)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-eye" })]
+                      ),
                       _vm._m(3, true),
-                      _vm._m(4, true),
                       _c(
                         "button",
                         {
@@ -50290,7 +50623,58 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(5)
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.cases, function(item) {
+                      return _c("tr", { key: item.id }, [
+                        _c("td", [_vm._v(_vm._s(item.caseid))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.clientName))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.contactNo))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.time2))]),
+                        _vm._v(" "),
+                        _vm._m(6, true),
+                        _vm._v(" "),
+                        _vm._m(7, true)
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(8)
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -50336,7 +50720,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Types of Work")]),
         _vm._v(" "),
@@ -50360,23 +50744,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "button",
-      {
-        staticClass: "btn btn-success btn-sm",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#exampleModal"
-        }
-      },
-      [_c("i", { staticClass: "fa fa-eye" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
       { staticClass: "btn btn-primary btn-sm", attrs: { type: "button" } },
       [_c("i", { staticClass: "fa fa-edit" })]
     )
@@ -50385,75 +50752,84 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "exampleModalLabel" }
-                  },
-                  [_vm._v("Acknowledgment")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Print")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Assign Employee")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Client Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact No")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Asign Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("select")])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("textarea", {
+        staticClass: "form-control",
+        attrs: { name: "remarks" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "button" } },
+        [_vm._v("Send")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -52010,17 +52386,15 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.cases, function(item) {
                   return _c("tr", { key: item.id }, [
-                    _c("th", { attrs: { scope: "row" } }, [
-                      _vm._v(_vm._s(item.id))
-                    ]),
+                    _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.typeofwork))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.amount))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.clientname))]),
+                    _c("td", [_vm._v(_vm._s(item.clientName))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.contactno))]),
+                    _c("td", [_vm._v(_vm._s(item.contactNo))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.email))]),
                     _vm._v(" "),
@@ -52028,7 +52402,19 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _vm._m(3, true),
-                      _vm._m(4, true),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editCase(_vm.user)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-edit" })]
+                      ),
                       _c(
                         "button",
                         {
@@ -52053,7 +52439,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(5)
+    _vm._m(4)
   ])
 }
 var staticRenderFns = [
@@ -52099,7 +52485,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Types of Work")]),
         _vm._v(" "),
@@ -52132,16 +52518,6 @@ var staticRenderFns = [
         }
       },
       [_c("i", { staticClass: "fa fa-eye" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-primary btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-edit" })]
     )
   },
   function() {

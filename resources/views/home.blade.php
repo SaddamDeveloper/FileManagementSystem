@@ -153,7 +153,7 @@
 
     <script src="/js/app.js"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
-
+    <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
     {{--  <script src="{{ asset('sufeeadmin/vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/widgets.js') }}"></script>

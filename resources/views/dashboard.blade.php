@@ -46,6 +46,9 @@
                     <li class="active">
                             <router-link to="/adminregistercase"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
                     </li>
+                    <li class="active">
+                        <router-link to="/employee"> <i class="menu-icon fa fa-laptop"></i> Register Employee </router-link>
+                </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -148,9 +151,9 @@
 </div>
     <!-- Right Panel -->
 
+    {{-- <script src="http://code.jquery.com/jquery-3.3.1.js"></script> --}}
     <script src="/js/app.js"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
-
     {{--  <script src="{{ asset('sufeeadmin/vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/widgets.js') }}"></script>
