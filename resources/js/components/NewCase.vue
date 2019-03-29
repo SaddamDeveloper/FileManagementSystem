@@ -48,7 +48,11 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" @click="assignEmployee(caseId)" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td>
+                            <button type="button" @click="assignEmployee(item.id)" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
+                            <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>
+                            <button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -59,6 +63,7 @@
                 <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
+            <form @submit.prevent="sendToEmployee" @keydown="form.onKeydown($event)">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
@@ -80,21 +85,28 @@
                     </thead>
                     <tbody>
                     <tr v-for="item in cases" :key="item.id">
-                        <td>{{ item.caseid }}</td>
-                        <td>{{ item.clientName }}</td>
-                        <td>{{ item.contactNo }}</td>
-                        <td>{{ item.time2 }}</td>
-                        <td><select></select></td>
+                        <td v-bind:value="item.caseid">{{ item.caseid }}</td>
+                        <td v-bind:value="item.clientName">{{ item.clientName }}</td>
+                        <td v-bind:value="item.contactNo">{{ item.contactNo }}</td>
+                        <td v-bind:value="item.time2">{{ item.time2 }}</td>
+                        <td>
+                            <select v-model="selected" selected class="form-control">
+                                <option v-for="employee in employees" :key="employee.id">
+                                    {{ employee.name }}
+                                </option>
+                            </select>
+                        </td>
                         <td><textarea name="remarks" class="form-control"></textarea></td>
                     </tr>
                 </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Send</button>
+                <button type="submit" class="btn btn-primary">Send</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
             </div>
+            </form>
         </div>
         </div>
     </div>
@@ -105,17 +117,38 @@
     export default {
         data() {
             return{
+                selected: 'Select Employee',
                 cases: {},
+                employees: {},
                 form: new Form()
             }
         },
     methods: {
+        sendToEmployee(){
+        this.$Progress.start();
+        console.log(this.form);
+        this.form.post('api/sendemployee')
+                .then(()=>{
+        toast.fire({
+            type: 'success',
+            title: 'Saved successfully'
+        })
+            this.$Progress.finish();
+        })
+        .catch(()=> {
+
+        })
+    },
         assignEmployee(caseId){
-                jQuery('#exampleModal').modal('show');
-                axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
+            jQuery('#exampleModal').modal('show')
+            axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
+
         },
         loadCases(){
             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
+        },
+        loadEmployee(){
+             axios.get("api/employee").then(( { data }) => (this.employees = data.data) );
         },
         deleteCase(id){
             Swal.fire({
@@ -141,14 +174,14 @@
                             'warning'
                         )
                     });
-                    }
-
+                }
             })
         }
     }
         ,
         created() {
             this.loadCases();
+            this.loadEmployee();
         }
     }
 </script>

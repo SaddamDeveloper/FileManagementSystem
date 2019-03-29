@@ -87,7 +87,12 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        return ['message' => 'Hello'];
+        $data = DB::table('ind_client_details')
+            ->join('reg_cases', 'ind_client_details.caseid', '=', 'reg_cases.caseid')
+            ->select('ind_client_details.*', 'reg_cases.caseid', 'reg_cases.clientType','reg_cases.typeofwork', 'reg_cases.time2', 'reg_cases.amount', 'reg_cases.paymentmode')
+            ->where('id', '=', $id)
+            ->latest()->paginate(10);
+        return $data;
     }
 
     /**

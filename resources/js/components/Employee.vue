@@ -98,14 +98,18 @@
                                   <th scope="col">Name</th>
                                   <th scope="col">No</th>
                                   <th scope="col">Email</th>
+                                  <th scope="col">Designation</th>
+                                  <th scope="col">Expertise</th>
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
+                            <tr v-for="item in employees" :key="item.id">
+                              <th>{{ item.id }}</th>
+                              <td>{{ item.name }}</td>
+                              <td>{{ item.no }}</td>
+                              <td>{{ item.email }}</td>
+                              <td>{{ item.designation }}</td>
+                              <td>{{ item.Expertise }}</td>
                           </tr>
                       </tbody>
                   </table>
@@ -120,7 +124,8 @@
     export default {
         data () {
     return {
-      form: new Form({
+        employees: {},
+        form: new Form({
         name: '',
         no: '',
         email: '',
@@ -131,23 +136,26 @@
     }
 },
 methods: {
+    loadEmployees(){
+            axios.get("api/employee").then(( { data }) => (this.employees = data.data) );
+        },
         createEmployee(){
-        // this.$Progress.start();
+        this.$Progress.start();
         this.form.post('api/employee')
-        // .then(()=>{
-        //     toast.fire({
-        //         type: 'success',
-        //         title: 'Saved successfully'
-        //     })
-        //     this.$Progress.finish();
-        // })
-        // .catch(()=> {
+                .then(()=>{
+        toast.fire({
+            type: 'success',
+            title: 'Saved successfully'
+        })
+            this.$Progress.finish();
+        })
+        .catch(()=> {
 
-        // })
+        })
     },
 },
-        mounted() {
-            console.log('Component mounted.')
+        created() {
+            this.loadEmployees();
         }
     }
 </script>

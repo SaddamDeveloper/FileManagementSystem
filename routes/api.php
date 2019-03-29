@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources(['case' => 'API\CaseController']);
 Route::apiResources(['employee' => 'API\EmployeeController']);
+Route::apiResources(['sendemployee' => 'API\sendToEmployeeController']);

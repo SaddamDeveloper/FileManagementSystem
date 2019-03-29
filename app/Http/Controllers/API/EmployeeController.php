@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Employee;
+use DB;
 class EmployeeController extends Controller
 {
     /**
@@ -14,7 +15,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $data =  DB::table('Employees')
+        ->latest()->paginate(10);
+        return $data;
     }
 
     /**
@@ -41,7 +44,7 @@ class EmployeeController extends Controller
             //     $lastOneEmployee++;
             // }
             Employee::create([
-                'name' => 'saddam',
+                'name' => $request['name'],
                 'no' => $request['no'],
                 'email' => $request['email'],
                 'designation' => $request['designation'],
@@ -58,7 +61,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        return ['message' => 'Hello'];
     }
 
     /**

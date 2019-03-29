@@ -3212,9 +3212,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      employees: {},
       form: new Form({
         name: '',
         no: '',
@@ -3226,21 +3231,30 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    loadEmployees: function loadEmployees() {
+      var _this = this;
+
+      axios.get("api/employee").then(function (_ref) {
+        var data = _ref.data;
+        return _this.employees = data.data;
+      });
+    },
     createEmployee: function createEmployee() {
-      // this.$Progress.start();
-      this.form.post('api/employee'); // .then(()=>{
-      //     toast.fire({
-      //         type: 'success',
-      //         title: 'Saved successfully'
-      //     })
-      //     this.$Progress.finish();
-      // })
-      // .catch(()=> {
-      // })
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.post('api/employee').then(function () {
+        toast.fire({
+          type: 'success',
+          title: 'Saved successfully'
+        });
+
+        _this2.$Progress.finish();
+      }).catch(function () {});
     }
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  created: function created() {
+    this.loadEmployees();
   }
 });
 
@@ -3990,33 +4004,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      selected: 'Select Employee',
       cases: {},
+      employees: {},
       form: new Form()
     };
   },
   methods: {
-    assignEmployee: function assignEmployee(caseId) {
+    sendToEmployee: function sendToEmployee() {
       var _this = this;
+
+      this.$Progress.start();
+      console.log(this.form);
+      this.form.post('api/sendemployee').then(function () {
+        toast.fire({
+          type: 'success',
+          title: 'Saved successfully'
+        });
+
+        _this.$Progress.finish();
+      }).catch(function () {});
+    },
+    assignEmployee: function assignEmployee(caseId) {
+      var _this2 = this;
 
       jQuery('#exampleModal').modal('show');
       axios.get("api/case/" + caseId).then(function (_ref) {
         var data = _ref.data;
-        return _this.cases = data.data;
-      });
-    },
-    loadCases: function loadCases() {
-      var _this2 = this;
-
-      axios.get("api/case").then(function (_ref2) {
-        var data = _ref2.data;
         return _this2.cases = data.data;
       });
     },
-    deleteCase: function deleteCase(id) {
+    loadCases: function loadCases() {
       var _this3 = this;
+
+      axios.get("api/case").then(function (_ref2) {
+        var data = _ref2.data;
+        return _this3.cases = data.data;
+      });
+    },
+    loadEmployee: function loadEmployee() {
+      var _this4 = this;
+
+      axios.get("api/employee").then(function (_ref3) {
+        var data = _ref3.data;
+        return _this4.employees = data.data;
+      });
+    },
+    deleteCase: function deleteCase(id) {
+      var _this5 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -4028,7 +4078,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          _this3.form.delete('api/case/' + id).then(function () {
+          _this5.form.delete('api/case/' + id).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
@@ -4039,6 +4089,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.loadCases();
+    this.loadEmployee();
   }
 });
 
@@ -4563,34 +4614,12 @@ __webpack_require__.r(__webpack_exports__);
     DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
-    var _this = this;
-
     return {
       time1: '',
       time2: '',
       time3: '',
       // custom lang
-      lang: {
-        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-        placeholder: {
-          date: 'Delivey Date',
-          dateRange: 'Select Date Range'
-        }
-      },
-      // custom range shortcuts
-      shortcuts: [{
-        text: 'Today',
-        onClick: function onClick() {
-          _this.time3 = [new Date(), new Date()];
-        }
-      }],
-      timePickerOptions: {
-        start: '00:00',
-        step: '00:30',
-        end: '23:30'
-      },
+      lang: 'en',
       selected: "1",
       optiontypes: [{
         id: 1,
@@ -4638,7 +4667,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     createCase: function createCase() {
-      var _this2 = this;
+      var _this = this;
 
       this.$Progress.start();
       this.form.post('api/case').then(function () {
@@ -4647,7 +4676,7 @@ __webpack_require__.r(__webpack_exports__);
           title: 'Saved successfully'
         });
 
-        _this2.$Progress.finish();
+        _this.$Progress.finish();
       }).catch(function () {});
     }
   },
@@ -48463,7 +48492,35 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm._m(2)
+        _c("div", { staticClass: "card" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.employees, function(item) {
+                  return _c("tr", { key: item.id }, [
+                    _c("th", [_vm._v(_vm._s(item.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.no))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.email))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.designation))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.Expertise))])
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
       ])
     ])
   ])
@@ -48527,37 +48584,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("strong", { staticClass: "card-title" }, [_vm._v("Employees")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("table", { staticClass: "table" }, [
-          _c("thead", [
-            _c("tr", [
-              _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-              _vm._v(" "),
-              _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
-              _vm._v(" "),
-              _c("th", { attrs: { scope: "col" } }, [_vm._v("No")]),
-              _vm._v(" "),
-              _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Mark")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Otto")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("@mdo")])
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Employees")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("No")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Designation")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Expertise")])
       ])
     ])
   }
@@ -50592,13 +50639,15 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.assignEmployee(_vm.caseId)
+                              return _vm.assignEmployee(item.id)
                             }
                           }
                         },
                         [_c("i", { staticClass: "fa fa-eye" })]
                       ),
+                      _vm._v(" "),
                       _vm._m(3, true),
+                      _vm._v(" "),
                       _c(
                         "button",
                         {
@@ -50640,37 +50689,105 @@ var render = function() {
           "div",
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("table", { staticClass: "table" }, [
-                  _vm._m(5),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.sendToEmployee($event)
+                  },
+                  keydown: function($event) {
+                    return _vm.form.onKeydown($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(4),
                   _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.cases, function(item) {
-                      return _c("tr", { key: item.id }, [
-                        _c("td", [_vm._v(_vm._s(item.caseid))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.clientName))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.contactNo))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.time2))]),
-                        _vm._v(" "),
-                        _vm._m(6, true),
-                        _vm._v(" "),
-                        _vm._m(7, true)
-                      ])
-                    }),
-                    0
-                  )
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("table", { staticClass: "table" }, [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.cases, function(item) {
+                          return _c("tr", { key: item.id }, [
+                            _c("td", { attrs: { value: item.caseid } }, [
+                              _vm._v(_vm._s(item.caseid))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { attrs: { value: item.clientName } }, [
+                              _vm._v(_vm._s(item.clientName))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { attrs: { value: item.contactNo } }, [
+                              _vm._v(_vm._s(item.contactNo))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { attrs: { value: item.time2 } }, [
+                              _vm._v(_vm._s(item.time2))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.selected,
+                                      expression: "selected"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { selected: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.selected = $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.employees, function(employee) {
+                                  return _c("option", { key: employee.id }, [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(employee.name) +
+                                        "\n                            "
+                                    )
+                                  ])
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(6, true)
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(7)
                 ])
-              ]),
-              _vm._v(" "),
-              _vm._m(8)
-            ])
+              ]
+            )
           ]
         )
       ]
@@ -50797,12 +50914,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("select")])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("td", [
       _c("textarea", {
         staticClass: "form-control",
@@ -50817,7 +50928,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-footer" }, [
       _c(
         "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
         [_vm._v("Send")]
       ),
       _vm._v(" "),
