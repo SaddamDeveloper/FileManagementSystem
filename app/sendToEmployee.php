@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class sendToEmployee extends Model
 {
-    protected $fillable = ['clientName', 'contactNo', 'deliveryDate', 'assignedEmployee', 'remarks'];
+    protected $fillable = ['caseid', 'assignedEmployee', 'mselected', 'remarks'];
+    public $timestamps = false;
 }

@@ -41,7 +41,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="item in cases" :key="item.id">
-                        <td>{{ item.caseid }}</td>
+                        <td v-bind="form.caseid">{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.amount }}</td>
                         <td>{{ item.clientName }}</td>
@@ -80,29 +80,33 @@
                             <th scope="col">Contact No</th>
                             <th scope="col">Delivery Date</th>
                             <th scope="col">Asign Employee</th>
+                            <th scope="col">Support Team</th>
                             <th scope="col">Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in cases" :key="item.id">
-                        <td v-bind:value="item.caseid">{{ item.caseid }}</td>
-                        <td v-bind:value="item.clientName">{{ item.clientName }}</td>
-                        <td v-bind:value="item.contactNo">{{ item.contactNo }}</td>
-                        <td v-bind:value="item.time2">{{ item.time2 }}</td>
+                        <td id="case">{{ item.caseid }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.contactNo }}</td>
+                        <td>{{ item.time2 }}</td>
                         <td>
-                            <select v-model="selected" selected class="form-control">
+                            <select v-model="form.selected" selected class="form-control">
                                 <option v-for="employee in employees" :key="employee.id">
                                     {{ employee.name }}
                                 </option>
                             </select>
                         </td>
-                        <td><textarea name="remarks" class="form-control"></textarea></td>
+                        <td>
+                            <v-select name="mselected[]" v-model="form.mselected" multiple :options="['Amit','Mohit']"></v-select>
+                        </td>
+                        <td><textarea v-model="form.remarks" name="remarks" class="form-control"></textarea></td>
                     </tr>
                 </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" class="btn btn-primary">Assign</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
             </div>
@@ -120,13 +124,21 @@
                 selected: 'Select Employee',
                 cases: {},
                 employees: {},
-                form: new Form()
+                mselect: [],
+                form: new Form({
+                    caseid: '',
+                    selected: '',
+                    mselected: '',
+                    remarks: ''
+                })
             }
         },
     methods: {
         sendToEmployee(){
         this.$Progress.start();
-        console.log(this.form);
+        // let dcaseid = jQuery('#case').text();
+        // this.form = new Form({caseid: dcaseid});
+        //console.log(jQuery('#case').text());
         this.form.post('api/sendemployee')
                 .then(()=>{
         toast.fire({
@@ -140,9 +152,9 @@
         })
     },
         assignEmployee(caseId){
-            jQuery('#exampleModal').modal('show')
+            jQuery('#exampleModal').modal('show');
+            this.form.fill(caseId);
             axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
-
         },
         loadCases(){
             axios.get("api/case").then(( { data }) => (this.cases = data.data) );

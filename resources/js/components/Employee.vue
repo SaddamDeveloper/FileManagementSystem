@@ -104,7 +104,7 @@
                           </thead>
                           <tbody>
                             <tr v-for="item in employees" :key="item.id">
-                              <th>{{ item.id }}</th>
+                              <td>{{ item.id }}</td>
                               <td>{{ item.name }}</td>
                               <td>{{ item.no }}</td>
                               <td>{{ item.email }}</td>

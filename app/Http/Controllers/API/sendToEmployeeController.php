@@ -25,9 +25,12 @@ class sendToEmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        sendToEmployee::create([
-            $request->all()
-        ]);
+            sendToEmployee::create([
+            'caseid' => $request['caseid'],
+            'assignedEmployee' => $request['selected'],
+            'mselected' => implode(',',(array)$request['mselected']),
+            'remarks' => $request['remarks'],
+            ]);
     }
 
     /**

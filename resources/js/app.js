@@ -27,6 +27,9 @@ const toast = Swal.mixin({
 
 window.Fire = new Vue();
 
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
+
 window.toast = toast;
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
