@@ -4039,7 +4039,8 @@ __webpack_require__.r(__webpack_exports__);
     sendToEmployee: function sendToEmployee() {
       var _this = this;
 
-      this.$Progress.start(); // let dcaseid = jQuery('#case').text();
+      this.$Progress.start();
+      this.form.caseid = jQuery('#case').text(); // let dcaseid = jQuery('#case').text();
       // this.form = new Form({caseid: dcaseid});
       //console.log(jQuery('#case').text());
 

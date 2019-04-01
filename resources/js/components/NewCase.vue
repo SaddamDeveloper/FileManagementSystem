@@ -136,6 +136,7 @@
     methods: {
         sendToEmployee(){
         this.$Progress.start();
+        this.form.caseid = jQuery('#case').text();
         // let dcaseid = jQuery('#case').text();
         // this.form = new Form({caseid: dcaseid});
         //console.log(jQuery('#case').text());
