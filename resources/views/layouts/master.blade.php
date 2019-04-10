@@ -1,162 +1,139 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+	<title>Editable Invoice</title>
 
-    <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="{{ asset('sufeeadmin/vendors/font-awesome/css/font-awesome.min.css') }}">
-
-    <link rel="stylesheet" href="{{  asset('sufeeadmin/assets/css/style.css') }}">
-
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+	<link rel='stylesheet' type='text/css' href='css/style.css' />
+	<link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+	<script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+	<script type='text/javascript' src='js/example.js'></script>
 
 </head>
 
 <body>
 
-    <div id="app">
-    <!-- Left Panel -->
+	<div id="page-wrap">
 
-    <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
+		<textarea id="header">INVOICE</textarea>
 
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="/dashboard"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
-            </div>
-                <h3 class="menu-title">Master</h3>
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <router-link to="/dashboard"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </router-link>
-                    </li>
-                    <li class="active">
-                            <router-link to="/registercase"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
+		<div id="identity">
 
-    <!-- Left Panel -->
+            <textarea id="address">Chris Coyier
+123 Appleseed Street
+Appleville, WI 53719
 
-    <!-- Right Panel -->
+Phone: (555) 555-5555</textarea>
 
-    <div id="right-panel" class="right-panel">
+            <div id="logo">
 
-        <!-- Header-->
-        <header id="header" class="header">
+              <div id="logoctr">
+                <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
+                <a href="javascript:;" id="save-logo" title="Save changes">Save</a>
+                |
+                <a href="javascript:;" id="delete-logo" title="Delete logo">Delete Logo</a>
+                <a href="javascript:;" id="cancel-logo" title="Cancel changes">Cancel</a>
+              </div>
 
-            <div class="header-menu">
-
-                <div class="col-sm-7">
-                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
-                        <div class="form-inline">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="{{ asset('sufeeadmin/images/admin.jpg') }}" alt="User Avatar">
-                        </a>
-
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
-
-                            <a class="nav-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();">
-                                          <i class="fa fa-power-off"></i>
-                                          {{ __('Logout') }}
-                             </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                             @csrf
-                         </form>
-
-                        </div>
-                    </div>
-
-                    <div class="language-select dropdown" id="language-select">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
-                            <i class="flag-icon flag-icon-us"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="language">
-                            <div class="dropdown-item">
-                                <span class="flag-icon flag-icon-fr"></span>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-es"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-us"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-it"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+              <div id="logohelp">
+                <input id="imageloc" type="text" size="50" value="" /><br />
+                (max width: 540px, max height: 100px)
+              </div>
+              <img id="image" src="images/logo.png" alt="logo" />
             </div>
 
-        </header><!-- /header -->
-        <!-- Header-->
+		</div>
 
-        <div class="content mt-3">
+		<div style="clear:both"></div>
 
+		<div id="customer">
 
+            <textarea id="customer-title">Widget Corp.
+c/o Steve Widget</textarea>
 
+            <table id="meta">
+                <tr>
+                    <td class="meta-head">Invoice #</td>
+                    <td><textarea>000123</textarea></td>
+                </tr>
+                <tr>
 
-            <!--/.col-->
+                    <td class="meta-head">Date</td>
+                    <td><textarea id="date">December 15, 2009</textarea></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">Amount Due</td>
+                    <td><div class="due">$875.00</div></td>
+                </tr>
 
+            </table>
 
-            <!--/.col-->
-<div class="col-md-12 col-lg-12 col-sm-12">
-    <router-view></router-view>
-    <vue-progress-bar></vue-progress-bar>
-</div>
+		</div>
 
+		<table id="items">
 
-        </div> <!-- .content -->
-    </div><!-- /#right-panel -->
-</div>
-    <!-- Right Panel -->
+		  <tr>
+		      <th>Item</th>
+		      <th>Description</th>
+		      <th>Unit Cost</th>
+		      <th>Quantity</th>
+		      <th>Price</th>
+		  </tr>
 
-    <script src="/js/app.js"></script>
-    <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
+		  <tr class="item-row">
+		      <td class="item-name"><div class="delete-wpr"><textarea>Web Updates</textarea><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+		      <td class="description"><textarea>Monthly web updates for http://widgetcorp.com (Nov. 1 - Nov. 30, 2009)</textarea></td>
+		      <td><textarea class="cost">$650.00</textarea></td>
+		      <td><textarea class="qty">1</textarea></td>
+		      <td><span class="price">$650.00</span></td>
+		  </tr>
 
-    {{--  <script src="{{ asset('sufeeadmin/vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
-    <script src="{{ asset('sufeeadmin/assets/js/dashboard.js') }}"></script>
-    <script src="{{ asset('sufeeadmin/assets/js/widgets.js') }}"></script>
-    <script src="{{ asset('sufeeadmin/vendors/jqvmap/dist/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('sufeeadmin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
-    <script src="{{ asset('sufeeadmin/vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>  --}}
+		  <tr class="item-row">
+		      <td class="item-name"><div class="delete-wpr"><textarea>SSL Renewals</textarea><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+
+		      <td class="description"><textarea>Yearly renewals of SSL certificates on main domain and several subdomains</textarea></td>
+		      <td><textarea class="cost">$75.00</textarea></td>
+		      <td><textarea class="qty">3</textarea></td>
+		      <td><span class="price">$225.00</span></td>
+		  </tr>
+
+		  <tr id="hiderow">
+		    <td colspan="5"><a id="addrow" href="javascript:;" title="Add a row">Add a row</a></td>
+		  </tr>
+
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="2" class="total-line">Subtotal</td>
+		      <td class="total-value"><div id="subtotal">$875.00</div></td>
+		  </tr>
+		  <tr>
+
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="2" class="total-line">Total</td>
+		      <td class="total-value"><div id="total">$875.00</div></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="2" class="total-line">Amount Paid</td>
+
+		      <td class="total-value"><textarea id="paid">$0.00</textarea></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="2" class="total-line balance">Balance Due</td>
+		      <td class="total-value balance"><div class="due">$875.00</div></td>
+		  </tr>
+
+		</table>
+
+		<div id="terms">
+		  <h5>Terms</h5>
+		  <textarea>NET 30 Days. Finance Charge of 1.5% will be made on unpaid balances after 30 days.</textarea>
+		</div>
+
+	</div>
 
 </body>
 

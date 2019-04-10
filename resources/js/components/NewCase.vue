@@ -72,7 +72,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <table class="table">
+                    <table class="table" style="table-layout: fixed;
+width: 100%;">
                         <thead>
                             <tr>
                             <th scope="col">#Case</th>
@@ -82,6 +83,7 @@
                             <th scope="col">Asign Employee</th>
                             <th scope="col">Support Team</th>
                             <th scope="col">Remarks</th>
+                            <th scope="col">Upload Files</th>
                         </tr>
                     </thead>
                     <tbody>

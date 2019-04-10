@@ -4020,6 +4020,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4792,47 +4794,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      cases: {},
-      form: new Form()
+      cases: [],
+      case: {
+        caseid: '',
+        typeofwork: '',
+        amount: '',
+        clientName: '',
+        contactNo: '',
+        email: '',
+        time2: ''
+      },
+      caseid: '',
+      pagination: {},
+      edit: false
     };
   },
+  created: function created() {
+    this.fetchCases();
+  },
   methods: {
-    editCase: function editCase(user) {},
-    loadCases: function loadCases() {
+    fetchCases: function fetchCases(page_url) {
       var _this = this;
 
-      axios.get("api/case").then(function (_ref) {
-        var data = _ref.data;
-        return _this.cases = data.data;
-      });
-    },
-    deleteCase: function deleteCase(id) {
-      var _this2 = this;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then(function (result) {
-        if (result.value) {
-          _this2.form.delete('api/case/' + id).then(function () {
-            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-          }).catch(function () {
-            Swal.fire('Failed!', 'There was something wrong', 'warning');
-          });
-        }
+      page_url = page_url || 'api/cases';
+      var vm = this;
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.cases = res.data;
+        vm.makePagination(res.meta, res.links);
       });
     }
-  },
-  created: function created() {
-    this.loadCases();
   }
 });
 
@@ -50723,126 +50769,133 @@ var render = function() {
                   _vm._m(4),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _c("table", { staticClass: "table" }, [
-                      _vm._m(5),
-                      _vm._v(" "),
-                      _c(
-                        "tbody",
-                        _vm._l(_vm.cases, function(item) {
-                          return _c("tr", { key: item.id }, [
-                            _c("td", { attrs: { id: "case" } }, [
-                              _vm._v(_vm._s(item.caseid))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item.clientName))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item.contactNo))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item.time2))]),
-                            _vm._v(" "),
-                            _c("td", [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table",
+                        staticStyle: { "table-layout": "fixed", width: "100%" }
+                      },
+                      [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.cases, function(item) {
+                            return _c("tr", { key: item.id }, [
+                              _c("td", { attrs: { id: "case" } }, [
+                                _vm._v(_vm._s(item.caseid))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.clientName))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.contactNo))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.time2))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.selected,
+                                        expression: "form.selected"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { selected: "" },
+                                    on: {
+                                      change: function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          _vm.form,
+                                          "selected",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      }
+                                    }
+                                  },
+                                  _vm._l(_vm.employees, function(employee) {
+                                    return _c("option", { key: employee.id }, [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(employee.name) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  }),
+                                  0
+                                )
+                              ]),
+                              _vm._v(" "),
                               _c(
-                                "select",
-                                {
+                                "td",
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      name: "mselected[]",
+                                      multiple: "",
+                                      options: ["Amit", "Mohit"]
+                                    },
+                                    model: {
+                                      value: _vm.form.mselected,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.form, "mselected", $$v)
+                                      },
+                                      expression: "form.mselected"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("textarea", {
                                   directives: [
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.form.selected,
-                                      expression: "form.selected"
+                                      value: _vm.form.remarks,
+                                      expression: "form.remarks"
                                     }
                                   ],
                                   staticClass: "form-control",
-                                  attrs: { selected: "" },
+                                  attrs: { name: "remarks" },
+                                  domProps: { value: _vm.form.remarks },
                                   on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
                                       _vm.$set(
                                         _vm.form,
-                                        "selected",
-                                        $event.target.multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
+                                        "remarks",
+                                        $event.target.value
                                       )
                                     }
                                   }
-                                },
-                                _vm._l(_vm.employees, function(employee) {
-                                  return _c("option", { key: employee.id }, [
-                                    _vm._v(
-                                      "\n                                " +
-                                        _vm._s(employee.name) +
-                                        "\n                            "
-                                    )
-                                  ])
-                                }),
-                                0
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              [
-                                _c("v-select", {
-                                  attrs: {
-                                    name: "mselected[]",
-                                    multiple: "",
-                                    options: ["Amit", "Mohit"]
-                                  },
-                                  model: {
-                                    value: _vm.form.mselected,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form, "mselected", $$v)
-                                    },
-                                    expression: "form.mselected"
-                                  }
                                 })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("td", [
-                              _c("textarea", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.remarks,
-                                    expression: "form.remarks"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { name: "remarks" },
-                                domProps: { value: _vm.form.remarks },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.form,
-                                      "remarks",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
+                              ])
                             ])
-                          ])
-                        }),
-                        0
-                      )
-                    ])
+                          }),
+                          0
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _vm._m(6)
@@ -50969,7 +51022,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Support Team")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Upload Files")])
       ])
     ])
   },

@@ -26,7 +26,7 @@
                         <strong class="card-title">Registered Case</strong>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                    <table class="table">
                         <thead>
                             <tr>
                             <th scope="col">#Case</th>
@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in cases" :key="item.id">
+                    <tr v-for="item in cases" v-bind:key="item.id">
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.amount }}</td>
@@ -80,53 +80,92 @@
 
 </template>
 
+// <script>
+//     export default {
+//         data() {
+//             return{
+//                 cases: {},
+//                 form: new Form()
+//             }
+//         },
+//     methods: {
+//         editCase(user){
+
+//         },
+//         loadCases(){
+//             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
+//         },
+//         deleteCase(id){
+//             Swal.fire({
+//                 title: 'Are you sure?',
+//                 text: "You won't be able to revert this!",
+//                 type: 'warning',
+//                 showCancelButton: true,
+//                 confirmButtonColor: '#3085d6',
+//                 cancelButtonColor: '#d33',
+//                 confirmButtonText: 'Yes, delete it!'
+//                 }).then((result) => {
+//                     if (result.value) {
+//                         this.form.delete('api/case/'+id).then(()=>{
+//                             Swal.fire(
+//                             'Deleted!',
+//                             'Your file has been deleted.',
+//                             'success'
+//                             )
+//                     }).catch(()=>{
+//                         Swal.fire(
+//                             'Failed!',
+//                             'There was something wrong',
+//                             'warning'
+//                         )
+//                     });
+//                     }
+
+//             })
+//         }
+//     }
+//         ,
+//         created() {
+//             this.loadCases();
+//         }
+//     }
+// </script>
+
 <script>
-    export default {
-        data() {
-            return{
-                cases: {},
-                form: new Form()
-            }
-        },
+export default {
+    data(){
+        return {
+            cases: [],
+            case: {
+                caseid: '',
+                typeofwork: '',
+                amount: '',
+                clientName: '',
+                contactNo: '',
+                email: '',
+                time2: ''
+            },
+            caseid: '',
+            pagination: {},
+            edit: false
+        }
+    },
+
+    created(){
+        this.fetchCases();
+    },
     methods: {
-        editCase(user){
-
-        },
-        loadCases(){
-            axios.get("api/case").then(( { data }) => (this.cases = data.data) );
-        },
-        deleteCase(id){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                        this.form.delete('api/case/'+id).then(()=>{
-                            Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                            )
-                    }).catch(()=>{
-                        Swal.fire(
-                            'Failed!',
-                            'There was something wrong',
-                            'warning'
-                        )
-                    });
-                    }
-
+        fetchCases(page_url){
+            page_url = page_url || 'api/cases';
+            let vm = this;
+            fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+                this.cases = res.data;
+                vm.makePagination(res.meta, res.links);
             })
         }
     }
-        ,
-        created() {
-            this.loadCases();
-        }
-    }
+}
 </script>
+

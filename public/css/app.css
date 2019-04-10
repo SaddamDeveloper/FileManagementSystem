@@ -10671,3 +10671,7 @@ a.text-dark:focus {
   display: none;
 }
 
+.modal .modal-dialog {
+  width: 80%;
+}
+
