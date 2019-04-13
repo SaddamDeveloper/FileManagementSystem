@@ -8,6 +8,8 @@ use App\Cases;
 use App\ClientDetails;
 use App\Http\Resources\Cases as CaseResource;
 use App\Http\Resources\ClientDetails as ClientDetailsResource;
+use DB;
+use Response;
 class CaseController extends Controller
 {
     /**
@@ -20,13 +22,7 @@ class CaseController extends Controller
        $cases = \App\ClientDetails::with('cases')
        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
        ->paginate(15);
-       return $cases;
-    //    $article->user->user_name
-        //Get the cases
-        // $cases = Cases::paginate(15);
-
-
-        //  return CaseResource::collection($cases);
+         return CaseResource::collection($cases);
     }
 
     /**
@@ -45,7 +41,23 @@ class CaseController extends Controller
             $case = new Cases;
             $cdetails = new ClientDetails;
         }
-        $case->caseid = $request->input('caseid');
+
+            $sql = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get();
+            foreach($sql as $row_data){
+                $postfix =  $row_data->max_val;
+            }
+            $caseid = 'CASE';
+            $count = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get()->count();
+            if($count == 0){
+                $caseid = $caseid.'00001';
+            }
+            else{
+                $postfix = $postfix + 1;
+                $addVal=str_pad($postfix, 5, '0', STR_PAD_LEFT);
+                $caseid=$caseid.$addVal;
+            }
+
+        $case->caseid = $caseid;
         $case->clientType = $request->input('clientType');
         $case->typeofwork = $request->input('typeofwork');
         $case->time2 = $request->input('time2');
@@ -58,7 +70,7 @@ class CaseController extends Controller
         $cdetails->altContactNo = $request->input('altContactNo');
         $cdetails->email = $request->input('email');
         $cdetails->address = $request->input('address');
-        $cdetails->caseid = $request->input('caseid');
+        $cdetails->caseid = $caseid;
 
         if($case->save() && $cdetails->save()){
             return new CaseResource($case);

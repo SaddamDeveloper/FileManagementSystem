@@ -4712,6 +4712,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/lib/index.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -4845,22 +4847,518 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   data: function data() {
     return {
+      time1: '',
+      time2: '',
+      time3: '',
+      // custom lang
+      lang: 'en',
       cases: [],
-      case: {
-        caseid: '',
+      casee: {
+        caseid: 'CASE00005',
+        clientType: '',
         typeofwork: '',
         amount: '',
         clientName: '',
         contactNo: '',
+        altContactNo: '',
         email: '',
-        time2: ''
+        address: '',
+        time2: '',
+        selected: ''
       },
       caseid: '',
       pagination: {},
-      edit: false
+      edit: false,
+      selected: "1",
+      optiontypes: [{
+        id: 1,
+        name: 'Select Payment Method'
+      }, {
+        id: 2,
+        name: 'Cash'
+      }, {
+        id: 3,
+        name: 'Cheque'
+      }, {
+        id: 4,
+        name: 'RTGS/NEFT'
+      }],
+      clientType: "1",
+      options: [{
+        id: 1,
+        name: 'Select client type'
+      }, {
+        id: 2,
+        name: 'Individual'
+      }, {
+        id: 3,
+        name: 'Govt'
+      }, {
+        id: 4,
+        name: 'Pvt Ltd'
+      }, {
+        id: 5,
+        name: 'NGO'
+      }]
     };
   },
   created: function created() {
@@ -4878,6 +5376,75 @@ __webpack_require__.r(__webpack_exports__);
         _this.cases = res.data;
         vm.makePagination(res.meta, res.links);
       });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      this.pagination = pagination;
+    },
+    deleteCase: function deleteCase(id) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          fetch("api/case/".concat(id), {
+            method: 'delete'
+          }).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this2.fetchCases();
+          }).catch(function () {
+            Swal.fire('Failed!', 'There was something wrong', 'warning');
+          });
+        }
+      });
+    },
+    addCase: function addCase() {
+      var _this3 = this;
+
+      if (this.edit === false) {
+        //Add Case
+        this.casee.caseid = jQuery("#caseid").val();
+        fetch('api/case', {
+          method: 'post',
+          body: JSON.stringify(this.casee),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this3.casee.caseid = '';
+          _this3.casee.clientType = '';
+          _this3.casee.typeofwork = '';
+          _this3.casee.amount = '';
+          _this3.casee.clientName = '';
+          _this3.casee.contactNo = '';
+          _this3.casee.altContactNo = '';
+          _this3.casee.email = '';
+          _this3.casee.address = '';
+          _this3.casee.time2 = '';
+          _this3.casee.selected = '';
+          alert('Case Added');
+
+          _this3.fetchCases();
+        }).catch(function (err) {
+          return console.log(err);
+        });
+      } else {//Update Case
+      }
     }
   }
 });
@@ -52593,12 +53160,516 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.addCase($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body card-block" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("strong", [
+                        _vm._v("CaseID: "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.casee.caseid,
+                              expression: "casee.caseid"
+                            }
+                          ],
+                          attrs: { type: "text", readonly: "", id: "caseid" },
+                          domProps: { value: _vm.casee.caseid },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.casee, "caseid", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row form-group" }, [
+                    _c("div", { staticClass: "col col-md-12" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.casee.clientType,
+                              expression: "casee.clientType"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "clientType" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.casee,
+                                "clientType",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.options, function(option) {
+                          return _c(
+                            "option",
+                            { domProps: { value: option.id } },
+                            [_vm._v(_vm._s(option.name))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.casee.typeofwork,
+                          expression: "casee.typeofwork"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "typeofwork",
+                        name: "typeofwork",
+                        placeholder: "Type of work"
+                      },
+                      domProps: { value: _vm.casee.typeofwork },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.casee, "typeofwork", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("date-picker", {
+                        attrs: { name: "time2", lang: _vm.lang },
+                        model: {
+                          value: _vm.casee.time2,
+                          callback: function($$v) {
+                            _vm.$set(_vm.casee, "time2", $$v)
+                          },
+                          expression: "casee.time2"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "input-group" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.casee.amount,
+                            expression: "casee.amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "amount",
+                          type: "number",
+                          placeholder: "Amount"
+                        },
+                        domProps: { value: _vm.casee.amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.casee, "amount", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.casee.selected,
+                            expression: "casee.selected"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "selected" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.casee,
+                              "selected",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.optiontypes, function(optiontype) {
+                        return _c(
+                          "option",
+                          { domProps: { value: optiontype.id } },
+                          [_vm._v(_vm._s(optiontype.name))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.casee.selected === 2
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _vm._m(4)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.selected === 3
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _vm._m(6)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.selected == 4
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _vm._m(8)
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-lg-8" }, [
+              _vm.casee.clientType === 5
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _vm._m(10)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 5
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _vm._m(12)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 4
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(13),
+                    _vm._v(" "),
+                    _vm._m(14)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 4
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(15),
+                    _vm._v(" "),
+                    _vm._m(16)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 3
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(17),
+                    _vm._v(" "),
+                    _vm._m(18)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 3
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(19),
+                    _vm._v(" "),
+                    _vm._m(20)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 2
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(21),
+                    _vm._v(" "),
+                    _vm._m(22)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.casee.clientType === 2
+                ? _c("div", { staticClass: "card" }, [
+                    _vm._m(23),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { attrs: { id: "client's_info" } }, [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.clientName,
+                                    expression: "casee.clientName"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "clientName",
+                                  name: "clientName",
+                                  type: "text",
+                                  placeholder: "Client's Name"
+                                },
+                                domProps: { value: _vm.casee.clientName },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "clientName",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group has-success" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.casee.contactNo,
+                                      expression: "casee.contactNo"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: "contactNo",
+                                    name: "contactNo",
+                                    type: "text",
+                                    placeholder: "Contact No"
+                                  },
+                                  domProps: { value: _vm.casee.contactNo },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.casee,
+                                        "contactNo",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.altContactNo,
+                                    expression: "casee.altContactNo"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "altContactNo",
+                                  name: "altContactNo",
+                                  type: "text",
+                                  placeholder: "Alternate Contact No"
+                                },
+                                domProps: { value: _vm.casee.altContactNo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "altContactNo",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group has-success" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.casee.email,
+                                      expression: "casee.email"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "email",
+                                    id: "email",
+                                    name: "email",
+                                    placeholder: "Email"
+                                  },
+                                  domProps: { value: _vm.casee.email },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.casee,
+                                        "email",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group has-success" },
+                              [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.casee.address,
+                                      expression: "casee.address"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: "address",
+                                    name: "adress",
+                                    placeholder: "Address"
+                                  },
+                                  domProps: { value: _vm.casee.address },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.casee,
+                                        "address",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm._m(24)
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(1),
+          _vm._m(25),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table" }, [
-              _vm._m(2),
+              _vm._m(26),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -52619,7 +53690,7 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(item.time2))]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._m(3, true),
+                      _vm._m(27, true),
                       _c(
                         "button",
                         {
@@ -52657,7 +53728,70 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+      _c("ul", { staticClass: "pagination" }, [
+        _c(
+          "li",
+          {
+            staticClass: "page-item",
+            class: [{ disabled: !_vm.pagination.prev_page_url }]
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    return _vm.fetchCases(_vm.pagination.prev_page_url)
+                  }
+                }
+              },
+              [_vm._v("Previous")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "page-item disabled" }, [
+          _c(
+            "a",
+            { staticClass: "page-link text-dark", attrs: { href: "#" } },
+            [
+              _vm._v(
+                "Page " +
+                  _vm._s(_vm.pagination.current_page) +
+                  " of " +
+                  _vm._s(_vm.pagination.last_page)
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "page-item",
+            class: [{ disabled: !_vm.pagination.next_page_url }]
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    return _vm.fetchCases(_vm.pagination.next_page_url)
+                  }
+                }
+              },
+              [_vm._v("Next")]
+            )
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -52686,6 +53820,877 @@ var staticRenderFns = [
             ])
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", [_vm._v("Case Details")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-inr" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Cash")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "input-group" }, [
+                _c("div", { staticClass: "input-group-addon" }, [
+                  _c("i", { staticClass: "fa fa-inr" })
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number", placeholder: "Advance Amount" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("span", [
+                _vm._v(" Due Amount: "),
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 120.00")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 2000\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 500\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 200\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 100\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 50\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 20\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 10\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("i", { staticClass: "fa fa-inr" }),
+                _vm._v(" 5\n                                            ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [_vm._v("X")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-5" }, [
+                _c("input", {
+                  staticClass: "form-control input-sm",
+                  attrs: { id: "den_amt", name: "den_amt", type: "number" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("strong", [
+                  _vm._v("Grand Total: "),
+                  _c("i", { staticClass: "fa fa-inr" }),
+                  _vm._v(" 250")
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Cheque")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "",
+                  name: "name",
+                  type: "text",
+                  placeholder: "Cheque Number"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "no",
+                  name: "no",
+                  type: "text",
+                  placeholder: "Bank Name"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "altno",
+                  name: "altno",
+                  type: "number",
+                  placeholder: "Phone"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("RTGS/NEFT")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "",
+                  name: "name",
+                  type: "number",
+                  placeholder: "RTGS/NEFT No"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "no",
+                  name: "no",
+                  type: "text",
+                  placeholder: "Bank Name"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "altno",
+                  name: "altno",
+                  type: "text",
+                  placeholder: "Phone no"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (Existing Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personid",
+                  name: "personid",
+                  type: "text",
+                  placeholder: "Contact Person ID"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("strong", [_vm._v("Or")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personno",
+                  name: "personno",
+                  type: "text",
+                  placeholder: "Contact Person No"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (New Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personname",
+                  name: "personname",
+                  type: "text",
+                  placeholder: "Conatact Person Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "percontactNo",
+                  name: "percontactNo",
+                  type: "text",
+                  placeholder: "Conatct No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationname",
+                  name: "organisationname",
+                  type: "text",
+                  placeholder: "Organisation Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationtelno",
+                  name: "organisationtelno",
+                  type: "text",
+                  placeholder: "Organisation Tel No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "altno",
+                  name: "altno",
+                  type: "text",
+                  placeholder: "Department"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("textarea", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationaddr",
+                  name: "organisationaddr",
+                  type: "text",
+                  placeholder: "Organisation Address"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (Existing Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personid",
+                  name: "personid",
+                  type: "text",
+                  placeholder: "Contact Person ID"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("strong", [_vm._v("Or")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personno",
+                  name: "personno",
+                  type: "text",
+                  placeholder: "Contact Person No"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (New Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personname",
+                  name: "personname",
+                  type: "text",
+                  placeholder: "Conatact Person Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "perscontactno",
+                  name: "perscontactno",
+                  type: "text",
+                  placeholder: "Conatct No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationname",
+                  name: "organisationname",
+                  type: "text",
+                  placeholder: "Organisation Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationtelno",
+                  name: "organisationtelno",
+                  type: "text",
+                  placeholder: "Organisation Tel No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "altno",
+                  name: "altno",
+                  type: "text",
+                  placeholder: "Department"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("textarea", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationaddr",
+                  name: "organisationaddr",
+                  type: "text",
+                  placeholder: "Organisation Address"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (Existing Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personid",
+                  name: "personid",
+                  type: "text",
+                  placeholder: "Contact Person ID"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("strong", [_vm._v("Or")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personno",
+                  name: "personno",
+                  type: "text",
+                  placeholder: "Contact Person No"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (New Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personname",
+                  name: "personname",
+                  type: "text",
+                  placeholder: "Conatact Person Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "pcontactNo",
+                  name: "pcontactNo",
+                  type: "text",
+                  placeholder: "Conatct No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationname",
+                  name: "organisationname",
+                  type: "text",
+                  placeholder: "Organisation Name"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationtelno",
+                  name: "organisationtelno",
+                  type: "text",
+                  placeholder: "Organisation Tel No"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "altno",
+                  name: "altno",
+                  type: "text",
+                  placeholder: "Department"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("textarea", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "organisationaddr",
+                  name: "organisationaddr",
+                  type: "text",
+                  placeholder: "Organisation Address"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (Existing Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { attrs: { id: "client's_info" } }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personid",
+                  name: "personid",
+                  type: "text",
+                  placeholder: "Contact Person ID"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("strong", [_vm._v("Or")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "form-group has-success" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  id: "personno",
+                  name: "personno",
+                  type: "text",
+                  placeholder: "Contact Person No"
+                }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [
+        _vm._v("Client Details (New Client)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 mb-4" }, [
+      _c("div", { staticStyle: { float: "right" } }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-sm", attrs: { type: "submit" } },
+          [
+            _c("i", { staticClass: "fa fa-dot-circle-o" }),
+            _vm._v(" Submit\n                        ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-danger btn-sm", attrs: { type: "reset" } },
+          [
+            _c("i", { staticClass: "fa fa-ban" }),
+            _vm._v(" Reset\n                        ")
+          ]
+        )
       ])
     ])
   },
@@ -52736,80 +54741,6 @@ var staticRenderFns = [
         }
       },
       [_c("i", { staticClass: "fa fa-eye" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "exampleModalLabel" }
-                  },
-                  [_vm._v("Acknowledgment")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Print")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
     )
   }
 ]
@@ -68574,14 +70505,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/components/Register.vue ***!
   \**********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Register_vue_vue_type_template_id_97358ae4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Register.vue?vue&type=template&id=97358ae4& */ "./resources/js/components/Register.vue?vue&type=template&id=97358ae4&");
 /* harmony import */ var _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Register.vue?vue&type=script&lang=js& */ "./resources/js/components/Register.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -68611,7 +70543,7 @@ component.options.__file = "resources/js/components/Register.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/Register.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

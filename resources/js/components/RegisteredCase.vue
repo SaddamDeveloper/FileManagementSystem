@@ -20,6 +20,470 @@
             </div>
         </div>
         <div class="row justify-content-center">
+        <div class="col-md-12">
+            <form @submit.prevent="addCase">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Case Details</strong>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <strong>CaseID: <input type="text" readonly v-model="casee.caseid" id="caseid"> </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-12">
+                                <select name="clientType" class="form-control" v-model="casee.clientType">
+                                    <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="typeofwork" name="typeofwork" placeholder="Type of work" class="form-control" v-model="casee.typeofwork">
+                        </div>
+                        <div class="form-group">
+                            <date-picker name="time2" v-model="casee.time2" :lang="lang"></date-picker>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-inr"></i></div>
+                                <input class="form-control" name="amount" type="number" placeholder="Amount" v-model="casee.amount">
+                        </div>
+                        </div>
+
+                      <div class="form-group">
+                        <select class="form-control" name="selected" v-model="casee.selected">
+                            <option v-for="optiontype in optiontypes" v-bind:value="optiontype.id">{{ optiontype.name}}</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                        <div class="card" v-if="casee.selected === 2">
+                            <div class="card-header">
+                                <strong class="card-title">Cash</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-inr"></i>
+                                                    </div>
+                                                    <input type="number" placeholder="Advance Amount" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span> Due Amount: <i class="fa fa-inr"></i> 120.00</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 2000
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 500
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 200
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 100
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 50
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 20
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 10
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-5">
+                                                    <i class="fa fa-inr"></i> 5
+                                                </div>
+                                                <div class="col-md-2">X</div>
+                                                <div class="col-md-5">
+                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-12"><strong>Grand Total: <i class="fa fa-inr"></i> 250</strong></div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card"  v-if="casee.selected === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Cheque</strong>
+                            </div>
+                            <div class="card-body">
+                                <!-- Credit Card -->
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number">
+                                            </div>
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card"  v-if="casee.selected == 4">
+                            <div class="card-header">
+                                <strong class="card-title">RTGS/NEFT</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input id="" name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
+                                            </div>
+                                            <div class="form-group has-success">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Phone no">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+                        <div class="col-lg-8">
+                        <div class="card" v-if="casee.clientType === 5">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    <div class="card" v-if="casee.clientType === 5">
+                        <div class="card-header">
+                            <strong class="card-title">Client Details (New Client)</strong>
+                        </div>
+                        <div class="card-body">
+                            <div id="client's_info">
+                                <div class="card-body">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="percontactNo" name="percontactNo" type="text" class="form-control" placeholder="Conatct No">
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card" v-if="casee.clientType === 4">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    <div class="card" v-if="casee.clientType === 4">
+                        <div class="card-header">
+                            <strong class="card-title">Client Details (New Client)</strong>
+                        </div>
+                        <div class="card-body">
+                            <div id="client's_info">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="perscontactno" name="perscontactno" type="text" class="form-control" placeholder="Conatct No">
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-success">
+                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card" v-if="casee.clientType === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+
+                        <div class="card" v-if="casee.clientType === 3">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (New Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card" v-if="casee.clientType === 2">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (Existing Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group has-success">
+                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="card" v-if="casee.clientType === 2">
+                            <div class="card-header">
+                                <strong class="card-title">Client Details (New Client)</strong>
+                            </div>
+                            <div class="card-body">
+                                <div id="client's_info">
+                                    <div class="card-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="clientName" name="clientName" type="text" class="form-control" placeholder="Client's Name" v-model="casee.clientName">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="contactNo" name="contactNo" type="text" class="form-control" placeholder="Contact No" v-model="casee.contactNo">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" v-model="casee.altContactNo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="casee.email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group has-success">
+                                                <textarea id="address"  name="adress" class="form-control" placeholder="Address" v-model="casee.address"></textarea>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+                        <div class="col-md-12 mb-4">
+                            <div style="float: right">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Submit
+                            </button>
+                            <button type="reset" class="btn btn-danger btn-sm">
+                                <i class="fa fa-ban"></i> Reset
+                            </button>
+                            </div>
+                        </div>
+
+            </form>
+            </div>
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -56,26 +520,14 @@
                 </div>
             </div>
         </div>
-                <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Acknowledgment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Print</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            </div>
-        </div>
-        </div>
+        <!-- pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.prev_page_url)">Previous</a></li>
+                 <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>
+                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.next_page_url)">Next</a></li>
+            </ul>
+        </nav>
     </div>
 
 </template>
@@ -93,7 +545,7 @@
 
 //         },
 //         loadCases(){
-//             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
+//             axios.get("api/e").then(( { data }) => (this.cases = data.data) );
 //         },
 //         deleteCase(id){
 //             Swal.fire({
@@ -106,7 +558,7 @@
 //                 confirmButtonText: 'Yes, delete it!'
 //                 }).then((result) => {
 //                     if (result.value) {
-//                         this.form.delete('api/case/'+id).then(()=>{
+//                         this.form.delete('api/e/'+id).then(()=>{
 //                             Swal.fire(
 //                             'Deleted!',
 //                             'Your file has been deleted.',
@@ -132,22 +584,48 @@
 // </script>
 
 <script>
+import DatePicker from 'vue2-datepicker'
 export default {
+    components: { DatePicker },
     data(){
         return {
+            time1: '',
+            time2: '',
+            time3: '',
+            // custom lang
+            lang: 'en',
             cases: [],
-            case: {
-                caseid: '',
+            casee: {
+                caseid: 'CASE00005',
+                clientType: '',
                 typeofwork: '',
                 amount: '',
                 clientName: '',
                 contactNo: '',
+                altContactNo: '',
                 email: '',
-                time2: ''
+                address: '',
+                time2: '',
+                selected: ''
             },
             caseid: '',
             pagination: {},
-            edit: false
+            edit: false,
+            selected: "1",
+            optiontypes: [
+                { id: 1, name: 'Select Payment Method'},
+                { id: 2, name: 'Cash' },
+                { id: 3, name: 'Cheque' },
+                { id: 4, name: 'RTGS/NEFT' }
+            ],
+             clientType: "1",
+                options: [
+                    {id: 1, name: 'Select client type'},
+                    {id: 2, name: 'Individual'},
+                    {id: 3, name: 'Govt'},
+                    {id: 4, name: 'Pvt Ltd'},
+                    {id: 5, name: 'NGO'}
+                ],
         }
     },
 
@@ -164,7 +642,81 @@ export default {
                 this.cases = res.data;
                 vm.makePagination(res.meta, res.links);
             })
+        },
+        makePagination(meta, links){
+            let pagination = {
+                current_page: meta.current_page,
+                last_page: meta.last_page,
+                next_page_url: links.next,
+                prev_page_url: links.prev
+            }
+            this.pagination = pagination;
+        },
+        deleteCase(id){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    fetch(`api/case/${id}`, {
+                        method: 'delete'
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
+                }
+
+            })
+        },
+    addCase(){
+        if(this.edit === false){
+            //Add Case
+            this.casee.caseid = jQuery("#caseid").val();
+            fetch('api/case', {
+                method: 'post',
+                body: JSON.stringify(this.casee),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.casee.caseid = '';
+                this.casee.clientType = '';
+                this.casee.typeofwork = '';
+                this.casee.amount = '';
+                this.casee.clientName = '';
+                this.casee.contactNo = '';
+                this.casee.altContactNo = '';
+                this.casee.email = '';
+                this.casee.address = '';
+                this.casee.time2 = '';
+                this.casee.selected = ''
+                alert('Case Added');
+                this.fetchCases();
+            })
+            .catch(err => console.log(err));
         }
+        else{
+            //Update Case
+        }
+    }
     }
 }
 </script>
