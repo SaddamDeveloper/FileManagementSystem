@@ -26,7 +26,7 @@
                         <strong class="card-title">Registered Case</strong>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                    <table class="table">
                         <thead>
                             <tr>
                             <th scope="col">#Case</th>
@@ -36,23 +36,19 @@
                             <th scope="col">Contact No</th>
                             <th scope="col">Email</th>
                             <th scope="col">Delivery Date</th>
-                            <th scope="col">Asign Employee</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in cases" :key="item.id">
-                        <td v-bind="form.caseid">{{ item.caseid }}</td>
+                    <tr v-for="item in cases" v-bind:key="item.id">
+                        <td>{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.amount }}</td>
                         <td>{{ item.clientName }}</td>
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td>
-                            <button type="button" @click="assignEmployee(item.id)" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>
-                            <button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                        </td>
+                        <td><button type="button" class="btn btn-success btn-sm" @click="assignCase(item)"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -62,141 +58,210 @@
         </div>
                 <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <form @submit.prevent="sendToEmployee" @keydown="form.onKeydown($event)">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                    <table class="table" style="table-layout: fixed;
-width: 100%;">
-                        <thead>
-                            <tr>
-                            <th scope="col">#Case</th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">Contact No</th>
-                            <th scope="col">Delivery Date</th>
-                            <th scope="col">Asign Employee</th>
-                            <th scope="col">Support Team</th>
-                            <th scope="col">Remarks</th>
-                            <th scope="col">Upload Files</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in cases" :key="item.id">
-                        <td id="case">{{ item.caseid }}</td>
-                        <td>{{ item.clientName }}</td>
-                        <td>{{ item.contactNo }}</td>
-                        <td>{{ item.time2 }}</td>
-                        <td>
-                            <select v-model="form.selected" selected class="form-control">
-                                <option v-for="employee in employees" :key="employee.id">
-                                    {{ employee.name }}
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <v-select name="mselected[]" v-model="form.mselected" multiple :options="['Amit','Mohit']"></v-select>
-                        </td>
-                        <td><textarea v-model="form.remarks" name="remarks" class="form-control"></textarea></td>
-                    </tr>
-                </tbody>
-                </table>
+
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Assign</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
             </div>
-            </form>
         </div>
         </div>
     </div>
 
 </template>
 
-<script>
-    export default {
-        data() {
-            return{
-                selected: 'Select Employee',
-                cases: {},
-                employees: {},
-                mselect: [],
-                form: new Form({
-                    caseid: '',
-                    selected: '',
-                    mselected: '',
-                    remarks: ''
-                })
-            }
-        },
-    methods: {
-        sendToEmployee(){
-        this.$Progress.start();
-        this.form.caseid = jQuery('#case').text();
-        // let dcaseid = jQuery('#case').text();
-        // this.form = new Form({caseid: dcaseid});
-        //console.log(jQuery('#case').text());
-        this.form.post('api/sendemployee')
-                .then(()=>{
-        toast.fire({
-            type: 'success',
-            title: 'Saved successfully'
-        })
-            this.$Progress.finish();
-        })
-        .catch(()=> {
+// <script>
+//     export default {
+//         data() {
+//             return{
+//                 selected: 'Select Employee',
+//                 cases: {},
+//                 employees: {},
+//                 mselect: [],
+//                 form: new Form({
+//                     caseid: '',
+//                     selected: '',
+//                     mselected: '',
+//                     remarks: ''
+//                 })
+//             }
+//         },
+//     methods: {
+//         sendToEmployee(){
+//         this.$Progress.start();
+//         this.form.caseid = jQuery('#case').text();
+//         // let dcaseid = jQuery('#case').text();
+//         // this.form = new Form({caseid: dcaseid});
+//         //console.log(jQuery('#case').text());
+//         this.form.post('api/sendemployee')
+//                 .then(()=>{
+//         toast.fire({
+//             type: 'success',
+//             title: 'Saved successfully'
+//         })
+//             this.$Progress.finish();
+//         })
+//         .catch(()=> {
 
-        })
+//         })
+//     },
+//         assignEmployee(caseId){
+//             jQuery('#exampleModal').modal('show');
+//             this.form.fill(caseId);
+//             axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
+//         },
+//         loadCases(){
+//             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
+//         },
+//         loadEmployee(){
+//              axios.get("api/employee").then(( { data }) => (this.employees = data.data) );
+//         },
+//         deleteCase(id){
+//             Swal.fire({
+//                 title: 'Are you sure?',
+//                 text: "You won't be able to revert this!",
+//                 type: 'warning',
+//                 showCancelButton: true,
+//                 confirmButtonColor: '#3085d6',
+//                 cancelButtonColor: '#d33',
+//                 confirmButtonText: 'Yes, delete it!'
+//                 }).then((result) => {
+//                     if (result.value) {
+//                         this.form.delete('api/case/'+id).then(()=>{
+//                             Swal.fire(
+//                             'Deleted!',
+//                             'Your file has been deleted.',
+//                             'success'
+//                             )
+//                     }).catch(()=>{
+//                         Swal.fire(
+//                             'Failed!',
+//                             'There was something wrong',
+//                             'warning'
+//                         )
+//                     });
+//                 }
+//             })
+//         }
+//     }
+//         ,
+//         created() {
+//             this.loadCases();
+//             this.loadEmployee();
+//         }
+//     }
+// </script>
+<script>
+export default {
+        data(){
+        return {
+            time1: '',
+            time2: '',
+            time3: '',
+            // custom lang
+            lang: 'en',
+            cases: [],
+            casee: {
+                caseid: '',
+                clientType: '',
+                typeofwork: '',
+                amount: '',
+                clientName: '',
+                contactNo: '',
+                altContactNo: '',
+                email: '',
+                address: '',
+                time2: '',
+                selected: ''
+            },
+            caseid: '',
+            pagination: {},
+            edit: false,
+            selected: "1",
+            optiontypes: [
+                { id: 1, name: 'Select Payment Method'},
+                { id: 2, name: 'Cash' },
+                { id: 3, name: 'Cheque' },
+                { id: 4, name: 'RTGS/NEFT' }
+            ],
+             clientType: "1",
+                options: [
+                    {id: 1, name: 'Select client type'},
+                    {id: 2, name: 'Individual'},
+                    {id: 3, name: 'Govt'},
+                    {id: 4, name: 'Pvt Ltd'},
+                    {id: 5, name: 'NGO'}
+                ],
+        }
     },
-        assignEmployee(caseId){
-            jQuery('#exampleModal').modal('show');
-            this.form.fill(caseId);
-            axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
-        },
-        loadCases(){
-            axios.get("api/case").then(( { data }) => (this.cases = data.data) );
-        },
-        loadEmployee(){
-             axios.get("api/employee").then(( { data }) => (this.employees = data.data) );
-        },
-        deleteCase(id){
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                        this.form.delete('api/case/'+id).then(()=>{
-                            Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                            )
-                    }).catch(()=>{
-                        Swal.fire(
-                            'Failed!',
-                            'There was something wrong',
-                            'warning'
-                        )
-                    });
-                }
+    created(){
+        this.fetchCases();
+    },
+    methods: {
+        fetchCases(page_url){
+            page_url = page_url || 'api/cases';
+            let vm = this;
+            fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+                this.cases = res.data;
+                vm.makePagination(res.meta, res.links);
             })
+        },
+        makePagination(meta, links){
+            let pagination = {
+                current_page: meta.current_page,
+                last_page: meta.last_page,
+                next_page_url: links.next,
+                prev_page_url: links.prev
+            }
+            this.pagination = pagination;
+        },
+                deleteCase(id){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    fetch(`api/case/${id}`, {
+                        method: 'delete'
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
+                }
+
+            })
+        },
+        assignCase(item){
+            jQuery('#exampleModal').modal('show');
         }
     }
-        ,
-        created() {
-            this.loadCases();
-            this.loadEmployee();
-        }
-    }
+}
 </script>

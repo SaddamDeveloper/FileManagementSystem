@@ -35,7 +35,7 @@
                         </div>
                         <div class="row form-group">
                             <div class="col col-md-12">
-                                <select name="clientType" class="form-control" v-model="casee.clientType">
+                                <select name="clientType" class="form-control" v-model="casee.clientType" v-on:triggerChange="changeType">
                                     <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                 </select>
                             </div>
@@ -512,7 +512,7 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(user)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -715,7 +715,49 @@ export default {
         }
         else{
             //Update Case
+        this.casee.caseid = jQuery("#caseid").val();
+        fetch('api/case', {
+                method: 'put',
+                body: JSON.stringify(this.casee),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.casee.caseid = '';
+                this.casee.clientType = '';
+                this.casee.typeofwork = '';
+                this.casee.amount = '';
+                this.casee.clientName = '';
+                this.casee.contactNo = '';
+                this.casee.altContactNo = '';
+                this.casee.email = '';
+                this.casee.address = '';
+                this.casee.time2 = '';
+                this.casee.selected = ''
+                alert('Case Updated');
+                this.fetchCases();
+            })
+            .catch(err => console.log(err));
         }
+    },
+    editCase(item){
+        this.edit = true;
+        this.casee.id = item.id;
+        this.casee.clientType = item.clientType;
+        this.casee.typeofwork = item.typeofwork;
+        this.casee.amount = item.amount;
+        this.casee.clientName = item.clientName;
+        this.casee.contactNo = item.contactNo;
+        this.casee.altContactNo = item.altContactNo;
+        this.casee.email = item.email;
+        this.casee.address = item.address;
+        this.casee.time2 = item.time2;
+        this.casee.selected = item.selected
+    },
+    changeType(){
+        console.log(this.casee.id);
     }
     }
 }

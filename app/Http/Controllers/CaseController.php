@@ -34,7 +34,11 @@ class CaseController extends Controller
     public function store(Request $request)
     {
         if($request->isMethod('put')){
-          $case = Cases::findOrFail($request->id);
+    //       $case = \App\ClientDetails::with('cases')
+    //    ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+    //     ->findOrFail($request->id);
+    //     return $case;
+            // $case = Cases::findOrFail($request->caseid);
           $cdetails = ClientDetails::findOrFail($request->id);
         }
         else{

@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="{{  asset('sufeeadmin/assets/css/style.css') }}">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('sufeeadmin/assets/css/font.css') }}' rel='stylesheet' type='text/css'">
 
 </head>
 

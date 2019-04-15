@@ -4022,67 +4022,133 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      selected: 'Select Employee',
-      cases: {},
-      employees: {},
-      mselect: [],
-      form: new Form({
+      time1: '',
+      time2: '',
+      time3: '',
+      // custom lang
+      lang: 'en',
+      cases: [],
+      casee: {
         caseid: '',
-        selected: '',
-        mselected: '',
-        remarks: ''
-      })
+        clientType: '',
+        typeofwork: '',
+        amount: '',
+        clientName: '',
+        contactNo: '',
+        altContactNo: '',
+        email: '',
+        address: '',
+        time2: '',
+        selected: ''
+      },
+      caseid: '',
+      pagination: {},
+      edit: false,
+      selected: "1",
+      optiontypes: [{
+        id: 1,
+        name: 'Select Payment Method'
+      }, {
+        id: 2,
+        name: 'Cash'
+      }, {
+        id: 3,
+        name: 'Cheque'
+      }, {
+        id: 4,
+        name: 'RTGS/NEFT'
+      }],
+      clientType: "1",
+      options: [{
+        id: 1,
+        name: 'Select client type'
+      }, {
+        id: 2,
+        name: 'Individual'
+      }, {
+        id: 3,
+        name: 'Govt'
+      }, {
+        id: 4,
+        name: 'Pvt Ltd'
+      }, {
+        id: 5,
+        name: 'NGO'
+      }]
     };
   },
+  created: function created() {
+    this.fetchCases();
+  },
   methods: {
-    sendToEmployee: function sendToEmployee() {
+    fetchCases: function fetchCases(page_url) {
       var _this = this;
 
-      this.$Progress.start();
-      this.form.caseid = jQuery('#case').text(); // let dcaseid = jQuery('#case').text();
-      // this.form = new Form({caseid: dcaseid});
-      //console.log(jQuery('#case').text());
-
-      this.form.post('api/sendemployee').then(function () {
-        toast.fire({
-          type: 'success',
-          title: 'Saved successfully'
-        });
-
-        _this.$Progress.finish();
-      }).catch(function () {});
-    },
-    assignEmployee: function assignEmployee(caseId) {
-      var _this2 = this;
-
-      jQuery('#exampleModal').modal('show');
-      this.form.fill(caseId);
-      axios.get("api/case/" + caseId).then(function (_ref) {
-        var data = _ref.data;
-        return _this2.cases = data.data;
+      page_url = page_url || 'api/cases';
+      var vm = this;
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.cases = res.data;
+        vm.makePagination(res.meta, res.links);
       });
     },
-    loadCases: function loadCases() {
-      var _this3 = this;
-
-      axios.get("api/case").then(function (_ref2) {
-        var data = _ref2.data;
-        return _this3.cases = data.data;
-      });
-    },
-    loadEmployee: function loadEmployee() {
-      var _this4 = this;
-
-      axios.get("api/employee").then(function (_ref3) {
-        var data = _ref3.data;
-        return _this4.employees = data.data;
-      });
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      this.pagination = pagination;
     },
     deleteCase: function deleteCase(id) {
-      var _this5 = this;
+      var _this2 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -4094,18 +4160,21 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          _this5.form.delete('api/case/' + id).then(function () {
+          fetch("api/case/".concat(id), {
+            method: 'delete'
+          }).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this2.fetchCases();
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
         }
       });
+    },
+    assignCase: function assignCase(item) {
+      jQuery('#exampleModal').modal('show');
     }
-  },
-  created: function created() {
-    this.loadCases();
-    this.loadEmployee();
   }
 });
 
@@ -5443,8 +5512,53 @@ __webpack_require__.r(__webpack_exports__);
         }).catch(function (err) {
           return console.log(err);
         });
-      } else {//Update Case
+      } else {
+        //Update Case
+        this.casee.caseid = jQuery("#caseid").val();
+        fetch('api/case', {
+          method: 'put',
+          body: JSON.stringify(this.casee),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this3.casee.caseid = '';
+          _this3.casee.clientType = '';
+          _this3.casee.typeofwork = '';
+          _this3.casee.amount = '';
+          _this3.casee.clientName = '';
+          _this3.casee.contactNo = '';
+          _this3.casee.altContactNo = '';
+          _this3.casee.email = '';
+          _this3.casee.address = '';
+          _this3.casee.time2 = '';
+          _this3.casee.selected = '';
+          alert('Case Updated');
+
+          _this3.fetchCases();
+        }).catch(function (err) {
+          return console.log(err);
+        });
       }
+    },
+    editCase: function editCase(item) {
+      this.edit = true;
+      this.casee.id = item.id;
+      this.casee.clientType = item.clientType;
+      this.casee.typeofwork = item.typeofwork;
+      this.casee.amount = item.amount;
+      this.casee.clientName = item.clientName;
+      this.casee.contactNo = item.contactNo;
+      this.casee.altContactNo = item.altContactNo;
+      this.casee.email = item.email;
+      this.casee.address = item.address;
+      this.casee.time2 = item.time2;
+      this.casee.selected = item.selected;
+    },
+    changeType: function changeType() {
+      console.log(this.casee.id);
     }
   }
 });
@@ -51240,9 +51354,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.cases, function(item) {
                   return _c("tr", { key: item.id }, [
-                    _c("td", _vm._b({}, "td", _vm.form.caseid, false), [
-                      _vm._v(_vm._s(item.caseid))
-                    ]),
+                    _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.typeofwork))]),
                     _vm._v(" "),
@@ -51261,22 +51373,28 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-success btn-sm",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "modal",
-                            "data-target": "#exampleModal"
-                          },
+                          attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.assignEmployee(item.id)
+                              return _vm.assignCase(item)
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-eye" })]
+                        [_c("i", { staticClass: "fa fa-plus" })]
                       ),
-                      _vm._v(" "),
-                      _vm._m(3, true),
-                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editCase(item)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-edit" })]
+                      ),
                       _c(
                         "button",
                         {
@@ -51301,178 +51419,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
-          [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.sendToEmployee($event)
-                  },
-                  keydown: function($event) {
-                    return _vm.form.onKeydown($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "table",
-                      {
-                        staticClass: "table",
-                        staticStyle: { "table-layout": "fixed", width: "100%" }
-                      },
-                      [
-                        _vm._m(5),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.cases, function(item) {
-                            return _c("tr", { key: item.id }, [
-                              _c("td", { attrs: { id: "case" } }, [
-                                _vm._v(_vm._s(item.caseid))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.clientName))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.contactNo))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.time2))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.form.selected,
-                                        expression: "form.selected"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { selected: "" },
-                                    on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          _vm.form,
-                                          "selected",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      }
-                                    }
-                                  },
-                                  _vm._l(_vm.employees, function(employee) {
-                                    return _c("option", { key: employee.id }, [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(employee.name) +
-                                          "\n                                "
-                                      )
-                                    ])
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "td",
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      name: "mselected[]",
-                                      multiple: "",
-                                      options: ["Amit", "Mohit"]
-                                    },
-                                    model: {
-                                      value: _vm.form.mselected,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.form, "mselected", $$v)
-                                      },
-                                      expression: "form.mselected"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("textarea", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.remarks,
-                                      expression: "form.remarks"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { name: "remarks" },
-                                  domProps: { value: _vm.form.remarks },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "remarks",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ])
-                            ])
-                          }),
-                          0
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(6)
-                ])
-              ]
-            )
-          ]
-        )
-      ]
-    )
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -51532,7 +51479,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Asign Employee")])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
   },
@@ -51541,80 +51488,74 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "button",
-      { staticClass: "btn btn-primary btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-edit" })]
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v("Modal title")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
+                  [_vm._v("Save changes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Assign Employee")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Client Name")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact No")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Asign Employee")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Support Team")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Upload Files")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Assign")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      )
-    ])
   }
 ]
 render._withStripped = true
@@ -53220,6 +53161,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: { name: "clientType" },
                           on: {
+                            triggerChange: _vm.changeType,
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
                                 .call($event.target.options, function(o) {
@@ -53698,7 +53640,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.editCase(_vm.user)
+                              return _vm.editCase(item)
                             }
                           }
                         },
@@ -54732,14 +54674,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "button",
-      {
-        staticClass: "btn btn-success btn-sm",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#exampleModal"
-        }
-      },
+      { staticClass: "btn btn-success btn-sm", attrs: { type: "button" } },
       [_c("i", { staticClass: "fa fa-eye" })]
     )
   }
@@ -70505,15 +70440,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/components/Register.vue ***!
   \**********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Register_vue_vue_type_template_id_97358ae4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Register.vue?vue&type=template&id=97358ae4& */ "./resources/js/components/Register.vue?vue&type=template&id=97358ae4&");
 /* harmony import */ var _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Register.vue?vue&type=script&lang=js& */ "./resources/js/components/Register.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -70543,7 +70477,7 @@ component.options.__file = "resources/js/components/Register.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/Register.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
