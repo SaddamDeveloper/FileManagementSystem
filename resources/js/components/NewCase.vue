@@ -48,26 +48,43 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm" @click="assignCase(item)"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
-                    </tr>
-                </tbody>
-            </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-                <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                                   <!-- Modal -->
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-
+            <div class="modal-body" >
+                <table class="table table-hovered">
+                    <tr>
+                        <th>CaseID</th>
+                        <th>Client Name</th>
+                        <th>Amount</th>
+                        <th>Delivery Date</th>
+                        <th>Assign Employee</th>
+                        <th>Helper</th>
+                        <th>Upload Docs</th>
+                    </tr>
+                    <tr>
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.time2 }}</td>
+                        <td>
+                            <select>
+                                <option v-for="employee in employees" v-bind:key="employee.id">{{ employee.name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <multiselect v-model="value" :options="optionsS"></multiselect>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,10 +93,18 @@
             </div>
         </div>
         </div>
+                    </tr>
+                </tbody>
+            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </template>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 // <script>
 //     export default {
 //         data() {
@@ -165,12 +190,15 @@
 export default {
         data(){
         return {
+            value: null,
+            optionsS: ['list', 'of', 'options'],
             time1: '',
             time2: '',
             time3: '',
             // custom lang
             lang: 'en',
             cases: [],
+            employees: [],
             casee: {
                 caseid: '',
                 clientType: '',
@@ -206,6 +234,7 @@ export default {
     },
     created(){
         this.fetchCases();
+        this.loadEmployee();
     },
     methods: {
         fetchCases(page_url){
@@ -227,7 +256,7 @@ export default {
             }
             this.pagination = pagination;
         },
-                deleteCase(id){
+    deleteCase(id){
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -259,8 +288,8 @@ export default {
 
             })
         },
-        assignCase(item){
-            jQuery('#exampleModal').modal('show');
+        loadEmployee(){
+             axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
         }
     }
 }

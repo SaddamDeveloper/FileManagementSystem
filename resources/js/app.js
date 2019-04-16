@@ -12,6 +12,10 @@ import { Form, HasError, AlertError } from 'vform'
 import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect', Multiselect)
+
+window.Multiselect = Multiselect;
 // import { Printd } from 'printd'
 
 window.Swal = Swal;
@@ -29,7 +33,6 @@ window.Fire = new Vue();
 
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
-
 window.toast = toast;
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',

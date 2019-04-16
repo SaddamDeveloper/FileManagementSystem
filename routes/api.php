@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::apiResources(['employee' => 'API\EmployeeController']);
 // Route::apiResources(['sendemployee' => 'API\sendToEmployeeController']);
 
+
 //List cases
 Route::get('cases', 'CaseController@index');
 
@@ -37,3 +38,18 @@ Route::put('case', 'CaseController@store');
 Route::delete('case/{id}', 'CaseController@destroy');
 
 
+//Route for Employee Crud
+//Showw all Empoyees
+Route::get('employees', 'EmployeeController@index');
+
+//List single case
+Route::get('employee/{id}', 'EmployeeController@show');
+
+//Create new employee
+Route::post('employee', 'EmployeeController@store');
+
+//Update new Employee
+Route::put('employee', 'EmployeeController@store');
+
+//Delete Employee
+Route::delete('employee/{id}', 'EmployeeController@destroy');
