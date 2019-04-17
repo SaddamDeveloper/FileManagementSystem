@@ -59,37 +59,45 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+            <form @submit.prevent="sendToEmployee">
             <div class="modal-body" >
                 <table class="table table-hovered">
                     <tr>
                         <th>CaseID</th>
                         <th>Client Name</th>
                         <th>Amount</th>
-                        <th>Delivery Date</th>
-                        <th>Assign Employee</th>
-                        <th>Helper</th>
+                        <th width="20%">Delivery Date</th>
+                        <th width="20%">Assign Employee</th>
+                        <th width="20%">Helper</th>
                         <th>Upload Docs</th>
                     </tr>
                     <tr>
-                        <td>{{ item.caseid }}</td>
-                        <td>{{ item.clientName }}</td>
+                        <td id="caseid">{{ item.caseid }}</td>
+                        <td >{{ item.clientName }}</td>
                         <td>{{ item.amount }}</td>
                         <td>{{ item.time2 }}</td>
                         <td>
-                            <select>
-                                <option v-for="employee in employees" v-bind:key="employee.id">{{ employee.name }}</option>
+                            <select class="form-control" name="assignedEmployee" v-model="toEmployee.assignedEmployee">
+                                <option  v-for="employee in employees" v-bind:key="employee.id">{{ employee.name }}</option>
                             </select>
                         </td>
                         <td>
-                            <multiselect v-model="value" :options="optionsS"></multiselect>
+                           <multiselect name="helper[]" v-model="toEmployee.helper" :options="optionsS" :multiple="true" deselectLabel="Remove" selectLabel="Select"></multiselect>
+                        </td>
+                        <td>
+                            <!-- <form action="/multiuploads" method="post" enctype="multipart/form-data"> -->
+                               <input type="file" name="docs" @change="processFile">
+                            <!-- </form> -->
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
             </div>
         </div>
         </div>
@@ -105,93 +113,12 @@
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-// <script>
-//     export default {
-//         data() {
-//             return{
-//                 selected: 'Select Employee',
-//                 cases: {},
-//                 employees: {},
-//                 mselect: [],
-//                 form: new Form({
-//                     caseid: '',
-//                     selected: '',
-//                     mselected: '',
-//                     remarks: ''
-//                 })
-//             }
-//         },
-//     methods: {
-//         sendToEmployee(){
-//         this.$Progress.start();
-//         this.form.caseid = jQuery('#case').text();
-//         // let dcaseid = jQuery('#case').text();
-//         // this.form = new Form({caseid: dcaseid});
-//         //console.log(jQuery('#case').text());
-//         this.form.post('api/sendemployee')
-//                 .then(()=>{
-//         toast.fire({
-//             type: 'success',
-//             title: 'Saved successfully'
-//         })
-//             this.$Progress.finish();
-//         })
-//         .catch(()=> {
-
-//         })
-//     },
-//         assignEmployee(caseId){
-//             jQuery('#exampleModal').modal('show');
-//             this.form.fill(caseId);
-//             axios.get("api/case/"+caseId).then(( { data }) => (this.cases = data.data) );
-//         },
-//         loadCases(){
-//             axios.get("api/case").then(( { data }) => (this.cases = data.data) );
-//         },
-//         loadEmployee(){
-//              axios.get("api/employee").then(( { data }) => (this.employees = data.data) );
-//         },
-//         deleteCase(id){
-//             Swal.fire({
-//                 title: 'Are you sure?',
-//                 text: "You won't be able to revert this!",
-//                 type: 'warning',
-//                 showCancelButton: true,
-//                 confirmButtonColor: '#3085d6',
-//                 cancelButtonColor: '#d33',
-//                 confirmButtonText: 'Yes, delete it!'
-//                 }).then((result) => {
-//                     if (result.value) {
-//                         this.form.delete('api/case/'+id).then(()=>{
-//                             Swal.fire(
-//                             'Deleted!',
-//                             'Your file has been deleted.',
-//                             'success'
-//                             )
-//                     }).catch(()=>{
-//                         Swal.fire(
-//                             'Failed!',
-//                             'There was something wrong',
-//                             'warning'
-//                         )
-//                     });
-//                 }
-//             })
-//         }
-//     }
-//         ,
-//         created() {
-//             this.loadCases();
-//             this.loadEmployee();
-//         }
-//     }
-// </script>
 <script>
 export default {
         data(){
         return {
             value: null,
-            optionsS: ['list', 'of', 'options'],
+            optionsS: ['Mohit', 'Rajesh', 'Raju'],
             time1: '',
             time2: '',
             time3: '',
@@ -230,6 +157,13 @@ export default {
                     {id: 4, name: 'Pvt Ltd'},
                     {id: 5, name: 'NGO'}
                 ],
+                toEmployees: [],
+                toEmployee: {
+                caseid: '',
+                assignedEmployee: '',
+                helper: [],
+                docs: '',
+            }
         }
     },
     created(){
@@ -290,6 +224,26 @@ export default {
         },
         loadEmployee(){
              axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
+        },
+        processFile(e) {
+            var fileReader = new FileReader();
+
+            fileReader.readAsDataURL(e.target.files[0]);
+
+            fileReader.onload = (e) => {
+                this.toEmployee.docs = e.target.result
+            }
+        },
+        sendToEmployee(){
+
+            this.toEmployee.caseid = jQuery('#caseid').text();
+            fetch(`api/sendemployee`, {
+                method: 'post',
+                body: JSON.stringify(this.toEmployee),
+                    headers: {
+                'content-type': 'application/json'
+                }
+            })
         }
     }
 }

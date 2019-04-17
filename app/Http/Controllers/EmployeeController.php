@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Employee;
 use App\Http\Resources\EmployeeResource as EmployeeResource;
+use App\sendToEmployee;
 class EmployeeController extends Controller
 {
     /**
@@ -73,5 +74,38 @@ class EmployeeController extends Controller
         if($employee->delete()){
             return new EmployeeResource($employee);
         }
+    }
+    public function send(Request $request){
+         //send to employee
+        //  $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
+        // ($request->employee_id) : new sendToEmployee;
+         $exploded = explode(',', $request->docs);
+         $decoded = base64_decode($exploded[1]);
+
+        //  if(str_contains($exploded[0], 'jpeg')){
+        //     $extension = 'jpg';
+        //  }
+        //  elseif (str_contains($exploded[0], 'text')) {
+        //      $extension = 'txt';
+        //  }
+        //  elseif (str_contains($exploded[0], 'pdf')) {
+        //      $extension = 'pdf';
+        //  }
+        //  elseif (str_contains($exploded[0], 'sheet')) {
+        //     $extension = 'xlx';
+        //  }
+        //  elseif (condition) {
+        //      # code...
+        //  }
+
+        // $toEmployee->caseid = $request->input('caseid');
+        // $toEmployee->assignedEmployee = $request->input('assignedEmployee');
+        // $toEmployee->docs = $request->input('docs');
+        // $toEmployee->helper = implode(",", $request->input('helper'));
+
+        // if($toEmployee->save()){
+        //     return new EmployeeResource($toEmployee);
+        // }
+
     }
 }

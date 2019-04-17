@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class sendToEmployee extends Model
 {
-    protected $fillable = ['caseid', 'assignedEmployee', 'mselected', 'remarks'];
+    protected $fillable = ['caseid', 'assignedEmployee', 'helper', 'docs'];
     public $timestamps = false;
+
+    public function sendEmployee(){
+        return $this->belongsTo('App\RegCase');
+    }
+
 }

@@ -10671,7 +10671,8 @@ a.text-dark:focus {
   display: none;
 }
 
-.modal .modal-dialog {
-  width: 80%;
+.modal-lg,
+.modal-xl {
+  max-width: 1200px;
 }
 

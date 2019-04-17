@@ -53,3 +53,6 @@ Route::put('employee', 'EmployeeController@store');
 
 //Delete Employee
 Route::delete('employee/{id}', 'EmployeeController@destroy');
+
+//Send To Employee
+Route::post('sendemployee', 'EmployeeController@send');

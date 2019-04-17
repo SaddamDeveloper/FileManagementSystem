@@ -13,6 +13,9 @@ import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
 import Multiselect from 'vue-multiselect'
+
+
+
 Vue.component('multiselect', Multiselect)
 
 window.Multiselect = Multiselect;
