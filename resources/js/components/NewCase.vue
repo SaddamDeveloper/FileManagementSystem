@@ -73,8 +73,8 @@
                         <th>Upload Docs</th>
                     </tr>
                     <tr>
-                        <td id="caseid">{{ item.caseid }}</td>
-                        <td >{{ item.clientName }}</td>
+                        <td id="caseid"><input type="text" :input="sendCase(item.caseid)">{{ item.caseid }}</td>
+                        <td>{{ item.clientName }}</td>
                         <td>{{ item.amount }}</td>
                         <td>{{ item.time2 }}</td>
                         <td>
@@ -163,12 +163,15 @@ export default {
                 assignedEmployee: '',
                 helper: [],
                 docs: '',
+                fileName:''
             }
         }
     },
     created(){
         this.fetchCases();
         this.loadEmployee();
+        // console.log(this.$refs)
+        // console.log(field);
     },
     methods: {
         fetchCases(page_url){
@@ -222,10 +225,14 @@ export default {
 
             })
         },
+        sendCase(id){
+            console.log(id);
+        },
         loadEmployee(){
              axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
         },
         processFile(e) {
+
             var fileReader = new FileReader();
 
             fileReader.readAsDataURL(e.target.files[0]);
@@ -233,10 +240,11 @@ export default {
             fileReader.onload = (e) => {
                 this.toEmployee.docs = e.target.result
             }
+            this.toEmployee.fileName = e.target.files[0].name
         },
         sendToEmployee(){
 
-            this.toEmployee.caseid = jQuery('#caseid').text();
+            console.log(jQuery('#caseid').text());
             fetch(`api/sendemployee`, {
                 method: 'post',
                 body: JSON.stringify(this.toEmployee),

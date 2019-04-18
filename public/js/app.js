@@ -4218,13 +4218,15 @@ __webpack_require__.r(__webpack_exports__);
         caseid: '',
         assignedEmployee: '',
         helper: [],
-        docs: ''
+        docs: '',
+        fileName: ''
       }
     };
   },
   created: function created() {
     this.fetchCases();
-    this.loadEmployee();
+    this.loadEmployee(); // console.log(this.$refs)
+    // console.log(field);
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -4273,6 +4275,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    sendCase: function sendCase(id) {
+      console.log(id);
+    },
     loadEmployee: function loadEmployee() {
       var _this3 = this;
 
@@ -4290,9 +4295,11 @@ __webpack_require__.r(__webpack_exports__);
       fileReader.onload = function (e) {
         _this4.toEmployee.docs = e.target.result;
       };
+
+      this.toEmployee.fileName = e.target.files[0].name;
     },
     sendToEmployee: function sendToEmployee() {
-      this.toEmployee.caseid = jQuery('#caseid').text();
+      console.log(jQuery('#caseid').text());
       fetch("api/sendemployee", {
         method: 'post',
         body: JSON.stringify(this.toEmployee),
@@ -52264,7 +52271,17 @@ var render = function() {
                                           _c(
                                             "td",
                                             { attrs: { id: "caseid" } },
-                                            [_vm._v(_vm._s(item.caseid))]
+                                            [
+                                              _c("input", {
+                                                attrs: {
+                                                  type: "text",
+                                                  input: _vm.sendCase(
+                                                    item.caseid
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(_vm._s(item.caseid))
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c("td", [
