@@ -62,6 +62,8 @@ let routes = [
     { path: '/managerregister', component: require('./components/ManagerRegister.vue').default },
     { path: '/registeredcase', component: require('./components/RegisteredCase.vue').default },
     { path: '/newcase', component: require('./components/NewCase.vue').default },
+    { path: '/assignedcase', component: require('./components/AssignedCase.vue').default },
+    { path: '/employeedashboard', component: require('./components/Employeedashboard.vue').default },
   ]
 
 const router = new VueRouter({

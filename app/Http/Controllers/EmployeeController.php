@@ -79,72 +79,26 @@ class EmployeeController extends Controller
     }
     public function send(Request $request){
          //send to employee
-        //  $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
-        // ($request->employee_id) : new sendToEmployee;
+         $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
+        ($request->employee_id) : new sendToEmployee;
+
          $exploded = explode(',', $request->docs);
          $decoded = base64_decode($exploded[1]);
 
         $fileName = $request->fileName;
 
-        //  if(str_contains($exploded[0], 'jpeg')){
-        //      $fileName;
-        //  }
-        // elseif (str_contains($exploded[0], 'png')) {
-        //       $fileName;
-        //  }
-        //  elseif (str_contains($exploded[0], 'text')) {
-        //       $fileName;
-        //  }
-        //  elseif (str_contains($exploded[0], 'pdf')) {
-        //       $fileName;
-        //  }
-        //  elseif (str_contains($exploded[0], 'sheet')) {
-        //      $fileName;
-        //  }
-        //  elseif(str_contains($exploded[0], 'document')){
-        //       $fileName;
-        //  }
-        //  elseif(str_contains($exploded[0], 'compressed')){
-        //      $fileName;
-        //  }
-        //  else{
-        //       $fileName;
-        //  }
-
-        //  $fileName = str_random().'.'.$extension;
          $caseId = $request->input('caseid');
-         if(!Storage::exists($caseId)){
-             Storage::makeDirectory($caseId);
-         }
-        //  $folder = storage_path('docs/'. $caseId . '/');
-        //  if (!File::exists($folder)) {
-        //     File::makeDirectory($folder, 0775, true, true);
-        //  }
-        // if (!Storage::exists($folder)) {
-        //     Storage::makeDirectory($folder);
-        // }
-        // if (!empty($decoded)) {
-        //         Storage::disk(['drivers' => 'local', 'root' => $folder])->put($fileName, $decoded);
-        // }
 
-        // $path = File::makeDirectory(public_path('storage/'.$caseId));
+        Storage::put($caseId.'/'.$fileName, $decoded);
 
-        // Storage::put($path.$fileName, $decoded);
-        //  if (!File::exists($caseId)) {
-        //     $dir = File::makeDirectory($caseId, 0775, true, true);
-        //     // $location = storage_path('/public'.'/'. $caseId . '/' . $fileName);
+        $toEmployee->caseid = $request->input('caseid');
+        $toEmployee->assignedEmployee = $request->input('assignedEmployee');
+        $toEmployee->docs = $fileName;
+        $toEmployee->helper = implode(",", $request->input('helper'));
 
-        //     $path = Storage::putFile("/public/.$dir.'/'.$fileName", $decoded);
-        // }
-
-        // $toEmployee->caseid = $request->input('caseid');
-        // $toEmployee->assignedEmployee = $request->input('assignedEmployee');
-        // $toEmployee->docs = $request->input('docs');
-        // $toEmployee->helper = implode(",", $request->input('helper'));
-
-        // if($toEmployee->save()){
-        //     return new EmployeeResource($toEmployee);
-        // }
+        if($toEmployee->save()){
+            return new EmployeeResource($toEmployee);
+        }
 
     }
 }

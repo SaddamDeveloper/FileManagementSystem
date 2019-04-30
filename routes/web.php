@@ -19,9 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/employee', 'EmployeeloginController@index')->name('employee');
 Route::prefix('admin')->group(function(){
     Route::get('login', 'Auth\AdminLoginController@showLoginForm');
     Route::post('login', 'Auth\AdminLoginController@login')->name('admin-login');
+});
+Route::prefix('employee')->group(function(){
+    Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
+    Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
 });
 // Route::get('/admin', 'AdminController@index');
 

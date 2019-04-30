@@ -1,13 +1,12 @@
 <?php
-//Admin: marjorie.bahringer@example.net
-//User: howe.karine@example.com
+
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Authenticatable
+class Employeelogin extends Authenticatable
 {
     use Notifiable;
 
@@ -16,11 +15,10 @@ class Admin extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $table = 'employees';
 
-    // protected $guard = 'admin-web';
+    // protected $guard = 'employee-web';
+
     /**
      * The attributes that should be hidden for arrays.
      *

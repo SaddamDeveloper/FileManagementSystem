@@ -56,3 +56,22 @@ Route::delete('employee/{id}', 'EmployeeController@destroy');
 
 //Send To Employee
 Route::post('sendemployee', 'EmployeeController@send');
+
+
+
+
+//Show all AssignedEmpoyees
+Route::get('assignedemployees', 'AssignedEmployee@index');
+
+//List single case
+Route::get('assignedemployee/{id}', 'AssignedEmployee@show');
+
+//Create new employee
+Route::post('assignedemployee', 'AssignedEmployee@store');
+
+//Update new Employee
+Route::put('assignedemployee', 'AssignedEmployee@store');
+
+//Delete Employee
+Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
+
