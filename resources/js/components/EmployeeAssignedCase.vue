@@ -55,7 +55,7 @@
                     </tr>
                     <tr>
                         <td>
-                           <input type="file" name="docs">
+                           <input type="file" name="docs" @change="processFile">
                         </td>
                     </tr>
                 </table>
@@ -89,6 +89,9 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
+            toEmployee: {
+                docs: ''
+            }
         }
     },
     created(){
@@ -157,7 +160,6 @@ export default {
             var fileReader = new FileReader();
 
             fileReader.readAsDataURL(e.target.files[0]);
-
             fileReader.onload = (e) => {
                 this.toEmployee.docs = e.target.result
             }

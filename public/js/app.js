@@ -3674,7 +3674,10 @@ __webpack_require__.r(__webpack_exports__);
       time3: '',
       // custom lang
       lang: 'en',
-      assignedemployees: []
+      assignedemployees: [],
+      toEmployee: {
+        docs: ''
+      }
     };
   },
   created: function created() {
@@ -51183,7 +51186,44 @@ var render = function() {
                           "aria-hidden": "true"
                         }
                       },
-                      [_vm._m(3, true)]
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-lg",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _c("div", { staticClass: "modal-header" }, [
+                                _c(
+                                  "h5",
+                                  {
+                                    staticClass: "modal-title",
+                                    attrs: { id: "exampleModalLabel" }
+                                  },
+                                  [_vm._v("Assign Employee")]
+                                ),
+                                _vm._v(" "),
+                                _c("table", [
+                                  _vm._m(3, true),
+                                  _vm._v(" "),
+                                  _c("tr", [
+                                    _c("td", [
+                                      _c("input", {
+                                        attrs: { type: "file", name: "docs" },
+                                        on: { change: _vm.processFile }
+                                      })
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _vm._m(4, true)
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
                     )
                   ])
                 }),
@@ -51255,46 +51295,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Upload Docs")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
-      "div",
-      { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
-      [
-        _c("div", { staticClass: "modal-content" }, [
-          _c("div", { staticClass: "modal-header" }, [
-            _c(
-              "h5",
-              {
-                staticClass: "modal-title",
-                attrs: { id: "exampleModalLabel" }
-              },
-              [_vm._v("Assign Employee")]
-            ),
-            _vm._v(" "),
-            _c("table", [
-              _c("tr", [_c("th", [_vm._v("Upload Docs")])]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("input", { attrs: { type: "file", name: "docs" } })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "close",
-                attrs: {
-                  type: "button",
-                  "data-dismiss": "modal",
-                  "aria-label": "Close"
-                }
-              },
-              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-            )
-          ])
-        ])
-      ]
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
   }
 ]
