@@ -17,20 +17,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'AdminController@index')->name('admin');
-Route::get('/employee', 'EmployeeloginController@index')->name('employee');
+Route::get('dashboard', 'HomeController@index')->name('dashboard');
+Route::get('admindashboard', 'AdminController@index')->name('admindashboard');
+// Route::get('/employee', 'EmployeeloginController@index')->name('employee');
 Route::prefix('admin')->group(function(){
-    Route::get('login', 'Auth\AdminLoginController@showLoginForm');
-    Route::post('login', 'Auth\AdminLoginController@login')->name('admin-login');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin-login');
+    // Route::get('/', 'AdminController@index')->name('admindashboard');
 });
 Route::prefix('employee')->group(function(){
     Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
     Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
+    Route::get('/', 'EmployeeloginController@index')->name('employeedashboard');
 });
 // Route::get('/admin', 'AdminController@index');
 
-    Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
+    Route::get('{path}', 'EmployeeloginController@index')->where('path', '([A-z\d-\/_.]+)?');
     // Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
 
 // Route::get('{path}', 'HomeController@showAdminPanel')->where('path', '([A-z\d-\/_.]+)?');

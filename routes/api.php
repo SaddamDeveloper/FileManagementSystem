@@ -75,3 +75,6 @@ Route::put('assignedemployee', 'AssignedEmployee@store');
 //Delete Employee
 Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 
+
+//Employee
+Route::get('employeeassignedemployees', 'EmployeeAssigned@index');

@@ -35,7 +35,7 @@
                         </div>
                         <div class="row form-group">
                             <div class="col col-md-12">
-                                <select name="clientType" class="form-control" v-model="casee.clientType" v-on:triggerChange="changeType">
+                                <select name="clientType" class="form-control" v-model="casee.clientType" v-on:triggerChange="changeType" >
                                     <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                 </select>
                             </div>
@@ -206,7 +206,7 @@
                                     </div>
                                 </div>
                             </div>
-            </div>
+                        </div>
                         <div class="col-lg-8">
                         <div class="card" v-if="casee.clientType === 5">
                             <div class="card-header">
@@ -512,7 +512,7 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -754,10 +754,17 @@ export default {
         this.casee.email = item.email;
         this.casee.address = item.address;
         this.casee.time2 = item.time2;
-        this.casee.selected = item.selected
+        this.casee.selected = item.selected;
+
+        if(this.casee.clientType){
+            
+        }
     },
     changeType(){
         console.log(this.casee.id);
+    },
+    populateForm(){
+        console.log('Hello');
     }
     }
 }

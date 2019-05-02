@@ -64,6 +64,7 @@ let routes = [
     { path: '/newcase', component: require('./components/NewCase.vue').default },
     { path: '/assignedcase', component: require('./components/AssignedCase.vue').default },
     { path: '/employeedashboard', component: require('./components/Employeedashboard.vue').default },
+    { path: '/employeeassignedcase', component: require('./components/EmployeeAssignedCase.vue').default },
   ]
 
 const router = new VueRouter({

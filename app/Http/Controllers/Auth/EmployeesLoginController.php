@@ -26,7 +26,7 @@ class EmployeesLoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/employee';
+    protected $redirectTo = '/employeedashboard';
 
     /**
      * Create a new controller instance.

@@ -89,7 +89,7 @@ class EmployeeController extends Controller
 
          $caseId = $request->input('caseid');
 
-        Storage::put($caseId.'/'.$fileName, $decoded);
+        Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
 
         $toEmployee->caseid = $request->input('caseid');
         $toEmployee->assignedEmployee = $request->input('assignedEmployee');
