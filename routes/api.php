@@ -57,7 +57,11 @@ Route::delete('employee/{id}', 'EmployeeController@destroy');
 //Send To Employee
 Route::post('sendemployee', 'EmployeeController@send');
 
+//send to db by employee
+Route::post('sendtodb', 'EmployeeController@toDb');
 
+//send to admin
+Route::post('sendtoadmin', 'EmployeeController@toAdmin');
 
 
 //Show all AssignedEmpoyees
@@ -78,3 +82,7 @@ Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 
 //Employee
 Route::get('employeeassignedemployees', 'EmployeeAssigned@index');
+
+
+//For Approval project API
+Route::get('aprovedcases', 'EmployeeController@fetchApproveCase');

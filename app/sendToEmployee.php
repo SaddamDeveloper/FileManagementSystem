@@ -12,5 +12,8 @@ class sendToEmployee extends Model
     public function sendEmployee(){
         return $this->belongsTo('App\RegCase');
     }
+    public function sendAdminData(){
+        return $this->hasMany('App\sendToAdmin');
+    }
 
 }

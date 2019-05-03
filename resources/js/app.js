@@ -65,6 +65,7 @@ let routes = [
     { path: '/assignedcase', component: require('./components/AssignedCase.vue').default },
     { path: '/employeedashboard', component: require('./components/Employeedashboard.vue').default },
     { path: '/employeeassignedcase', component: require('./components/EmployeeAssignedCase.vue').default },
+    { path: '/forapprovalcase', component: require('./components/ForApprovalCase.vue').default },
   ]
 
 const router = new VueRouter({

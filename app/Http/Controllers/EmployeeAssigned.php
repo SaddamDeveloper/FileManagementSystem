@@ -16,6 +16,7 @@ class EmployeeAssigned extends Controller
      */
     public function index(Request $request)
     {
+
         $employee = EmployeeAssign::paginate(15);
         // $employee = DB::table('send_to_employees')->where('assignedEmployee', '=', Auth::user())->paginate(15);
         // return $employee;

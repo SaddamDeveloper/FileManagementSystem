@@ -33,6 +33,7 @@
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
                             <th scope="col">Related Documents</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -42,29 +43,38 @@
                         <td>{{ item.assignedEmployee }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td> NA </td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
-                <table>
-                    <tr>
-                        <th>Upload Docs</th>
-                    </tr>
-                    <tr>
-                        <td>
-                           <input type="file" name="docs" @change="processFile">
-                        </td>
-                    </tr>
-                </table>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToDb(item.caseid)">
+                <div class="modal-body">
+                    <table class="table table-bordered table-responsive">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Remarks</th>
+                        </tr>
+                        <tr>
+                            <td><input type="file" name="docs" @change="processFile"></td>
+                            <td><input type="text" value=""></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
             </div>
-            </div>
-        </div>
         </div>
         </tr>
                 </tbody>
@@ -89,8 +99,15 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
-            toEmployee: {
-                docs: ''
+            toDb: {
+                docs: '',
+                remarks: ''
+            },
+            toAdmin: {
+                caseid: '',
+                docs: '',
+                assignedEmployee: '',
+                helper: ''
             }
         }
     },
@@ -161,20 +178,33 @@ export default {
 
             fileReader.readAsDataURL(e.target.files[0]);
             fileReader.onload = (e) => {
-                this.toEmployee.docs = e.target.result
+                this.toDb.docs = e.target.result
             }
-            this.toEmployee.fileName = e.target.files[0].name
+            this.toDb.fileName = e.target.files[0].name
         },
-        sendToEmployee(id){
-            this.toEmployee.caseid = id;
-            fetch(`api/sendemployee`, {
+        pushToDb(id){
+            this.toDb.caseid = id;
+            fetch(`api/sendtodb`, {
                 method: 'post',
-                body: JSON.stringify(this.toEmployee),
+                body: JSON.stringify(this.toDb),
                     headers: {
                 'content-type': 'application/json'
                 }
             })
         },
+        sendToAdmin(id){
+            this.toAdmin.caseid = id.caseid;
+            this.toAdmin.assignedEmployee = id.assignedEmployee;
+            this.toAdmin.helper = id.helper;
+            this.toAdmin.docs = id.docs;
+            fetch(`api/sendtoadmin`, {
+                method: 'post',
+                body: JSON.stringify(this.toAdmin),
+                headers: {
+                    'content-type' : 'application/json'
+                }
+            })
+        }
     }
 }
 </script>

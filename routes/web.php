@@ -25,14 +25,18 @@ Route::prefix('admin')->group(function(){
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin-login');
     // Route::get('/', 'AdminController@index')->name('admindashboard');
 });
-Route::prefix('employee')->group(function(){
-    Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
-    Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
-    Route::get('/', 'EmployeeloginController@index')->name('employeedashboard');
-});
+
+
+
+        Route::get('/', 'EmployeeloginController@index')->name('employeedashboard');
+        Route::prefix('employee')->group(function(){
+            Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
+            Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
+
+        });
 // Route::get('/admin', 'AdminController@index');
 
-    Route::get('{path}', 'EmployeeloginController@index')->where('path', '([A-z\d-\/_.]+)?');
+    Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
     // Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
 
 // Route::get('{path}', 'HomeController@showAdminPanel')->where('path', '([A-z\d-\/_.]+)?');

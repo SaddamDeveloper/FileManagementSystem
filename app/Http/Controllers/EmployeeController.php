@@ -7,6 +7,8 @@ use App\Http\Requests;
 use App\Employee;
 use App\Http\Resources\EmployeeResource as EmployeeResource;
 use App\sendToEmployee;
+use App\sendToDb;
+use App\sendToAdmin;
 use Storage;
 use File;
 class EmployeeController extends Controller
@@ -100,5 +102,49 @@ class EmployeeController extends Controller
             return new EmployeeResource($toEmployee);
         }
 
+    }
+
+        public function toDb(Request $request){
+        //  //send to Db
+         $toDb = $request->isMethod('put') ? sendToEmployee::findOrFail
+        ($request->employee_id) : new sendToEmployee;
+
+         $exploded = explode(',', $request->docs);
+         $decoded = base64_decode($exploded[1]);
+
+        $fileName = $request->fileName;
+
+         $caseId = $request->input('caseid');
+         return $caseId;
+        // Storage::putFile('public/'.$caseId.'/'.$fileName, $decoded);
+
+        // $toEmployee->caseid = $request->input('caseid');
+        // $toEmployee->assignedEmployee = $request->input('assignedEmployee');
+        // $toDb->docs = $fileName;
+        // $toEmployee->helper = implode(",", $request->input('helper'));
+
+        // if($toDb->save()){
+        //     return new EmployeeResource($toDb);
+        // }
+
+    }
+    public function toAdmin(Request $request){
+        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail
+        ($request->employee_id) : new sendToAdmin;
+
+        $toAdmin->caseid = $request->input('caseid');
+        // $toAdmin->assignedEmployee = $request->input('assignedEmployee');
+        // $toAdmin->helper = $request->input('helper');
+        $toAdmin->docs = $request->input('docs');
+
+        if($toAdmin->save()){
+            return new EmployeeResource($toAdmin);
+        }
+    }
+    public function fetchApproveCase(){
+        // $approvedCase = sendToAdmin::paginate(15);
+        $approvedCase = \App\sendToAdmin::with('sendAdmin')
+       ->paginate(15);
+        return  EmployeeResource::collection($approvedCase);
     }
 }
