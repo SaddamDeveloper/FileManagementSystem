@@ -35,17 +35,48 @@
                                 <th scope="col">Assigned Docs by Admin</th>
                                 <th scope="col">Final Docs By Employee</th>
                                 <th scope="col">Remarks</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tr v-for="item in approvalcases" v-bind:key="item.id">
                             <td>{{ item.caseid }}</td>
+                            <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td></td>
                             <td></td>
+                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td></td>
-                            <td>{{ item.docs }}</td>
-                            <td></td>
-                            <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></button><button type="button"  class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                            <td><div class="alert alert-primary alert-sm">NA</div></td>
+                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item.caseid)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reason for Rejection</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToApproved(item.caseid)">
+                <div class="modal-body">
+                    <table class="table table-resonsive table-bordered">
+                        <tr>
+                            <thead>Remarks</thead>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
                         </tr>
                     <tbody>
 
@@ -71,6 +102,10 @@ export default {
             // custom lang
             lang: 'en',
             approvalcases: [],
+            toApproval: {
+                caseid: '',
+                employee_id: ''
+            }
         }
     },
     created(){
@@ -153,6 +188,41 @@ export default {
                     headers: {
                 'content-type': 'application/json'
                 }
+            })
+        },
+        confirmApprove(id){
+            Swal.fire({
+            title: 'Do you want to Approve?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Approve it!'
+            }).then((result) => {
+                if (result.value) {
+                    this.toApproval.caseid = id;
+                    fetch(`api/sendapproval`, {
+                    method: 'post',
+                    body: JSON.stringify(this.toApproval),
+                        headers: {
+                    'content-type': 'application/json'
+                    }
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.toApproval.caseid = '';
+                this.toApproval.employee_id = '';
+                jQuery('#exampleModal'+this.toApproval.caseid).modal('hide');
+            })
+            .then(Swal.fire(
+                'Approved!',
+                'Case Has been Successfully Approved!',
+                'success'
+            ))
+            .catch(err => console.log(err))
+                }
+
             })
         }
     }

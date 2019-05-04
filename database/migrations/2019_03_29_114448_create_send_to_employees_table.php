@@ -16,12 +16,9 @@ class CreateSendToEmployeesTable extends Migration
         Schema::create('send_to_employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('caseid');
-            $table->string('clientName');
-            $table->string('contactNo');
-            $table->string('deliveryDate');
-            $table->string('assignedEmployee');
-            $table->string('remarks');
-            $table->timestamps();
+            $table->string('helper');
+            $table->string('docs');
+            $table->string('employee_id');
         });
     }
 

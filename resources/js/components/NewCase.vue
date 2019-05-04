@@ -80,8 +80,8 @@
                         <td>{{ item.amount }}</td>
                         <td>{{ item.time2 }}</td>
                         <td>
-                            <select class="form-control" name="assignedEmployee" v-model="toEmployee.assignedEmployee">
-                                <option  v-for="employee in employees" v-bind:key="employee.id">{{ employee.name }}</option>
+                            <select class="form-control" name="employee_id" v-model="toEmployee.employee_id">
+                                <option  v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
                             </select>
                         </td>
                         <td>
@@ -162,7 +162,7 @@ export default {
                 toEmployees: [],
                 toEmployee: {
                 caseid: '',
-                assignedEmployee: '',
+                employee_id: '',
                 helper: [],
                 docs: '',
                 fileName:''

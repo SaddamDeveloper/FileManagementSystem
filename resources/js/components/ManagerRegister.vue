@@ -52,15 +52,13 @@
                                 <input class="form-control" type="number" placeholder="Amount">
                         </div>
                         </div>
-
                       <div class="form-group">
-
-                                        <select name="select" id="select" class="form-control">
-                                            <option value="0">Please select Payement Mode</option>
-                                            <option value="1">Cash</option>
-                                            <option value="1">Cheque</option>
-                                            <option value="1">RTGS/NEFT</option>
-                                        </select>
+                            <select name="select" id="select" class="form-control">
+                                <option value="0">Please select Payement Mode</option>
+                                <option value="1">Cash</option>
+                                <option value="1">Cheque</option>
+                                <option value="1">RTGS/NEFT</option>
+                            </select>
                         </div>
                     </div>
                 </div>

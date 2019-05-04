@@ -17,11 +17,15 @@ class EmployeeAssigned extends Controller
     public function index(Request $request)
     {
 
-        $employee = EmployeeAssign::paginate(15);
+        $employee = DB::table('send_to_employees')
+            ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->paginate(15);
+            return $employee;
+        //  return CaseResource::collection($employee);
         // $employee = DB::table('send_to_employees')->where('assignedEmployee', '=', Auth::user())->paginate(15);
         // return $employee;
         // return $employee;
-        return  EmployeeAssignedResource::collection($employee);
+        // return  EmployeeAssignedResource::collection($employee);
     }
 
     /**

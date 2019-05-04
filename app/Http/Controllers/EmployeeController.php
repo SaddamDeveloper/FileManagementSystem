@@ -9,8 +9,10 @@ use App\Http\Resources\EmployeeResource as EmployeeResource;
 use App\sendToEmployee;
 use App\sendToDb;
 use App\sendToAdmin;
+use App\sendToApproval;
 use Storage;
 use File;
+use DB;
 class EmployeeController extends Controller
 {
     /**
@@ -37,8 +39,23 @@ class EmployeeController extends Controller
         $employee = $request->isMethod('put') ? Employee::findOrFail
         ($request->employee_id) : new Employee;
 
+        $sql = DB::table('employees')->select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get();
+            foreach($sql as $row_data){
+                $postfix =  $row_data->max_val;
+            }
 
-        $employee->id = $request->input('employee_id');
+            $employee_id = 'EMP';
+            $count = DB::table('employees')->select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get()->count();
+            if($count == 0){
+                $employee_id = $employee_id.'00001';
+            }
+            else{
+                $postfix = $postfix + 1;
+                $addVal=str_pad($postfix, 5, '0', STR_PAD_LEFT);
+                $employee_id=$employee_id.$addVal;
+            }
+
+        $employee->employee_id = $employee_id;
         $employee->name = $request->input('name');
         $employee->no = $request->input('no');
         $employee->email = $request->input('email');
@@ -133,8 +150,7 @@ class EmployeeController extends Controller
         ($request->employee_id) : new sendToAdmin;
 
         $toAdmin->caseid = $request->input('caseid');
-        // $toAdmin->assignedEmployee = $request->input('assignedEmployee');
-        // $toAdmin->helper = $request->input('helper');
+        $toAdmin->employee_id = $request->input('assignedEmployee');
         $toAdmin->docs = $request->input('docs');
 
         if($toAdmin->save()){
@@ -146,5 +162,12 @@ class EmployeeController extends Controller
         $approvedCase = \App\sendToAdmin::with('sendAdmin')
        ->paginate(15);
         return  EmployeeResource::collection($approvedCase);
+    }
+    public function AprovedCase(Request $request){
+        $toApproval = $request->isMethod('put') ? sendToApproval::findOrFail
+        ($request->employee_id) : new sendToApproval;
+
+        //  $toApproval->caseid = $request->input('caseid');
+         return $request->input('caseid');
     }
 }

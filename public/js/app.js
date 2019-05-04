@@ -3780,7 +3780,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     sendToAdmin: function sendToAdmin(id) {
       this.toAdmin.caseid = id.caseid;
-      this.toAdmin.assignedEmployee = id.assignedEmployee;
+      this.toAdmin.assignedEmployee = id.employee_id;
       this.toAdmin.helper = id.helper;
       this.toAdmin.docs = id.docs;
       fetch("api/sendtoadmin", {
@@ -4211,6 +4211,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4220,7 +4251,11 @@ __webpack_require__.r(__webpack_exports__);
       time3: '',
       // custom lang
       lang: 'en',
-      approvalcases: []
+      approvalcases: [],
+      toApproval: {
+        caseid: '',
+        employee_id: ''
+      }
     };
   },
   created: function created() {
@@ -4304,6 +4339,38 @@ __webpack_require__.r(__webpack_exports__);
           'content-type': 'application/json'
         }
       });
+    },
+    confirmApprove: function confirmApprove(id) {
+      var _this5 = this;
+
+      Swal.fire({
+        title: 'Do you want to Approve?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Approve it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this5.toApproval.caseid = id;
+          fetch("api/sendapproval", {
+            method: 'post',
+            body: JSON.stringify(_this5.toApproval),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            _this5.toApproval.caseid = '';
+            _this5.toApproval.employee_id = '';
+            jQuery('#exampleModal' + _this5.toApproval.caseid).modal('hide');
+          }).then(Swal.fire('Approved!', 'Case Has been Successfully Approved!', 'success')).catch(function (err) {
+            return console.log(err);
+          });
+        }
+      });
     }
   }
 });
@@ -4368,7 +4435,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -4864,8 +4930,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5097,7 +5161,7 @@ __webpack_require__.r(__webpack_exports__);
       toEmployees: [],
       toEmployee: {
         caseid: '',
-        assignedEmployee: '',
+        employee_id: '',
         helper: [],
         docs: '',
         fileName: ''
@@ -49098,7 +49162,18 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.helper))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.docs))]),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "./storage/" + item.caseid + "/" + item.docs,
+                            download: ""
+                          }
+                        },
+                        [_vm._v(_vm._s(item.docs))]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c(
@@ -51326,7 +51401,7 @@ var render = function() {
                   return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.assignedEmployee))]),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.helper))]),
                     _vm._v(" "),
@@ -53077,17 +53152,103 @@ var render = function() {
                   return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
-                    _c("td"),
+                    _c("td", [
+                      _c("input", {
+                        attrs: { type: "hidden" },
+                        domProps: { value: item.employee_id }
+                      }),
+                      _vm._v(_vm._s(item.name))
+                    ]),
                     _vm._v(" "),
                     _c("td"),
                     _vm._v(" "),
                     _c("td"),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.docs))]),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "./storage/" + item.caseid + "/" + item.docs,
+                            download: ""
+                          }
+                        },
+                        [_vm._v(_vm._s(item.docs))]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td"),
                     _vm._v(" "),
-                    _vm._m(3, true)
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.confirmApprove(item.caseid)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-check" })]
+                      ),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          attrs: {
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#exampleModal" + item.caseid
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-ban" })]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModal" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-md",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(4, true),
+                              _vm._v(" "),
+                              _c(
+                                "form",
+                                {
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.pushToApproved(item.caseid)
+                                    }
+                                  }
+                                },
+                                [_vm._m(5, true), _vm._v(" "), _vm._m(6, true)]
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
                   ])
                 }),
                 _vm._v(" "),
@@ -53160,6 +53321,8 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
+        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
@@ -53169,20 +53332,71 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("td", [
+      _c("div", { staticClass: "alert alert-primary alert-sm" }, [_vm._v("NA")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
       _c(
-        "button",
-        { staticClass: "btn btn-success btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-plus" })]
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Reason for Rejection")]
       ),
+      _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-primary btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-edit" })]
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("table", { staticClass: "table table-resonsive table-bordered" }, [
+        _c("tr", [_c("thead", [_vm._v("Remarks")])]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text" }
+            })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
       ),
+      _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-danger btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-trash" })]
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Save")]
       )
     ])
   }
@@ -55271,15 +55485,13 @@ var render = function() {
                                                     rawName: "v-model",
                                                     value:
                                                       _vm.toEmployee
-                                                        .assignedEmployee,
+                                                        .employee_id,
                                                     expression:
-                                                      "toEmployee.assignedEmployee"
+                                                      "toEmployee.employee_id"
                                                   }
                                                 ],
                                                 staticClass: "form-control",
-                                                attrs: {
-                                                  name: "assignedEmployee"
-                                                },
+                                                attrs: { name: "employee_id" },
                                                 on: {
                                                   change: function($event) {
                                                     var $$selectedVal = Array.prototype.filter
@@ -55298,7 +55510,7 @@ var render = function() {
                                                       })
                                                     _vm.$set(
                                                       _vm.toEmployee,
-                                                      "assignedEmployee",
+                                                      "employee_id",
                                                       $event.target.multiple
                                                         ? $$selectedVal
                                                         : $$selectedVal[0]
@@ -55311,7 +55523,13 @@ var render = function() {
                                               ) {
                                                 return _c(
                                                   "option",
-                                                  { key: employee.id },
+                                                  {
+                                                    key: employee.id,
+                                                    domProps: {
+                                                      value:
+                                                        employee.employee_id
+                                                    }
+                                                  },
                                                   [
                                                     _vm._v(
                                                       _vm._s(employee.name)

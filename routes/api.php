@@ -86,3 +86,5 @@ Route::get('employeeassignedemployees', 'EmployeeAssigned@index');
 
 //For Approval project API
 Route::get('aprovedcases', 'EmployeeController@fetchApproveCase');
+
+Route::post('sendapproval', 'EmployeeController@AprovedCase');

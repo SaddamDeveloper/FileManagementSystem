@@ -40,7 +40,7 @@
                     <tbody>
                     <tr v-for="item in assignedemployees" v-bind:key="item.id">
                         <td>{{ item.caseid }}</td>
-                        <td>{{ item.assignedEmployee }}</td>
+                        <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                         <td> NA </td>
@@ -194,7 +194,7 @@ export default {
         },
         sendToAdmin(id){
             this.toAdmin.caseid = id.caseid;
-            this.toAdmin.assignedEmployee = id.assignedEmployee;
+            this.toAdmin.assignedEmployee = id.employee_id;
             this.toAdmin.helper = id.helper;
             this.toAdmin.docs = id.docs;
             fetch(`api/sendtoadmin`, {
