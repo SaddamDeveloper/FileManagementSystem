@@ -13,3 +13,25 @@ run the project by following steps
 9. import the 'fms.sql' file
 10. run command 'php artisan serve'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## License
+
+The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
