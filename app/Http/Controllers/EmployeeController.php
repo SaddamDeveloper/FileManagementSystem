@@ -10,6 +10,7 @@ use App\sendToEmployee;
 use App\sendToDb;
 use App\sendToAdmin;
 use App\sendToApproval;
+use App\rejectCase;
 use Storage;
 use File;
 use DB;
@@ -111,7 +112,7 @@ class EmployeeController extends Controller
         Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
 
         $toEmployee->caseid = $request->input('caseid');
-        $toEmployee->assignedEmployee = $request->input('assignedEmployee');
+        $toEmployee->employee_id = $request->input('employee_id');
         $toEmployee->docs = $fileName;
         $toEmployee->helper = implode(",", $request->input('helper'));
 
@@ -159,8 +160,8 @@ class EmployeeController extends Controller
     }
     public function fetchApproveCase(){
         // $approvedCase = sendToAdmin::paginate(15);
-        $approvedCase = \App\sendToAdmin::with('sendAdmin')
-       ->paginate(15);
+    //     $approvedCase = \App\sendToAdmin::with('sendAdmin')
+    //    ->paginate(15);
 
        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
@@ -183,10 +184,40 @@ class EmployeeController extends Controller
     }
 
     public function CompletedCase(){
-        $completedCase = DB::table('approvedcase')
-            ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
-            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table('completedcase')
+            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'send_to_employees.employee_id')
             ->paginate(15);
             return $completedCase;
+    }
+
+    public function RejectCase(Request $request){
+         $rejectCase = $request->isMethod('put') ? rejectCase::findOrFail
+        ($request->employee_id) : new rejectCase;
+
+        //  $toApproval->caseid = $request->input('caseid');
+             $rejectCase->caseid = $request->input('caseid');
+            $rejectCase->employee_id = $request->input('employee_id');
+            $rejectCase->msg = $request->input('msg');
+
+        if($rejectCase->save()){
+            return new EmployeeResource($rejectCase);
+        }
+    }
+
+    public function FetchRejectCase(){
+         $completedCase = DB::table('rejectcase')
+            ->join('send_to_employees', 'rejectcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
+            ->paginate(15);
+            return $completedCase;
+    }
+
+    public function DeleteAprovedCase($id){
+         $deleteApprovedCases = sendToAdmin::findOrFail($id);
+
+        if($deleteApprovedCases->delete()){
+            return new EmployeeResource($deleteApprovedCases);
+        }
     }
 }

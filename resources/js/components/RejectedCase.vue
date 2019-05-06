@@ -37,25 +37,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in assignedemployees" v-bind:key="item.id">
+                    <tr v-for="(item, i) in rejectedCase" :key="i">
                         <td>{{ item.caseid }}</td>
-                        <td>{{ item.assignedEmployee }}</td>
+                        <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
-                                   <!-- Modal -->
-        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            </div>
-        </div>
-        </div>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></td>
         </tr>
                 </tbody>
             </table>
@@ -70,31 +57,31 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
-        data(){
-        return {
-            value: null,
-            time1: '',
-            time2: '',
-            time3: '',
-            // custom lang
-            lang: 'en',
-            assignedemployees: [],
-        }
-    },
-    created(){
-        this.fetchCases();
-        this.loadEmployee();
-        // console.log(this.$refs)
-        // console.log(field);
-    },
+data(){
+    return {
+        value: null,
+        time1: '',
+        time2: '',
+        time3: '',
+        // custom lang
+        lang: 'en',
+        rejectedCase: [],
+    }
+},
+created(){
+    this.fetchCases();
+    this.loadEmployee();
+    // console.log(this.$refs)
+    // console.log(field);
+},
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/assignedemployees';
+            page_url = page_url || 'api/fetchrejectedcase';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.assignedemployees = res.data;
+                this.rejectedCase = res.data;
                 vm.makePagination(res.meta, res.links);
             })
         },

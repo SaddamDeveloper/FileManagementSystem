@@ -197,18 +197,39 @@ export default {
             this.toAdmin.assignedEmployee = id.employee_id;
             this.toAdmin.helper = id.helper;
             this.toAdmin.docs = id.docs;
-            fetch(`api/sendtoadmin`, {
-                method: 'post',
-                body: JSON.stringify(this.toAdmin),
-                headers: {
-                    'content-type' : 'application/json'
+            Swal.fire({
+            title: 'Are you sure want send to Admin?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send it!'
+            }).then((result) => {
+                if (result.value) {
+                    fetch(`api/sendtoadmin`, {
+                        method: 'post',
+                        body: JSON.stringify(this.toAdmin),
+                        headers: {
+                            'content-type' : 'application/json'
+                        }
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Sent!',
+                        'Your file has been sent.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
                 }
             })
-            .then(Swal.fire(
-                'Sent!',
-                'Your file has been sent.',
-                'success'
-            ))
         }
     }
 }

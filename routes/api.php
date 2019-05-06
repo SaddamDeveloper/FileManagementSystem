@@ -89,4 +89,10 @@ Route::get('aprovedcases', 'EmployeeController@fetchApproveCase');
 
 Route::post('sendapproval', 'EmployeeController@AprovedCase');
 
+Route::delete('sendapproval/{id}', 'EmployeeController@DeleteAprovedCase');
+
 Route::get('completedcases', 'EmployeeController@CompletedCase');
+
+Route::post('rejectcase', 'EmployeeController@RejectCase');
+
+Route::get('fetchrejectedcase', 'EmployeeController@FetchRejectCase');

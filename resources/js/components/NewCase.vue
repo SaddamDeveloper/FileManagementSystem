@@ -49,7 +49,7 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td>NA</td>
+                        <td><div class="alert alert-danger">NA</div></td>
                         <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,7 +62,7 @@
                 </button>
             </div>
 
-            <form @submit.prevent="sendToEmployee(item.caseid)">
+            <form @submit.prevent="sendToEmployee(item)">
             <div class="modal-body" >
                 <table class="table table-hovered">
                     <tr>
@@ -242,7 +242,7 @@ export default {
             this.toEmployee.fileName = e.target.files[0].name
         },
         sendToEmployee(id){
-            this.toEmployee.caseid = id;
+            this.toEmployee.caseid = id.caseid;
             fetch(`api/sendemployee`, {
                 method: 'post',
                 body: JSON.stringify(this.toEmployee),

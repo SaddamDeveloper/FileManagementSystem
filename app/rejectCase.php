@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class sendToApproval extends Model
+class rejectCase extends Model
 {
-    protected $table = 'completedcase';
+    protected $table = 'rejectcase';
     public $timestamps = false;
 }

@@ -38,7 +38,7 @@
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
-                        <tr v-for="item in completedcases" v-bind:key="item.id">
+                        <tr v-for="(item, i) in completedcases" :key="i">
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
