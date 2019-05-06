@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class sendToApproval extends Model
 {
     protected $table = 'approvedcase';
+    public $timestamps = false;
 }

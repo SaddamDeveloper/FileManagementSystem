@@ -88,3 +88,5 @@ Route::get('employeeassignedemployees', 'EmployeeAssigned@index');
 Route::get('aprovedcases', 'EmployeeController@fetchApproveCase');
 
 Route::post('sendapproval', 'EmployeeController@AprovedCase');
+
+Route::get('completedcases', 'EmployeeController@CompletedCase');

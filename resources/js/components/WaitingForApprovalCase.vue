@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Assigned Case</strong></h1>
+                        <h1><strong>Waiting For Approval Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Assigned Case</li>
+                            <li class="active">Waiting For Approval Case</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Assigned Case</strong>
+                        <strong class="card-title">Waiting For Approval Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -33,48 +33,28 @@
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
                             <th scope="col">Related Documents</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in assignedemployees" v-bind:key="item.id">
                         <td>{{ item.caseid }}</td>
-                        <td>{{ item.name }}</td>
+                        <td>{{ item.assignedEmployee }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td> NA </td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form @submit.prevent="pushToDb(item.caseid)">
-                <div class="modal-body">
-                    <table class="table table-bordered table-responsive">
-                        <tr>
-                            <th>Docs</th>
-                            <th>Remarks</th>
-                        </tr>
-                        <tr>
-                            <td><input type="file" name="docs" @change="processFile"></td>
-                            <td><input type="text" value=""></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-                </form>
-                </div>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            </div>
+        </div>
         </div>
         </tr>
                 </tbody>
@@ -99,16 +79,6 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
-            toDb: {
-                docs: '',
-                remarks: ''
-            },
-            toAdmin: {
-                caseid: '',
-                docs: '',
-                assignedEmployee: '',
-                helper: ''
-            }
         }
     },
     created(){
@@ -119,7 +89,7 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/employeeassignedemployees';
+            page_url = page_url || 'api/assignedemployees';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -177,38 +147,21 @@ export default {
             var fileReader = new FileReader();
 
             fileReader.readAsDataURL(e.target.files[0]);
+
             fileReader.onload = (e) => {
-                this.toDb.docs = e.target.result
+                this.toEmployee.docs = e.target.result
             }
-            this.toDb.fileName = e.target.files[0].name
+            this.toEmployee.fileName = e.target.files[0].name
         },
-        pushToDb(id){
-            this.toDb.caseid = id;
-            fetch(`api/sendtodb`, {
+        sendToEmployee(id){
+            this.toEmployee.caseid = id;
+            fetch(`api/sendemployee`, {
                 method: 'post',
-                body: JSON.stringify(this.toDb),
+                body: JSON.stringify(this.toEmployee),
                     headers: {
                 'content-type': 'application/json'
                 }
             })
-        },
-        sendToAdmin(id){
-            this.toAdmin.caseid = id.caseid;
-            this.toAdmin.assignedEmployee = id.employee_id;
-            this.toAdmin.helper = id.helper;
-            this.toAdmin.docs = id.docs;
-            fetch(`api/sendtoadmin`, {
-                method: 'post',
-                body: JSON.stringify(this.toAdmin),
-                headers: {
-                    'content-type' : 'application/json'
-                }
-            })
-            .then(Swal.fire(
-                'Sent!',
-                'Your file has been sent.',
-                'success'
-            ))
         }
     }
 }

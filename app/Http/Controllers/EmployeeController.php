@@ -161,13 +161,32 @@ class EmployeeController extends Controller
         // $approvedCase = sendToAdmin::paginate(15);
         $approvedCase = \App\sendToAdmin::with('sendAdmin')
        ->paginate(15);
-        return  EmployeeResource::collection($approvedCase);
+
+       $approvedCase = DB::table('toadmin')
+            ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
+            ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+            ->paginate(15);
+            return $approvedCase;
+        // return  EmployeeResource::collection($approvedCase);
     }
     public function AprovedCase(Request $request){
         $toApproval = $request->isMethod('put') ? sendToApproval::findOrFail
         ($request->employee_id) : new sendToApproval;
 
         //  $toApproval->caseid = $request->input('caseid');
-         return $request->input('caseid');
+             $toApproval->caseid = $request->input('caseid');
+            $toApproval->employee_id = $request->input('employee_id');
+
+            if($toApproval->save()){
+            return new EmployeeResource($toApproval);
+        }
+    }
+
+    public function CompletedCase(){
+        $completedCase = DB::table('approvedcase')
+            ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
+            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
+            ->paginate(15);
+            return $completedCase;
     }
 }
