@@ -12,10 +12,10 @@ run the project by following steps
 9. import the 'fms.sql' file
 10. run command 'php artisan serve'
 
-## 3 USER LEVEL
-1. Receiption-end username: user@mail.com, password: password
-2. Admin-end username: admin@mail.com, password: password
-3. Employee-end username: shubhendu@m.com, password: password
+## 3 END LEVEL
+1. Receiption-end: https://localhost:8000/login, username: user@mail.com, password: password
+2. Admin-end: https://localhost:8000/admin/login, username: admin@mail.com, password: password
+3. Employee-end: https://localhost:8000/employee/login, username: shubhendu@m.com, password: password
 
 
 
