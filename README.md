@@ -12,7 +12,7 @@ run the project by following steps
 9. import the 'fms.sql' file
 10. run command 'php artisan serve'
 
-## 3 END LEVEL
+## 3 End Level
 1. Receiption-end: https://localhost:8000/login, username: user@mail.com, password: password
 2. Admin-end: https://localhost:8000/admin/login, username: admin@mail.com, password: password
 3. Employee-end: https://localhost:8000/employee/login, username: shubhendu@m.com, password: password
