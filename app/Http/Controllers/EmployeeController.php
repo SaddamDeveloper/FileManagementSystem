@@ -189,6 +189,7 @@ class EmployeeController extends Controller
             ->join('employees', 'completedcase.employee_id', '=', 'send_to_employees.employee_id')
             ->paginate(15);
             return $completedCase;
+              // return  EmployeeResource::collection($completedCase);
     }
 
     public function RejectCase(Request $request){

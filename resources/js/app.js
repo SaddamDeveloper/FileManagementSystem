@@ -69,6 +69,7 @@ let routes = [
     { path: '/completedcase', component: require('./components/CompletedCase.vue').default },
     { path: '/rejectedcase', component: require('./components/RejectedCase.vue').default },
     { path: '/waitingforapproavalcase', component: require('./components/WaitingForApprovalCase.vue').default },
+    { path: '/billingcase', component: require('./components/BillingCase.vue').default },
   ]
 
 const router = new VueRouter({

@@ -220,7 +220,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Billing Case</p>
+                        <router-link to="/billingcase"><p class="text-light">Billing Case</p></router-link>
 
                     </div>
 

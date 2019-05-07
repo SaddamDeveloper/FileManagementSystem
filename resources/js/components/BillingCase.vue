@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Waiting for Approve</strong></h1>
+                        <h1><strong>Completed Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">For Approval Case</li>
+                            <li class="active">Completed Case</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Assigned Case</strong>
+                        <strong class="card-title">Completed Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -36,18 +36,16 @@
                                 <th scope="col">Final Docs By Employee</th>
                                 <th scope="col">Remarks</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tr v-for="(item, i) in approvalcases" :key="i">
+                        <tr v-for="(item, i) in completedcases" :key="i">
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
                             <td></td>
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td></td>
-                            <td><div class="alert alert-primary alert-sm">NA</div></td>
-                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item, item.id)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
+                            <td><div class="alert alert-primary alert-sm">Bill</div></td>
         <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
@@ -58,20 +56,20 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="RejectCase(item)">
+                <form @submit.prevent="pushToApproved(item.caseid)">
                 <div class="modal-body">
                     <table class="table table-resonsive table-bordered">
                         <tr>
                             <thead>Remarks</thead>
                         </tr>
                         <tr>
-                            <td><input type="text" name="rejectcause" v-model="rejectCause.msg" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Reject</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 </form>
                 </div>
@@ -101,16 +99,7 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
-            approvalcases: [],
-            toApproval: {
-                caseid: '',
-                employee_id: ''
-            },
-            rejectCause: {
-                caseid: '',
-                employee_id: '',
-                msg: ''
-            }
+            completedcases: []
         }
     },
     created(){
@@ -121,12 +110,12 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/aprovedcases';
+            page_url = page_url || 'api/completedcases';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.approvalcases = res.data;
+                this.completedcases = res.data;
                 vm.makePagination(res.meta, res.links);
             })
         },
@@ -195,7 +184,7 @@ export default {
                 }
             })
         },
-        confirmApprove(item, delid){
+        confirmApprove(item){
             Swal.fire({
             title: 'Do you want to Approve?',
             text: "You won't be able to revert this!",
@@ -205,7 +194,7 @@ export default {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, Approve it!'
             }).then((result) => {
-                if (result.value == true) {
+                if (result.value) {
                     this.toApproval.caseid = item.caseid;
                     this.toApproval.employee_id = item.employee_id;
                     fetch(`api/sendapproval`, {
@@ -214,10 +203,7 @@ export default {
                         headers: {
                     'content-type': 'application/json'
                     }
-                    })
-                  fetch(`api/case/${delid}`, {
-                      method: 'delete'
-                  })
+            })
             .then(res => res.json())
             .then(res => {
                 this.toApproval.caseid = '';
@@ -231,45 +217,7 @@ export default {
             ))
             .catch(err => console.log(err))
                 }
-            })
-        },
-        RejectCase(item){
-            this.rejectCause.caseid = item.caseid;
-            this.rejectCause.employee_id = item.employee_id;
 
-             Swal.fire({
-            title: 'Do you want to Reject?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Reject it!'
-            }).then((result) => {
-                if (result.value) {
-                    this.rejectCause.caseid = item.caseid;
-                    this.rejectCause.employee_id = item.employee_id;
-                    fetch(`api/rejectcase`, {
-                    method: 'post',
-                    body: JSON.stringify(this.rejectCause),
-                        headers: {
-                    'content-type': 'application/json'
-                    }
-            })
-            .then(res => res.json())
-            .then(res => {
-                jQuery('#exampleModal'+this.rejectCause.caseid).modal('hide');
-                this.rejectCause.caseid = '';
-                this.rejectCause.employee_id = '';
-                this.rejectCause.msg = '';
-            })
-            .then(Swal.fire(
-                'Rejected!',
-                'Case Has been Rejecred!',
-                'success'
-            ))
-            .catch(err => console.log(err))
-                }
             })
         }
     }

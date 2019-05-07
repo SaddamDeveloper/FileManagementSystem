@@ -42,7 +42,38 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                        <!-- Modal -->
+<div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-md" role="document">
+     <div class="modal-content">
+     <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+         </button>
+     </div>
+     <form @submit.prevent="pushToDb(item.caseid)">
+     <div class="modal-body">
+         <table class="table table-bordered table-responsive">
+             <tr>
+                 <th>Docs</th>
+                 <th>Remarks</th>
+             </tr>
+             <tr>
+                 <td><input type="file" name="docs" @change="processFile"></td>
+                 <td><input type="text" value=""></td>
+             </tr>
+         </table>
+     </div>
+     <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Save</button>
+     </div>
+     </form>
+     </div>
+ </div>
+</div>
         </tr>
                 </tbody>
             </table>
@@ -66,6 +97,12 @@ data(){
         // custom lang
         lang: 'en',
         rejectedCase: [],
+        toAdmin: {
+            caseid: '',
+            docs: '',
+            assignedEmployee: '',
+            helper: ''
+        }
     }
 },
 created(){
@@ -147,6 +184,45 @@ created(){
                 body: JSON.stringify(this.toEmployee),
                     headers: {
                 'content-type': 'application/json'
+                }
+            })
+        },
+        sendToAdmin(id){
+            this.toAdmin.caseid = id.caseid;
+            this.toAdmin.assignedEmployee = id.employee_id;
+            this.toAdmin.helper = id.helper;
+            this.toAdmin.docs = id.docs;
+            Swal.fire({
+            title: 'Are you sure want send to Admin again?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send it!'
+            }).then((result) => {
+                if (result.value) {
+                    fetch(`api/sendtoadmin`, {
+                        method: 'post',
+                        body: JSON.stringify(this.toAdmin),
+                        headers: {
+                            'content-type' : 'application/json'
+                        }
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Sent!',
+                        'Your file has been sent.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
                 }
             })
         }
