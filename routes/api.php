@@ -63,6 +63,8 @@ Route::post('sendtodb', 'EmployeeController@toDb');
 //send to admin
 Route::post('sendtoadmin', 'EmployeeController@toAdmin');
 
+Route::delete('sendtoadmin/{id}', 'EmployeeController@deleteToAdmin');
+
 
 //Show all AssignedEmpoyees
 Route::get('assignedemployees', 'AssignedEmployee@index');
@@ -96,3 +98,5 @@ Route::get('completedcases', 'EmployeeController@CompletedCase');
 Route::post('rejectcase', 'EmployeeController@RejectCase');
 
 Route::get('fetchrejectedcase', 'EmployeeController@FetchRejectCase');
+
+Route::delete('rejectcase/{id}', 'EmployeeController@DeleteRejectCase');

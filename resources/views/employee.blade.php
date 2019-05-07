@@ -138,7 +138,7 @@
 
             <!--/.col-->
 <div class="col-md-12 col-lg-12 col-sm-12">
-    <router-view></router-view>
+    <router-view :user="{{ Auth::user() }}"></router-view>
     <vue-progress-bar></vue-progress-bar>
 </div>
 
@@ -148,7 +148,7 @@
 </div>
     <!-- Right Panel -->
 
-    {{-- <script src="http://code.jquery.com/jquery-3.3.1.js"></script> --}}
+    <!-- <script src="http://code.jquery.com/jquery-3.3.1.js"></script> -->
     <script src="/js/app.js"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
     {{--  <script src="{{ asset('sufeeadmin/vendors/chart.js/dist/Chart.bundle.min.js') }}"></script>
@@ -161,4 +161,3 @@
 </body>
 
 </html>
-

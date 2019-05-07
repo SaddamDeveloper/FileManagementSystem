@@ -149,15 +149,15 @@ class EmployeeController extends Controller
     public function toAdmin(Request $request){
         $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail
         ($request->employee_id) : new sendToAdmin;
-
         $toAdmin->caseid = $request->input('caseid');
-        $toAdmin->employee_id = $request->input('assignedEmployee');
+        $toAdmin->employee_id = $request->input('employee_id');
         $toAdmin->docs = $request->input('docs');
 
         if($toAdmin->save()){
             return new EmployeeResource($toAdmin);
         }
     }
+
     public function fetchApproveCase(){
         // $approvedCase = sendToAdmin::paginate(15);
     //     $approvedCase = \App\sendToAdmin::with('sendAdmin')
@@ -165,7 +165,7 @@ class EmployeeController extends Controller
 
        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-            ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+              ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
             ->paginate(15);
             return $approvedCase;
         // return  EmployeeResource::collection($approvedCase);
@@ -186,7 +186,7 @@ class EmployeeController extends Controller
     public function CompletedCase(){
         $completedCase = DB::table('completedcase')
             ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
-            ->join('employees', 'completedcase.employee_id', '=', 'send_to_employees.employee_id')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
@@ -215,10 +215,17 @@ class EmployeeController extends Controller
     }
 
     public function DeleteAprovedCase($id){
-         $deleteApprovedCases = sendToAdmin::findOrFail($id);
+      DB::table('toadmin')->where('caseid', '=', $id)->delete();
+    }
 
-        if($deleteApprovedCases->delete()){
-            return new EmployeeResource($deleteApprovedCases);
-        }
+    public function deleteToAdmin($id){
+
+      if($id){
+        DB::table('send_to_employees')->where('caseid', '=', $id)->delete();
+      }
+    }
+
+    public function DeleteRejectCase($id){
+      DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
 }

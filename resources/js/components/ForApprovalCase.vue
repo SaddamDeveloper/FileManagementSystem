@@ -39,7 +39,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tr v-for="(item, i) in approvalcases" :key="i">
+                        <tr v-for="item in approvalcases" :key="item.id">
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
@@ -47,7 +47,7 @@
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td></td>
                             <td><div class="alert alert-primary alert-sm">NA</div></td>
-                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item, item.id)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
+                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
         <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
@@ -195,7 +195,7 @@ export default {
                 }
             })
         },
-        confirmApprove(item, delid){
+        confirmApprove(item){
             Swal.fire({
             title: 'Do you want to Approve?',
             text: "You won't be able to revert this!",
@@ -215,9 +215,13 @@ export default {
                     'content-type': 'application/json'
                     }
                     })
-                  fetch(`api/case/${delid}`, {
+                  fetch(`api/sendapproval/${item.caseid}`, {
                       method: 'delete'
                   })
+                  .then(res => {
+                    this.fetchCases()
+                  }
+                  )
             .then(res => res.json())
             .then(res => {
                 this.toApproval.caseid = '';
@@ -255,7 +259,11 @@ export default {
                         headers: {
                     'content-type': 'application/json'
                     }
-            })
+                    })
+                    fetch(`api/rejectcase/${item.caseid}`, {
+                        method: 'delete'
+                    })
+                    this.fetchCases()
             .then(res => res.json())
             .then(res => {
                 jQuery('#exampleModal'+this.rejectCause.caseid).modal('hide');

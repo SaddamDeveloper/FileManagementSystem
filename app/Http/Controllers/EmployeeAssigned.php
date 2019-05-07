@@ -7,6 +7,7 @@ use App\Http\Resources\EmployeeAssigned as EmployeeAssignedResource;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Auth;
+
 class EmployeeAssigned extends Controller
 {
     /**
@@ -14,13 +15,15 @@ class EmployeeAssigned extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
-
+        $username = $request->get('name');
         $employee = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->where('employees.name', '=', 'Sheendu Das')
             ->paginate(15);
-            return $employee;
+          return $employee;
         //  return CaseResource::collection($employee);
         // $employee = DB::table('send_to_employees')->where('assignedEmployee', '=', Auth::user())->paginate(15);
         // return $employee;

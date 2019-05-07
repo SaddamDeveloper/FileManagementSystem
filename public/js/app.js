@@ -4138,7 +4138,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   data: function data() {
     return {
       value: null,
@@ -4155,7 +4157,7 @@ __webpack_require__.r(__webpack_exports__);
       toAdmin: {
         caseid: '',
         docs: '',
-        assignedEmployee: '',
+        employee_id: '',
         helper: ''
       }
     };
@@ -4169,6 +4171,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchCases: function fetchCases(page_url) {
       var _this = this;
 
+      // this.$props.user.employee_id = page_url.name;
       page_url = page_url || 'api/employeeassignedemployees';
       var vm = this;
       fetch(page_url).then(function (res) {
@@ -4246,7 +4249,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       this.toAdmin.caseid = id.caseid;
-      this.toAdmin.assignedEmployee = id.employee_id;
+      this.toAdmin.employee_id = id.employee_id;
       this.toAdmin.helper = id.helper;
       this.toAdmin.docs = id.docs;
       Swal.fire({
@@ -4266,7 +4269,9 @@ __webpack_require__.r(__webpack_exports__);
               'content-type': 'application/json'
             }
           }).then(function () {
-            Swal.fire('Sent!', 'Your file has been sent.', 'success');
+            Swal.fire('Sent!', 'Your file has been sent.', 'success'); // fetch(`api/sendtoadmin/${id.caseid}`, {
+            //     method: 'delete'
+            // })
 
             _this5.fetchCases();
           }).catch(function () {
@@ -4829,7 +4834,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    confirmApprove: function confirmApprove(item, delid) {
+    confirmApprove: function confirmApprove(item) {
       var _this5 = this;
 
       Swal.fire({
@@ -4851,8 +4856,10 @@ __webpack_require__.r(__webpack_exports__);
               'content-type': 'application/json'
             }
           });
-          fetch("api/case/".concat(delid), {
+          fetch("api/sendapproval/".concat(item.caseid), {
             method: 'delete'
+          }).then(function (res) {
+            _this5.fetchCases();
           }).then(function (res) {
             return res.json();
           }).then(function (res) {
@@ -4888,7 +4895,12 @@ __webpack_require__.r(__webpack_exports__);
             headers: {
               'content-type': 'application/json'
             }
-          }).then(function (res) {
+          });
+          fetch("api/rejectcase/".concat(item.caseid), {
+            method: 'delete'
+          });
+
+          _this6.fetchCases().then(function (res) {
             return res.json();
           }).then(function (res) {
             jQuery('#exampleModal' + _this6.rejectCause.caseid).modal('hide');
@@ -52872,16 +52884,31 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "breadcrumbs" }, [
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "page-header float-left" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", onload: "" },
+              domProps: { value: _vm.user.name }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("table", { staticClass: "table" }, [
-              _vm._m(2),
+              _vm._m(3),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -52957,7 +52984,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(3, true),
+                              _vm._m(4, true),
                               _vm._v(" "),
                               _c(
                                 "form",
@@ -52978,7 +53005,7 @@ var render = function() {
                                           "table table-bordered table-responsive"
                                       },
                                       [
-                                        _vm._m(4, true),
+                                        _vm._m(5, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c("td", [
@@ -52991,13 +53018,13 @@ var render = function() {
                                             })
                                           ]),
                                           _vm._v(" "),
-                                          _vm._m(5, true)
+                                          _vm._m(6, true)
                                         ])
                                       ]
                                     )
                                   ]),
                                   _vm._v(" "),
-                                  _vm._m(6, true)
+                                  _vm._m(7, true)
                                 ]
                               )
                             ])
@@ -53021,25 +53048,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "breadcrumbs" }, [
-      _c("div", { staticClass: "col-sm-4" }, [
-        _c("div", { staticClass: "page-header float-left" }, [
-          _c("div", { staticClass: "page-title" }, [
-            _c("h1", [_c("strong", [_vm._v("Assigned Case")])])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-8" }, [
-        _c("div", { staticClass: "page-header float-right" }, [
-          _c("div", { staticClass: "page-title" }, [
-            _c("ol", { staticClass: "breadcrumb text-right" }, [
-              _c("li", [
-                _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "active" }, [_vm._v("Assigned Case")])
-            ])
+    return _c("h1", [_c("strong", [_vm._v("Assigned Case")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-8" }, [
+      _c("div", { staticClass: "page-header float-right" }, [
+        _c("div", { staticClass: "page-title" }, [
+          _c("ol", { staticClass: "breadcrumb text-right" }, [
+            _c("li", [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "active" }, [_vm._v("Assigned Case")])
           ])
         ])
       ])
@@ -54658,8 +54681,8 @@ var render = function() {
               [
                 _vm._m(2),
                 _vm._v(" "),
-                _vm._l(_vm.approvalcases, function(item, i) {
-                  return _c("tr", { key: i }, [
+                _vm._l(_vm.approvalcases, function(item) {
+                  return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [
@@ -54699,7 +54722,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.confirmApprove(item, item.id)
+                              return _vm.confirmApprove(item)
                             }
                           }
                         },
