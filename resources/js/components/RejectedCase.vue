@@ -37,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(item, i) in rejectedCase" :key="i">
+                    <tr v-for="item in rejectedCase" :key="item.id">
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>

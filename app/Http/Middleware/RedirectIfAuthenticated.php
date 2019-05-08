@@ -20,11 +20,15 @@ class RedirectIfAuthenticated
 
         switch ($guard) {
             case 'admin-web':
-                    $link = '/admin';
+                    $link = '/admindashboard';
                 break;
 
+              case 'employee-web':
+                    $link = '/employeedashboard';
+                    break;
+
             default:
-                    $link = '/home';
+                    $link = '/dashboard';
                 break;
         }
         if (Auth::guard($guard)->check()) {

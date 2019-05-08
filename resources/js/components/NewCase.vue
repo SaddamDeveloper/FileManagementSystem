@@ -172,8 +172,6 @@ export default {
     created(){
         this.fetchCases();
         this.loadEmployee();
-        // console.log(this.$refs)
-        // console.log(field);
     },
     methods: {
         fetchCases(page_url){

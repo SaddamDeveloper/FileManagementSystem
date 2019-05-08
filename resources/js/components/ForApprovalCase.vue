@@ -115,9 +115,6 @@ export default {
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
-        // console.log(this.$refs)
-        // console.log(field);
     },
     methods: {
         fetchCases(page_url){
@@ -138,62 +135,6 @@ export default {
                 prev_page_url: links.prev
             }
             this.pagination = pagination;
-        },
-    deleteCase(id){
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    fetch(`api/case/${id}`, {
-                        method: 'delete'
-                    })
-                    .then(()=>{
-                        Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
-                        this.fetchCases();
-                }).catch(()=>{
-                    Swal.fire(
-                        'Failed!',
-                        'There was something wrong',
-                        'warning'
-                    )
-                });
-                }
-
-            })
-        },
-        loadEmployee(){
-             axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
-        },
-        processFile(e) {
-
-            var fileReader = new FileReader();
-
-            fileReader.readAsDataURL(e.target.files[0]);
-
-            fileReader.onload = (e) => {
-                this.toEmployee.docs = e.target.result
-            }
-            this.toEmployee.fileName = e.target.files[0].name
-        },
-        sendToEmployee(id){
-            this.toEmployee.caseid = id;
-            fetch(`api/sendemployee`, {
-                method: 'post',
-                body: JSON.stringify(this.toEmployee),
-                    headers: {
-                'content-type': 'application/json'
-                }
-            })
         },
         confirmApprove(item){
             Swal.fire({

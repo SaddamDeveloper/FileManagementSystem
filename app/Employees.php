@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Employeelogin extends Authenticatable
+class Employees extends Authenticatable
 {
     use Notifiable;
 
@@ -15,8 +15,9 @@ class Employeelogin extends Authenticatable
      *
      * @var array
      */
-    protected $table = 'employees';
-
+     protected $fillable = [
+       'name', 'email', 'password'
+     ];
     // protected $guard = 'employee-web';
 
     /**

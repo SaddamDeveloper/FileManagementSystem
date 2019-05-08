@@ -15,7 +15,6 @@ class EmployeeAssigned extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index(Request $request)
     {
         $username = $request->get('name');

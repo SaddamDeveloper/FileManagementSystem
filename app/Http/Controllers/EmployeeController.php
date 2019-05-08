@@ -228,4 +228,21 @@ class EmployeeController extends Controller
     public function DeleteRejectCase($id){
       DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
+
+    public function fetchApproving(){
+      $approving = DB::table('toadmin')
+           ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
+           ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+           ->paginate(15);
+           return $approving;
+    }
+
+    public function countingNewlyRegisterd(){
+      $newRegistered = DB::table('cases')->count();
+      $waitingforapprove = DB::table('toadmin')->count();
+      $assignedcase = DB::table('send_to_employees')->count();
+      $completedCase = DB::table('completedcase')->count();
+      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase);
+      return $count;
+    }
 }

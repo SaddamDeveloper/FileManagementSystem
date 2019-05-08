@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,18 +26,17 @@ Route::prefix('admin')->group(function(){
     // Route::get('/', 'AdminController@index')->name('admindashboard');
 });
 
-
-
-        Route::get('/', 'EmployeeloginController@index')->name('employeedashboard');
-        Route::prefix('employee')->group(function(){
-            Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
-            Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
-
-        });
+Route::get('employeedashboard', 'EmployeeloginController@index')->name('employeedashboard');
+Route::prefix('employee')->group(function(){
+    Route::get('login', 'Auth\EmployeesloginController@showLoginForm');
+    Route::post('login', 'Auth\EmployeesloginController@login')->name('employee-login');
+});
 // Route::get('/admin', 'AdminController@index');
-
-    Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
-    // Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
+// if(Auth::user()->email == 'admin@mail.com'){
+//   Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
+// }
+dd(Auth::user());
+// Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
 
 // Route::get('{path}', 'HomeController@showAdminPanel')->where('path', '([A-z\d-\/_.]+)?');
 

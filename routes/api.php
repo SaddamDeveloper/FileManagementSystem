@@ -100,3 +100,7 @@ Route::post('rejectcase', 'EmployeeController@RejectCase');
 Route::get('fetchrejectedcase', 'EmployeeController@FetchRejectCase');
 
 Route::delete('rejectcase/{id}', 'EmployeeController@DeleteRejectCase');
+
+Route::get('approving', 'EmployeeController@fetchApproving');
+
+Route::get('counter', 'EmployeeController@countingNewlyRegisterd');

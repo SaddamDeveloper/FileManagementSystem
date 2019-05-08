@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Registerd Case</strong></h1>
+                        <h1><strong>Register Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Registerd Case</li>
+                            <li class="active">Register Case</li>
                         </ol>
                     </div>
                 </div>
@@ -757,7 +757,7 @@ export default {
         this.casee.selected = item.selected;
 
         if(this.casee.clientType){
-            
+
         }
     },
     changeType(){
@@ -769,4 +769,3 @@ export default {
     }
 }
 </script>
-

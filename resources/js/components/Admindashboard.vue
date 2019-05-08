@@ -4,20 +4,8 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
-                        <div class="dropdown float-right">
-                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton1" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <div class="dropdown-menu-content">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count">{{NewRegistered}}</span>
                         </h4>
                         <router-link to="/newcase"><p class="text-light">Newly Registered Case</p></router-link>
 
@@ -33,20 +21,8 @@
                 <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-2">
                     <div class="card-body pb-0">
-                        <div class="dropdown float-right">
-                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton2" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <div class="dropdown-menu-content">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count">{{waitingforapprove}}</span>
                         </h4>
                         <router-link to="/forapprovalcase"><p class="text-light">Waiting For Approval Case</p></router-link>
                         <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
@@ -60,20 +36,8 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-2">
                     <div class="card-body pb-0">
-                        <div class="dropdown float-right">
-                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton2" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <div class="dropdown-menu-content">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count">{{assignedcase}}</span>
                         </h4>
                         <router-link to="/assignedcase"><p class="text-light">Assigned Case</p></router-link>
 
@@ -176,20 +140,8 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-2">
                     <div class="card-body pb-0">
-                        <div class="dropdown float-right">
-                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton2" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <div class="dropdown-menu-content">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count">{{completedcase}}</span>
                         </h4>
                         <router-link to="/completedcase"><p class="text-light">Completed Case</p></router-link>
 
@@ -205,20 +157,8 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-3">
                     <div class="card-body pb-0">
-                        <div class="dropdown float-right">
-                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton3" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                <div class="dropdown-menu-content">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count">{{completedcase}}</span>
                         </h4>
                         <router-link to="/billingcase"><p class="text-light">Billing Case</p></router-link>
 
@@ -320,7 +260,31 @@
 </template>
 
 <script>
-    export default {
+export default {
+  data() {
+    return {
+      NewRegistered: '',
+      waitingforapprove: '',
+      assignedcase: '',
+      completedcase: ''
+    }
+},
+created(){
+    this.loadCounter();
+},
+methods: {
+    loadCounter(){
+      fetch('api/counter')
+      .then(res => res.json())
+      .then(res => {
+        console.log(res.newRegistered);
+          this.NewRegistered = res.newRegistered;
+          this.waitingforapprove = res.waitingforapprove;
+          this.assignedcase = res.assignedcase;
+          this.completedcase = res.completedcase;
+      })
+    },
+},
         mounted() {
             console.log('Component mounted.')
         }

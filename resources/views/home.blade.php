@@ -132,20 +132,10 @@
         <!-- Header-->
 
         <div class="content mt-3">
-
-
-
-
-            <!--/.col-->
-
-
-            <!--/.col-->
-<div class="col-md-12 col-lg-12 col-sm-12">
-    <router-view></router-view>
-    <vue-progress-bar></vue-progress-bar>
-</div>
-
-
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <router-view></router-view>
+                <vue-progress-bar></vue-progress-bar>
+            </div>
         </div> <!-- .content -->
     </div><!-- /#right-panel -->
 </div>

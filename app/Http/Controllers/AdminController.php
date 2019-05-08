@@ -15,7 +15,11 @@ class AdminController extends Controller
     {
         $this->middleware('auth:admin-web');
     }
+    protected function guard()
+    {
+        return Auth::guard('admin-web');
+    }
     public function index(){
-        return view('dashboard');
+        return view('admin');
     }
 }

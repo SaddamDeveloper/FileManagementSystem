@@ -2024,67 +2024,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      NewRegistered: '',
+      waitingforapprove: '',
+      assignedcase: '',
+      completedcase: ''
+    };
+  },
+  created: function created() {
+    this.loadCounter();
+  },
+  methods: {
+    loadCounter: function loadCounter() {
+      var _this = this;
+
+      fetch('api/counter').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res.newRegistered);
+        _this.NewRegistered = res.newRegistered;
+        _this.waitingforapprove = res.waitingforapprove;
+        _this.assignedcase = res.assignedcase;
+        _this.completedcase = res.completedcase;
+      });
+    }
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -2714,6 +2680,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -4754,8 +4721,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.fetchCases();
-    this.loadEmployee(); // console.log(this.$refs)
-    // console.log(field);
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -4779,63 +4744,8 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.pagination = pagination;
     },
-    deleteCase: function deleteCase(id) {
-      var _this2 = this;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then(function (result) {
-        if (result.value) {
-          fetch("api/case/".concat(id), {
-            method: 'delete'
-          }).then(function () {
-            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-
-            _this2.fetchCases();
-          }).catch(function () {
-            Swal.fire('Failed!', 'There was something wrong', 'warning');
-          });
-        }
-      });
-    },
-    loadEmployee: function loadEmployee() {
-      var _this3 = this;
-
-      axios.get("api/employees").then(function (_ref) {
-        var data = _ref.data;
-        return _this3.employees = data.data;
-      });
-    },
-    processFile: function processFile(e) {
-      var _this4 = this;
-
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
-
-      fileReader.onload = function (e) {
-        _this4.toEmployee.docs = e.target.result;
-      };
-
-      this.toEmployee.fileName = e.target.files[0].name;
-    },
-    sendToEmployee: function sendToEmployee(id) {
-      this.toEmployee.caseid = id;
-      fetch("api/sendemployee", {
-        method: 'post',
-        body: JSON.stringify(this.toEmployee),
-        headers: {
-          'content-type': 'application/json'
-        }
-      });
-    },
     confirmApprove: function confirmApprove(item) {
-      var _this5 = this;
+      var _this2 = this;
 
       Swal.fire({
         title: 'Do you want to Approve?',
@@ -4847,11 +4757,11 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, Approve it!'
       }).then(function (result) {
         if (result.value == true) {
-          _this5.toApproval.caseid = item.caseid;
-          _this5.toApproval.employee_id = item.employee_id;
+          _this2.toApproval.caseid = item.caseid;
+          _this2.toApproval.employee_id = item.employee_id;
           fetch("api/sendapproval", {
             method: 'post',
-            body: JSON.stringify(_this5.toApproval),
+            body: JSON.stringify(_this2.toApproval),
             headers: {
               'content-type': 'application/json'
             }
@@ -4859,13 +4769,13 @@ __webpack_require__.r(__webpack_exports__);
           fetch("api/sendapproval/".concat(item.caseid), {
             method: 'delete'
           }).then(function (res) {
-            _this5.fetchCases();
+            _this2.fetchCases();
           }).then(function (res) {
             return res.json();
           }).then(function (res) {
-            _this5.toApproval.caseid = '';
-            _this5.toApproval.employee_id = '';
-            jQuery('#exampleModal' + _this5.toApproval.caseid).modal('hide');
+            _this2.toApproval.caseid = '';
+            _this2.toApproval.employee_id = '';
+            jQuery('#exampleModal' + _this2.toApproval.caseid).modal('hide');
           }).then(Swal.fire('Approved!', 'Case Has been Successfully Approved!', 'success')).catch(function (err) {
             return console.log(err);
           });
@@ -4873,7 +4783,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     RejectCase: function RejectCase(item) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.rejectCause.caseid = item.caseid;
       this.rejectCause.employee_id = item.employee_id;
@@ -4887,11 +4797,11 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, Reject it!'
       }).then(function (result) {
         if (result.value) {
-          _this6.rejectCause.caseid = item.caseid;
-          _this6.rejectCause.employee_id = item.employee_id;
+          _this3.rejectCause.caseid = item.caseid;
+          _this3.rejectCause.employee_id = item.employee_id;
           fetch("api/rejectcase", {
             method: 'post',
-            body: JSON.stringify(_this6.rejectCause),
+            body: JSON.stringify(_this3.rejectCause),
             headers: {
               'content-type': 'application/json'
             }
@@ -4900,13 +4810,13 @@ __webpack_require__.r(__webpack_exports__);
             method: 'delete'
           });
 
-          _this6.fetchCases().then(function (res) {
+          _this3.fetchCases().then(function (res) {
             return res.json();
           }).then(function (res) {
-            jQuery('#exampleModal' + _this6.rejectCause.caseid).modal('hide');
-            _this6.rejectCause.caseid = '';
-            _this6.rejectCause.employee_id = '';
-            _this6.rejectCause.msg = '';
+            jQuery('#exampleModal' + _this3.rejectCause.caseid).modal('hide');
+            _this3.rejectCause.caseid = '';
+            _this3.rejectCause.employee_id = '';
+            _this3.rejectCause.msg = '';
           }).then(Swal.fire('Rejected!', 'Case Has been Rejecred!', 'success')).catch(function (err) {
             return console.log(err);
           });
@@ -5711,8 +5621,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.fetchCases();
-    this.loadEmployee(); // console.log(this.$refs)
-    // console.log(field);
+    this.loadEmployee();
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -7521,7 +7430,7 @@ __webpack_require__.r(__webpack_exports__);
       time3: '',
       // custom lang
       lang: 'en',
-      assignedemployees: []
+      approving: []
     };
   },
   created: function created() {
@@ -7533,12 +7442,12 @@ __webpack_require__.r(__webpack_exports__);
     fetchCases: function fetchCases(page_url) {
       var _this = this;
 
-      page_url = page_url || 'api/assignedemployees';
+      page_url = page_url || 'api/approving';
       var vm = this;
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.assignedemployees = res.data;
+        _this.approving = res.data;
         vm.makePagination(res.meta, res.links);
       });
     },
@@ -46998,13 +46907,65 @@ var render = function() {
             "div",
             { staticClass: "card-body pb-0" },
             [
-              _vm._m(0),
-              _vm._v(" "),
-              _vm._m(1),
+              _c("h4", { staticClass: "mb-0" }, [
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.NewRegistered))
+                ])
+              ]),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/newcase" } }, [
                 _c("p", { staticClass: "text-light" }, [
                   _vm._v("Newly Registered Case")
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+          _c(
+            "div",
+            { staticClass: "card-body pb-0" },
+            [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.waitingforapprove))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: "/forapprovalcase" } }, [
+                _c("p", { staticClass: "text-light" }, [
+                  _vm._v("Waiting For Approval Case")
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+          _c(
+            "div",
+            { staticClass: "card-body pb-0" },
+            [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.assignedcase))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: "/assignedcase" } }, [
+                _c("p", { staticClass: "text-light" }, [
+                  _vm._v("Assigned Case")
                 ])
               ]),
               _vm._v(" "),
@@ -47015,67 +46976,23 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _vm._m(5),
+      _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
         _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
           _c(
             "div",
             { staticClass: "card-body pb-0" },
             [
-              _vm._m(3),
-              _vm._v(" "),
-              _vm._m(4),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/forapprovalcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Waiting For Approval Case")
+              _c("h4", { staticClass: "mb-0" }, [
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.completedcase))
                 ])
               ]),
-              _vm._v(" "),
-              _vm._m(5)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _vm._m(6),
-              _vm._v(" "),
-              _vm._m(7),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/assignedcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Assigned Case")
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(8)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(9),
-      _vm._v(" "),
-      _vm._m(10),
-      _vm._v(" "),
-      _vm._m(11),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _vm._m(12),
-              _vm._v(" "),
-              _vm._m(13),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/completedcase" } }, [
                 _c("p", { staticClass: "text-light" }, [
@@ -47083,7 +47000,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(14)
+              _vm._m(6)
             ],
             1
           )
@@ -47096,9 +47013,11 @@ var render = function() {
             "div",
             { staticClass: "card-body pb-0" },
             [
-              _vm._m(15),
-              _vm._v(" "),
-              _vm._m(16),
+              _c("h4", { staticClass: "mb-0" }, [
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.completedcase))
+                ])
+              ]),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/billingcase" } }, [
                 _c("p", { staticClass: "text-light" }, [_vm._v("Billing Case")])
@@ -47107,74 +47026,23 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm._m(17)
+          _vm._m(7)
         ])
       ]),
       _vm._v(" "),
-      _vm._m(18),
+      _vm._m(8),
       _vm._v(" "),
-      _vm._m(19),
+      _vm._m(9),
       _vm._v(" "),
-      _vm._m(20),
+      _vm._m(10),
       _vm._v(" "),
-      _vm._m(21),
+      _vm._m(11),
       _vm._v(" "),
-      _vm._m(22)
+      _vm._m(12)
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn bg-transparent dropdown-toggle theme-toggle text-light",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton1",
-            "data-toggle": "dropdown"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-cog" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton1" }
-        },
-        [
-          _c("div", { staticClass: "dropdown-menu-content" }, [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" }, [_vm._v("10468")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -47275,57 +47143,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn bg-transparent dropdown-toggle theme-toggle text-light",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton2",
-            "data-toggle": "dropdown"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-cog" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton2" }
-        },
-        [
-          _c("div", { staticClass: "dropdown-menu-content" }, [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" }, [_vm._v("10468")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -47417,57 +47234,6 @@ var staticRenderFns = [
         })
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn bg-transparent dropdown-toggle theme-toggle text-light",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton2",
-            "data-toggle": "dropdown"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-cog" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton2" }
-        },
-        [
-          _c("div", { staticClass: "dropdown-menu-content" }, [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" }, [_vm._v("10468")])
-    ])
   },
   function() {
     var _vm = this
@@ -48036,57 +47802,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn bg-transparent dropdown-toggle theme-toggle text-light",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton2",
-            "data-toggle": "dropdown"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-cog" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton2" }
-        },
-        [
-          _c("div", { staticClass: "dropdown-menu-content" }, [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" }, [_vm._v("10468")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -48178,57 +47893,6 @@ var staticRenderFns = [
         })
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown float-right" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn bg-transparent dropdown-toggle theme-toggle text-light",
-          attrs: {
-            type: "button",
-            id: "dropdownMenuButton3",
-            "data-toggle": "dropdown"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-cog" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dropdown-menu",
-          attrs: { "aria-labelledby": "dropdownMenuButton3" }
-        },
-        [
-          _c("div", { staticClass: "dropdown-menu-content" }, [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" }, [_vm._v("10468")])
-    ])
   },
   function() {
     var _vm = this
@@ -50153,46 +49817,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success btn-sm",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "modal",
-                            "data-target": "#exampleModal" + item.caseid
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-plus" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.editCase(item)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-edit" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteCase(item.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
-                    ]),
+                    _vm._m(3, true),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -50206,7 +49831,7 @@ var render = function() {
                           "aria-hidden": "true"
                         }
                       },
-                      [_vm._m(3, true)]
+                      [_vm._m(4, true)]
                     )
                   ])
                 }),
@@ -50270,7 +49895,17 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "alert alert-danger" }, [
+        _vm._v("\n                      Assigned\n                    ")
       ])
     ])
   },
@@ -52913,7 +52548,7 @@ var render = function() {
               _c(
                 "tbody",
                 _vm._l(_vm.assignedemployees, function(item) {
-                  return _c("tr", { key: item.id }, [
+                  return _c("tr", { key: item.caseid }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.name))]),
@@ -53216,7 +52851,9 @@ var render = function() {
               _vm._m(4),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/assignedcase" } }, [
-                _c("p", { staticClass: "text-light" }, [_vm._v("Process Case")])
+                _c("p", { staticClass: "text-light" }, [
+                  _vm._v("Canceled Case")
+                ])
               ]),
               _vm._v(" "),
               _vm._m(5)
@@ -53243,9 +52880,7 @@ var render = function() {
               _vm._m(10),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/waitingforapproavalcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Waiting For Approve")
-                ])
+                _c("p", { staticClass: "text-light" }, [_vm._v("Approving")])
               ]),
               _vm._v(" "),
               _vm._m(11)
@@ -59500,7 +59135,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-sm-4" }, [
         _c("div", { staticClass: "page-header float-left" }, [
           _c("div", { staticClass: "page-title" }, [
-            _c("h1", [_c("strong", [_vm._v("Registerd Case")])])
+            _c("h1", [_c("strong", [_vm._v("Register Case")])])
           ])
         ])
       ]),
@@ -59513,7 +59148,7 @@ var staticRenderFns = [
                 _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
               ]),
               _vm._v(" "),
-              _c("li", { staticClass: "active" }, [_vm._v("Registerd Case")])
+              _c("li", { staticClass: "active" }, [_vm._v("Register Case")])
             ])
           ])
         ])
@@ -60469,8 +60104,8 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.rejectedCase, function(item, i) {
-                  return _c("tr", { key: i }, [
+                _vm._l(_vm.rejectedCase, function(item) {
+                  return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.name))]),
@@ -60751,11 +60386,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.assignedemployees, function(item) {
+                _vm._l(_vm.approving, function(item) {
                   return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.caseid))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.assignedEmployee))]),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.helper))]),
                     _vm._v(" "),
@@ -60772,46 +60407,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success btn-sm",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "modal",
-                            "data-target": "#exampleModal" + item.caseid
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-plus" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.editCase(item)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-edit" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteCase(item.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
-                    ]),
+                    _vm._m(3, true),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -60825,7 +60421,7 @@ var render = function() {
                           "aria-hidden": "true"
                         }
                       },
-                      [_vm._m(3, true)]
+                      [_vm._m(4, true)]
                     )
                   ])
                 }),
@@ -60847,7 +60443,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-sm-4" }, [
         _c("div", { staticClass: "page-header float-left" }, [
           _c("div", { staticClass: "page-title" }, [
-            _c("h1", [_c("strong", [_vm._v("Waiting For Approval Case")])])
+            _c("h1", [_c("strong", [_vm._v("Waiting For Approve By Admin")])])
           ])
         ])
       ]),
@@ -60861,7 +60457,7 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("li", { staticClass: "active" }, [
-                _vm._v("Waiting For Approval Case")
+                _vm._v("Waiting For Approve by Admin")
               ])
             ])
           ])
@@ -60893,8 +60489,16 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "alert alert-info" }, [_vm._v("Approving")])
     ])
   },
   function() {

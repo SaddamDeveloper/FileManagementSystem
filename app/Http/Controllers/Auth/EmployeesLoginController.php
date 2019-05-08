@@ -48,18 +48,6 @@ class EmployeesLoginController extends Controller
         return view('auth.employee-login');
     }
 
-            /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
-    {
-        return $this->guard('employee-web')->attempt(
-            $this->credentials($request), $request->filled('remember')
-        );
-    }
     /**
      * Get the guard to be used during authentication.
      *

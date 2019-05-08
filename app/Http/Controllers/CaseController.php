@@ -10,6 +10,7 @@ use App\Http\Resources\Cases as CaseResource;
 use App\Http\Resources\ClientDetails as ClientDetailsResource;
 use DB;
 use Response;
+use Illuminate\Support\Facades\Auth;
 class CaseController extends Controller
 {
     /**
