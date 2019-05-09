@@ -88,6 +88,7 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
+  props : ['user'],
 data(){
     return {
         value: null,
@@ -113,7 +114,7 @@ created(){
 },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/fetchrejectedcase';
+            page_url = page_url || 'api/fetchrejectedcase/'+this.$props.user.employee_id;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -202,7 +203,7 @@ created(){
             confirmButtonText: 'Yes, send it!'
             }).then((result) => {
                 if (result.value) {
-                    fetch(`api/sendtoadmin`, {
+                    fetch(`api/sendtoadminagain`, {
                         method: 'post',
                         body: JSON.stringify(this.toAdmin),
                         headers: {
@@ -215,6 +216,10 @@ created(){
                         'Your file has been sent.',
                         'success'
                         )
+
+                        fetch(`api/sendtoadminagain/${id.caseid}`, {
+                            method: 'delete'
+                        })
                         this.fetchCases();
                 }).catch(()=>{
                     Swal.fire(

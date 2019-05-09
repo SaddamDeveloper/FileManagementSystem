@@ -108,17 +108,33 @@ class EmployeeController extends Controller
         $fileName = $request->fileName;
 
          $caseId = $request->input('caseid');
-
         Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
 
-        $toEmployee->caseid = $request->input('caseid');
+        // $inquiries = DB::table('send_to_employees')->where('caseid', $caseId)->get();
+        // foreach($inquiries as $row_data){
+        //     $postfix =  $row_data->caseid;
+        //     if(!$postfix){
+        //     }
+        // }
+
+        $toEmployee->caseid = $request->input('caseid');;
         $toEmployee->employee_id = $request->input('employee_id');
         $toEmployee->docs = $fileName;
         $toEmployee->helper = implode(",", $request->input('helper'));
-
         if($toEmployee->save()){
-            return new EmployeeResource($toEmployee);
+          return new EmployeeResource($toEmployee);
         }
+            // foreach ( $inquiries as $kunde ) {
+            //      $existing_kunde = DB::table('send_to_employees')->where('caseid', $kunde->caseid)->first();
+            //      return $existing_kunde;
+            // //      return $existing_kunde;
+            // //     // if ( ! $kunde_exists ) {
+            // //     //     DB::connection( 'inn_db' )->table( 'customers' )->insert(
+            // //     //         [ $kunde->customer_id
+            // //     //              $kunde->name,
+            // //     //              $kunde->email]);
+            // //     //   }
+            // }
 
     }
 
@@ -206,10 +222,11 @@ class EmployeeController extends Controller
         }
     }
 
-    public function FetchRejectCase(){
+    public function FetchRejectCase($id){
          $completedCase = DB::table('rejectcase')
             ->join('send_to_employees', 'rejectcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
+            ->where('rejectcase.employee_id', $id)
             ->paginate(15);
             return $completedCase;
     }
@@ -229,10 +246,11 @@ class EmployeeController extends Controller
       DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
 
-    public function fetchApproving(){
+    public function fetchApproving($id){
       $approving = DB::table('toadmin')
            ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
            ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+           ->where('toadmin.employee_id', '=', $id)
            ->paginate(15);
            return $approving;
     }
@@ -244,5 +262,31 @@ class EmployeeController extends Controller
       $completedCase = DB::table('completedcase')->count();
       $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase);
       return $count;
+    }
+
+    public function EmployeeCounter($id){
+        $employeeAssignedCase = DB::table('send_to_employees')->where('employee_id', $id)->count();
+        $waitingforapprove = DB::table('toadmin')->where('employee_id', $id)->count();
+        $completedCase = DB::table('completedcase')->where('employee_id', $id)->count();
+        $rejectedCase = DB::table('rejectcase')->where('employee_id', $id)->count();
+        $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase);
+        return $count;
+    }
+
+    public function sendToadminAgain(Request $request){
+        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail
+        ($request->employee_id) : new sendToAdmin;
+        $toAdmin->caseid = $request->input('caseid');
+        // return $request->input('assignedEmployee');
+        $toAdmin->employee_id = $request->input('assignedEmployee');
+        $toAdmin->docs = $request->input('docs');
+
+        if($toAdmin->save()){
+            return new EmployeeResource($toAdmin);
+        }
+    }
+
+    public function deleteSendToAdmin($id){
+        DB::table('rejectcase')->where('caseid', '=', $id)->delete();
     }
 }

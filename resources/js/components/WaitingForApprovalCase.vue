@@ -5,6 +5,7 @@
                 <div class="page-header float-left">
                     <div class="page-title">
                         <h1><strong>Waiting For Approve By Admin</strong></h1>
+                        <input type="hidden" :value="user.name">
                     </div>
                 </div>
             </div>
@@ -70,6 +71,7 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
+  props : ['user'],
         data(){
         return {
             value: null,
@@ -89,7 +91,7 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/approving';
+            page_url = page_url || 'api/approving/'+this.$props.user.employee_id;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())

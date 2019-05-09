@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,10 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-// Route::apiResources(['case' => 'API\CaseController']);
-// Route::apiResources(['employee' => 'API\EmployeeController']);
-// Route::apiResources(['sendemployee' => 'API\sendToEmployeeController']);
 
 
 //List cases
@@ -63,6 +59,8 @@ Route::post('sendtodb', 'EmployeeController@toDb');
 //send to admin
 Route::post('sendtoadmin', 'EmployeeController@toAdmin');
 
+Route::post('sendtoadminagain', 'EmployeeController@sendToadminAgain');
+
 Route::delete('sendtoadmin/{id}', 'EmployeeController@deleteToAdmin');
 
 
@@ -83,7 +81,7 @@ Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 
 
 //Employee
-Route::get('employeeassignedemployees', 'EmployeeAssigned@index');
+Route::get('employeeassignedemployees/{id}', 'EmployeeAssigned@index');
 
 
 //For Approval project API
@@ -97,10 +95,14 @@ Route::get('completedcases', 'EmployeeController@CompletedCase');
 
 Route::post('rejectcase', 'EmployeeController@RejectCase');
 
-Route::get('fetchrejectedcase', 'EmployeeController@FetchRejectCase');
+Route::get('fetchrejectedcase/{id}', 'EmployeeController@FetchRejectCase');
 
 Route::delete('rejectcase/{id}', 'EmployeeController@DeleteRejectCase');
 
-Route::get('approving', 'EmployeeController@fetchApproving');
+Route::get('approving/{id}', 'EmployeeController@fetchApproving');
 
 Route::get('counter', 'EmployeeController@countingNewlyRegisterd');
+
+Route::get('employeecounter/{id}', 'EmployeeController@EmployeeCounter');
+
+Route::delete('sendtoadminagain/{id}', 'EmployeeController@deleteSendToAdmin');

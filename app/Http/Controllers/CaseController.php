@@ -20,6 +20,7 @@ class CaseController extends Controller
      */
     public function index()
     {
+
        $cases = \App\ClientDetails::with('cases')
        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
        ->paginate(15);

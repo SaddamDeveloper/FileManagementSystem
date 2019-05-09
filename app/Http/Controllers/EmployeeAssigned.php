@@ -15,12 +15,11 @@ class EmployeeAssigned extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($id)
     {
-        $username = $request->get('name');
         $employee = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
-            ->where('employees.name', '=', 'Sheendu Das')
+            ->where('send_to_employees.employee_id', '=', $id)
             ->paginate(15);
           return $employee;
         //  return CaseResource::collection($employee);

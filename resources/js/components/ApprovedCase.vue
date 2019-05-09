@@ -4,8 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Assigned Case</strong></h1>
-                        <input type="hidden" :value="user.name">
+                        <h1><strong>Approved Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -14,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Assigned Case</li>
+                            <li class="active">Approved Case</li>
                         </ol>
                     </div>
                 </div>
@@ -24,48 +23,47 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Assigned Case</strong>
+                        <strong class="card-title">Approved Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">#Case</th>
-                            <th scope="col">Assigned Employee</th>
-                            <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
-                        <td>{{ item.caseid }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.helper }}</td>
-                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td> NA </td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
-                                   <!-- Modal -->
+                                <th scope="col">#Case</th>
+                                <th scope="col">Assigned Employee</th>
+                                <th scope="col">Helper</th>
+                                <th scope="col">Assigned Docs by Admin</th>
+                                <th scope="col">Final Docs By Employee</th>
+                                <th scope="col">Remarks</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tr v-for="(item, i) in completedcases" :key="i">
+                            <td>{{ item.caseid }}</td>
+                            <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
+                            <td>{{ item.helper }}</td>
+                            <td></td>
+                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                            <td></td>
+                            <td><div class="alert alert-primary alert-sm">Approved</div></td>
+        <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Reason for Rejection</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="pushToDb(item.caseid)">
+                <form @submit.prevent="pushToApproved(item.caseid)">
                 <div class="modal-body">
-                    <table class="table table-bordered table-responsive">
+                    <table class="table table-resonsive table-bordered">
                         <tr>
-                            <th>Docs</th>
-                            <th>Remarks</th>
+                            <thead>Remarks</thead>
                         </tr>
                         <tr>
-                            <td><input type="file" name="docs" @change="processFile"></td>
-                            <td><input type="text" value=""></td>
+                            <td><input type="text" class="form-control"></td>
                         </tr>
                     </table>
                 </div>
@@ -77,7 +75,9 @@
                 </div>
             </div>
         </div>
-        </tr>
+                        </tr>
+                    <tbody>
+
                 </tbody>
             </table>
                     </div>
@@ -91,7 +91,6 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
-    props : ['user'],
         data(){
         return {
             value: null,
@@ -100,17 +99,7 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
-            assignedemployees: [],
-            toDb: {
-                docs: '',
-                remarks: ''
-            },
-            toAdmin: {
-                caseid: '',
-                docs: '',
-                employee_id: '',
-                helper: ''
-            }
+            completedcases: []
         }
     },
     created(){
@@ -121,13 +110,12 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            this.$props.user.employee_id;
-            page_url = page_url || 'api/employeeassignedemployees/'+this.$props.user.employee_id;
+            page_url = page_url || 'api/completedcases';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.assignedemployees = res.data;
+                this.completedcases = res.data;
                 vm.makePagination(res.meta, res.links);
             })
         },
@@ -180,63 +168,56 @@ export default {
             var fileReader = new FileReader();
 
             fileReader.readAsDataURL(e.target.files[0]);
+
             fileReader.onload = (e) => {
-                this.toDb.docs = e.target.result
+                this.toEmployee.docs = e.target.result
             }
-            this.toDb.fileName = e.target.files[0].name
+            this.toEmployee.fileName = e.target.files[0].name
         },
-        pushToDb(id){
-            this.toDb.caseid = id;
-            fetch(`api/sendtodb`, {
+        sendToEmployee(id){
+            this.toEmployee.caseid = id;
+            fetch(`api/sendemployee`, {
                 method: 'post',
-                body: JSON.stringify(this.toDb),
+                body: JSON.stringify(this.toEmployee),
                     headers: {
                 'content-type': 'application/json'
                 }
             })
         },
-        sendToAdmin(id){
-
-            this.toAdmin.caseid = id.caseid;
-            this.toAdmin.employee_id = id.employee_id;
-            this.toAdmin.helper = id.helper;
-            this.toAdmin.docs = id.docs;
+        confirmApprove(item){
             Swal.fire({
-            title: 'Are you sure want send to Admin?',
+            title: 'Do you want to Approve?',
             text: "You won't be able to revert this!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, send it!'
+            confirmButtonText: 'Yes, Approve it!'
             }).then((result) => {
                 if (result.value) {
-                    fetch(`api/sendtoadmin`, {
-                        method: 'post',
-                        body: JSON.stringify(this.toAdmin),
+                    this.toApproval.caseid = item.caseid;
+                    this.toApproval.employee_id = item.employee_id;
+                    fetch(`api/sendapproval`, {
+                    method: 'post',
+                    body: JSON.stringify(this.toApproval),
                         headers: {
-                            'content-type' : 'application/json'
-                        }
-                    })
-                    .then(()=>{
-                        Swal.fire(
-                        'Sent!',
-                        'Your file has been sent.',
-                        'success'
-                        )
-                        // fetch(`api/sendtoadmin/${id.caseid}`, {
-                        //     method: 'delete'
-                        // })
-                        this.fetchCases();
-                })
-                .catch(()=>{
-                    Swal.fire(
-                        'Failed!',
-                        'There was something wrong',
-                        'warning'
-                    )
-                });
+                    'content-type': 'application/json'
+                    }
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.toApproval.caseid = '';
+                this.toApproval.employee_id = '';
+                jQuery('#exampleModal'+this.toApproval.caseid).modal('hide');
+            })
+            .then(Swal.fire(
+                'Approved!',
+                'Case Has been Successfully Approved!',
+                'success'
+            ))
+            .catch(err => console.log(err))
                 }
+
             })
         }
     }

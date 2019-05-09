@@ -37,9 +37,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in assignedemployees" v-bind:key="item.id">
+                    <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
                         <td>{{ item.caseid }}</td>
-                        <td>{{ item.assignedEmployee }}</td>
+                        <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                         <td> <div class="alert alert-danger">

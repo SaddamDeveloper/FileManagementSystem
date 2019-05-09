@@ -5,7 +5,7 @@ use App\Http\Requests;
 use App\AEmployee;
 use App\Http\Resources\AssignedEmployee as AssignedEmployeeResource;
 use Illuminate\Http\Request;
-
+use DB;
 class AssignedEmployee extends Controller
 {
     /**
@@ -15,8 +15,11 @@ class AssignedEmployee extends Controller
      */
     public function index()
     {
-        $employees = AEmployee::paginate(15);
-        return  AssignedEmployeeResource::collection($employees);
+        $employees = DB::table('send_to_employees')
+            ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->paginate(15);
+        // return  AssignedEmployeeResource::collection($employees);
+        return $employees;
     }
 
     /**
