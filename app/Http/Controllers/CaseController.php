@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\indClientDetails;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cases;
@@ -11,6 +12,7 @@ use App\Http\Resources\ClientDetails as ClientDetailsResource;
 use DB;
 use Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 class CaseController extends Controller
 {
     /**
@@ -23,6 +25,7 @@ class CaseController extends Controller
 
        $cases = \App\ClientDetails::with('cases')
        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+       ->orderBy('cases.id', 'DESC')
        ->paginate(15);
          return CaseResource::collection($cases);
     }
@@ -48,6 +51,7 @@ class CaseController extends Controller
             $cdetails = new ClientDetails;
         }
 
+        //Generating CaseID
             $sql = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get();
             foreach($sql as $row_data){
                 $postfix =  $row_data->max_val;
@@ -63,6 +67,22 @@ class CaseController extends Controller
                 $caseid=$caseid.$addVal;
             }
 
+            // Generating ClientID
+            $clientids = DB::table('client_details')->select(DB::raw('max(substring(clientid, 5, 5)) as client_val'))->get();
+            foreach($clientids as $clientid){
+                $clientid_postfix =  $clientid->client_val;
+            }
+            $clientidstatic = 'CL';
+            $countClientId = DB::table('client_details')->select(DB::raw('max(substring(clientid, 5, 5)) as client_val'))->get()->count();
+            if($countClientId == 0){
+                $clientidstatic = $clientidstatic.'00001';
+            }
+            else{
+                $clientid_postfix = $clientid_postfix + 1;
+                $addValClientId=str_pad($clientid_postfix, 5, '0', STR_PAD_LEFT);
+                $clientidstatic=$clientidstatic.$addValClientId;
+            }
+
         $case->caseid = $caseid;
         $case->clientType = $request->input('clientType');
         $case->typeofwork = $request->input('typeofwork');
@@ -70,7 +90,7 @@ class CaseController extends Controller
         $case->amount = $request->input('amount');
         $case->paymentmode = $request->input('paymentmode');
 
-        $cdetails->clientid = $request->input('clientid');
+        $cdetails->clientid = $clientidstatic;
         $cdetails->clientName = $request->input('clientName');
         $cdetails->contactNo = $request->input('contactNo');
         $cdetails->altContactNo = $request->input('altContactNo');
@@ -114,5 +134,11 @@ class CaseController extends Controller
         if($case->delete()){
             return new CaseResource($case);
         }
+    }
+
+    public function search(){
+        $queryString = Input::get('queryString');
+        $clientDetails = ClientDetails::where('clientid', 'like', '%'.$queryString.'%')->get();
+        return response()->json($clientDetails);
     }
 }

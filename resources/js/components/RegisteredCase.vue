@@ -66,7 +66,7 @@
                             </div>
                             <div class="card-body">
                                 <!-- Credit Card -->
-                                <div id="client's_info">
+                                <div >
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -86,7 +86,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -95,7 +95,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -104,7 +104,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input  name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -113,7 +113,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -122,7 +122,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -131,7 +131,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -140,7 +140,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -149,7 +149,7 @@
                                                 </div>
                                                 <div class="col-md-2">X</div>
                                                 <div class="col-md-5">
-                                                    <input id="den_amt" name="den_amt" type="number" class="form-control input-sm">
+                                                    <input name="den_amt" type="number" class="form-control input-sm">
                                                 </div>
                                             </div>
 
@@ -217,7 +217,12 @@
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                                <!--<input id="personid" name="personid" v-model="queryString" v-on:keyup="getResults()" type="text" class="form-control" placeholder="Contact Person ID">-->
+                                                <!--<div class="options">-->
+                                                    <!--<ul>-->
+                                                        <!--<li v-for="detail in clientDetails" @click="selectClient(detail)">{{ detail.clientid }}</li>-->
+                                                    <!--</ul>-->
+                                                <!--</div>-->
                                             </div>
                                         </div>
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
@@ -418,7 +423,12 @@
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                                <input id="personid" name="personid" v-model="queryString" v-on:keyup="getResults()" v-text="" type="text" class="form-control" placeholder="Contact Person ID">
+                                                <div class="options">
+                                                    <ul>
+                                                        <li v-for="(detail, index) in clientDetails" @click="selectClient(detail)" :class="{ 'selected': (selected == index) }">{{ detail.clientid }}</li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
@@ -531,64 +541,15 @@
     </div>
 
 </template>
-
-// <script>
-//     export default {
-//         data() {
-//             return{
-//                 cases: {},
-//                 form: new Form()
-//             }
-//         },
-//     methods: {
-//         editCase(user){
-
-//         },
-//         loadCases(){
-//             axios.get("api/e").then(( { data }) => (this.cases = data.data) );
-//         },
-//         deleteCase(id){
-//             Swal.fire({
-//                 title: 'Are you sure?',
-//                 text: "You won't be able to revert this!",
-//                 type: 'warning',
-//                 showCancelButton: true,
-//                 confirmButtonColor: '#3085d6',
-//                 cancelButtonColor: '#d33',
-//                 confirmButtonText: 'Yes, delete it!'
-//                 }).then((result) => {
-//                     if (result.value) {
-//                         this.form.delete('api/e/'+id).then(()=>{
-//                             Swal.fire(
-//                             'Deleted!',
-//                             'Your file has been deleted.',
-//                             'success'
-//                             )
-//                     }).catch(()=>{
-//                         Swal.fire(
-//                             'Failed!',
-//                             'There was something wrong',
-//                             'warning'
-//                         )
-//                     });
-//                     }
-
-//             })
-//         }
-//     }
-//         ,
-//         created() {
-//             this.loadCases();
-//         }
-//     }
-// </script>
-
 <script>
 import DatePicker from 'vue2-datepicker'
 export default {
     components: { DatePicker },
     data(){
         return {
+            selected: 0,
+            queryString:'',
+            clientDetails:[],
             time1: '',
             time2: '',
             time3: '',
@@ -611,6 +572,7 @@ export default {
             caseid: '',
             pagination: {},
             edit: false,
+            searchEdit: false,
             selected: "1",
             optiontypes: [
                 { id: 1, name: 'Select Payment Method'},
@@ -632,6 +594,12 @@ export default {
     created(){
         this.fetchCases();
     },
+    computed: {
+        filterClientbyId: function(){
+           console.log(this.cases.filter());
+        }
+    }
+    ,
     methods: {
         fetchCases(page_url){
             page_url = page_url || 'api/cases';
@@ -708,7 +676,11 @@ export default {
                 this.casee.address = '';
                 this.casee.time2 = '';
                 this.casee.selected = ''
-                alert('Case Added');
+                    Swal.fire(
+                    'Sent!',
+                    'Your Project has been Saved.',
+                    'success'
+                    )
                 this.fetchCases();
             })
             .catch(err => console.log(err));
@@ -765,7 +737,37 @@ export default {
     },
     populateForm(){
         console.log('Hello');
-    }
+    },
+    getResults(){
+        this.clientDetails = [];
+        axios.get('api/search', {params: {queryString:this.queryString}}).then(res =>  {
+            res.data.forEach((clientDetail) =>  {
+                this.clientDetails.push(clientDetail);
+            })
+        })
+    },
+        selectClient(details){
+            this.searchEdit = true;
+            this.casee.clientName = details.clientName;
+            this.casee.contactNo = details.contactNo;
+            this.casee.altContactNo = details.altContactNo;
+            this.casee.email = details.email;
+            this.casee.address = details.address;
+        }
     }
 }
 </script>
+<style>
+    .options ul {
+        padding-left: 0;
+        list-style-type: none;
+        margin: 4px;
+        display: block;
+    }
+    .options ul li{
+        border-bottom: 1px solid lightgray;
+        padding: 5px;
+        cursor: pointer;
+        background: #f1f1f1;
+    }
+</style>

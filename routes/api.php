@@ -106,3 +106,5 @@ Route::get('counter', 'EmployeeController@countingNewlyRegisterd');
 Route::get('employeecounter/{id}', 'EmployeeController@EmployeeCounter');
 
 Route::delete('sendtoadminagain/{id}', 'EmployeeController@deleteSendToAdmin');
+
+Route::get('search', 'CaseController@search');

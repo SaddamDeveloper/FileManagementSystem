@@ -33,7 +33,17 @@ Route::prefix('employee')->group(function(){
 // Route::get('/{route?}', 'AdminController@index')->where('route', '([0-9]+(\/){0,1})*');
 // Route::get('/admin', 'AdminController@index');
 // if(Auth::user()->email == 'admin@mail.com'){
+  // Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
+if(Route::get('{path}', 'HomeController@index')){
+  Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
+}
+elseif (Route::get('{path}', 'AdminController@index')) {
   Route::get('{path}', 'AdminController@index')->where('path', '([A-z\d-\/_.]+)?');
+}
+else{
+  Route::get('{path}', 'EmployeeloginController@index')->where('path', '([A-z\d-\/_.]+)?');
+}
+
 // }
 // Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');
 

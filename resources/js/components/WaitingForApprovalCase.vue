@@ -156,6 +156,7 @@ export default {
             this.toEmployee.fileName = e.target.files[0].name
         },
         sendToEmployee(id){
+          
             this.toEmployee.caseid = id;
             fetch(`api/sendemployee`, {
                 method: 'post',
