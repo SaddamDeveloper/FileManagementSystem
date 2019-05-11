@@ -30,7 +30,7 @@
                     <div class="card-body card-block">
                         <div class="form-group">
                             <div class="form-group">
-                                <strong>CaseID: <input type="text" readonly v-model="casee.caseid" id="caseid"> </strong>
+                                <strong>CaseID: <input type="text" readonly v-model="casee.caseid"> </strong>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -167,7 +167,7 @@
                             </div>
                             <div class="card-body">
                                 <!-- Credit Card -->
-                                <div id="client's_info">
+                                <div>
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -189,17 +189,17 @@
                                 <strong class="card-title">RTGS/NEFT</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div>
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="" name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
+                                                <input name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
                                             </div>
                                             <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                                <input name="no" type="text" class="form-control" placeholder="Bank Name">
                                             </div>
                                             <div class="form-group">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Phone no">
+                                                <input name="altno" type="text" class="form-control" placeholder="Phone no">
                                             </div>
                                         </div>
                                         </div>
@@ -241,12 +241,12 @@
                             <strong class="card-title">Client Details (New Client)</strong>
                         </div>
                         <div class="card-body">
-                            <div id="client's_info">
+                            <div >
                                 <div class="card-body">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                            <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -256,22 +256,22 @@
                                     </div>
                                         <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                            <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                            <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                            <input name="altno" type="text" class="form-control" placeholder="Department">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                            <textarea name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
                                         </div>
                                     </div>
 
@@ -285,17 +285,17 @@
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div >
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input id="personid" name="personid" type="text" class="form-control" placeholder="Contact Person ID">
+                                                <input  name="personid" type="text" class="form-control" placeholder="Contact Person ID">
                                             </div>
                                         </div>
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
                                         <div class="col-md-5">
                                             <div class="form-group has-success">
-                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                                <input name="personno" type="text" class="form-control" placeholder="Contact Person No">
                                             </div>
                                         </div>
 
@@ -308,7 +308,7 @@
                             <strong class="card-title">Client Details (New Client)</strong>
                         </div>
                         <div class="card-body">
-                            <div id="client's_info">
+                            <div>
                                 <div class="card-body">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -332,7 +332,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                            <input  name="altno" type="text" class="form-control" placeholder="Department">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -351,7 +351,7 @@
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div >
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
@@ -361,7 +361,7 @@
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
                                         <div class="col-md-5">
                                             <div class="form-group has-success">
-                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                                <input name="personno" type="text" class="form-control" placeholder="Contact Person No">
                                             </div>
                                         </div>
 
@@ -375,37 +375,37 @@
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div>
                                     <div class="card-body">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.contactNo">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="altno" name="altno" type="text" class="form-control" placeholder="Department">
+                                                <input name="altno" type="text" class="form-control" placeholder="Department" v-model="casee.dept">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                                <textarea  name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address" v-model="casee.addr"></textarea>
                                             </div>
                                         </div>
 
@@ -419,14 +419,14 @@
                                 <strong class="card-title">Client Details (Existing Client)</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div>
                                     <div class="card-body">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input id="personid" name="personid" v-model="queryString" v-on:keyup="getResults()" v-text="" type="text" class="form-control" placeholder="Contact Person ID">
+                                                <input name="personid" v-model="queryString" @input="queryString = $event.target.value.toUpperCase()" v-on:keyup="getResults()" v-text="queryString" type="text" class="form-control" placeholder="Contact Person ID">
                                                 <div class="options">
                                                     <ul>
-                                                        <li v-for="(detail, index) in clientDetails" @click="selectClient(detail)" :class="{ 'selected': (selected == index) }">{{ detail.clientid }}</li>
+                                                        <li v-for="(detail, index) in clientDetails" v-show="!visible" @click="selectClient(detail)" v-text="detail.clientid" @keydown.enter="detail.clientid">{{ detail.clientid }}</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -434,7 +434,12 @@
                                         <div class="col-md-2"><div class="form-group"><strong>Or</strong></div></div>
                                         <div class="col-md-5">
                                             <div class="form-group has-success">
-                                                <input id="personno" name="personno" type="text" class="form-control" placeholder="Contact Person No">
+                                                <input name="personno" type="text" v-model="clientNo" v-on:keyup="getPhoneNo()" v-text="clientNo" class="form-control" placeholder="Contact Person No">
+                                                <div class="options">
+                                                    <ul>
+                                                        <li v-for="(detail, index) in clientDetailsNo" @click="selectClientsNo(detail)" v-text="detail.contactNo">{{ detail.contactNo }}</li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -447,7 +452,7 @@
                                 <strong class="card-title">Client Details (New Client)</strong>
                             </div>
                             <div class="card-body">
-                                <div id="client's_info">
+                                <div>
                                     <div class="card-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -522,7 +527,7 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><button type="button" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -541,6 +546,26 @@
     </div>
 
 </template>
+<style>
+    .options{
+        position:absolute;
+        display: block;
+        width:90%;
+        z-index:1;
+    }
+    .options ul {
+        padding-left: 0;
+        list-style-type: none;
+        margin: 4px;
+        display: block;
+    }
+    .options ul li{
+        border-bottom: 1px solid lightgray;
+        padding: 5px;
+        cursor: pointer;
+        background: #f1f1f1;
+    }
+</style>
 <script>
 import DatePicker from 'vue2-datepicker'
 export default {
@@ -549,7 +574,10 @@ export default {
         return {
             selected: 0,
             queryString:'',
+            clientNo:'',
+            visible:false,
             clientDetails:[],
+            clientDetailsNo: [],
             time1: '',
             time2: '',
             time3: '',
@@ -557,7 +585,7 @@ export default {
             lang: 'en',
             cases: [],
             casee: {
-                caseid: 'CASE00005',
+                caseid: '',
                 clientType: '',
                 typeofwork: '',
                 amount: '',
@@ -567,7 +595,8 @@ export default {
                 email: '',
                 address: '',
                 time2: '',
-                selected: ''
+                selected: '',
+                orgName: '',
             },
             caseid: '',
             pagination: {},
@@ -593,8 +622,10 @@ export default {
 
     created(){
         this.fetchCases();
+        this.showCaseId();
     },
     computed: {
+
         filterClientbyId: function(){
            console.log(this.cases.filter());
         }
@@ -682,6 +713,7 @@ export default {
                     'success'
                     )
                 this.fetchCases();
+                this.showCaseId();
             })
             .catch(err => console.log(err));
         }
@@ -710,6 +742,7 @@ export default {
                 this.casee.selected = ''
                 alert('Case Updated');
                 this.fetchCases();
+                this.showCaseId();
             })
             .catch(err => console.log(err));
         }
@@ -740,34 +773,54 @@ export default {
     },
     getResults(){
         this.clientDetails = [];
-        axios.get('api/search', {params: {queryString:this.queryString}}).then(res =>  {
-            res.data.forEach((clientDetail) =>  {
-                this.clientDetails.push(clientDetail);
+        if(this.queryString){
+            axios.get('api/search', {params: {queryString:this.queryString}}).then(res =>  {
+                res.data.forEach((clientDetail) =>  {
+                    this.clientDetails.push(clientDetail);
+                })
             })
-        })
+        }
     },
+        getPhoneNo(){
+            this.clientDetailsNo = [];
+            if(this.clientNo){
+                axios.get('api/searchphone', {params: {clientNo:this.clientNo}}).then(res =>  {
+                    res.data.forEach((Detail) =>  {
+                        this.clientDetailsNo.push(Detail);
+                    })
+                })
+            }
+        },
         selectClient(details){
             this.searchEdit = true;
+            this.queryString = details.clientid;
+            this.clientNo= details.contactNo;
             this.casee.clientName = details.clientName;
             this.casee.contactNo = details.contactNo;
             this.casee.altContactNo = details.altContactNo;
             this.casee.email = details.email;
             this.casee.address = details.address;
+            // this.visible = true;
+        },
+        selectClientsNo(details){
+            this.searchEdit = true;
+
+            this.queryString = details.clientid;
+            this.clientNo= details.contactNo;
+            this.casee.clientName = details.clientName;
+            this.casee.contactNo = details.contactNo;
+            this.casee.altContactNo = details.altContactNo;
+            this.casee.email = details.email;
+            this.casee.address = details.address;
+            this.visible = false;
+        },
+        showCaseId(){
+            fetch('api/caseid')
+                .then(res => res.json())
+                .then(data => {
+                    this.casee.caseid = data;
+                })
         }
     }
 }
 </script>
-<style>
-    .options ul {
-        padding-left: 0;
-        list-style-type: none;
-        margin: 4px;
-        display: block;
-    }
-    .options ul li{
-        border-bottom: 1px solid lightgray;
-        padding: 5px;
-        cursor: pointer;
-        background: #f1f1f1;
-    }
-</style>

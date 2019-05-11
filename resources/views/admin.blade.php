@@ -37,7 +37,6 @@
                 <a class="navbar-brand" href="/admindashboard"><img src="{{ asset('sufeeadmin/images/logo.png') }}" alt="Logo"></a>
                 <a class="navbar-brand hidden" href="/admindashboard"><img src="{{ asset('sufeeadmin/images/logo2.png') }}" alt="Logo"></a>
             </div>
-                <h3 class="menu-title">Master</h3>
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">

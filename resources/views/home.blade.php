@@ -46,9 +46,6 @@
                     <li class="active">
                             <router-link to="/registercase"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
                     </li>
-                    <li class="active">
-                            <router-link to="/user"> <i class="menu-icon fa fa-laptop"></i> User</router-link>
-                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

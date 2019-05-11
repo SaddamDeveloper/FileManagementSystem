@@ -86,10 +86,11 @@ class CaseController extends Controller
         $case->caseid = $caseid;
         $case->clientType = $request->input('clientType');
         $case->typeofwork = $request->input('typeofwork');
-        $case->time2 = $request->input('time2');
+        $date = $request->input('time2');
+        $formatedDate = substr($date, 0,10);
+        $case->time2 = $formatedDate;
         $case->amount = $request->input('amount');
         $case->paymentmode = $request->input('paymentmode');
-
         $cdetails->clientid = $clientidstatic;
         $cdetails->clientName = $request->input('clientName');
         $cdetails->contactNo = $request->input('contactNo');
@@ -97,7 +98,6 @@ class CaseController extends Controller
         $cdetails->email = $request->input('email');
         $cdetails->address = $request->input('address');
         $cdetails->caseid = $caseid;
-
         if($case->save() && $cdetails->save()){
             return new CaseResource($case);
             return new ClientDetailsResource($cdetails);
@@ -139,6 +139,30 @@ class CaseController extends Controller
     public function search(){
         $queryString = Input::get('queryString');
         $clientDetails = ClientDetails::where('clientid', 'like', '%'.$queryString.'%')->get();
+        return response()->json($clientDetails);
+    }
+
+    public function showCaseId(){
+        $sql = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get();
+        foreach($sql as $row_data){
+            $postfix =  $row_data->max_val;
+        }
+        $caseid = 'CASE';
+        $count = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get()->count();
+        if($count == 0){
+            $caseid = $caseid.'00001';
+        }
+        else{
+            $postfix = $postfix + 1;
+            $addVal=str_pad($postfix, 5, '0', STR_PAD_LEFT);
+            $caseid=$caseid.$addVal;
+            return response()->json($caseid);
+        }
+    }
+
+    public function searchPhone(){
+        $queryString = Input::get('clientNo');
+        $clientDetails = ClientDetails::where('contactNo', 'like', '%'.$queryString.'%')->get();
         return response()->json($clientDetails);
     }
 }
