@@ -23,9 +23,9 @@
       <div class="card text-white bg-flat-color-2">
         <div class="card-body pb-0">
           <h4 class="mb-0">
-            <span class="count">10468</span>
+            <span class="count">{{ assignedcase }}</span>
           </h4>
-          <p class="text-light">Assigned Case</p>
+         <router-link to="/assignedcase"><p class="text-light">Assigned Case</p></router-link>
 
           <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
           <canvas id="widgetChart2" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -75,9 +75,9 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">10468</span>
+        <span class="count">{{ completedcase }}</span>
       </h4>
-      <p class="text-light">Approved Case</p>
+     <router-link to="/approvedcase"><p class="text-light">Approved Case</p></router-link>
 
       <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -94,9 +94,9 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">10468</span>
+        <span class="count">{{ completedcase }}</span>
       </h4>
-      <p class="text-light">Completed Case</p>
+      <router-link to="/completedcase"><p class="text-light">Completed Case</p></router-link>
 
       <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <canvas id="widgetChart2" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -111,9 +111,9 @@
   <div class="card text-white bg-flat-color-3">
     <div class="card-body pb-0">
       <h4 class="mb-0">
-        <span class="count">10468</span>
+        <span class="count"> {{  completedcase }}</span>
       </h4>
-      <p class="text-light">Billing Case</p>
+      <router-link to="/billingcase"><p class="text-light">Billing Case</p></router-link>
 
     </div>
 

@@ -241,42 +241,37 @@
                             <strong class="card-title">Client Details (New Client)</strong>
                         </div>
                         <div class="card-body">
-                            <div >
-                                <div class="card-body">
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-success">
-                                            <input id="percontactNo" name="percontactNo" type="text" class="form-control" placeholder="Conatct No">
-                                        </div>
-                                    </div>
                                         <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                            <div class="form-group">
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-success">
-                                            <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-success">
-                                            <input name="altno" type="text" class="form-control" placeholder="Department">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-success">
-                                            <textarea name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    </div>
-                                </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <input name="altno" type="text" class="form-control" placeholder="Department" v-model="casee.dept">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group has-success">
+                                                <textarea  name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address" v-model="casee.addr"></textarea>
+                                            </div>
+                                        </div>
                             </div>
 
                         </div>
@@ -380,12 +375,12 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientName">
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.contactNo">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
@@ -426,7 +421,7 @@
                                                 <input name="personid" v-model="queryString" @input="queryString = $event.target.value.toUpperCase()" v-on:keyup="getResults()" v-text="queryString" type="text" class="form-control" placeholder="Contact Person ID">
                                                 <div class="options">
                                                     <ul>
-                                                        <li v-for="(detail, index) in clientDetails" v-show="!visible" @click="selectClient(detail)" v-text="detail.clientid" @keydown.enter="detail.clientid">{{ detail.clientid }}</li>
+                                                        <li v-for="(detail, index) in clientDetails" v-show="!visible" @click="selectClient(detail)" v-text="detail.clientid">{{ detail.clientid }}</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -499,50 +494,107 @@
 
             </form>
             </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Registered Case</strong>
-                    </div>
-                    <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">#Case</th>
-                            <th scope="col">Types of Work</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">Contact No</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Delivery Date</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in cases" v-bind:key="item.id">
-                        <td>{{ item.caseid }}</td>
-                        <td>{{ item.typeofwork }}</td>
-                        <td>{{ item.amount }}</td>
-                        <td>{{ item.clientName }}</td>
-                        <td>{{ item.contactNo }}</td>
-                        <td>{{ item.email }}</td>
-                        <td>{{ item.time2 }}</td>
-                        <td><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
-                    </tr>
-                </tbody>
-            </table>
-                    </div>
-                </div>
-            </div>
+                <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Registered Case</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Individual</a>
+                                                <a class="nav-item nav-link active show" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Govt & all</a>
+
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                            <th scope="col">#Case</th>
+                                                            <th scope="col">Types of Work</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Client Name</th>
+                                                            <th scope="col">Contact No</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">Delivery Date</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="item in cases" v-bind:key="item.id">
+                                                        <td>{{ item.caseid }}</td>
+                                                        <td>{{ item.typeofwork }}</td>
+                                                        <td>{{ item.amount }}</td>
+                                                        <td>{{ item.clientName }}</td>
+                                                        <td>{{ item.contactNo }}</td>
+                                                        <td>{{ item.email }}</td>
+                                                        <td>{{ item.time2 }}</td>
+                                                        <td><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                             <!-- pagination -->
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination">
+                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.prev_page_url)">Previous</a></li>
+                                                    <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>
+                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.next_page_url)">Next</a></li>
+                                                </ul>
+                                            </nav>
+                                            </div>
+                                            <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                            <th scope="col">#Case</th>
+                                                            <th scope="col">Types of Work</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Contact Person Name</th>
+                                                            <th scope="col">Contact No</th>
+                                                            <th scope="col">Organisation Name</th>
+                                                            <th scope="col">Telephone</th>
+                                                            <th scope="col">Department</th>
+                                                            <th scope="col">Address</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="item in govtnallcases" v-bind:key="item.id">
+                                                        <td>{{ item.caseid }}</td>
+                                                        <td>{{ item.typeofwork }}</td>
+                                                        <td>{{ item.amount }}</td>
+                                                        <td>{{ item.contactPersonName }}</td>
+                                                        <td>{{ item.contactNo }}</td>
+                                                        <td>{{ item.orgName }}</td>
+                                                        <td>{{ item.orgTel }}</td>
+                                                        <td>{{ item.dept }}</td>
+                                                        <td>{{ item.address }}</td>
+                                                        <td><button type="button" @click="editCase2(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                                                                         <!-- pagination -->
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination">
+                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination2.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination2.prev_page_url)">Previous</a></li>
+                                                    <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination2.current_page }} of {{ pagination2.last_page }}</a></li>
+                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination2.next_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination2.next_page_url)">Next</a></li>
+                                                </ul>
+                                            </nav>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
         </div>
-        <!-- pagination -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.prev_page_url)">Previous</a></li>
-                 <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.next_page_url)">Next</a></li>
-            </ul>
-        </nav>
+
     </div>
 
 </template>
@@ -584,6 +636,7 @@ export default {
             // custom lang
             lang: 'en',
             cases: [],
+            govtnallcases: [],
             casee: {
                 caseid: '',
                 clientType: '',
@@ -597,9 +650,16 @@ export default {
                 time2: '',
                 selected: '',
                 orgName: '',
+                clientPersonName: '',
+                personContactNo: '',
+                telNo: '',
+                dept: '',
+                addr:''
+
             },
             caseid: '',
             pagination: {},
+            pagination2: {},
             edit: false,
             searchEdit: false,
             selected: "1",
@@ -623,6 +683,7 @@ export default {
     created(){
         this.fetchCases();
         this.showCaseId();
+        this.govtnAll();
     },
     computed: {
 
@@ -650,6 +711,25 @@ export default {
                 prev_page_url: links.prev
             }
             this.pagination = pagination;
+        },
+        govtnAll(pageurl){
+             pageurl = pageurl || 'api/govtnallcases';
+            let vm = this;
+            fetch(pageurl)
+            .then(res => res.json())
+            .then(res => {
+                this.govtnallcases = res.data;
+                vm.makePagination2(res.meta, res.links);
+            })
+        },
+        makePagination2(meta, links){
+            let pagination2 = {
+                current_page: meta.current_page,
+                last_page: meta.last_page,
+                next_page_url: links.next,
+                prev_page_url: links.prev
+            }
+            this.pagination2 = pagination2;
         },
         deleteCase(id){
         Swal.fire({
@@ -758,6 +838,23 @@ export default {
         this.casee.altContactNo = item.altContactNo;
         this.casee.email = item.email;
         this.casee.address = item.address;
+        this.casee.time2 = item.time2;
+        this.casee.selected = item.selected;
+
+        if(this.casee.clientType){
+
+        }
+    },
+        editCase2(item){
+        this.edit = true;
+        this.casee.id = item.id;
+        this.casee.clientType = item.clientType;
+        this.casee.typeofwork = item.typeofwork;
+        this.casee.amount = item.amount;
+        this.casee.personContactNo = item.contactPersonName;
+        this.casee.telNo = item.orgTel;
+        this.casee.altContactNo = item.dept;
+        this.casee.email = item.address;
         this.casee.time2 = item.time2;
         this.casee.selected = item.selected;
 

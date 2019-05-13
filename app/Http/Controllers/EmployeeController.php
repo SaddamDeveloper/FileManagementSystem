@@ -289,4 +289,13 @@ class EmployeeController extends Controller
     public function deleteSendToAdmin($id){
         DB::table('rejectcase')->where('caseid', '=', $id)->delete();
     }
+
+    public function empCompletedCase($id){
+         $completedCase = DB::table('completedcase')
+            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->where('completedcase.employee_id', $id)
+            ->paginate(15);
+            return $completedCase;
+    }
 }

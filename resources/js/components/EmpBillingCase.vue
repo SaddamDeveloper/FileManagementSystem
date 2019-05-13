@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Billing Case</strong></h1>
+                        <h1><strong>Completed Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Billing Case</li>
+                            <li class="active">Completed Case</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Billing Case</strong>
+                        <strong class="card-title">Completed Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -91,6 +91,7 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
+    props: ['user'],
         data(){
         return {
             value: null,
@@ -110,7 +111,7 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/completedcases';
+            page_url = page_url || 'api/empcompletedcase/'+this.$props.user.employee_id;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -128,98 +129,6 @@ export default {
             }
             this.pagination = pagination;
         },
-    deleteCase(id){
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    fetch(`api/case/${id}`, {
-                        method: 'delete'
-                    })
-                    .then(()=>{
-                        Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
-                        this.fetchCases();
-                }).catch(()=>{
-                    Swal.fire(
-                        'Failed!',
-                        'There was something wrong',
-                        'warning'
-                    )
-                });
-                }
-
-            })
-        },
-        loadEmployee(){
-             axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
-        },
-        processFile(e) {
-
-            var fileReader = new FileReader();
-
-            fileReader.readAsDataURL(e.target.files[0]);
-
-            fileReader.onload = (e) => {
-                this.toEmployee.docs = e.target.result
-            }
-            this.toEmployee.fileName = e.target.files[0].name
-        },
-        sendToEmployee(id){
-            this.toEmployee.caseid = id;
-            fetch(`api/sendemployee`, {
-                method: 'post',
-                body: JSON.stringify(this.toEmployee),
-                    headers: {
-                'content-type': 'application/json'
-                }
-            })
-        },
-        confirmApprove(item){
-            Swal.fire({
-            title: 'Do you want to Approve?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Approve it!'
-            }).then((result) => {
-                if (result.value) {
-                    this.toApproval.caseid = item.caseid;
-                    this.toApproval.employee_id = item.employee_id;
-                    fetch(`api/sendapproval`, {
-                    method: 'post',
-                    body: JSON.stringify(this.toApproval),
-                        headers: {
-                    'content-type': 'application/json'
-                    }
-            })
-            .then(res => res.json())
-            .then(res => {
-                this.toApproval.caseid = '';
-                this.toApproval.employee_id = '';
-                jQuery('#exampleModal'+this.toApproval.caseid).modal('hide');
-            })
-            .then(Swal.fire(
-                'Approved!',
-                'Case Has been Successfully Approved!',
-                'success'
-            ))
-            .catch(err => console.log(err))
-                }
-
-            })
-        }
     }
 }
 </script>

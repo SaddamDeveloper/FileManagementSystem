@@ -21,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //List cases
 Route::get('cases', 'CaseController@index');
 
+//Govt and All
+Route::get('govtnallcases', 'CaseController@govtnAll');
+
 //List single case
 Route::get('case/{id}', 'CaseController@show');
 
@@ -112,3 +115,5 @@ Route::get('search', 'CaseController@search');
 Route::get('caseid', 'CaseController@showCaseId');
 
 Route::get('searchphone', 'CaseController@searchPhone');
+
+Route::get('empcompletedcase/{id}', 'EmployeeController@empCompletedCase');

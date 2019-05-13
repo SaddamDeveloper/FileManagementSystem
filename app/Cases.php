@@ -13,4 +13,9 @@ class Cases extends Model
         return $this->hasMany('App\ClientDetails');
     }
 
+    public function clientDetails2()
+    {
+        return $this->hasMany('App\ClientDetailsAnother');
+    }
+
 }

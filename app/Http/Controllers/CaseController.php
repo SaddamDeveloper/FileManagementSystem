@@ -6,6 +6,7 @@ use App\indClientDetails;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cases;
+use App\ClientDetailsAnother;
 use App\ClientDetails;
 use App\Http\Resources\Cases as CaseResource;
 use App\Http\Resources\ClientDetails as ClientDetailsResource;
@@ -23,13 +24,35 @@ class CaseController extends Controller
     public function index()
     {
 
-       $cases = \App\ClientDetails::with('cases')
+        $caseCollection = collect();
+       $cases = \App\ClientDetails::with(['cases'])
        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
-       ->orderBy('cases.id', 'DESC')
+        ->orderBy('cases.id', 'DESC')
        ->paginate(15);
+        // foreach($cases2 as $case2)
+        //     $caseCollection->push($case2);
+
+        // foreach($cases as $case)
+        //     $caseCollection->push($case);
+
+
+
+
+            // return $caseCollection;
+
+        // return $cases && $cases2;
+
          return CaseResource::collection($cases);
     }
 
+    public function govtnAll(){
+         $cases2 = \App\ClientDetailsAnother::with('cases')
+        ->join('cases', 'cases.caseid', '=', 'clientdetails2.caseid')
+        ->orderBy('cases.id', 'DESC')
+        ->paginate(15);
+
+        return CaseResource::collection($cases2);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -49,6 +72,7 @@ class CaseController extends Controller
         else{
             $case = new Cases;
             $cdetails = new ClientDetails;
+            $cdetails2 = new ClientDetailsAnother;
         }
 
         //Generating CaseID
@@ -84,23 +108,50 @@ class CaseController extends Controller
             }
 
         $case->caseid = $caseid;
-        $case->clientType = $request->input('clientType');
-        $case->typeofwork = $request->input('typeofwork');
-        $date = $request->input('time2');
-        $formatedDate = substr($date, 0,10);
-        $case->time2 = $formatedDate;
-        $case->amount = $request->input('amount');
-        $case->paymentmode = $request->input('paymentmode');
-        $cdetails->clientid = $clientidstatic;
-        $cdetails->clientName = $request->input('clientName');
-        $cdetails->contactNo = $request->input('contactNo');
-        $cdetails->altContactNo = $request->input('altContactNo');
-        $cdetails->email = $request->input('email');
-        $cdetails->address = $request->input('address');
-        $cdetails->caseid = $caseid;
-        if($case->save() && $cdetails->save()){
-            return new CaseResource($case);
-            return new ClientDetailsResource($cdetails);
+        if($request->input('clientType') == 2){
+            $case->clientType = $request->input('clientType');
+            $case->typeofwork = $request->input('typeofwork');
+            $date = $request->input('time2');
+            $formatedDate = substr($date, 0,10);
+            $case->time2 = $formatedDate;
+            $case->amount = $request->input('amount');
+            $case->paymentmode = $request->input('paymentmode');
+            $cdetails->clientid = $clientidstatic;
+
+            $cdetails->clientName = $request->input('clientName');
+            $cdetails->contactNo = $request->input('contactNo');
+            $cdetails->altContactNo = $request->input('altContactNo');
+            $cdetails->email = $request->input('email');
+            $cdetails->address = $request->input('address');
+            $cdetails->clientType = $request->input('clientType');
+            $cdetails->caseid = $caseid;
+            if($case->save() && $cdetails->save()){
+                return new CaseResource($case);
+                return new ClientDetailsResource($cdetails);
+            }
+        }
+        else{
+            $case->clientType = $request->input('clientType');
+            $case->typeofwork = $request->input('typeofwork');
+            $date = $request->input('time2');
+            $formatedDate = substr($date, 0,10);
+            $case->time2 = $formatedDate;
+            $case->amount = $request->input('amount');
+            $case->paymentmode = $request->input('paymentmode');
+
+            $cdetails2->clientid = $clientidstatic;
+            $cdetails2->contactPersonName = $request->input('clientPersonName');
+            $cdetails2->contactNo = $request->input('personContactNo');
+            $cdetails2->orgName = $request->input('orgName');
+            $cdetails2->orgTel = $request->input('telNo');
+            $cdetails2->dept = $request->input('dept');
+            $cdetails2->address = $request->input('addr');
+            $cdetails2->clientType = $request->input('clientType');
+            $cdetails2->caseid = $caseid;
+           if($case->save() && $cdetails2->save()){
+                return new CaseResource($case);
+                return new ClientDetailsResource($cdetails2);
+            }
         }
     }
 
