@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -117,3 +119,18 @@ Route::get('caseid', 'CaseController@showCaseId');
 Route::get('searchphone', 'CaseController@searchPhone');
 
 Route::get('empcompletedcase/{id}', 'EmployeeController@empCompletedCase');
+
+
+
+
+
+//Receptionist
+
+Route::post('reception',[
+    'uses'  =>  'ReceptionController@signup'
+]);
+
+Route:: get('reception/signin',[
+    'uses'  =>  'ReceptionController@signin'
+]);
+

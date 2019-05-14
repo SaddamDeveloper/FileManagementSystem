@@ -24,7 +24,6 @@ class CaseController extends Controller
     public function index()
     {
 
-        $caseCollection = collect();
        $cases = \App\ClientDetails::with(['cases'])
        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
         ->orderBy('cases.id', 'DESC')
