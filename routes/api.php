@@ -125,12 +125,11 @@ Route::get('empcompletedcase/{id}', 'EmployeeController@empCompletedCase');
 
 
 //Receptionist
-
-Route::post('reception',[
-    'uses'  =>  'ReceptionController@signup'
-]);
-
-Route:: get('reception/signin',[
-    'uses'  =>  'ReceptionController@signin'
-]);
-
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+});

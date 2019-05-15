@@ -7509,6 +7509,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -59625,7 +59626,6 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: { name: "clientType" },
                           on: {
-                            triggerChange: _vm.changeType,
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
                                 .call($event.target.options, function(o) {
@@ -59837,7 +59837,8 @@ var render = function() {
                             attrs: {
                               name: "personname",
                               type: "text",
-                              placeholder: "Conatact Person Name"
+                              placeholder: "Conatact Person Name",
+                              required: ""
                             },
                             domProps: { value: _vm.casee.clientPersonName },
                             on: {
@@ -59872,7 +59873,8 @@ var render = function() {
                               id: "pcontactNo",
                               name: "pcontactNo",
                               type: "text",
-                              placeholder: "Conatct No"
+                              placeholder: "Conatct No",
+                              required: ""
                             },
                             domProps: { value: _vm.casee.personContactNo },
                             on: {
@@ -60068,7 +60070,8 @@ var render = function() {
                                 attrs: {
                                   name: "personname",
                                   type: "text",
-                                  placeholder: "Conatact Person Name"
+                                  placeholder: "Conatact Person Name",
+                                  required: ""
                                 },
                                 domProps: { value: _vm.casee.clientPersonName },
                                 on: {
@@ -60106,7 +60109,8 @@ var render = function() {
                                     id: "pcontactNo",
                                     name: "pcontactNo",
                                     type: "text",
-                                    placeholder: "Conatct No"
+                                    placeholder: "Conatct No",
+                                    required: ""
                                   },
                                   domProps: {
                                     value: _vm.casee.personContactNo
@@ -60143,7 +60147,8 @@ var render = function() {
                                 attrs: {
                                   name: "organisationname",
                                   type: "text",
-                                  placeholder: "Organisation Name"
+                                  placeholder: "Organisation Name",
+                                  required: ""
                                 },
                                 domProps: { value: _vm.casee.orgName },
                                 on: {
@@ -60180,7 +60185,8 @@ var render = function() {
                                   attrs: {
                                     name: "organisationtelno",
                                     type: "text",
-                                    placeholder: "Organisation Tel No"
+                                    placeholder: "Organisation Tel No",
+                                    required: ""
                                   },
                                   domProps: { value: _vm.casee.telNo },
                                   on: {
@@ -61188,7 +61194,8 @@ var staticRenderFns = [
                 _c("strong", [
                   _vm._v("Grand Total: "),
                   _c("i", { staticClass: "fa fa-inr" }),
-                  _vm._v(" 250")
+                  _vm._v(" "),
+                  _c("div")
                 ])
               ])
             ])

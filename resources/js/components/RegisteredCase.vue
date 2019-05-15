@@ -35,7 +35,7 @@
                         </div>
                         <div class="row form-group">
                             <div class="col col-md-12">
-                                <select name="clientType" class="form-control" v-model="casee.clientType" v-on:triggerChange="changeType" >
+                                <select name="clientType" class="form-control" v-model="casee.clientType">
                                     <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                 </select>
                             </div>
@@ -154,7 +154,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-md-12"><strong>Grand Total: <i class="fa fa-inr"></i> 250</strong></div>
+                                                <div class="col-md-12"><strong>Grand Total: <i class="fa fa-inr"></i>
+                                                    <div v-if=""></div>
+                                                </strong></div>
                                             </div>
                                         </div>
                                         </div>
@@ -244,12 +246,12 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo" required>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
@@ -375,22 +377,22 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo" required>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
+                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
+                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -491,7 +493,6 @@
                             </button>
                             </div>
                         </div>
-
             </form>
             </div>
                 <div class="col-lg-12">
@@ -576,7 +577,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                                                                         <!-- pagination -->
+                                             <!-- pagination -->
                                             <nav aria-label="Page navigation example">
                                                 <ul class="pagination">
                                                     <li class="page-item" v-bind:class="[{ disabled: !pagination2.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination2.prev_page_url)">Previous</a></li>
@@ -686,7 +687,6 @@ export default {
         this.govtnAll();
     },
     computed: {
-
         filterClientbyId: function(){
            console.log(this.cases.filter());
         }
