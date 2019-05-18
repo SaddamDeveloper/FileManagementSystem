@@ -5,9 +5,13 @@
         <div class="card text-white bg-flat-color-1">
           <div class="card-body pb-0">
             <h4 class="mb-0">
-              <span class="count">{{NewRegistered}}</span>
+              <span class="count" v-if="users.selected == 0">{{ NewRegistered }}</span>
+              <span class="count" v-else-if="users.selected == 1">{{ NewRegistered }}</span>
+              <span class="count" v-else>{{ NewRegistered }}</span>
             </h4>
-            <router-link to="/registeredcase"><p class="text-light">Registered Case</p></router-link>
+            <router-link to="/registeredcase"  v-if="users.selected == 0"><p class="text-light">Registered Case</p></router-link>
+            <router-link to="/newcase" v-else-if="users.selected == 1"><p class="text-light">Newly Registered Case</p></router-link>
+            <router-link to="/employeeassignedcase" v-else><p class="text-light">Assigned Case</p></router-link>
 
             <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
             <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -73,7 +77,6 @@
 <div class="col-sm-6 col-lg-3">
   <div class="card text-white bg-flat-color-1">
     <div class="card-body pb-0">
-
       <h4 class="mb-0">
         <span class="count">{{ completedcase }}</span>
       </h4>
@@ -151,27 +154,47 @@ export default {
       NewRegistered: '',
       waitingforapprove: '',
       assignedcase: '',
-      completedcase: ''
+      completedcase: '',
+      users: {
+          email: '',
+          selected: ''
+      }
     }
   },
   created(){
     this.loadCounter();
+    this. fetchUser();
   },
   methods: {
     loadCounter(){
       fetch('api/counter')
       .then(res => res.json())
       .then(res => {
-        console.log(res.newRegistered);
         this.NewRegistered = res.newRegistered;
         this.waitingforapprove = res.waitingforapprove;
         this.assignedcase = res.assignedcase;
         this.completedcase = res.completedcase;
       })
     },
+    fetchUser(){
+        const token = localStorage.getItem('token');
+        fetch('/api/auth/me?token=' +token)
+                .then(res=>res.json())
+                .then(data => {
+                    this.users.email = data.email;
+                    this.users.selected = data.selected;
+                })
+        }
   },
   mounted() {
-    console.log('Component mounted.')
+    window.onpopstate = event => {
+      if (
+        window.localStorage.getItem("info") !== null &&
+        this.$route.path == "/siginin"
+      ) {
+        this.$router.push("/dashboard");
+      }
+    };
   }
 }
 </script>

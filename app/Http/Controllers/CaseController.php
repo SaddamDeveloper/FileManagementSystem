@@ -14,6 +14,10 @@ use DB;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use JWTAuth;
+use App\Test;
+use Tymon\JWTAuth\Facades\JWTAuth as TymonJWTAuth;
+
 class CaseController extends Controller
 {
     /**
@@ -214,5 +218,13 @@ class CaseController extends Controller
         $queryString = Input::get('clientNo');
         $clientDetails = ClientDetails::where('contactNo', 'like', '%'.$queryString.'%')->get();
         return response()->json($clientDetails);
+    }
+
+    public function pushToDb(Request $request){
+        $user = JWTAuth::parseToken()->toUser();
+        $test = new Test();
+        $test->content = $request->input('content');
+        $test->save();
+        return response()->json(['content'  =>  $test, 'user'   =>  $user]);
     }
 }

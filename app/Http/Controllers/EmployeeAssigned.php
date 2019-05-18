@@ -15,11 +15,10 @@ class EmployeeAssigned extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
         $employee = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
-            ->where('send_to_employees.employee_id', '=', $id)
             ->orderBy('send_to_employees.id', 'DESC')
             ->paginate(15);
           return $employee;

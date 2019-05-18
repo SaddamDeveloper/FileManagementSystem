@@ -68,97 +68,6 @@
                                 <!-- Credit Card -->
                                 <div >
                                     <div class="card-body">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-inr"></i>
-                                                    </div>
-                                                    <input type="number" placeholder="Advance Amount" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <span> Due Amount: <i class="fa fa-inr"></i> 120.00</span>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 2000
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 500
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 200
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input  name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 100
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 50
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 20
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 10
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-5">
-                                                    <i class="fa fa-inr"></i> 5
-                                                </div>
-                                                <div class="col-md-2">X</div>
-                                                <div class="col-md-5">
-                                                    <input name="den_amt" type="number" class="form-control input-sm">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-12"><strong>Grand Total: <i class="fa fa-inr"></i>
-                                                    <div v-if=""></div>
-                                                </strong></div>
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -453,22 +362,22 @@
                                     <div class="card-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="clientName" name="clientName" type="text" class="form-control" placeholder="Client's Name" v-model="casee.clientName">
+                                                <input id="clientName" name="clientName" type="text" class="form-control" placeholder="Client's Name" v-model="casee.clientName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="contactNo" name="contactNo" type="text" class="form-control" placeholder="Contact No" v-model="casee.contactNo">
+                                                <input id="contactNo" name="contactNo" type="text" class="form-control" placeholder="Contact No" v-model="casee.contactNo" required>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" v-model="casee.altContactNo">
+                                                <input id="altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" v-model="casee.altContactNo" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="casee.email">
+                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="casee.email" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -690,11 +599,12 @@ export default {
         filterClientbyId: function(){
            console.log(this.cases.filter());
         }
-    }
-    ,
-    methods: {
+    },
+    methods:
+    {
         fetchCases(page_url){
-            page_url = page_url || 'api/cases';
+        const token = localStorage.getItem('token');
+            page_url = page_url || '/api/cases?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -713,7 +623,8 @@ export default {
             this.pagination = pagination;
         },
         govtnAll(pageurl){
-             pageurl = pageurl || 'api/govtnallcases';
+            const token = localStorage.getItem('token');
+             pageurl = pageurl || '/api/govtnallcases?token='+token;
             let vm = this;
             fetch(pageurl)
             .then(res => res.json())
@@ -742,7 +653,8 @@ export default {
             confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.value) {
-                    fetch(`api/case/${id}`, {
+                    const token = localStorage.getItem('token');
+                    fetch(`api/case/${id}`+'?token='+token, {
                         method: 'delete'
                     })
                     .then(()=>{
@@ -766,8 +678,9 @@ export default {
     addCase(){
         if(this.edit === false){
             //Add Case
+            const token = localStorage.getItem('token')
             this.casee.caseid = jQuery("#caseid").val();
-            fetch('api/case', {
+            fetch('api/case?token=' + token, {
                 method: 'post',
                 body: JSON.stringify(this.casee),
                 headers: {

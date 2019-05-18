@@ -48,32 +48,38 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(VueRouter)
-
+Vue.component('signup', require('./components/SignUp.vue').default);
+Vue.component('userlogin', require('./components/LogIn.vue').default);
+// Vue.component('registeredcase', require('./components/RegisteredCase.vue').default);
+Vue.component('navheader', require('./components/NavigationHeader.vue').default);
+Vue.component('leftsidebar', require('./components/LeftSidebar.vue').default);
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-    { path: '/registercase', component: require('./components/Register.vue').default },
-    { path: '/admindashboard', component: require('./components/Admindashboard.vue').default },
-    { path: '/adminregistercase', component: require('./components/Adminregister.vue').default },
-    { path: '/managerdashboard', component: require('./components/ManagerDashboard.vue').default },
+  //   { path: '/registercase', component: require('./components/Register.vue').default },
+  //   { path: '/admindashboard', component: require('./components/Admindashboard.vue').default },
+  //   { path: '/adminregistercase', component: require('./components/Adminregister.vue').default },
+  //   { path: '/managerdashboard', component: require('./components/ManagerDashboard.vue').default },
     { path: '/employee', component: require('./components/Employee.vue').default },
-    { path: '/gst', component: require('./components/Gst.vue').default },
-    { path: '/worktype', component: require('./components/Worktype.vue').default },
-    { path: '/client', component: require('./components/Client.vue').default },
-    { path: '/managerregister', component: require('./components/ManagerRegister.vue').default },
+  //   { path: '/gst', component: require('./components/Gst.vue').default },
+  //   { path: '/worktype', component: require('./components/Worktype.vue').default },
+  //   { path: '/client', component: require('./components/Client.vue').default },
+  //   { path: '/managerregister', component: require('./components/ManagerRegister.vue').default },
     { path: '/registeredcase', component: require('./components/RegisteredCase.vue').default },
     { path: '/newcase', component: require('./components/NewCase.vue').default },
     { path: '/assignedcase', component: require('./components/AssignedCase.vue').default },
-    { path: '/employeedashboard', component: require('./components/Employeedashboard.vue').default },
+  //   { path: '/employeedashboard', component: require('./components/Employeedashboard.vue').default },
     { path: '/employeeassignedcase', component: require('./components/EmployeeAssignedCase.vue').default },
-    { path: '/forapprovalcase', component: require('./components/ForApprovalCase.vue').default },
+  //   { path: '/forapprovalcase', component: require('./components/ForApprovalCase.vue').default },
     { path: '/completedcase', component: require('./components/CompletedCase.vue').default },
-    { path: '/rejectedcase', component: require('./components/RejectedCase.vue').default },
-    { path: '/waitingforapproavalcase', component: require('./components/WaitingForApprovalCase.vue').default },
+    // { path: '/rejectedcase', component: require('./components/RejectedCase.vue').default },
+  //   { path: '/waitingforapproavalcase', component: require('./components/WaitingForApprovalCase.vue').default },
     { path: '/billingcase', component: require('./components/BillingCase.vue').default },
     { path: '/approvedcase', component: require('./components/ApprovedCase.vue').default },
-    { path: '/empapprovedcase', component: require('./components/EmpApprovedCase.vue').default },
-    { path: '/empbillingcase', component: require('./components/EmpBillingCase.vue').default },
+  //   { path: '/empapprovedcase', component: require('./components/EmpApprovedCase.vue').default },
+  //   { path: '/empbillingcase', component: require('./components/EmpBillingCase.vue').default },
+  //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]
+
 
 const router = new VueRouter({
     mode: 'history',

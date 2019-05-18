@@ -175,7 +175,9 @@ export default {
                 email: '',
                 designation: '',
                 select: [],
-                address: ''
+                address: '',
+                password: 'password',
+                selected: '2'
             },
             employee_id: '',
             pagination: {},
@@ -192,7 +194,7 @@ export default {
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.employees = res.data;
+                this.employees = res;
                 vm.makePagination(res.meta, res.links);
             })
             .catch(err => console.log(err));
@@ -207,7 +209,7 @@ export default {
             this.pagination = pagination;
         },
         deleteEmployee(id){
-                    Swal.fire({
+            Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             type: 'warning',
@@ -241,7 +243,7 @@ export default {
         addEmployee(){
             if(this.edit === false){
                 //Add
-                fetch(`api/employee`, {
+                fetch(`api/user`, {
                     method: 'post',
                     body: JSON.stringify(this.employee),
                      headers: {

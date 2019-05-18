@@ -81,7 +81,7 @@
                         <td>{{ item.time2 }}</td>
                         <td>
                             <select class="form-control" name="employee_id" v-model="toEmployee.employee_id">
-                                <option  v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
+                                <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
                             </select>
                         </td>
                         <td>
@@ -175,7 +175,8 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/cases';
+            const token = localStorage.getItem('token');
+            page_url = page_url || '/api/cases?token=' +token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -226,7 +227,8 @@ export default {
             })
         },
         loadEmployee(){
-             axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
+            const token = localStorage.getItem('token');
+             axios.get("/api/employees?token="+token).then(( { data }) => (this.employees = data));
         },
         processFile(e) {
 

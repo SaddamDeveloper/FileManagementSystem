@@ -685,8 +685,9 @@
             addCase(){
                 if(this.edit === false){
                     //Add Case
+                    const token = localStorage.getItem('token')
                     this.casee.caseid = jQuery("#caseid").val();
-                    fetch('api/case', {
+                    fetch('api/case?token=' + token, {
                         method: 'post',
                         body: JSON.stringify(this.casee),
                         headers: {

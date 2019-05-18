@@ -65,19 +65,20 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            {{--  @if (Route::has('login'))  --}}
                 <div class="top-right links">
-                    @auth
+                    {{--  @auth  --}}
+                     <router-link to="/signup"> <i class="menu-icon fa fa-laptop"></i>{{ __('NewSignup') }} </router-link>
                         <a href="{{ url('/home') }}">Home</a>
-                    @else
+                    {{--  @else  --}}
                         <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
+                        {{--  @if (Route::has('register'))  --}}
                             <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+                        {{--  @endif  --}}
+                    {{--  @endauth  --}}
                 </div>
-            @endif
+            {{--  @endif  --}}
 
             <div class="content">
                 <b class="title">

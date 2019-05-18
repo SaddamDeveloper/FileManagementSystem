@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 //List cases
-Route::get('cases', 'CaseController@index');
+Route::get('cases', ['uses' =>  'CaseController@index', 'middleware'=>'jwt']);
 
 //Govt and All
 Route::get('govtnallcases', 'CaseController@govtnAll');
@@ -30,13 +30,21 @@ Route::get('govtnallcases', 'CaseController@govtnAll');
 Route::get('case/{id}', 'CaseController@show');
 
 //Create new case
-Route::post('case', 'CaseController@store');
+// Route::post('case', 'CaseController@store');
+
+Route::post('case', [
+    'uses'  =>  'CaseController@store',
+    'middleware'    => 'jwt'
+]);
 
 //Update case
 Route::put('case', 'CaseController@store');
 
 //Delete case
-Route::delete('case/{id}', 'CaseController@destroy');
+Route::delete('case/{id}', [
+    'uses'  =>  'CaseController@destroy',
+    'middleware'    =>  'jwt'
+]);
 
 
 //Route for Employee Crud
@@ -86,7 +94,7 @@ Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 
 
 //Employee
-Route::get('employeeassignedemployees/{id}', 'EmployeeAssigned@index');
+Route::get('employeeassignedemployees/', 'EmployeeAssigned@index');
 
 
 //For Approval project API
@@ -131,5 +139,14 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('me', 'AuthController@me');
+    Route::post('payload', 'AuthController@payload');
 });
+
+Route::post('user',[
+    'uses'  =>  'AuthController@signup',
+]);
+
+Route::post('admin', [
+    'uses'  =>  'AuthController@signupadmin',
+]);

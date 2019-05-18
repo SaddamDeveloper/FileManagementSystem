@@ -44,7 +44,7 @@
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                         <td> <div class="alert alert-info">Approving</div> </td>
-                                   <!-- Modal -->
+       <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -156,7 +156,7 @@ export default {
             this.toEmployee.fileName = e.target.files[0].name
         },
         sendToEmployee(id){
-          
+
             this.toEmployee.caseid = id;
             fetch(`api/sendemployee`, {
                 method: 'post',

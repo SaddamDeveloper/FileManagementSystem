@@ -5,7 +5,6 @@
                 <div class="page-header float-left">
                     <div class="page-title">
                         <h1><strong>Assigned Case</strong></h1>
-                        <input type="hidden" :value="user.name">
                     </div>
                 </div>
             </div>
@@ -91,7 +90,6 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
 export default {
-    props : ['user'],
         data(){
         return {
             value: null,
@@ -121,8 +119,7 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            this.$props.user.employee_id;
-            page_url = page_url || 'api/employeeassignedemployees/'+this.$props.user.employee_id;
+            page_url = page_url || 'api/employeeassignedemployees/';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())

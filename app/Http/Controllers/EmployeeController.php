@@ -24,8 +24,12 @@ class EmployeeController extends Controller
     public function index()
     {
         //List of Employees
-        $employees = Employee::paginate(15);
-        return  EmployeeResource::collection($employees);
+        // $employees = Employee::paginate(15);
+        // return  EmployeeResource::collection($employees);
+        $data = DB::table('users')
+            ->join('employees', 'users.email', '=', 'employees.email')
+            ->get();
+            return $data;
     }
 
     /**
