@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2019 at 03:35 PM
+-- Generation Time: May 18, 2019 at 03:42 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -44,7 +44,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Isabel Erdman DDS', 'admin@mail.com', '2019-03-28 02:48:41', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'vLqMZU6gxF', '2019-03-28 02:48:41', '2019-03-28 02:48:41');
+(1, 'Isabel Erdman DDS', 'admin@mail.com', '2019-03-28 02:48:41', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'vLqMZU6gxF', '2019-03-28 02:48:41', '2019-03-28 02:48:41'),
+(4, 'admin', 'admin1@mail.com', NULL, '$2y$10$e55BhhlYT7qyghEkUzicc.bIrxaenDE0L8BqGm3U6v3HpudyRToga', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,14 +91,29 @@ INSERT INTO `cases` (`id`, `caseid`, `clientType`, `typeofwork`, `time2`, `amoun
 (33, 'CASE00019', '2', 'How', '2019-05-30', '123', NULL, '2019-05-11 06:26:56', '2019-05-11 06:26:56'),
 (35, 'CASE00020', '3', '23232', '2019-05-16', '123', NULL, '2019-05-13 02:38:13', '2019-05-13 02:38:13'),
 (36, 'CASE00021', '3', '23232', '2019-05-16', '123', NULL, '2019-05-13 02:38:52', '2019-05-13 02:38:52'),
-(37, 'CASE00022', '5', 'Digital Library', '2019-05-06', '2323', NULL, '2019-05-13 03:00:36', '2019-05-13 03:00:36'),
 (38, 'CASE00023', '2', 'How', '2019-05-14', '123', NULL, '2019-05-13 03:02:00', '2019-05-13 03:02:00'),
 (39, 'CASE00024', '2', 'ss', '2019-05-15', '123', NULL, '2019-05-13 05:43:34', '2019-05-13 05:43:34'),
-(40, 'CASE00025', '3', 'How', '2019-05-23', '122', NULL, '2019-05-13 05:45:08', '2019-05-13 05:45:08'),
 (41, 'CASE00026', '4', 'Data Collection', '2019-05-30', '123', NULL, '2019-05-13 06:19:19', '2019-05-13 06:19:19'),
-(42, 'CASE00027', '3', 'Data Collection', '2019-05-30', '123', NULL, '2019-05-13 06:19:55', '2019-05-13 06:19:55'),
 (43, 'CASE00028', '2', 'Demo Project', '2019-05-14', '12345', NULL, '2019-05-13 06:54:24', '2019-05-13 06:54:24'),
-(44, 'CASE00029', '2', 'Return', '2019-05-16', '2500', NULL, '2019-05-13 07:48:18', '2019-05-13 07:48:18');
+(44, 'CASE00029', '2', 'Return', '2019-05-16', '2500', NULL, '2019-05-13 07:48:18', '2019-05-13 07:48:18'),
+(45, 'CASE00030', '3', 'Data', '', NULL, NULL, '2019-05-16 01:57:09', '2019-05-16 01:57:09'),
+(46, 'CASE00031', NULL, NULL, '', NULL, NULL, '2019-05-17 02:58:48', '2019-05-17 02:58:48'),
+(47, 'CASE00032', NULL, NULL, '', NULL, NULL, '2019-05-17 02:58:51', '2019-05-17 02:58:51'),
+(48, 'CASE00033', '2', 'Digital Library', '2019-05-30', '123', NULL, '2019-05-17 03:00:26', '2019-05-17 03:00:26'),
+(49, 'CASE00034', '2', 'How', '2019-05-30', '123', NULL, '2019-05-17 03:02:06', '2019-05-17 03:02:06'),
+(50, 'CASE00035', NULL, NULL, '', NULL, NULL, '2019-05-17 03:04:26', '2019-05-17 03:04:26'),
+(51, 'CASE00036', NULL, NULL, '', NULL, NULL, '2019-05-17 03:07:23', '2019-05-17 03:07:23'),
+(52, 'CASE00037', '2', 'Data Collection', '2019-05-23', '123', NULL, '2019-05-17 03:07:58', '2019-05-17 03:07:58'),
+(53, 'CASE00038', NULL, NULL, '', NULL, NULL, '2019-05-17 03:09:07', '2019-05-17 03:09:07'),
+(54, 'CASE00039', '1', NULL, '', NULL, NULL, '2019-05-17 03:14:45', '2019-05-17 03:14:45'),
+(55, 'CASE00040', NULL, NULL, '', NULL, NULL, '2019-05-17 03:21:04', '2019-05-17 03:21:04'),
+(57, 'CASE00042', NULL, NULL, '', NULL, NULL, '2019-05-17 03:59:18', '2019-05-17 03:59:18'),
+(59, 'CASE00043', NULL, NULL, '', NULL, NULL, '2019-05-17 06:58:55', '2019-05-17 06:58:55'),
+(60, 'CASE00044', NULL, NULL, '', NULL, NULL, '2019-05-17 07:34:21', '2019-05-17 07:34:21'),
+(61, 'CASE00045', NULL, NULL, '', NULL, NULL, '2019-05-17 07:34:23', '2019-05-17 07:34:23'),
+(62, 'CASE00046', NULL, NULL, '', NULL, NULL, '2019-05-17 07:34:23', '2019-05-17 07:34:23'),
+(63, 'CASE00047', NULL, NULL, '', NULL, NULL, '2019-05-17 07:40:09', '2019-05-17 07:40:09'),
+(64, 'CASE00048', '2', 'Data Live Collection', '2019-05-23', '123', NULL, '2019-05-18 08:06:47', '2019-05-18 08:06:47');
 
 -- --------------------------------------------------------
 
@@ -123,10 +139,7 @@ CREATE TABLE `clientdetails2` (
 --
 
 INSERT INTO `clientdetails2` (`id`, `clientid`, `contactPersonName`, `contactNo`, `orgName`, `orgTel`, `dept`, `address`, `caseid`, `clientType`) VALUES
-(1, 'CL00010', 'sasa', 'dsds', 'sdas', 'sdsd@m.com', 'asas', 'dsdsd', 'CASE00021', 0),
-(2, 'CL00010', '434343', '5454', '54645', 'm@m.c', 'IT', 'asaad', 'CASE00022', 0),
-(3, 'CL00012', '434343', 'asas', 'dsd', '3424', 'IT', '242343', 'CASE00025', 3),
-(4, 'CL00012', 'sasa', '866', 'asa', 'asads', 'dsa', 'asdasd', 'CASE00027', 3);
+(1, 'CL00010', 'sasa', 'dsds', 'sdas', 'sdsd@m.com', 'asas', 'dsdsd', 'CASE00021', 0);
 
 -- --------------------------------------------------------
 
@@ -174,7 +187,11 @@ INSERT INTO `client_details` (`id`, `clientid`, `clientName`, `contactNo`, `altC
 (32, 'CL00010', 'asas', '12243', '43421', 'iamsaddamhussain99@gmail.com', 'asaddsds', 'CASE00023', 0, '2019-05-13 03:02:00', '2019-05-13 03:02:00'),
 (33, 'CL00011', 'sasa', 'sds', 'eqewew', 'shubhendu@m.com', 'adaa', 'CASE00024', 2, '2019-05-13 05:43:34', '2019-05-13 05:43:34'),
 (34, 'CL00012', 'Saddam', '6785', '43421', 'nishi@mail.com', 'Shillong', 'CASE00028', 2, '2019-05-13 06:54:24', '2019-05-13 06:54:24'),
-(35, 'CL00013', 'Nishi1', '908755544', NULL, 'konsam.nishi@gmail.com', 'Polo', 'CASE00029', 2, '2019-05-13 07:48:18', '2019-05-13 07:48:18');
+(35, 'CL00013', 'Nishi1', '908755544', NULL, 'konsam.nishi@gmail.com', 'Polo', 'CASE00029', 2, '2019-05-13 07:48:18', '2019-05-13 07:48:18'),
+(36, 'CL00014', 'Saddam', '6785', '43421', 'huxx@mail.com', 'Shillong', 'CASE00033', 2, '2019-05-17 03:00:26', '2019-05-17 03:00:26'),
+(37, 'CL00015', '23232', '4343', '24', 'iamsaddamhussain99@gmail.com', 'dsdsd', 'CASE00034', 2, '2019-05-17 03:02:06', '2019-05-17 03:02:06'),
+(38, 'CL00016', 'asas', '86767', '43421', 'user@mail.com', 'dsds', 'CASE00037', 2, '2019-05-17 03:07:58', '2019-05-17 03:07:58'),
+(40, 'CL00017', 'Saddam', '6785', '43421', 'user@mail.com', 'asasasa', 'CASE00048', 2, '2019-05-18 08:06:47', '2019-05-18 08:06:47');
 
 -- --------------------------------------------------------
 
@@ -187,14 +204,6 @@ CREATE TABLE `completedcase` (
   `caseid` varchar(255) NOT NULL,
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `completedcase`
---
-
-INSERT INTO `completedcase` (`id`, `caseid`, `employee_id`) VALUES
-(6, 'CASE00028', 'EMP00001'),
-(7, 'CASE00029', 'EMP00002');
 
 -- --------------------------------------------------------
 
@@ -218,10 +227,8 @@ CREATE TABLE `docfile` (
 CREATE TABLE `employees` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `employee_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `no` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
   `designation` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expertise` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -233,10 +240,8 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `employee_id`, `name`, `no`, `email`, `password`, `designation`, `expertise`, `address`, `created_at`, `updated_at`) VALUES
-(1, 'EMP00001', 'Sheendu Das', '67486796', 'shubhendu@m.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Engineer', 'accounting', 'adada', '2019-05-04 04:40:09', '2019-05-04 04:40:09'),
-(2, 'EMP00002', 'Medini Sonowal', '7565674563', 'medini@mail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Project manager', '6', 'Dibrugarh', '2019-05-07 01:49:00', '2019-05-07 01:49:00'),
-(3, 'EMP00003', 'Nishi Konsam', '45685685', 'nishi@mail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Network Enigneer', 'it,7', 'Manipur', '2019-05-08 23:45:19', '2019-05-08 23:45:19');
+INSERT INTO `employees` (`id`, `employee_id`, `no`, `email`, `designation`, `expertise`, `address`, `created_at`, `updated_at`) VALUES
+(10, 'EMP00001', '869676', 'medini@mail.com', 'Back office', 'it,banking', 'Dibrugarh', '2019-05-18 07:08:02', '2019-05-18 07:08:02');
 
 -- --------------------------------------------------------
 
@@ -260,7 +265,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_03_22_092043_create_reg_cases_table', 1),
 (4, '2019_03_26_062424_create_admins_table', 1),
 (5, '2019_03_27_130521_create_employees_table', 2),
-(7, '2019_03_29_114448_create_send_to_employees_table', 3);
+(7, '2019_03_29_114448_create_send_to_employees_table', 3),
+(8, '2019_05_14_065557_create_user_table', 4);
 
 -- --------------------------------------------------------
 
@@ -273,6 +279,29 @@ CREATE TABLE `password_resets` (
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receptions`
+--
+
+CREATE TABLE `receptions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `receptions`
+--
+
+INSERT INTO `receptions` (`id`, `created_at`, `updated_at`, `name`, `email`, `password`, `remember_token`) VALUES
+(12, '2019-05-15 07:31:07', '2019-05-15 07:31:07', 'Saddam', 'sishack@mail.com', '$2y$10$4m1hCJW7ixxSm8vO.JTrlOz.1.VhFDCbr0xcjUVPuTPDqDwJ0/RyO', NULL);
 
 -- --------------------------------------------------------
 
@@ -301,15 +330,27 @@ CREATE TABLE `send_to_employees` (
   `employee_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `send_to_employees`
+-- Table structure for table `test`
 --
 
-INSERT INTO `send_to_employees` (`id`, `caseid`, `helper`, `docs`, `employee_id`) VALUES
-(24, 'CASE00028', 'Rajesh', 'mailList.xlsx', 'EMP00001'),
-(25, 'CASE00024', 'Rajesh', 'cover letter for data entry.txt', 'EMP00002'),
-(26, 'CASE00018', 'Raju', 'DEE_REGISTRATION.txt', 'EMP00003'),
-(27, 'CASE00029', 'Mohit,Rajesh', 'CCTV Surveilance System DGAR Laimu.xlsx', 'EMP00002');
+CREATE TABLE `test` (
+  `id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `test`
+--
+
+INSERT INTO `test` (`id`, `content`) VALUES
+(1, 'Hello world'),
+(2, 'Hello world'),
+(3, 'This is hussain'),
+(4, 'Hello Changed'),
+(5, 'This is test content');
 
 -- --------------------------------------------------------
 
@@ -338,15 +379,18 @@ CREATE TABLE `users` (
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `selected` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Margaretta Donnelly', 'user@mail.com', '2019-03-28 02:49:27', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '4xN67Kcnbk3fV4fdqAxKGEOI5767YpUhDf3huQ3mJss95MjMstEj2SOCCtr6', '2019-03-28 02:49:27', '2019-03-28 02:49:27');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `selected`) VALUES
+(7, 'user', 'user@mail.com', NULL, '$2y$10$sfWOprHfg.b9iRjqIxR2i.j.5pR8mo7GA1GdQ/MHUbjXJcRaJfWTy', NULL, NULL, NULL, 0),
+(8, 'admin', 'admin@mail.com', NULL, '$2y$10$hAsYEQu7unZsPOLdouu18O6Zk/t4as9RseBtA3xPKq7mQUeK8wm6y', NULL, NULL, NULL, 1),
+(13, 'medini', 'medini@mail.com', NULL, '$2y$10$BE.0vhuKM3HV58oPf0lf9uThPk0hn.HsepLn5PUBoCnqlmylWwWpa', NULL, NULL, NULL, 2);
 
 --
 -- Indexes for dumped tables
@@ -416,6 +460,13 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indexes for table `receptions`
+--
+ALTER TABLE `receptions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `receptions_email_unique` (`email`);
+
+--
 -- Indexes for table `rejectcase`
 --
 ALTER TABLE `rejectcase`
@@ -430,6 +481,12 @@ ALTER TABLE `send_to_employees`
   ADD PRIMARY KEY (`id`),
   ADD KEY `caseid` (`caseid`),
   ADD KEY `employee_id` (`employee_id`);
+
+--
+-- Indexes for table `test`
+--
+ALTER TABLE `test`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `toadmin`
@@ -454,25 +511,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `clientdetails2`
 --
 ALTER TABLE `clientdetails2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `client_details`
 --
 ALTER TABLE `client_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `completedcase`
@@ -490,13 +547,19 @@ ALTER TABLE `docfile`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `receptions`
+--
+ALTER TABLE `receptions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `rejectcase`
@@ -511,16 +574,22 @@ ALTER TABLE `send_to_employees`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- AUTO_INCREMENT for table `test`
+--
+ALTER TABLE `test`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `toadmin`
 --
 ALTER TABLE `toadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
