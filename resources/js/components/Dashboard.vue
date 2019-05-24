@@ -7,7 +7,7 @@
             <h4 class="mb-0">
               <span class="count" v-if="users.selected == 0">{{ NewRegistered }}</span>
               <span class="count" v-else-if="users.selected == 1">{{ NewRegistered }}</span>
-              <span class="count" v-else>{{ NewRegistered }}</span>
+              <span class="count" v-else>{{ empNewRegistered }}</span>
             </h4>
             <router-link to="/registeredcase"  v-if="users.selected == 0"><p class="text-light">Registered Case</p></router-link>
             <router-link to="/newcase" v-else-if="users.selected == 1"><p class="text-light">Newly Registered Case</p></router-link>
@@ -27,9 +27,13 @@
       <div class="card text-white bg-flat-color-2">
         <div class="card-body pb-0">
           <h4 class="mb-0">
-            <span class="count">{{ assignedcase }}</span>
+            <span class="count" v-if="users.selected == 0">{{ empCompletedcase }}</span>
+            <span class="count" v-else-if="users.selected == 1">{{ empCompletedcase }}</span>
+            <span class="count" v-else>{{ empCompletedcase }}</span>
           </h4>
-         <router-link to="/assignedcase"><p class="text-light">Assigned Case</p></router-link>
+          <router-link to="/a"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
+            <router-link to="/forapprovalcase" v-else-if="users.selected == 1"><p class="text-light">Waiting For Approval Case</p></router-link>
+         <router-link to="/empapprovedcase" v-else><p class="text-light">Approved Case</p></router-link>
 
           <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
           <canvas id="widgetChart2" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -44,9 +48,9 @@
     <div class="card text-white bg-flat-color-3">
       <div class="card-body pb-0">
         <h4 class="mb-0">
-          <span class="count">10468</span>
+          <span class="count">{{ empWaitingforapprove }}</span>
         </h4>
-        <p class="text-light">On Process Case</p>
+        <router-link to="/waitingforapproavalcase"><p class="text-light">Approving</p></router-link>
 
       </div>
 
@@ -62,9 +66,25 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">10468</span>
+        <span class="count"></span>
       </h4>
-      <p class="text-light">Pending Case</p>
+      <router-link to="/empbillingcase"><p class="text-light">Billing Case</p></router-link>
+
+      <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+      <canvas id="widgetChart4" height="38" width="166" class="chartjs-render-monitor" style="display: block; width: 166px; height: 38px;"></canvas>
+    </div>
+
+  </div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3">
+  <div class="card text-white bg-flat-color-4">
+    <div class="card-body pb-0">
+
+      <h4 class="mb-0">
+        <span class="count"></span>
+      </h4>
+      <router-link to="/transfercase"><p class="text-light">Transfered Case</p></router-link>
 
       <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <canvas id="widgetChart4" height="38" width="166" class="chartjs-render-monitor" style="display: block; width: 166px; height: 38px;"></canvas>
@@ -132,9 +152,9 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">10468</span>
+        <span class="count">{{  }}</span>
       </h4>
-      <p class="text-light">Canceled Case</p>
+       <router-link to="/rejectedcase"><p class="text-light">Rejected Case</p></router-link>
 
       <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <canvas id="widgetChart4" height="38" width="166" class="chartjs-render-monitor" style="display: block; width: 166px; height: 38px;"></canvas>
@@ -155,6 +175,10 @@ export default {
       waitingforapprove: '',
       assignedcase: '',
       completedcase: '',
+      empNewRegistered: '',
+      empWaitingforapprove: '',
+      empRejectedcase: '',
+      empCompletedcase: '',
       users: {
           email: '',
           selected: ''
@@ -164,10 +188,12 @@ export default {
   created(){
     this.loadCounter();
     this. fetchUser();
+    this.loadEmployeeCounter();
   },
   methods: {
     loadCounter(){
-      fetch('api/counter')
+    const token = localStorage.getItem('token');
+      fetch('api/counter?token='+token)
       .then(res => res.json())
       .then(res => {
         this.NewRegistered = res.newRegistered;
@@ -176,6 +202,17 @@ export default {
         this.completedcase = res.completedcase;
       })
     },
+    loadEmployeeCounter(){
+        const token = localStorage.getItem('token');
+        fetch('api/employeecounter?token='+token)
+        .then(res => res.json())
+        .then(res => {
+            this.empNewRegistered = res.employeeAssigned;
+            this.empWaitingforapprove = res.waitingforapprove;
+            this.empRejectedcase = res.rejectedcase;
+            this.empCompletedcase = res.completedcase;
+        })
+    },
     fetchUser(){
         const token = localStorage.getItem('token');
         fetch('/api/auth/me?token=' +token)
@@ -183,6 +220,9 @@ export default {
                 .then(data => {
                     this.users.email = data.email;
                     this.users.selected = data.selected;
+                    if(data.error == "Token is expired"){
+                        window.location.href = '/';
+                    }
                 })
         }
   },

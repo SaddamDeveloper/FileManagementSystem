@@ -17,6 +17,7 @@ class AssignedEmployee extends Controller
     {
         $employees = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'users.email', '=', 'employees.email')
             ->paginate(15);
         // return  AssignedEmployeeResource::collection($employees);
         return $employees;

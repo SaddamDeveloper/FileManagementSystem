@@ -105,13 +105,13 @@ export default {
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
+        // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/empcompletedcase/'+this.$props.user.employee_id;
+            page_url = page_url || 'api/empcompletedcase/';
             let vm = this;
             fetch(page_url)
             .then(res => res.json())

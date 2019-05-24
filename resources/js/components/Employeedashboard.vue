@@ -6,7 +6,7 @@
           <div class="card-body pb-0">
 
             <h4 class="mb-0">
-              <span class="count">{{NewRegistered}}</span>
+              <span class="count">{{ NewRegistered }}</span>
             </h4>
             <router-link to="/employeeassignedcase"><p class="text-light">Assigned Case</p></router-link>
 

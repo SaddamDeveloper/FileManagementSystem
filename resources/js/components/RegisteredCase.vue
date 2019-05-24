@@ -825,7 +825,8 @@ export default {
             this.visible = false;
         },
         showCaseId(){
-            fetch('api/caseid')
+        const token = localStorage.getItem('token');
+            fetch('api/caseid?token='+token)
                 .then(res => res.json())
                 .then(data => {
                     this.casee.caseid = data;

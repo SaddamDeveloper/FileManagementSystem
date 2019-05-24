@@ -26,7 +26,7 @@
                         <strong class="card-title">Approved Case</strong>
                     </div>
                     <div class="card-body">
-                    <table class="table">
+                    <table class="table" v-if="users.selected == 0">
                         <thead>
                             <tr>
                                 <th scope="col">#Case</th>
@@ -39,6 +39,114 @@
                             </tr>
                         </thead>
                         <tr v-for="(item, i) in completedcases" :key="i">
+                            <td>{{ item.caseid }}</td>
+                            <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
+                            <td>{{ item.helper }}</td>
+                            <td></td>
+                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                            <td></td>
+                            <td><div class="alert alert-primary alert-sm">Approved</div></td>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reason for Rejection</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToApproved(item.caseid)">
+                <div class="modal-body">
+                    <table class="table table-resonsive table-bordered">
+                        <tr>
+                            <thead>Remarks</thead>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+                        </tr>
+                    <tbody>
+
+                </tbody>
+            </table>
+                    <table class="table" v-if="users.selected == 1">
+                        <thead>
+                            <tr>
+                                <th scope="col">#Case</th>
+                                <th scope="col">Assigned Employee</th>
+                                <th scope="col">Helper</th>
+                                <th scope="col">Assigned Docs by Admin</th>
+                                <th scope="col">Final Docs By Employee</th>
+                                <th scope="col">Remarks</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tr v-for="(item, i) in completedcases" :key="i">
+                            <td>{{ item.caseid }}</td>
+                            <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
+                            <td>{{ item.helper }}</td>
+                            <td></td>
+                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                            <td></td>
+                            <td><div class="alert alert-primary alert-sm">Approved</div></td>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reason for Rejection</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToApproved(item.caseid)">
+                <div class="modal-body">
+                    <table class="table table-resonsive table-bordered">
+                        <tr>
+                            <thead>Remarks</thead>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+                        </tr>
+                    <tbody>
+
+                </tbody>
+            </table>
+                    <table class="table" v-if="users.selected == 2">
+                        <thead>
+                            <tr>
+                                <th scope="col">#Case</th>
+                                <th scope="col">Assigned Employee</th>
+                                <th scope="col">Helper</th>
+                                <th scope="col">Assigned Docs by Admin</th>
+                                <th scope="col">Final Docs By Employee</th>
+                                <th scope="col">Remarks</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tr v-for="(item, i) in approvedcaseemp" :key="i">
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
@@ -99,18 +207,26 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
-            completedcases: []
+            completedcases: [],
+            approvedcaseemp: [],
+             users: {
+            email: '',
+            selected: ''
+            }
         }
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
+        this.fetchApprovedCaseEmployee();
+        this.fetchUser();
+        // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/completedcases';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/completedcases?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -127,6 +243,14 @@ export default {
                 prev_page_url: links.prev
             }
             this.pagination = pagination;
+        },
+        fetchApprovedCaseEmployee(){
+            const token = localStorage.getItem('token');
+            fetch('api/approvedcaseemployee?token='+token)
+            .then(res => res.json())
+            .then(res => {
+                this.approvedcaseemp = res.data;
+            })
         },
     deleteCase(id){
         Swal.fire({
@@ -219,6 +343,18 @@ export default {
                 }
 
             })
+        },
+         fetchUser(){
+        const token = localStorage.getItem('token');
+        fetch('/api/auth/me?token=' +token)
+                .then(res=>res.json())
+                .then(data => {
+                    this.users.email = data.email;
+                    this.users.selected = data.selected;
+                    if(data.error == "Token is expired"){
+                        window.location.href = '/';
+                    }
+                })
         }
     }
 }

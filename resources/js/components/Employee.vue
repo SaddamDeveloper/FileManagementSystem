@@ -243,7 +243,8 @@ export default {
         addEmployee(){
             if(this.edit === false){
                 //Add
-                fetch(`api/user`, {
+                const token = localStorage.getItem('token');
+                fetch(`api/user?token`+token, {
                     method: 'post',
                     body: JSON.stringify(this.employee),
                      headers: {

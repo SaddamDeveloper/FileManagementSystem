@@ -51,7 +51,7 @@ class AuthController extends Controller
         }
         //
 
-
+        $users->employee_id = $employee_id;
         $users->name = $request->input('name');
         $users->email = $request->input('email');
         $users->password = bcrypt($request->input('password'));

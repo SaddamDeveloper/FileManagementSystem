@@ -47,7 +47,7 @@
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td></td>
                             <td><div class="alert alert-primary alert-sm">NA</div></td>
-                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
+                            <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" :data-target="'#exampleModals'+item.caseid"><i class="fa fa-share-square-o"></i></button></td>
         <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
@@ -72,6 +72,39 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Reject</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModals'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Send for Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="sendToApprovalAgain(item)">
+                <div class="modal-body">
+                    <table class="table table-resonsive table-bordered">
+                        <tr>
+                            <thead>Send for Approval</thead>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select  v-model="toApprovalAgain.employee_id" class="form-control" v-if="item.caseid">
+                                    <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
                 </div>
                 </form>
                 </div>
@@ -102,6 +135,7 @@ export default {
             // custom lang
             lang: 'en',
             approvalcases: [],
+            employees: [],
             toApproval: {
                 caseid: '',
                 employee_id: ''
@@ -110,15 +144,24 @@ export default {
                 caseid: '',
                 employee_id: '',
                 msg: ''
+            },
+            toApprovalAgain: {
+                caseid: '',
+                employee_id: '',
+                helper: [],
+                docs: '',
+                fileName:''
             }
         }
     },
     created(){
         this.fetchCases();
+        this.loadEmployee();
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/aprovedcases';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/aprovedcases?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -149,14 +192,15 @@ export default {
                 if (result.value == true) {
                     this.toApproval.caseid = item.caseid;
                     this.toApproval.employee_id = item.employee_id;
-                    fetch(`api/sendapproval`, {
+                    const token = localStorage.getItem('token');
+                    fetch(`api/sendapproval?token=`+token, {
                     method: 'post',
                     body: JSON.stringify(this.toApproval),
                         headers: {
                     'content-type': 'application/json'
                     }
                     })
-                  fetch(`api/sendapproval/${item.caseid}`, {
+                  fetch(`api/sendapproval/${item.caseid}?token=`+token, {
                       method: 'delete'
                   })
                   .then(res => {
@@ -194,14 +238,15 @@ export default {
                 if (result.value) {
                     this.rejectCause.caseid = item.caseid;
                     this.rejectCause.employee_id = item.employee_id;
-                    fetch(`api/rejectcase`, {
+                    const token = localStorage.getItem('token');
+                    fetch(`api/rejectcase?token=`+token, {
                     method: 'post',
                     body: JSON.stringify(this.rejectCause),
                         headers: {
                     'content-type': 'application/json'
                     }
                     })
-                    fetch(`api/rejectcase/${item.caseid}`, {
+                    fetch(`api/rejectcase/${item.caseid}?token=`+token, {
                         method: 'delete'
                     })
                     this.fetchCases()
@@ -220,6 +265,41 @@ export default {
             .catch(err => console.log(err))
                 }
             })
+        },
+        loadEmployee(){
+            const token = localStorage.getItem('token');
+             axios.get("api/employees?token="+token).then(( { data }) => (this.employees = data) );
+        },
+        sendToApprovalAgain(item){
+            this.toApprovalAgain.caseid = item.caseid;
+            this.toApprovalAgain.docs = item.docs;
+            this.toApprovalAgain.helper = item.helper;
+            this.toApprovalAgain.fileName = item.fileName;
+            const token = localStorage.getItem('token');
+            fetch(`api/sendforapprovalagain?token=`+token, {
+                method: 'post',
+                body: JSON.stringify(this.toApprovalAgain),
+                    headers: {
+                'content-type': 'application/json'
+                }
+            })
+            fetch(`api/rejectcase/${item.caseid}?token=`+token, {
+                        method: 'delete'
+                    })
+            this.fetchCases()
+            .then(res => res.json())
+            .then(res => {
+                this.toApprovalAgain.employee_id = '';
+                this.toApprovalAgain.caseid = '';
+                Swal.fire(
+                'Sent!',
+                'Case Has been Sent to',
+                'success'
+                )
+
+                jQuery('#exampleModal'+this.toApprovalAgain.caseid).modal('hide')
+            })
+            .catch(err => console.log(err));
         }
     }
 }

@@ -26,7 +26,7 @@
                         <strong class="card-title">Rejected Case</strong>
                     </div>
                     <div class="card-body">
-                    <table class="table">
+                    <table class="table" v-if="users.selected == 0">
                         <thead>
                             <tr>
                             <th scope="col">#Case</th>
@@ -43,38 +43,140 @@
                         <td>{{ item.helper }}</td>
                         <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                         <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
-                        <!-- Modal -->
-<div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- <div class="modal-dialog modal-md" role="document">
-     <div class="modal-content">
-     <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-         </button>
-     </div>
-     <form @submit.prevent="pushToDb(item.caseid)">
-     <div class="modal-body">
-         <table class="table table-bordered table-responsive">
-             <tr>
-                 <th>Docs</th>
-                 <th>Remarks</th>
-             </tr>
-             <tr>
-                 <td><input type="file" name="docs" @change="processFile"></td>
-                 <td><input type="text" value=""></td>
-             </tr>
-         </table>
-     </div>
-     <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-primary">Save</button>
-     </div>
-     </form>
-     </div>
- </div>
-</div>
-        </tr>
+                          <!-- Modal -->
+                            <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form @submit.prevent="pushToDb(item.caseid)">
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-responsive">
+                                        <tr>
+                                            <th>Docs</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="file" name="docs" @change="processFile"></td>
+                                            <td><input type="text" value=""></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </tr>
+                </tbody>
+            </table>
+                    <table class="table" v-if="users.selected == 1">
+                        <thead>
+                            <tr>
+                            <th scope="col">#Case</th>
+                            <th scope="col">Assigned Employee</th>
+                            <th scope="col">Helper</th>
+                            <th scope="col">Related Documents</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in rejectedCase" :key="item.id">
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.helper }}</td>
+                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                          <!-- Modal -->
+                            <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form @submit.prevent="pushToDb(item.caseid)">
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-responsive">
+                                        <tr>
+                                            <th>Docs</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="file" name="docs" @change="processFile"></td>
+                                            <td><input type="text" value=""></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table" v-if="users.selected == 2">
+                        <thead>
+                            <tr>
+                            <th scope="col">#Case</th>
+                            <th scope="col">Assigned Employee</th>
+                            <th scope="col">Helper</th>
+                            <th scope="col">Related Documents</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in rejectedCaseEmployee" :key="item.id">
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.helper }}</td>
+                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                          <!-- Modal -->
+                            <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form @submit.prevent="pushToDb(item.caseid)">
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-responsive">
+                                        <tr>
+                                            <th>Docs</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="file" name="docs" @change="processFile"></td>
+                                            <td><input type="text" value=""></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </tr>
                 </tbody>
             </table>
                     </div>
@@ -98,23 +200,31 @@ data(){
         // custom lang
         lang: 'en',
         rejectedCase: [],
+        rejectedCaseEmployee: [],
         toAdmin: {
             caseid: '',
             docs: '',
             assignedEmployee: '',
             helper: ''
-        }
+        },
+         users: {
+          email: '',
+          selected: ''
+      }
     }
 },
 created(){
     this.fetchCases();
-    this.loadEmployee();
+    this.fetchRejectedCaseEmployee();
+    this.fetchUser();
+    // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
 },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/fetchrejectedcase/'+this.$props.user.employee_id;
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/fetchrejectedcase/?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -131,6 +241,14 @@ created(){
                 prev_page_url: links.prev
             }
             this.pagination = pagination;
+        },
+        fetchRejectedCaseEmployee(){
+            const token = localStorage.getItem('token');
+            fetch('api/fetchrejectedcaseemployee/?token='+token)
+            .then(res => res.json())
+            .then(res => {
+                this.rejectedCaseEmployee = res.data;
+            })
         },
     deleteCase(id){
         Swal.fire({
@@ -230,6 +348,18 @@ created(){
                 });
                 }
             })
+        },
+    fetchUser(){
+        const token = localStorage.getItem('token');
+        fetch('/api/auth/me?token=' +token)
+                .then(res=>res.json())
+                .then(data => {
+                    this.users.email = data.email;
+                    this.users.selected = data.selected;
+                    if(data.error == "Token is expired"){
+                        window.location.href = '/';
+                    }
+                })
         }
     }
 }

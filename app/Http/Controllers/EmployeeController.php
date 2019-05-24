@@ -14,6 +14,8 @@ use App\rejectCase;
 use Storage;
 use File;
 use DB;
+use App\TransferCase;
+
 class EmployeeController extends Controller
 {
     /**
@@ -185,7 +187,8 @@ class EmployeeController extends Controller
 
        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-              ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+            ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+            ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
             ->paginate(15);
             return $approvedCase;
         // return  EmployeeResource::collection($approvedCase);
@@ -207,9 +210,34 @@ class EmployeeController extends Controller
         $completedCase = DB::table('completedcase')
             ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
+    }
+
+    public function CompletedCaseEmp(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+        $CompletedCaseEmp = DB::table('completedcase')
+            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
+            ->where('users.employee_id', $id)
+            ->paginate(15);
+        return $CompletedCaseEmp;
+    }
+
+    public function ApprovedCaseEmp(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+        $ApprovedCaseEmp = DB::table('completedcase')
+            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
+            ->where('users.employee_id', $id)
+            ->paginate(15);
+            return $ApprovedCaseEmp;
     }
 
     public function RejectCase(Request $request){
@@ -226,13 +254,25 @@ class EmployeeController extends Controller
         }
     }
 
-    public function FetchRejectCase($id){
-         $completedCase = DB::table('rejectcase')
+    public function FetchRejectCase(){
+
+         $rejectedCase = DB::table('rejectcase')
             ->join('send_to_employees', 'rejectcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
-            ->where('rejectcase.employee_id', $id)
+            ->join('users', 'employees.email', '=', 'users.email')
             ->paginate(15);
-            return $completedCase;
+            return $rejectedCase;
+    }
+    public function FetchRejectCaseEmployee(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+        $rejectedCaseEmployee = DB::table('rejectcase')
+            ->join('send_to_employees', 'rejectcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
+            ->where('users.employee_id', $id)
+            ->paginate(15);
+        return $rejectedCaseEmployee;
     }
 
     public function DeleteAprovedCase($id){
@@ -268,7 +308,9 @@ class EmployeeController extends Controller
       return $count;
     }
 
-    public function EmployeeCounter($id){
+    public function EmployeeCounter(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
         $employeeAssignedCase = DB::table('send_to_employees')->where('employee_id', $id)->count();
         $waitingforapprove = DB::table('toadmin')->where('employee_id', $id)->count();
         $completedCase = DB::table('completedcase')->where('employee_id', $id)->count();
@@ -299,6 +341,30 @@ class EmployeeController extends Controller
             ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->where('completedcase.employee_id', $id)
+            ->paginate(15);
+            return $completedCase;
+    }
+
+    public function sendApprovalAgain(Request $request){
+        $toAprrovalAgain = $request->isMethod('put') ? TransferCase::findOrFail($request->employee_id) : new TransferCase;
+        $toAprrovalAgain->caseid = $request->input('caseid');
+        // return $request->input('assignedEmployee');
+        $toAprrovalAgain->employee_id = $request->input('employee_id');
+        $toAprrovalAgain->docs = $request->input('docs');
+        $toAprrovalAgain->helper = $request->input('helper');
+        if ($toAprrovalAgain->save()) {
+            return new EmployeeResource($toAprrovalAgain);
+        }
+    }
+
+    public function fetchTransferCaseEmp(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+         $completedCase = DB::table('transfercase')
+            // ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'transfercase.employee_id', '=', 'users.employee_id')
+            ->where('transfercase.employee_id', $id)
             ->paginate(15);
             return $completedCase;
     }

@@ -205,7 +205,8 @@ export default {
             confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.value) {
-                    fetch(`api/case/${id}`, {
+                    const token = localStorage.getItem('token');
+                    fetch(`api/case/${id}`+'?token='+token, {
                         method: 'delete'
                     })
                     .then(()=>{
@@ -243,7 +244,8 @@ export default {
         },
         sendToEmployee(id){
             this.toEmployee.caseid = id.caseid;
-            fetch(`api/sendemployee`, {
+            const token = localStorage.getItem('token');
+            fetch(`api/sendemployee?token=`+token, {
                 method: 'post',
                 body: JSON.stringify(this.toEmployee),
                     headers: {

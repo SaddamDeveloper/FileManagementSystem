@@ -113,13 +113,14 @@ export default {
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
+        // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/employeeassignedemployees/';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/employeeassignedemployees?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -193,7 +194,6 @@ export default {
             })
         },
         sendToAdmin(id){
-
             this.toAdmin.caseid = id.caseid;
             this.toAdmin.employee_id = id.employee_id;
             this.toAdmin.helper = id.helper;
@@ -208,7 +208,8 @@ export default {
             confirmButtonText: 'Yes, send it!'
             }).then((result) => {
                 if (result.value) {
-                    fetch(`api/sendtoadmin`, {
+                    const token = localStorage.getItem('token');
+                    fetch(`api/sendtoadmin?token=`+token, {
                         method: 'post',
                         body: JSON.stringify(this.toAdmin),
                         headers: {
