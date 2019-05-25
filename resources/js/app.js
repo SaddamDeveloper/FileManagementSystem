@@ -78,6 +78,7 @@ let routes = [
     { path: '/empapprovedcase', component: require('./components/EmpApprovedCase.vue').default },
     { path: '/empbillingcase', component: require('./components/EmpBillingCase.vue').default },
     { path: '/transfercase', component: require('./components/TransferCase.vue').default },
+    // { path: '/taxinvoice', component: require('./components/TaxInvoice.vue').default },
   //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]
 

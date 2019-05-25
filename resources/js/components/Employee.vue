@@ -189,8 +189,9 @@ export default {
     },
     methods: {
         fetchEmployees(page_url){
+            const token = localStorage.getItem('token');
             let vm = this;
-            page_url = page_url || 'api/employees';
+            page_url = page_url || 'api/employees?token='+token;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {

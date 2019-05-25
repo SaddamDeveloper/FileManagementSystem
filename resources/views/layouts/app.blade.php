@@ -20,6 +20,8 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
 </head>
 
 <body>
@@ -29,6 +31,7 @@
     <script src="/js/app.js"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
     <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="{{ asset('js/example.js') }}"></script>
 </body>
 
 </html>

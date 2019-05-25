@@ -211,6 +211,7 @@ class EmployeeController extends Controller
             ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
+            ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);

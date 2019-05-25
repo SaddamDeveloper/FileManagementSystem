@@ -35,7 +35,7 @@
                                 <th scope="col">Assigned Docs by Admin</th>
                                 <th scope="col">Final Docs By Employee</th>
                                 <th scope="col">Remarks</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tr v-for="(item, i) in completedcases" :key="i">
@@ -45,33 +45,285 @@
                             <td></td>
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td></td>
-                            <td><div class="alert alert-primary alert-sm">Bill</div></td>
+                            <td>
+                                <div class="btn btn-group">
+                                <button type="button" class=" btn btn-primary" data-toggle="modal" :data-target="'#exampleModal'+item.caseid">FP</button>
+                                <button type="button" class=" btn btn-warning" data-toggle="modal" :data-target="'#exampleModals'+item.caseid">Credit</button>
+                                </div>
+                            </td>
         <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Reason for Rejection</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tax Invoice</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="pushToApproved(item.caseid)">
-                <div class="modal-body">
-                    <table class="table table-resonsive table-bordered">
-                        <tr>
-                            <thead>Remarks</thead>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control"></td>
-                        </tr>
-                    </table>
-                </div>
+        <div class="modal-body" id=tax_invoice>
+            <div id="page-wrap">
+
+		<div id="header1">TAX INVOICE</div>
+
+		<span style="font-size: 12px; font-weight:800;">Name & Address of Service Provider:</span>
+		<div id="identity">
+            <div id="address">D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001</div>
+
+            <table id="meta">
+            	 <tr>
+                    <td class='meta-head'>GSTIN:</td>
+                    <td><input type="text" readonly id="gstin" value="17AAJFD4695B1ZE"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">CASE ID:</td>
+                    <td><input type="text" readonly id="invoice_no" v-model="item.caseid"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">INVOICE NO:</td>
+                    <td><input type="text" readonly id="invoice_no"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">INVOICE DATE:</td>
+                    <td><input type="text" id="date" v-model="myDate"></td>
+                </tr>
+            </table>
+		<!-- <div style="clear:both"></div> -->
+		<table style="width: 900px;">
+			<tr>
+				<td width="10%">
+						<span style="font-size: 18px; font-weight:800;">Bill To:</span>
+				</td>
+				<td width="90%">
+					<div id="customer">
+			            <textarea rows="4" cols="40" id="customer-title" class="bill_to" v-model="item.address"></textarea>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="text" name="randomText" id="randomText" placeholder="Give information" size="100">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+							GSTIN: <input type="text" name="gstinText" id="gstinText" placeholder="GSTIN" size="45">
+				</td>
+			</tr>
+		</table>
+		<table id="items">
+		  <tr>
+		  	<th>Sl.No</th>
+		      <th >SAC</th>
+		      <th>Description</th>
+		      <th >Period Of Service</th>
+		      <th>Amount(Rs)</th>
+		  </tr>
+		  <tr class="item-row" id="row1">
+		  	  <td>1</td>
+		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
+		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
+		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
+		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount" onkeypress="return isNumberKey(event,this)"></textarea></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">Taxable Value:</td>
+		      <td align="center">(A)</td>
+		      <td class="taxabale_value"><input type="text" readonly id="taxable_value" v-model="item.amount"></td>
+		  </tr>
+		  <tr>
+
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
+		      <td align="center">(B)</td>
+		      <td class="total-value"><input type="text" readonly id="sgst" v-model="item.amount * 0.09"></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
+		      <td align="center">(C)</td>
+		      <td class="total-value"><input type="text" readonly id="cgst" v-model="item.amount * 0.09"></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">Total Tax</td>
+		      <td align="center">(D)(B+C)</td>
+		      <td class="total-value"><input type="text" readonly placeholder="₹ 0.00" id="total_tax"></td>
+		  </tr>
+		  <tr>
+		  	<td colspan="2">Invoice Value(in words)</td>
+		  	<td><textarea name="invoiceval" placeholder="Type in words" id="invoiceval"></textarea></td>
+		      <td class="total-line" colspan="3">Total Invoice Amount</td>
+		  </tr>
+		  <tr>
+		      <td colspan="3" class="blank"> </td>
+		      <td colspan="1" class="total-line balance">(A+D)</td>
+		      <td class="total-value balance"><input type="text" readonly name="" placeholder="₹ 0.00" id="total_invoice_amount" class="due"></td>
+		  </tr>
+		   <tr>
+		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
+		  	<td rowspan="3"><textarea name="netinvoice" placeholder="Type in words" id="netinvoice"></textarea></td>
+		      <td class="total-line">Less: Advance</td>
+		      <td><input type="text" name="less_advance" id="less_advance" placeholder="₹ 0.00" onkeypress="return isNumberKey(event,this)"></td>
+		  </tr>
+		  <tr>
+		  	<td class="total-line">AV No.</td>
+		  	<td><input type="text" name="avNo" id="avNo" placeholder="AV No."></td>
+		  </tr>
+		  <tr>
+		  	<td class="total-line">Net Invoice Amount</td>
+		  	<td><input type="text" name="net_invoice_amt" id="net_invoice_amt" value='' placeholder="₹ 0.00"></td>
+		  </tr>
+
+		</table>
+		<br>
+	</div>
+</div>
+        </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary" @click="print">Print</button>
                 </div>
-                </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModals'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tax Invoice (Credit)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        <div class="modal-body" id=tax_invoice>
+            <div id="page-wrap">
+
+		<div id="header1">TAX INVOICE</div>
+
+		<span style="font-size: 12px; font-weight:800;">Name & Address of Service Provider:</span>
+		<div id="identity">
+            <div id="address">D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001</div>
+
+            <table id="meta">
+            	 <tr>
+                    <td class='meta-head'>GSTIN:</td>
+                    <td><input type="text" readonly id="gstin" value="17AAJFD4695B1ZE"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">CASE ID:</td>
+                    <td><input type="text" readonly id="invoice_no" v-model="item.caseid"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">INVOICE NO:</td>
+                    <td><input type="text" readonly id="invoice_no"></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">INVOICE DATE:</td>
+                    <td><input type="text" id="date" v-model="myDate"></td>
+                </tr>
+            </table>
+		<!-- <div style="clear:both"></div> -->
+		<table style="width: 900px;">
+			<tr>
+				<td width="10%">
+						<span style="font-size: 18px; font-weight:800;">Bill To:</span>
+				</td>
+				<td width="90%">
+					<div id="customer">
+			            <textarea rows="4" cols="40" id="customer-title" class="bill_to" v-model="item.address"></textarea>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="text" name="randomText" id="randomText" placeholder="Give information" size="100">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					GSTIN: <input type="text" name="gstinText" id="gstinText" placeholder="GSTIN" size="45">
+				</td>
+			</tr>
+		</table>
+		<table id="items">
+		  <tr>
+		  	<th>Sl.No</th>
+		      <th >SAC</th>
+		      <th>Description</th>
+		      <th >Period Of Service</th>
+		      <th>Amount(Rs)</th>
+		  </tr>
+		  <tr class="item-row" id="row1">
+		  	  <td>1</td>
+		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
+		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
+		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
+		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount" onkeypress="return isNumberKey(event,this)"></textarea></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">Taxable Value:</td>
+		      <td align="center">(A)</td>
+		      <td class="taxabale_value"><input type="text" readonly id="taxable_value" v-model="item.amount"></td>
+		  </tr>
+		  <tr>
+
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
+		      <td align="center">(B)</td>
+		      <td class="total-value"><input type="text" readonly id="sgst" v-model="item.amount * 0.09"></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
+		      <td align="center">(C)</td>
+		      <td class="total-value"><input type="text" readonly id="cgst" v-model="item.amount * 0.09"></td>
+		  </tr>
+		  <tr>
+		      <td colspan="2" class="blank"> </td>
+		      <td class="total-line">Total Tax</td>
+		      <td align="center">(D)(B+C)</td>
+		      <td class="total-value"><input type="text" readonly v-model="2 * item.amount * 0.09 " id="total_tax"></td>
+		  </tr>
+		  <tr>
+		  	<td colspan="2">Invoice Value(in words)</td>
+		  	<td><textarea name="invoiceval" placeholder="Type in words" id="invoiceval"></textarea></td>
+		      <td class="total-line" colspan="3">Total Invoice Amount</td>
+		  </tr>
+		  <tr>
+		      <td colspan="3" class="blank"> </td>
+		      <td colspan="1" class="total-line balance">(A+D)</td>
+		      <td class="total-value balance"><input type="text" readonly name="" v-model="item.amount + 2 * item.amount * 0.09" id="total_invoice_amount" class="due"></td>
+		  </tr>
+		   <tr>
+		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
+		  	<td rowspan="3"><textarea name="netinvoice" placeholder="Type in words" id="netinvoice"></textarea></td>
+		      <td class="total-line">Less: Advance</td>
+		      <td><input type="text" name="less_advance" id="less_advance" v-model="calculatedFromAmount" onkeypress="return isNumberKey(event,this)"></td>
+		  </tr>
+		  <tr>
+		  	<td class="total-line">AV No.</td>
+		  	<td><input type="text" name="avNo" id="avNo" placeholder="AV No."></td>
+		  </tr>
+		  <tr>
+		  	<td class="total-line">Net Invoice Amount</td>
+		  	<td><input type="text" name="net_invoice_amt" id="net_invoice_amt" value='' placeholder="₹ 0.00"></td>
+		  </tr>
+
+		</table>
+		<br>
+	</div>
+</div>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" @click="print">Print</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -99,18 +351,19 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
-            completedcases: []
+            myDate : new Date().toISOString().slice(0,10),
+            completedcases: [],
         }
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
-        // console.log(this.$refs)
-        // console.log(field);
     },
+
     methods: {
+
         fetchCases(page_url){
-            page_url = page_url || 'api/completedcases';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/completedcases?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -128,98 +381,33 @@ export default {
             }
             this.pagination = pagination;
         },
-    deleteCase(id){
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    fetch(`api/case/${id}`, {
-                        method: 'delete'
-                    })
-                    .then(()=>{
-                        Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
-                        this.fetchCases();
-                }).catch(()=>{
-                    Swal.fire(
-                        'Failed!',
-                        'There was something wrong',
-                        'warning'
-                    )
-                });
-                }
-
-            })
-        },
-        loadEmployee(){
-             axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
-        },
-        processFile(e) {
-
-            var fileReader = new FileReader();
-
-            fileReader.readAsDataURL(e.target.files[0]);
-
-            fileReader.onload = (e) => {
-                this.toEmployee.docs = e.target.result
-            }
-            this.toEmployee.fileName = e.target.files[0].name
-        },
-        sendToEmployee(id){
-            this.toEmployee.caseid = id;
-            fetch(`api/sendemployee`, {
-                method: 'post',
-                body: JSON.stringify(this.toEmployee),
-                    headers: {
-                'content-type': 'application/json'
-                }
-            })
-        },
-        confirmApprove(item){
-            Swal.fire({
-            title: 'Do you want to Approve?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Approve it!'
-            }).then((result) => {
-                if (result.value) {
-                    this.toApproval.caseid = item.caseid;
-                    this.toApproval.employee_id = item.employee_id;
-                    fetch(`api/sendapproval`, {
-                    method: 'post',
-                    body: JSON.stringify(this.toApproval),
-                        headers: {
-                    'content-type': 'application/json'
-                    }
-            })
-            .then(res => res.json())
-            .then(res => {
-                this.toApproval.caseid = '';
-                this.toApproval.employee_id = '';
-                jQuery('#exampleModal'+this.toApproval.caseid).modal('hide');
-            })
-            .then(Swal.fire(
-                'Approved!',
-                'Case Has been Successfully Approved!',
-                'success'
-            ))
-            .catch(err => console.log(err))
-                }
-
-            })
+        print(){
+            window.print();
+        }
+    },
+    computed: {
+        calculatedFromAmount: function(){
+            // console.log(this.$refs)
+        //    console.log(parseInt(this.completedcases[0].amount));
+            console.log(this.item);
+        }
+    },
+    filter: {
+        test: function(item){
+            console.log(item);
         }
     }
 }
 </script>
+<style type="text/css">
+    .button{
+        margin: 10px;
+        background-color: #4CAF50; border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+</style>
