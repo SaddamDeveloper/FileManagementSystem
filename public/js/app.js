@@ -2601,7 +2601,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      lessadvance: '',
       value: null,
+      numbers: '',
       time1: '',
       time2: '',
       time3: '',
@@ -2625,6 +2627,7 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this.completedcases = res.data;
+        console.log(_this.completedcases);
         vm.makePagination(res.meta, res.links);
       });
     },
@@ -2642,11 +2645,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    calculatedFromAmount: function calculatedFromAmount() {
-      // console.log(this.$refs)
-      //    console.log(parseInt(this.completedcases[0].amount));
-      console.log(this.item);
-    }
+    total: function total() {
+      return this.$refs.taxable_value;
+    } // calculatedFromAmount: function(){
+    //     // console.log(this.$refs)
+    // //    console.log(parseInt(this.completedcases[0].amount));
+    //     console.log(this.item);
+    // }
+
   },
   filter: {
     test: function test(item) {
@@ -3039,22 +3045,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4929,6 +4919,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4940,6 +4964,7 @@ __webpack_require__.r(__webpack_exports__);
       // custom lang
       lang: 'en',
       cases: [],
+      assignedemployee: '',
       employees: [],
       casee: {
         caseid: '',
@@ -4995,12 +5020,15 @@ __webpack_require__.r(__webpack_exports__);
         helper: [],
         docs: '',
         fileName: ''
+      },
+      reAssign: {
+        employee_id: ''
       }
     };
   },
   created: function created() {
     this.fetchCases();
-    this.loadEmployee();
+    this.loadEmployee(); // this.fetchsendEmployees();
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -5014,6 +5042,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.cases = res.data;
         vm.makePagination(res.meta, res.links);
+        fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this.assignedemployee = res.data;
+        });
       });
     },
     makePagination: function makePagination(meta, links) {
@@ -5075,8 +5108,8 @@ __webpack_require__.r(__webpack_exports__);
     sendToEmployee: function sendToEmployee(id) {
       var _this5 = this;
 
-      this.toEmployee.caseid = id.caseid;
       var token = localStorage.getItem('token');
+      this.toEmployee.caseid = id.caseid;
       fetch("api/sendemployee?token=" + token, {
         method: 'post',
         body: JSON.stringify(this.toEmployee),
@@ -5089,10 +5122,49 @@ __webpack_require__.r(__webpack_exports__);
         _this5.toEmployee.assignedEmployee = '';
         _this5.toEmployee.helper = '';
         _this5.toEmployee.assignedEmployee = '';
-        Swal.fire('Sent!', 'Case Has been Sent!.', 'success');
-        jQuery('#exampleModal' + _this5.toEmployee.caseid).modal('hide');
+
+        if (res.message) {
+          Swal.fire('Failed!', 'This case is already Reservered', 'warning');
+        } else {
+          Swal.fire('Sent!', 'Case Has been Sent!.', 'success');
+          jQuery('#exampleModal' + _this5.toEmployee.caseid).modal('hide');
+        }
       }).catch(function (err) {
         return console.log(err);
+      });
+    },
+    reassign: function reassign(item) {
+      var _this6 = this;
+
+      var token = localStorage.getItem('token');
+      var id = item.caseid;
+      this.toEmployee.caseid = id.caseid;
+      Swal.fire({
+        title: 'Are you sure want to transfer the case?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, transfer it!'
+      }).then(function (result) {
+        if (result.value) {
+          var _token = localStorage.getItem('token');
+
+          fetch('api/updateemployee/' + id + '/?token=' + _token, {
+            method: 'put',
+            body: JSON.stringify(_this6.reAssign),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function () {
+            Swal.fire('Transfered!', 'Case has been Transferred successfully.', 'success');
+
+            _this6.fetchCases();
+          }).catch(function () {
+            Swal.fire('Failed!', 'There was something wrong', 'warning');
+          });
+        }
       });
     }
   }
@@ -6879,15 +6951,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.fetchCases();
-    this.loadEmployee(); // console.log(this.$refs)
+    this.fetchCases(); // this.loadEmployee();
+    // console.log(this.$refs)
     // console.log(field);
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
       var _this = this;
 
-      page_url = page_url || 'api/approving/';
+      var token = localStorage.getItem('token');
+      page_url = page_url || 'api/approving?token=' + token;
       var vm = this;
       fetch(page_url).then(function (res) {
         return res.json();
@@ -47328,7 +47401,13 @@ var render = function() {
                                     _c("div", { attrs: { id: "header1" } }, [
                                       _vm._v("TAX INVOICE")
                                     ]),
-                                    _vm._v(" "),
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(
+                                          (_vm.amount = parseFloat(item.amount))
+                                        ) +
+                                        "\n\t\t"
+                                    ),
                                     _c(
                                       "span",
                                       {
@@ -47586,8 +47665,8 @@ var render = function() {
                                                   {
                                                     name: "model",
                                                     rawName: "v-model",
-                                                    value: item.amount,
-                                                    expression: "item.amount"
+                                                    value: _vm.amount,
+                                                    expression: "amount"
                                                   }
                                                 ],
                                                 staticClass:
@@ -47597,9 +47676,7 @@ var render = function() {
                                                   onkeypress:
                                                     "return isNumberKey(event,this)"
                                                 },
-                                                domProps: {
-                                                  value: item.amount
-                                                },
+                                                domProps: { value: _vm.amount },
                                                 on: {
                                                   input: function($event) {
                                                     if (
@@ -47607,11 +47684,8 @@ var render = function() {
                                                     ) {
                                                       return
                                                     }
-                                                    _vm.$set(
-                                                      item,
-                                                      "amount",
+                                                    _vm.amount =
                                                       $event.target.value
-                                                    )
                                                   }
                                                 }
                                               })
@@ -47646,18 +47720,18 @@ var render = function() {
                                                   {
                                                     name: "model",
                                                     rawName: "v-model",
-                                                    value: item.amount,
-                                                    expression: "item.amount"
+                                                    value: _vm.amount,
+                                                    expression: "amount"
                                                   }
                                                 ],
+                                                ref: "taxable_value",
+                                                refInFor: true,
                                                 attrs: {
                                                   type: "text",
                                                   readonly: "",
                                                   id: "taxable_value"
                                                 },
-                                                domProps: {
-                                                  value: item.amount
-                                                },
+                                                domProps: { value: _vm.amount },
                                                 on: {
                                                   input: function($event) {
                                                     if (
@@ -47665,11 +47739,8 @@ var render = function() {
                                                     ) {
                                                       return
                                                     }
-                                                    _vm.$set(
-                                                      item,
-                                                      "amount",
+                                                    _vm.amount =
                                                       $event.target.value
-                                                    )
                                                   }
                                                 }
                                               })
@@ -47696,38 +47767,19 @@ var render = function() {
                                             { staticClass: "total-value" },
                                             [
                                               _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount * 0.09,
-                                                    expression:
-                                                      "item.amount * 0.09"
-                                                  }
-                                                ],
                                                 attrs: {
                                                   type: "text",
                                                   readonly: "",
                                                   id: "sgst"
-                                                },
-                                                domProps: {
-                                                  value: item.amount * 0.09
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item.amount * 0,
-                                                      "09",
-                                                      $event.target.value
-                                                    )
-                                                  }
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.a =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
                                             ]
                                           )
                                         ]),
@@ -47751,53 +47803,165 @@ var render = function() {
                                             { staticClass: "total-value" },
                                             [
                                               _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount * 0.09,
-                                                    expression:
-                                                      "item.amount * 0.09"
-                                                  }
-                                                ],
                                                 attrs: {
                                                   type: "text",
                                                   readonly: "",
                                                   id: "cgst"
-                                                },
-                                                domProps: {
-                                                  value: item.amount * 0.09
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item.amount * 0,
-                                                      "09",
-                                                      $event.target.value
-                                                    )
-                                                  }
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.b =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Total Tax")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(D)(B+C)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _c("input", {
+                                                attrs: {
+                                                  type: "text",
+                                                  readonly: "",
+                                                  id: "total_tax"
+                                                }
+                                              }),
+                                              _vm._v(
+                                                _vm._s((_vm.c = _vm.a + _vm.b))
+                                              )
                                             ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _vm._m(13, true),
                                         _vm._v(" "),
-                                        _vm._m(14, true),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "3" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line balance",
+                                              attrs: { colspan: "1" }
+                                            },
+                                            [_vm._v("(A+D)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-value balance"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.d = _vm.amount + _vm.c)
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              attrs: {
+                                                rowspan: "3",
+                                                colspan: "2"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Net Invoice Value(in words)"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._m(14, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Less: Advance")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lessadvance,
+                                                  expression: "lessadvance"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                name: "less_advance",
+                                                id: "less_advance"
+                                              },
+                                              domProps: {
+                                                value: _vm.lessadvance
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.lessadvance =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ]),
                                         _vm._v(" "),
                                         _vm._m(15, true),
                                         _vm._v(" "),
-                                        _vm._m(16, true),
-                                        _vm._v(" "),
-                                        _vm._m(17, true),
-                                        _vm._v(" "),
-                                        _vm._m(18, true)
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Net Invoice Amount")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                (_vm.e =
+                                                  parseFloat(_vm.d) -
+                                                  parseFloat(_vm.lessadvance))
+                                              )
+                                            )
+                                          ])
+                                        ])
                                       ]),
                                       _vm._v(" "),
                                       _c("br")
@@ -47856,7 +48020,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(19, true),
+                              _vm._m(16, true),
                               _vm._v(" "),
                               _c(
                                 "div",
@@ -47893,7 +48057,7 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "meta" } }, [
-                                        _vm._m(20, true),
+                                        _vm._m(17, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -47934,7 +48098,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(21, true),
+                                        _vm._m(18, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -47977,7 +48141,7 @@ var render = function() {
                                         { staticStyle: { width: "900px" } },
                                         [
                                           _c("tr", [
-                                            _vm._m(22, true),
+                                            _vm._m(19, true),
                                             _vm._v(" "),
                                             _c(
                                               "td",
@@ -48030,14 +48194,14 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _vm._m(23, true),
+                                          _vm._m(20, true),
                                           _vm._v(" "),
-                                          _vm._m(24, true)
+                                          _vm._m(21, true)
                                         ]
                                       ),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "items" } }, [
-                                        _vm._m(25, true),
+                                        _vm._m(22, true),
                                         _vm._v(" "),
                                         _c(
                                           "tr",
@@ -48048,7 +48212,7 @@ var render = function() {
                                           [
                                             _c("td", [_vm._v("1")]),
                                             _vm._v(" "),
-                                            _vm._m(26, true),
+                                            _vm._m(23, true),
                                             _vm._v(" "),
                                             _c("td", [
                                               _c("input", {
@@ -48133,11 +48297,7 @@ var render = function() {
                                                 ],
                                                 staticClass:
                                                   "amount requiredField",
-                                                attrs: {
-                                                  id: "amount1",
-                                                  onkeypress:
-                                                    "return isNumberKey(event,this)"
-                                                },
+                                                attrs: { id: "amount1" },
                                                 domProps: {
                                                   value: item.amount
                                                 },
@@ -48224,7 +48384,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(27, true),
+                                          _vm._m(24, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -48279,7 +48439,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(28, true),
+                                          _vm._m(25, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -48358,7 +48518,7 @@ var render = function() {
                                                     value:
                                                       2 * item.amount * 0.09,
                                                     expression:
-                                                      "2 * item.amount * 0.09 "
+                                                      "2 * item.amount * 0.09"
                                                   }
                                                 ],
                                                 attrs: {
@@ -48388,7 +48548,7 @@ var render = function() {
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(29, true),
+                                        _vm._m(26, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c("td", {
@@ -48416,24 +48576,18 @@ var render = function() {
                                                   {
                                                     name: "model",
                                                     rawName: "v-model",
-                                                    value:
-                                                      item.amount +
-                                                      2 * item.amount * 0.09,
-                                                    expression:
-                                                      "item.amount + 2 * item.amount * 0.09"
+                                                    value: item.amount,
+                                                    expression: "item.amount"
                                                   }
                                                 ],
                                                 staticClass: "due",
                                                 attrs: {
-                                                  type: "text",
+                                                  type: "hidden",
                                                   readonly: "",
-                                                  name: "",
-                                                  id: "total_invoice_amount"
+                                                  name: ""
                                                 },
                                                 domProps: {
-                                                  value:
-                                                    item.amount +
-                                                    2 * item.amount * 0.09
+                                                  value: item.amount
                                                 },
                                                 on: {
                                                   input: function($event) {
@@ -48443,80 +48597,23 @@ var render = function() {
                                                       return
                                                     }
                                                     _vm.$set(
-                                                      item.amount +
-                                                        2 * item.amount * 0,
-                                                      "09",
+                                                      item,
+                                                      "amount",
                                                       $event.target.value
                                                     )
                                                   }
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(_vm._s(_vm.total))
                                             ]
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _c("tr", [
-                                          _c(
-                                            "td",
-                                            {
-                                              attrs: {
-                                                rowspan: "3",
-                                                colspan: "2"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "Net Invoice Value(in words)"
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm._m(30, true),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "total-line" },
-                                            [_vm._v("Less: Advance")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value:
-                                                    _vm.calculatedFromAmount,
-                                                  expression:
-                                                    "calculatedFromAmount"
-                                                }
-                                              ],
-                                              attrs: {
-                                                type: "text",
-                                                name: "less_advance",
-                                                id: "less_advance",
-                                                onkeypress:
-                                                  "return isNumberKey(event,this)"
-                                              },
-                                              domProps: {
-                                                value: _vm.calculatedFromAmount
-                                              },
-                                              on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.calculatedFromAmount =
-                                                    $event.target.value
-                                                }
-                                              }
-                                            })
-                                          ])
-                                        ]),
+                                        _vm._m(27, true),
                                         _vm._v(" "),
-                                        _vm._m(31, true),
+                                        _vm._m(28, true),
                                         _vm._v(" "),
-                                        _vm._m(32, true)
+                                        _vm._m(29, true)
                                       ]),
                                       _vm._v(" "),
                                       _c("br")
@@ -48806,29 +48903,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { staticClass: "blank", attrs: { colspan: "2" } }),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-line" }, [_vm._v("Total Tax")]),
-      _vm._v(" "),
-      _c("td", { attrs: { align: "center" } }, [_vm._v("(D)(B+C)")]),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-value" }, [
-        _c("input", {
-          attrs: {
-            type: "text",
-            readonly: "",
-            placeholder: "₹ 0.00",
-            id: "total_tax"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
       _c("td", { attrs: { colspan: "2" } }, [
         _vm._v("Invoice Value(in words)")
       ]),
@@ -48852,59 +48926,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "blank", attrs: { colspan: "3" } }),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-line balance", attrs: { colspan: "1" } }, [
-        _vm._v("(A+D)")
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-value balance" }, [
-        _c("input", {
-          staticClass: "due",
-          attrs: {
-            type: "text",
-            readonly: "",
-            name: "",
-            placeholder: "₹ 0.00",
-            id: "total_invoice_amount"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3", colspan: "2" } }, [
-        _vm._v("Net Invoice Value(in words)")
-      ]),
-      _vm._v(" "),
-      _c("td", { attrs: { rowspan: "3" } }, [
-        _c("textarea", {
-          attrs: {
-            name: "netinvoice",
-            placeholder: "Type in words",
-            id: "netinvoice"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-line" }, [_vm._v("Less: Advance")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "less_advance",
-            id: "less_advance",
-            placeholder: "₹ 0.00",
-            onkeypress: "return isNumberKey(event,this)"
-          }
-        })
-      ])
+    return _c("td", { attrs: { rowspan: "3" } }, [
+      _c("textarea", {
+        attrs: {
+          name: "netinvoice",
+          placeholder: "Type in words",
+          id: "netinvoice"
+        }
+      })
     ])
   },
   function() {
@@ -48921,26 +48950,6 @@ var staticRenderFns = [
             name: "avNo",
             id: "avNo",
             placeholder: "AV No."
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "total-line" }, [_vm._v("Net Invoice Amount")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "net_invoice_amt",
-            id: "net_invoice_amt",
-            value: "",
-            placeholder: "₹ 0.00"
           }
         })
       ])
@@ -49146,14 +49155,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { rowspan: "3" } }, [
-      _c("textarea", {
-        attrs: {
-          name: "netinvoice",
-          placeholder: "Type in words",
-          id: "netinvoice"
-        }
-      })
+    return _c("tr", [
+      _c("td", { attrs: { rowspan: "3", colspan: "2" } }, [
+        _vm._v("Net Invoice Value(in words)")
+      ]),
+      _vm._v(" "),
+      _c("td", { attrs: { rowspan: "3" } }, [
+        _c("textarea", {
+          attrs: {
+            name: "netinvoice",
+            placeholder: "Type in words",
+            id: "netinvoice"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("td", { staticClass: "total-line" }, [_vm._v("Less: Advance")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: { type: "text", name: "less_advance", id: "less_advance" }
+        })
+      ])
     ])
   },
   function() {
@@ -50008,27 +50031,6 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-4" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _vm._m(5),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/transfercase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Transfered Case")
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(6)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
         _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
           _c(
             "div",
@@ -50046,7 +50048,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(7)
+              _vm._m(5)
             ],
             1
           )
@@ -50071,7 +50073,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(8)
+              _vm._m(6)
             ],
             1
           )
@@ -50131,7 +50133,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(9)
+              _vm._m(7)
             ],
             1
           )
@@ -50425,110 +50427,6 @@ var staticRenderFns = [
           staticClass: "chartjs-render-monitor",
           staticStyle: { display: "block", width: "228px", height: "53px" },
           attrs: { id: "widgetChart3", height: "53", width: "228" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "chart-wrapper px-3",
-        staticStyle: { height: "70px" },
-        attrs: { height: "70" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "chartjs-size-monitor",
-            staticStyle: {
-              position: "absolute",
-              left: "0px",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              overflow: "hidden",
-              "pointer-events": "none",
-              visibility: "hidden",
-              "z-index": "-1"
-            }
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-expand",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "1000000px",
-                    height: "1000000px",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            ),
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-shrink",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "200%",
-                    height: "200%",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "166px", height: "38px" },
-          attrs: { id: "widgetChart4", height: "38", width: "166" }
         })
       ]
     )
@@ -53287,7 +53185,7 @@ var render = function() {
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("table", { staticClass: "table" }, [
+            _c("table", { staticClass: "table table-responsive" }, [
               _vm._m(2),
               _vm._v(" "),
               _c(
@@ -53308,47 +53206,69 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.time2))]),
                     _vm._v(" "),
-                    _vm._m(3, true),
+                    _c(
+                      "td",
+                      _vm._l(_vm.assignedemployee, function(emp) {
+                        return item.caseid == emp.caseid
+                          ? _c(
+                              "div",
+                              {
+                                key: emp.id,
+                                staticClass: "alert alert-danger",
+                                attrs: {
+                                  value: emp.employee_id,
+                                  "data-toggle": "modal",
+                                  "data-target": "#exampleModalss" + item.caseid
+                                }
+                              },
+                              [_vm._v(_vm._s(emp.name))]
+                            )
+                          : _vm._e()
+                      }),
+                      0
+                    ),
                     _vm._v(" "),
                     _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success btn-sm",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "modal",
-                            "data-target": "#exampleModal" + item.caseid
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-plus" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.editCase(item)
+                      _c("div", { staticClass: "btn btn-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#exampleModal" + item.caseid
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-edit" })]
-                      ),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteCase(item.id)
+                          },
+                          [_c("i", { staticClass: "fa fa-plus" })]
+                        ),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editCase(item)
+                              }
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
+                          },
+                          [_c("i", { staticClass: "fa fa-edit" })]
+                        ),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteCase(item.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash" })]
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -53372,7 +53292,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(4, true),
+                              _vm._m(3, true),
                               _vm._v(" "),
                               _c(
                                 "form",
@@ -53390,7 +53310,7 @@ var render = function() {
                                       "table",
                                       { staticClass: "table table-hovered" },
                                       [
-                                        _vm._m(5, true),
+                                        _vm._m(4, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -53427,7 +53347,10 @@ var render = function() {
                                                   }
                                                 ],
                                                 staticClass: "form-control",
-                                                attrs: { name: "employee_id" },
+                                                attrs: {
+                                                  name: "employee_id",
+                                                  required: ""
+                                                },
                                                 on: {
                                                   change: function($event) {
                                                     var $$selectedVal = Array.prototype.filter
@@ -53509,7 +53432,8 @@ var render = function() {
                                             _c("input", {
                                               attrs: {
                                                 type: "file",
-                                                name: "docs"
+                                                name: "docs",
+                                                required: ""
                                               },
                                               on: { change: _vm.processFile }
                                             })
@@ -53519,7 +53443,127 @@ var render = function() {
                                     )
                                   ]),
                                   _vm._v(" "),
-                                  _vm._m(6, true)
+                                  _vm._m(5, true)
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModalss" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-md",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(6, true),
+                              _vm._v(" "),
+                              _c(
+                                "form",
+                                {
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.reassign(item)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-hovered" },
+                                      [
+                                        _vm._m(7, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "select",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.reAssign.employee_id,
+                                                    expression:
+                                                      "reAssign.employee_id"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: { name: "employee_id" },
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$selectedVal = Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function(o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function(o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                    _vm.$set(
+                                                      _vm.reAssign,
+                                                      "employee_id",
+                                                      $event.target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              _vm._l(_vm.employees, function(
+                                                employee
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    key: employee.id,
+                                                    domProps: {
+                                                      value:
+                                                        employee.employee_id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(employee.name)
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(8, true)
                                 ]
                               )
                             ])
@@ -53595,18 +53639,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned To")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "alert alert-danger" }, [_vm._v("NA")])
     ])
   },
   function() {
@@ -53653,6 +53689,58 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Upload Docs")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Send")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Re Assign Employee")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Re Assign Employee")])])
   },
   function() {
     var _vm = this

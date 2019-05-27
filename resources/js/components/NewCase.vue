@@ -26,7 +26,7 @@
                         <strong class="card-title">Registered Case</strong>
                     </div>
                     <div class="card-body">
-                    <table class="table">
+                    <table class="table table-responsive">
                         <thead>
                             <tr>
                             <th scope="col">#Case</th>
@@ -36,7 +36,7 @@
                             <th scope="col">Contact No</th>
                             <th scope="col">Email</th>
                             <th scope="col">Delivery Date</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Assigned To</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -49,8 +49,8 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><div class="alert alert-danger">NA</div></td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                        <td><div class="alert alert-danger" v-for="emp in assignedemployee" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
+                        <td><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -80,7 +80,7 @@
                         <td>{{ item.amount }}</td>
                         <td>{{ item.time2 }}</td>
                         <td>
-                            <select class="form-control" name="employee_id" v-model="toEmployee.employee_id">
+                            <select class="form-control" name="employee_id" v-model="toEmployee.employee_id" required>
                                 <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
                             </select>
                         </td>
@@ -89,8 +89,42 @@
                         </td>
                         <td>
                             <!-- <form action="/multiuploads" method="post" enctype="multipart/form-data"> -->
-                               <input type="file" name="docs" @change="processFile">
+                               <input type="file" name="docs" @change="processFile" required>
                             <!-- </form> -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModalss'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Re Assign Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form @submit.prevent="reassign(item)">
+            <div class="modal-body" >
+                <table class="table table-hovered">
+                    <tr>
+                        <th>Re Assign Employee</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="employee_id" v-model="reAssign.employee_id">
+                                <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
+                            </select>
                         </td>
                     </tr>
                 </table>
@@ -127,6 +161,7 @@ export default {
             // custom lang
             lang: 'en',
             cases: [],
+            assignedemployee:'',
             employees: [],
             casee: {
                 caseid: '',
@@ -166,12 +201,16 @@ export default {
                 helper: [],
                 docs: '',
                 fileName:''
+            },
+            reAssign: {
+                employee_id: ''
             }
         }
     },
     created(){
         this.fetchCases();
         this.loadEmployee();
+        // this.fetchsendEmployees();
     },
     methods: {
         fetchCases(page_url){
@@ -183,6 +222,11 @@ export default {
             .then(res => {
                 this.cases = res.data;
                 vm.makePagination(res.meta, res.links);
+                    fetch("/api/fetchsendemployees?token="+token)
+                     .then(res => res.json())
+                    .then(res => {
+                        this.assignedemployee = res.data;
+                })
             })
         },
         makePagination(meta, links){
@@ -243,8 +287,8 @@ export default {
             this.toEmployee.fileName = e.target.files[0].name
         },
         sendToEmployee(id){
-            this.toEmployee.caseid = id.caseid;
             const token = localStorage.getItem('token');
+            this.toEmployee.caseid = id.caseid;
             fetch(`api/sendemployee?token=`+token, {
                 method: 'post',
                 body: JSON.stringify(this.toEmployee),
@@ -257,15 +301,63 @@ export default {
                 this.toEmployee.assignedEmployee = '';
                 this.toEmployee.helper = '';
                 this.toEmployee.assignedEmployee = '';
-                Swal.fire(
-                'Sent!',
-                'Case Has been Sent!.',
-                'success'
-                )
+               if(res.message){
+                   Swal.fire(
+                        'Failed!',
+                        'This case is already Reservered',
+                        'warning'
+                    )
+               }
+               else{
+                   Swal.fire(
+                   'Sent!',
+                   'Case Has been Sent!.',
+                   'success'
+                   )
 
-                jQuery('#exampleModal'+this.toEmployee.caseid).modal('hide')
+                   jQuery('#exampleModal'+this.toEmployee.caseid).modal('hide')
+               }
             })
             .catch(err => console.log(err));
+        },
+        reassign(item){
+            const token = localStorage.getItem('token');
+            const id = item.caseid;
+            this.toEmployee.caseid = id.caseid;
+            Swal.fire({
+            title: 'Are you sure want to transfer the case?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, transfer it!'
+            }).then((result) => {
+                if (result.value) {
+                    const token = localStorage.getItem('token');
+                    fetch('api/updateemployee/'+id+'/?token='+token, {
+                        method: 'put',
+                        body: JSON.stringify(this.reAssign),
+                            headers: {
+                        'content-type': 'application/json'
+                        }
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Transfered!',
+                        'Case has been Transferred successfully.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
+                }
+            })
         }
     }
 }

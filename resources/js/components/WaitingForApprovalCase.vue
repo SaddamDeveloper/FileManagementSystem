@@ -84,13 +84,14 @@ export default {
     },
     created(){
         this.fetchCases();
-        this.loadEmployee();
+        // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/approving/';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/approving?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())

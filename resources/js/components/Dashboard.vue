@@ -77,22 +77,6 @@
   </div>
 </div>
 </div>
-<div class="col-sm-6 col-lg-3">
-  <div class="card text-white bg-flat-color-4">
-    <div class="card-body pb-0">
-
-      <h4 class="mb-0">
-        <span class="count"></span>
-      </h4>
-      <router-link to="/transfercase"><p class="text-light">Transfered Case</p></router-link>
-
-      <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-      <canvas id="widgetChart4" height="38" width="166" class="chartjs-render-monitor" style="display: block; width: 166px; height: 38px;"></canvas>
-    </div>
-
-  </div>
-</div>
-</div>
 <!--/.col-->
 <div class="col-sm-6 col-lg-3">
   <div class="card text-white bg-flat-color-1">

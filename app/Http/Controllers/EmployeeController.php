@@ -15,6 +15,7 @@ use Storage;
 use File;
 use DB;
 use App\TransferCase;
+use Illuminate\Support\Facades\Input;
 
 class EmployeeController extends Controller
 {
@@ -113,8 +114,14 @@ class EmployeeController extends Controller
 
         $fileName = $request->fileName;
 
-         $caseId = $request->input('caseid');
-        Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
+        $caseId = $request->input('caseid');
+        $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
+        if ($idCheck === null) {
+            Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
+        }
+        else{
+            return response()->json(['message' => 'Case is already reserved'], 200);
+        }
 
         // $inquiries = DB::table('send_to_employees')->where('caseid', $caseId)->get();
         // foreach($inquiries as $row_data){
@@ -291,11 +298,14 @@ class EmployeeController extends Controller
       DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
 
-    public function fetchApproving($id){
+    public function fetchApproving(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
       $approving = DB::table('toadmin')
-           ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-           ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
-           ->where('toadmin.employee_id', '=', $id)
+      ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+      ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
+      ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
+        ->where('toadmin.employee_id', '=', $id)
            ->paginate(15);
            return $approving;
     }
@@ -368,5 +378,21 @@ class EmployeeController extends Controller
             ->where('transfercase.employee_id', $id)
             ->paginate(15);
             return $completedCase;
+    }
+
+    public function fetchSendToEmployees(){
+        $sendEmployees = DB::table('send_to_employees')
+            ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'send_to_employees.employee_id', '=', 'users.employee_id')
+            ->paginate(15);
+            return $sendEmployees;
+    }
+
+    public function UpdateEmp( Request $request, $id){
+        // $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
+        // if ($idCheck === null) {
+        //     Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+        // }
+       DB::statement( "UPDATE send_to_employees SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
     }
 }

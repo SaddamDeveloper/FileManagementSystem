@@ -65,7 +65,7 @@
             <div id="page-wrap">
 
 		<div id="header1">TAX INVOICE</div>
-
+                                    {{ amount = parseFloat(item.amount) }}
 		<span style="font-size: 12px; font-weight:800;">Name & Address of Service Provider:</span>
 		<div id="identity">
             <div id="address">D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001</div>
@@ -125,32 +125,32 @@
 		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
 		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
 		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
-		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount" onkeypress="return isNumberKey(event,this)"></textarea></td>
+		      <td><textarea class="amount requiredField" id="amount1" v-model="amount" onkeypress="return isNumberKey(event,this)"></textarea></td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Taxable Value:</td>
 		      <td align="center">(A)</td>
-		      <td class="taxabale_value"><input type="text" readonly id="taxable_value" v-model="item.amount"></td>
+		      <td class="taxabale_value"><input type="text" readonly id="taxable_value" ref="taxable_value" v-model="amount"></td>
 		  </tr>
 		  <tr>
 
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
 		      <td align="center">(B)</td>
-		      <td class="total-value"><input type="text" readonly id="sgst" v-model="item.amount * 0.09"></td>
+		      <td class="total-value"><input type="text" readonly id="sgst" >{{ a = amount* parseFloat(0.09) }}</td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
 		      <td align="center">(C)</td>
-		      <td class="total-value"><input type="text" readonly id="cgst" v-model="item.amount * 0.09"></td>
+		      <td class="total-value"><input type="text" readonly id="cgst">{{ b = amount* parseFloat(0.09) }}</td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Total Tax</td>
 		      <td align="center">(D)(B+C)</td>
-		      <td class="total-value"><input type="text" readonly placeholder="₹ 0.00" id="total_tax"></td>
+		      <td class="total-value"><input type="text" readonly id="total_tax">{{ c = a + b }}</td>
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
@@ -160,13 +160,13 @@
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="1" class="total-line balance">(A+D)</td>
-		      <td class="total-value balance"><input type="text" readonly name="" placeholder="₹ 0.00" id="total_invoice_amount" class="due"></td>
+		      <td class="total-value balance">{{ d = amount + c }}</td>
 		  </tr>
 		   <tr>
 		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
 		  	<td rowspan="3"><textarea name="netinvoice" placeholder="Type in words" id="netinvoice"></textarea></td>
 		      <td class="total-line">Less: Advance</td>
-		      <td><input type="text" name="less_advance" id="less_advance" placeholder="₹ 0.00" onkeypress="return isNumberKey(event,this)"></td>
+		      <td><input type="text" name="less_advance" id="less_advance" v-model="lessadvance"></td>
 		  </tr>
 		  <tr>
 		  	<td class="total-line">AV No.</td>
@@ -174,7 +174,7 @@
 		  </tr>
 		  <tr>
 		  	<td class="total-line">Net Invoice Amount</td>
-		  	<td><input type="text" name="net_invoice_amt" id="net_invoice_amt" value='' placeholder="₹ 0.00"></td>
+		  	<td>{{ e = parseFloat(d)-parseFloat(lessadvance) }}</td>
 		  </tr>
 
 		</table>
@@ -263,7 +263,7 @@
 		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
 		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
 		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
-		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount" onkeypress="return isNumberKey(event,this)"></textarea></td>
+		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount"></textarea></td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
@@ -288,7 +288,7 @@
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Total Tax</td>
 		      <td align="center">(D)(B+C)</td>
-		      <td class="total-value"><input type="text" readonly v-model="2 * item.amount * 0.09 " id="total_tax"></td>
+		      <td class="total-value"><input type="text" readonly v-model="2 * item.amount * 0.09" id="total_tax"></td>
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
@@ -298,13 +298,13 @@
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="1" class="total-line balance">(A+D)</td>
-		      <td class="total-value balance"><input type="text" readonly name="" v-model="item.amount + 2 * item.amount * 0.09" id="total_invoice_amount" class="due"></td>
+		      <td class="total-value balance"><input type="hidden" readonly name="" v-model="item.amount" class="due">{{ total }}</td>
 		  </tr>
 		   <tr>
 		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
 		  	<td rowspan="3"><textarea name="netinvoice" placeholder="Type in words" id="netinvoice"></textarea></td>
 		      <td class="total-line">Less: Advance</td>
-		      <td><input type="text" name="less_advance" id="less_advance" v-model="calculatedFromAmount" onkeypress="return isNumberKey(event,this)"></td>
+		      <td><input type="text" name="less_advance" id="less_advance"></td>
 		  </tr>
 		  <tr>
 		  	<td class="total-line">AV No.</td>
@@ -345,7 +345,9 @@
 export default {
         data(){
         return {
+            lessadvance: '',
             value: null,
+            numbers: '',
             time1: '',
             time2: '',
             time3: '',
@@ -353,6 +355,7 @@ export default {
             lang: 'en',
             myDate : new Date().toISOString().slice(0,10),
             completedcases: [],
+
         }
     },
     created(){
@@ -369,6 +372,7 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.completedcases = res.data;
+                console.log(this.completedcases);
                 vm.makePagination(res.meta, res.links);
             })
         },
@@ -386,11 +390,14 @@ export default {
         }
     },
     computed: {
-        calculatedFromAmount: function(){
-            // console.log(this.$refs)
-        //    console.log(parseInt(this.completedcases[0].amount));
-            console.log(this.item);
+        total: function(){
+                return this.$refs.taxable_value;
         }
+        // calculatedFromAmount: function(){
+        //     // console.log(this.$refs)
+        // //    console.log(parseInt(this.completedcases[0].amount));
+        //     console.log(this.item);
+        // }
     },
     filter: {
         test: function(item){

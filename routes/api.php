@@ -118,7 +118,7 @@ Route::get('fetchrejectedcaseemployee', ['uses' => 'EmployeeController@FetchReje
 
 Route::delete('rejectcase/{id}', ['uses' => 'EmployeeController@DeleteRejectCase', 'middleware' => 'jwt']);
 
-Route::get('approving/{id}', 'EmployeeController@fetchApproving');
+Route::get('approving', ['uses' => 'EmployeeController@fetchApproving', 'middleware' => 'jwt']);
 
 Route::get('counter', ['uses' => 'EmployeeController@countingNewlyRegisterd', 'middleware' => 'jwt']);
 
@@ -160,3 +160,8 @@ Route::post('admin', [
 Route::post( 'sendforapprovalagain', ['uses' => 'EmployeeController@sendApprovalAgain', 'middleware' => 'jwt']);
 
 Route::get( 'fetchtransferedcaseemployee', ['uses' => 'EmployeeController@fetchTransferCaseEmp', 'middleware' => 'jwt']);
+
+Route::get('fetchsendemployees', ['uses' => 'EmployeeController@fetchSendToEmployees', 'middleware' => 'jwt']);
+
+Route::put( 'updateemployee/{id}', ['uses' => 'EmployeeController@UpdateEmp', 'middleware' => 'jwt']);
+
