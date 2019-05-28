@@ -132,7 +132,7 @@ Route::get('caseid', ['uses' => 'CaseController@showCaseId', 'middleware' => 'jw
 
 Route::get('searchphone', 'CaseController@searchPhone');
 
-Route::get('empcompletedcase/{id}', 'EmployeeController@empCompletedCase');
+Route::get('empcompletedcase', ['uses' => 'EmployeeController@empCompletedCase', 'middleware' => 'jwt']);
 
 
 
@@ -166,4 +166,8 @@ Route::get('fetchsendemployees', ['uses' => 'EmployeeController@fetchSendToEmplo
 Route::put( 'updateemployee/{id}', ['uses' => 'EmployeeController@UpdateEmp', 'middleware' => 'jwt']);
 
 Route::post( 'transfertoonprocess', ['uses' => 'EmployeeController@TransferToOnprocess', 'middleware' => 'jwt']);
+
+Route::delete( 'deleteempnewcase/{id}', ['uses' => 'EmployeeController@DeleteEmpNewCase', 'middleware' => 'jwt']);
+
+Route::get( 'checksendtoemployees', ['uses' => 'EmployeeController@checkSendEmployees', 'middleware' => 'jwt']);
 

@@ -19,11 +19,11 @@ class EmployeeAssigned extends Controller
     {
         $user = auth()->user();
         $id = $user['employee_id'];
-        $employee = DB::table('send_to_employees')
-            ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+        $employee = DB::table('onprocess')
+            ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
-            ->orderBy('send_to_employees.id', 'DESC')
-            ->where('send_to_employees.employee_id', $id)
+            ->orderBy('onprocess.id', 'DESC')
+            ->where('onprocess.employee_id', $id)
             ->paginate(15);
           return $employee;
         //  return CaseResource::collection($employee);

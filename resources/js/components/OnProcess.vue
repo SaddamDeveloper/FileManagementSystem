@@ -108,12 +108,6 @@ export default {
                 docs: '',
                 employee_id: '',
                 helper: ''
-            },
-            toOnProcess: {
-                caseid: '',
-                docs: '',
-                employee_id: '',
-                helper: ''
             }
         }
     },

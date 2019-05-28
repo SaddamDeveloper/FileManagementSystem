@@ -79,6 +79,12 @@ export default {
                 docs: '',
                 employee_id: '',
                 helper: ''
+            },
+            toOnProcess: {
+                caseid: '',
+                docs: '',
+                employee_id: '',
+                helper: ''
             }
         }
     },
@@ -91,7 +97,7 @@ export default {
     methods: {
         fetchCases(page_url){
             const token = localStorage.getItem('token');
-            page_url = page_url || 'api/employeeassignedemployees?token='+token;
+            page_url = page_url || 'api/checksendtoemployees?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
@@ -220,12 +226,19 @@ export default {
             }).then((result) => {
                 if (result.value) {
                     const token = localStorage.getItem('token');
-                    fetch(`api/transfertoonprocess?token=`+token, {
+                    this.toOnProcess.caseid = item.caseid;
+                    this.toOnProcess.docs = item.docs;
+                    this.toOnProcess.helper = item.helper;
+                    this.toOnProcess.employee_id = item.employee_id;
+                    fetch('api/transfertoonprocess?token='+token, {
                         method: 'post',
-                        body: JSON.stringify(this.toAdmin),
+                        body: JSON.stringify(this.toOnProcess),
                         headers: {
                             'content-type' : 'application/json'
                         }
+                    })
+                    fetch('api/deleteempnewcase/'+item.caseid+'?token='+token, {
+                        method: 'delete'
                     })
                     .then(()=>{
                         Swal.fire(

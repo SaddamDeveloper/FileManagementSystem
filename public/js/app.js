@@ -3205,6 +3205,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3549,7 +3553,8 @@ __webpack_require__.r(__webpack_exports__);
     fetchCases: function fetchCases(page_url) {
       var _this = this;
 
-      page_url = page_url || 'api/empcompletedcase/';
+      var token = localStorage.getItem('token');
+      page_url = page_url || 'api/empcompletedcase/?token=' + token;
       var vm = this;
       fetch(page_url).then(function (res) {
         return res.json();
@@ -3978,6 +3983,12 @@ __webpack_require__.r(__webpack_exports__);
         docs: '',
         employee_id: '',
         helper: ''
+      },
+      toOnProcess: {
+        caseid: '',
+        docs: '',
+        employee_id: '',
+        helper: ''
       }
     };
   },
@@ -3991,7 +4002,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var token = localStorage.getItem('token');
-      page_url = page_url || 'api/employeeassignedemployees?token=' + token;
+      page_url = page_url || 'api/checksendtoemployees?token=' + token;
       var vm = this;
       fetch(page_url).then(function (res) {
         return res.json();
@@ -4114,12 +4125,19 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           var token = localStorage.getItem('token');
-          fetch("api/transfertoonprocess?token=" + token, {
+          _this6.toOnProcess.caseid = item.caseid;
+          _this6.toOnProcess.docs = item.docs;
+          _this6.toOnProcess.helper = item.helper;
+          _this6.toOnProcess.employee_id = item.employee_id;
+          fetch('api/transfertoonprocess?token=' + token, {
             method: 'post',
-            body: JSON.stringify(_this6.toAdmin),
+            body: JSON.stringify(_this6.toOnProcess),
             headers: {
               'content-type': 'application/json'
             }
+          });
+          fetch('api/deleteempnewcase/' + item.caseid + '?token=' + token, {
+            method: 'delete'
           }).then(function () {
             Swal.fire('Sent!', 'Case has been accepted!.', 'success');
 
@@ -5296,12 +5314,6 @@ __webpack_require__.r(__webpack_exports__);
         remarks: ''
       },
       toAdmin: {
-        caseid: '',
-        docs: '',
-        employee_id: '',
-        helper: ''
-      },
-      toOnProcess: {
         caseid: '',
         docs: '',
         employee_id: '',
@@ -48470,36 +48482,13 @@ var render = function() {
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
-                                              _c("textarea", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount,
-                                                    expression: "item.amount"
-                                                  }
-                                                ],
-                                                staticClass:
-                                                  "amount requiredField",
-                                                attrs: { id: "amount1" },
-                                                domProps: {
-                                                  value: item.amount
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item,
-                                                      "amount",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.amount = parseFloat(
+                                                    item.amount
+                                                  ))
+                                                )
+                                              )
                                             ])
                                           ]
                                         ),
@@ -48525,40 +48514,7 @@ var render = function() {
                                           _c(
                                             "td",
                                             { staticClass: "taxabale_value" },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount,
-                                                    expression: "item.amount"
-                                                  }
-                                                ],
-                                                attrs: {
-                                                  type: "text",
-                                                  readonly: "",
-                                                  id: "taxable_value"
-                                                },
-                                                domProps: {
-                                                  value: item.amount
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item,
-                                                      "amount",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ]
+                                            [_vm._v(_vm._s(_vm.amount))]
                                           )
                                         ]),
                                         _vm._v(" "),
@@ -48580,39 +48536,13 @@ var render = function() {
                                             "td",
                                             { staticClass: "total-value" },
                                             [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount * 0.09,
-                                                    expression:
-                                                      "item.amount * 0.09"
-                                                  }
-                                                ],
-                                                attrs: {
-                                                  type: "text",
-                                                  readonly: "",
-                                                  id: "sgst"
-                                                },
-                                                domProps: {
-                                                  value: item.amount * 0.09
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item.amount * 0,
-                                                      "09",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.a =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
                                             ]
                                           )
                                         ]),
@@ -48635,39 +48565,13 @@ var render = function() {
                                             "td",
                                             { staticClass: "total-value" },
                                             [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount * 0.09,
-                                                    expression:
-                                                      "item.amount * 0.09"
-                                                  }
-                                                ],
-                                                attrs: {
-                                                  type: "text",
-                                                  readonly: "",
-                                                  id: "cgst"
-                                                },
-                                                domProps: {
-                                                  value: item.amount * 0.09
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item.amount * 0,
-                                                      "09",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.b =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
                                             ]
                                           )
                                         ]),
@@ -48694,45 +48598,44 @@ var render = function() {
                                             "td",
                                             { staticClass: "total-value" },
                                             [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value:
-                                                      2 * item.amount * 0.09,
-                                                    expression:
-                                                      "2 * item.amount * 0.09"
-                                                  }
-                                                ],
-                                                attrs: {
-                                                  type: "text",
-                                                  readonly: "",
-                                                  id: "total_tax"
-                                                },
-                                                domProps: {
-                                                  value: 2 * item.amount * 0.09
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      2 * item.amount * 0,
-                                                      "09",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
+                                              _vm._v(
+                                                _vm._s((_vm.c = _vm.a + _vm.b))
+                                              )
                                             ]
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(24, true),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { attrs: { colspan: "2" } },
+                                            [_vm._v("Invoice Value(in words)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("span", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("capitalize")(
+                                                    _vm._f("toWords")(
+                                                      (_vm.d =
+                                                        _vm.amount + _vm.c)
+                                                    )
+                                                  )
+                                                ) + " Rupees Only"
+                                              )
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line",
+                                              attrs: { colspan: "3" }
+                                            },
+                                            [_vm._v("Total Invoice Amount")]
+                                          )
+                                        ]),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c("td", {
@@ -48754,50 +48657,80 @@ var render = function() {
                                             {
                                               staticClass: "total-value balance"
                                             },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: item.amount,
-                                                    expression: "item.amount"
-                                                  }
-                                                ],
-                                                staticClass: "due",
-                                                attrs: {
-                                                  type: "hidden",
-                                                  readonly: "",
-                                                  name: ""
-                                                },
-                                                domProps: {
-                                                  value: item.amount
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      item,
-                                                      "amount",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              }),
-                                              _vm._v(_vm._s(_vm.total))
-                                            ]
+                                            [_vm._v(_vm._s(_vm.d))]
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(25, true),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              attrs: {
+                                                rowspan: "3",
+                                                colspan: "2"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Net Invoice Value(in words)"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { rowspan: "3" } },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("capitalize")(
+                                                      _vm._f("toWords")(
+                                                        _vm.d -
+                                                          parseFloat(
+                                                            item.advamount
+                                                          )
+                                                      )
+                                                    )
+                                                  ) + " Rupees Only"
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Less: Advance")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                (_vm.advamount = item.advamount)
+                                              )
+                                            )
+                                          ])
+                                        ]),
                                         _vm._v(" "),
-                                        _vm._m(26, true),
+                                        _vm._m(24, true),
                                         _vm._v(" "),
-                                        _vm._m(27, true)
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Net Invoice Amount")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.d -
+                                                  parseFloat(_vm.advamount)
+                                              )
+                                            )
+                                          ])
+                                        ])
                                       ]),
                                       _vm._v(" "),
                                       _c("br")
@@ -48826,7 +48759,7 @@ var render = function() {
                                     attrs: { type: "submit" },
                                     on: { click: _vm.print }
                                   },
-                                  [_vm._v("Print")]
+                                  [_vm._v("Save & Print")]
                                 )
                               ])
                             ])
@@ -49278,50 +49211,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "2" } }, [
-        _vm._v("Invoice Value(in words)")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("textarea", {
-          attrs: {
-            name: "invoiceval",
-            placeholder: "Type in words",
-            id: "invoiceval"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-line", attrs: { colspan: "3" } }, [
-        _vm._v("Total Invoice Amount")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3", colspan: "2" } }, [
-        _vm._v("Net Invoice Value(in words)")
-      ]),
-      _vm._v(" "),
-      _c("td", { attrs: { rowspan: "3" } }),
-      _vm._v(" "),
-      _c("td", { staticClass: "total-line" }, [_vm._v("Less: Advance")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("input", {
-          attrs: { type: "text", name: "less_advance", id: "less_advance" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
       _c("td", { staticClass: "total-line" }, [_vm._v("AV No.")]),
       _vm._v(" "),
       _c("td", [
@@ -49331,26 +49220,6 @@ var staticRenderFns = [
             name: "avNo",
             id: "avNo",
             placeholder: "AV No."
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "total-line" }, [_vm._v("Net Invoice Amount")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "net_invoice_amt",
-            id: "net_invoice_amt",
-            value: "",
-            placeholder: "₹ 0.00"
           }
         })
       ])
@@ -50138,9 +50007,35 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("router-link", { attrs: { to: "/waitingforapproavalcase" } }, [
-                _c("p", { staticClass: "text-light" }, [_vm._v("Approving")])
-              ])
+              _vm.users.selected == 0
+                ? _c(
+                    "router-link",
+                    { attrs: { to: "/waitingforapproavalcase" } },
+                    [
+                      _c("p", { staticClass: "text-light" }, [
+                        _vm._v("Billed Case")
+                      ])
+                    ]
+                  )
+                : _vm.users.selected == 1
+                ? _c(
+                    "router-link",
+                    { attrs: { to: "/waitingforapproavalcase" } },
+                    [
+                      _c("p", { staticClass: "text-light" }, [
+                        _vm._v("Billed Case")
+                      ])
+                    ]
+                  )
+                : _c(
+                    "router-link",
+                    { attrs: { to: "/waitingforapproavalcase" } },
+                    [
+                      _c("p", { staticClass: "text-light" }, [
+                        _vm._v("To be Approved")
+                      ])
+                    ]
+                  )
             ],
             1
           ),
@@ -50157,9 +50052,23 @@ var render = function() {
             [
               _vm._m(3),
               _vm._v(" "),
-              _c("router-link", { attrs: { to: "/empbillingcase" } }, [
-                _c("p", { staticClass: "text-light" }, [_vm._v("Billing Case")])
-              ]),
+              _vm.users.selected == 0
+                ? _c("router-link", { attrs: { to: "/empbillingcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Credit Billed")
+                    ])
+                  ])
+                : _vm.users.selected == 1
+                ? _c("router-link", { attrs: { to: "/empbillingcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Credit Billed")
+                    ])
+                  ])
+                : _c("router-link", { attrs: { to: "/empbillingcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Billing Case")
+                    ])
+                  ]),
               _vm._v(" "),
               _vm._m(4)
             ],
@@ -51458,7 +51367,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-sm-4" }, [
         _c("div", { staticClass: "page-header float-left" }, [
           _c("div", { staticClass: "page-title" }, [
-            _c("h1", [_c("strong", [_vm._v("Completed Case")])])
+            _c("h1", [_c("strong", [_vm._v("Billing Case")])])
           ])
         ])
       ]),
@@ -51471,7 +51380,7 @@ var staticRenderFns = [
                 _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
               ]),
               _vm._v(" "),
-              _c("li", { staticClass: "active" }, [_vm._v("Completed Case")])
+              _c("li", { staticClass: "active" }, [_vm._v("Billing Case")])
             ])
           ])
         ])
@@ -51483,7 +51392,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("strong", { staticClass: "card-title" }, [_vm._v("Completed Case")])
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Billing Case")])
     ])
   },
   function() {

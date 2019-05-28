@@ -11,6 +11,7 @@ use App\sendToDb;
 use App\sendToAdmin;
 use App\sendToApproval;
 use App\rejectCase;
+use App\OnProcessCase;
 use Storage;
 use File;
 use DB;
@@ -194,7 +195,7 @@ class EmployeeController extends Controller
 
        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-            ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
             ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
             ->paginate(15);
             return $approvedCase;
@@ -215,7 +216,7 @@ class EmployeeController extends Controller
 
     public function CompletedCase(){
         $completedCase = DB::table('completedcase')
-            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
@@ -229,7 +230,7 @@ class EmployeeController extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
         $CompletedCaseEmp = DB::table('completedcase')
-            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
             ->where('users.employee_id', $id)
@@ -241,7 +242,7 @@ class EmployeeController extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
         $ApprovedCaseEmp = DB::table('completedcase')
-            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
             ->where('users.employee_id', $id)
@@ -303,7 +304,7 @@ class EmployeeController extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
       $approving = DB::table('toadmin')
-      ->join('send_to_employees', 'toadmin.caseid', '=', 'send_to_employees.caseid')
+      ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
       ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
       ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
         ->where('toadmin.employee_id', '=', $id)
@@ -348,10 +349,13 @@ class EmployeeController extends Controller
         DB::table('rejectcase')->where('caseid', '=', $id)->delete();
     }
 
-    public function empCompletedCase($id){
+    public function empCompletedCase(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
          $completedCase = DB::table('completedcase')
-            ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'completedcase.employee_id', '=', 'users.employee_id')
             ->where('completedcase.employee_id', $id)
             ->paginate(15);
             return $completedCase;
@@ -397,7 +401,32 @@ class EmployeeController extends Controller
        DB::statement( "UPDATE send_to_employees SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
     }
 
-    public function TransferToOnprocess(){
-        return "hello";
+    public function TransferToOnprocess(Request $request){
+        $OnProcessCase = $request->isMethod('put') ? OnProcessCase::findOrFail($request->employee_id) : new OnProcessCase;
+        $OnProcessCase->caseid = $request->input('caseid');
+        // return $request->input('assignedEmployee');
+        $OnProcessCase->employee_id = $request->input('employee_id');
+        $OnProcessCase->docs = $request->input('docs');
+        $OnProcessCase->helper = $request->input('helper');
+        if ($OnProcessCase->save()) {
+            return new EmployeeResource($OnProcessCase);
+        }
+
+    }
+
+    public function DeleteEmpNewCase($id){
+        DB::table('send_to_employees')->where('caseid', '=', $id)->delete();
+    }
+
+    public function checkSendEmployees(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+        $employee = DB::table('send_to_employees')
+            ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
+            ->orderBy('send_to_employees.id', 'DESC')
+            ->where('send_to_employees.employee_id', $id)
+            ->paginate(15);
+        return $employee;
     }
 }

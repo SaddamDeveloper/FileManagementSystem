@@ -263,48 +263,48 @@
 		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
 		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
 		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
-		      <td><textarea class="amount requiredField" id="amount1" v-model="item.amount"></textarea></td>
+		      <td>{{ amount = parseFloat(item.amount) }}</td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Taxable Value:</td>
 		      <td align="center">(A)</td>
-		      <td class="taxabale_value"><input type="text" readonly id="taxable_value" v-model="item.amount"></td>
+		      <td class="taxabale_value">{{ amount }}</td>
 		  </tr>
 		  <tr>
 
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
 		      <td align="center">(B)</td>
-		      <td class="total-value"><input type="text" readonly id="sgst" v-model="item.amount * 0.09"></td>
+		      <td class="total-value">{{ a = amount* parseFloat(0.09) }}</td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
 		      <td align="center">(C)</td>
-		      <td class="total-value"><input type="text" readonly id="cgst" v-model="item.amount * 0.09"></td>
+		      <td class="total-value">{{ b = amount* parseFloat(0.09) }}</td>
 		  </tr>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Total Tax</td>
 		      <td align="center">(D)(B+C)</td>
-		      <td class="total-value"><input type="text" readonly v-model="2 * item.amount * 0.09" id="total_tax"></td>
+		      <td class="total-value">{{ c = a + b }}</td>
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><textarea name="invoiceval" placeholder="Type in words" id="invoiceval"></textarea></td>
+		  	<td><span>{{ d = amount + c | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line" colspan="3">Total Invoice Amount</td>
 		  </tr>
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="1" class="total-line balance">(A+D)</td>
-		      <td class="total-value balance"><input type="hidden" readonly name="" v-model="item.amount" class="due">{{ total }}</td>
+		      <td class="total-value balance">{{ d }}</td>
 		  </tr>
 		   <tr>
 		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
-		  	<td rowspan="3"></td>
+		  	<td rowspan="3"><span>{{ d-parseFloat(item.advamount) | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line">Less: Advance</td>
-		      <td><input type="text" name="less_advance" id="less_advance"></td>
+		      <td>{{ advamount = item.advamount }}</td>
 		  </tr>
 		  <tr>
 		  	<td class="total-line">AV No.</td>
@@ -312,7 +312,7 @@
 		  </tr>
 		  <tr>
 		  	<td class="total-line">Net Invoice Amount</td>
-		  	<td><input type="text" name="net_invoice_amt" id="net_invoice_amt" value='' placeholder="₹ 0.00"></td>
+		  	<td>{{ d-parseFloat(advamount) }}</td>
 		  </tr>
 
 		</table>
@@ -322,7 +322,7 @@
         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" @click="print">Print</button>
+                    <button type="submit" class="btn btn-primary" @click="print">Save & Print</button>
                 </div>
                 </div>
             </div>

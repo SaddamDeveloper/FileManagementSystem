@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Completed Case</strong></h1>
+                        <h1><strong>Billing Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Completed Case</li>
+                            <li class="active">Billing Case</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Completed Case</strong>
+                        <strong class="card-title">Billing Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -111,7 +111,8 @@ export default {
     },
     methods: {
         fetchCases(page_url){
-            page_url = page_url || 'api/empcompletedcase/';
+            const token = localStorage.getItem('token');
+            page_url = page_url || 'api/empcompletedcase/?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
