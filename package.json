@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.8"
     },
     "dependencies": {
+        "number-to-words": "^1.2.4",
         "printd": "^1.3.0",
         "sweetalert2": "^8.5.0",
         "vform": "^1.0.0",
@@ -31,6 +32,7 @@
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
         "vue-select": "^2.6.3",
-        "vue2-datepicker": "^2.10.0"
+        "vue2-datepicker": "^2.10.0",
+        "written-number": "^0.9.1"
     }
 }

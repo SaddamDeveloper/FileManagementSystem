@@ -8,8 +8,10 @@ use App\Http\Requests;
 use App\Cases;
 use App\ClientDetailsAnother;
 use App\ClientDetails;
+use App\Amount;
 use App\Http\Resources\Cases as CaseResource;
 use App\Http\Resources\ClientDetails as ClientDetailsResource;
+use App\Http\Resources\AmountResource as AmountsResource;
 use DB;
 use Response;
 use Illuminate\Support\Facades\Auth;
@@ -76,6 +78,7 @@ class CaseController extends Controller
             $case = new Cases;
             $cdetails = new ClientDetails;
             $cdetails2 = new ClientDetailsAnother;
+            $amount = new Amount;
         }
 
         //Generating CaseID
@@ -118,7 +121,7 @@ class CaseController extends Controller
             $formatedDate = substr($date, 0,10);
             $case->time2 = $formatedDate;
             $case->amount = $request->input('amount');
-            $case->paymentmode = $request->input('paymentmode');
+            $case->paymentmode = $request->input('selected');
             $cdetails->clientid = $clientidstatic;
 
             $cdetails->clientName = $request->input('clientName');
@@ -128,9 +131,16 @@ class CaseController extends Controller
             $cdetails->address = $request->input('address');
             $cdetails->clientType = $request->input('clientType');
             $cdetails->caseid = $caseid;
-            if($case->save() && $cdetails->save()){
+
+            $amount->caseid = $caseid;
+            $amount->paymentmode = $request->input('selected');
+            $amount->clientid = $clientidstatic;
+            $amount->amount = $request->input('amount');
+            $amount->advamount = $request->input('advamount');
+            if($case->save() && $cdetails->save() && $amount->save()){
                 return new CaseResource($case);
                 return new ClientDetailsResource($cdetails);
+                return new AmountsResource($amount);
             }
         }
         else{
@@ -151,9 +161,16 @@ class CaseController extends Controller
             $cdetails2->address = $request->input('addr');
             $cdetails2->clientType = $request->input('clientType');
             $cdetails2->caseid = $caseid;
-           if($case->save() && $cdetails2->save()){
+
+            $amount->caseid = $caseid;
+            $amount->paymentmode = $request->input('selected');
+            $amount->clientid = $clientidstatic;
+            $amount->amount = $request->input('amount');
+            $amount->advamount = $request->input('advamount');
+           if($case->save() && $cdetails2->save() && $amount->save()){
                 return new CaseResource($case);
                 return new ClientDetailsResource($cdetails2);
+                return new AmountsResource($amount);
             }
         }
     }

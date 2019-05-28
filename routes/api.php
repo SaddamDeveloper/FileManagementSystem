@@ -165,3 +165,5 @@ Route::get('fetchsendemployees', ['uses' => 'EmployeeController@fetchSendToEmplo
 
 Route::put( 'updateemployee/{id}', ['uses' => 'EmployeeController@UpdateEmp', 'middleware' => 'jwt']);
 
+Route::post( 'transfertoonprocess', ['uses' => 'EmployeeController@TransferToOnprocess', 'middleware' => 'jwt']);
+

@@ -8,15 +8,20 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import { Form, HasError, AlertError } from 'vform'
-import VueRouter from 'vue-router'
-import VueProgressBar from 'vue-progressbar'
-import Swal from 'sweetalert2'
-import Multiselect from 'vue-multiselect'
+import { Form, HasError, AlertError } from 'vform';
+import VueRouter from 'vue-router';
+import VueProgressBar from 'vue-progressbar';
+import Swal from 'sweetalert2';
+import Multiselect from 'vue-multiselect';
+import toWords from 'number-to-words';
+import inToWords from 'written-number';
+
+Vue.use(inToWords);
+Vue.use(toWords);
+
+Vue.component('multiselect', Multiselect);
 
 
-
-Vue.component('multiselect', Multiselect)
 
 window.Multiselect = Multiselect;
 // import { Printd } from 'printd'
@@ -78,6 +83,7 @@ let routes = [
     { path: '/empapprovedcase', component: require('./components/EmpApprovedCase.vue').default },
     { path: '/empbillingcase', component: require('./components/EmpBillingCase.vue').default },
     { path: '/transfercase', component: require('./components/TransferCase.vue').default },
+    { path: '/onprocesscase', component: require('./components/OnProcess.vue').default },
     // { path: '/taxinvoice', component: require('./components/TaxInvoice.vue').default },
   //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]

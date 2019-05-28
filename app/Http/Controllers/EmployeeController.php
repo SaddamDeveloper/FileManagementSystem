@@ -219,6 +219,7 @@ class EmployeeController extends Controller
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
+            ->join('payment', 'completedcase.caseid', '=', 'payment.caseid')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
@@ -394,5 +395,9 @@ class EmployeeController extends Controller
         //     Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
         // }
        DB::statement( "UPDATE send_to_employees SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
+    }
+
+    public function TransferToOnprocess(){
+        return "hello";
     }
 }

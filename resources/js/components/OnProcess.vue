@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>New Case</strong></h1>
+                        <h1><strong>On Process Case</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">New Case</li>
+                            <li class="active">On Process Case</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">New Case</strong>
+                        <strong class="card-title">On Process Case</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -38,17 +38,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
-                            <td>{{ item.caseid }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.helper }}</td>
-                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                            <td> NA </td>
-                            <td><button type="button" class="btn btn-primary" @click="acceptcase(item)"><i class="fa fa-envelope" aria-hidden="true"></i>
-
- OPEN</button></td>
+                    <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.helper }}</td>
+                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td> NA </td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                                   <!-- Modal -->
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToDb(item.caseid)">
+                <div class="modal-body">
+                    <table class="table table-bordered table-responsive">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Remarks</th>
                         </tr>
-                    </tbody>
+                        <tr>
+                            <td><input type="file" name="docs" @change="processFile"></td>
+                            <td><input type="text" value=""></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        </tr>
+                </tbody>
             </table>
                     </div>
                 </div>
@@ -75,6 +104,12 @@ export default {
                 remarks: ''
             },
             toAdmin: {
+                caseid: '',
+                docs: '',
+                employee_id: '',
+                helper: ''
+            },
+            toOnProcess: {
                 caseid: '',
                 docs: '',
                 employee_id: '',
@@ -207,44 +242,6 @@ export default {
                 });
                 }
             })
-        },
-        acceptcase(item){
-            Swal.fire({
-            title: 'Are you sure want to accept the case?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Accept it!'
-            }).then((result) => {
-                if (result.value) {
-                    const token = localStorage.getItem('token');
-                    fetch(`api/transfertoonprocess?token=`+token, {
-                        method: 'post',
-                        body: JSON.stringify(this.toAdmin),
-                        headers: {
-                            'content-type' : 'application/json'
-                        }
-                    })
-                    .then(()=>{
-                        Swal.fire(
-                        'Sent!',
-                        'Case has been accepted!.',
-                        'success'
-                        )
-                       this.$router.push('/onprocesscase')
-                })
-                .catch(()=>{
-                    Swal.fire(
-                        'Failed!',
-                        'There was something wrong',
-                        'warning'
-                    )
-                });
-                }
-            })
-
         }
     }
 }

@@ -65,12 +65,21 @@
                                 <strong class="card-title">Cash</strong>
                             </div>
                             <div class="card-body">
-                                <!-- Credit Card -->
-                                <div >
-                                    <div class="card-body">
-                                        </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input name="advamount" type="text" v-model="casee.advamount" placeholder="Advance Amount" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                         <label>Due Amount:</label>
+                                        <span>{{ a = casee.amount-casee.advamount }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Paid Amount:</label>
+                                    <span>{{ casee.advamount }}</span>
                                     </div>
                                 </div>
+
+                            </div>
                             </div>
                         <div class="card"  v-if="casee.selected === 3">
                             <div class="card-header">
@@ -442,7 +451,7 @@
                                                         <td>{{ item.contactNo }}</td>
                                                         <td>{{ item.email }}</td>
                                                         <td>{{ item.time2 }}</td>
-                                                        <td><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                                                        <td><div class="btn btn-group"><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -482,7 +491,7 @@
                                                         <td>{{ item.orgTel }}</td>
                                                         <td>{{ item.dept }}</td>
                                                         <td>{{ item.address }}</td>
-                                                        <td><button type="button" @click="editCase2(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                                                        <td><div class="btn btn-group"><button type="button" @click="editCase2(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -534,6 +543,7 @@ export default {
     components: { DatePicker },
     data(){
         return {
+            advamount: '',
             selected: 0,
             queryString:'',
             clientNo:'',
@@ -564,8 +574,8 @@ export default {
                 personContactNo: '',
                 telNo: '',
                 dept: '',
-                addr:''
-
+                addr:'',
+                advamount: ''
             },
             caseid: '',
             pagination: {},

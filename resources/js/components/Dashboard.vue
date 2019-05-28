@@ -9,9 +9,9 @@
               <span class="count" v-else-if="users.selected == 1">{{ NewRegistered }}</span>
               <span class="count" v-else>{{ empNewRegistered }}</span>
             </h4>
-            <router-link to="/registeredcase"  v-if="users.selected == 0"><p class="text-light">Registered Case</p></router-link>
+            <router-link to="/registeredcase"  v-if="users.selected == 0"><p class="text-light">Register New Case</p></router-link>
             <router-link to="/newcase" v-else-if="users.selected == 1"><p class="text-light">Newly Registered Case</p></router-link>
-            <router-link to="/employeeassignedcase" v-else><p class="text-light">Assigned Case</p></router-link>
+            <router-link to="/employeeassignedcase" v-else><p class="text-light">New Case</p></router-link>
 
             <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
             <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -120,9 +120,15 @@
       <h4 class="mb-0">
         <span class="count" v-if="users.selected == 0"> {{  completedcase }}</span>
         <span class="count" v-else-if="users.selected == 1"> {{  completedcase }}</span>
+        <span class="count" v-else> {{  completedcase }}</span>
       </h4>
       <router-link to="/billingcase" v-if="users.selected == 0"><p class="text-light">Billing Case</p></router-link>
       <router-link to="/billingcase" v-else-if="users.selected == 1"><p class="text-light">Billing Case</p></router-link>
+      <router-link to="/onprocesscase" v-else><p class="text-light">On Process Case</p></router-link>
+
+     <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+      <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
+    </div>
 
     </div>
 </div>
