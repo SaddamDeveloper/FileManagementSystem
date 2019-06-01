@@ -1962,9 +1962,125 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var converter = __webpack_require__(/*! number-to-words */ "./node_modules/number-to-words/numberToWords.min.js");
+
+    Vue.filter('toWords', function (value) {
+      if (!value) return '';
+      return converter.toWords(value);
+    });
     return {
+      invoiceNo: [],
       value: null,
       time1: '',
       time2: '',
@@ -1973,16 +2089,22 @@ __webpack_require__.r(__webpack_exports__);
       lang: 'en',
       completedcases: [],
       approvedcaseemp: [],
+      myDate: new Date().toISOString().slice(0, 10),
       users: {
         email: '',
         selected: ''
+      },
+      toBill: {
+        caseid: '',
+        employee_id: ''
       }
     };
   },
   created: function created() {
     this.fetchCases();
     this.fetchApprovedCaseEmployee();
-    this.fetchUser(); // this.loadEmployee();
+    this.fetchUser();
+    this.invoice(); // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
   },
@@ -2121,6 +2243,62 @@ __webpack_require__.r(__webpack_exports__);
           window.location.href = '/';
         }
       });
+    },
+    print: function print(item) {
+      var _this8 = this;
+
+      Swal.fire({
+        title: 'Do you want to Rise bill?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yo, killin it!'
+      }).then(function (result) {
+        if (result.value) {
+          var token = localStorage.getItem('token');
+          _this8.toBill.caseid = item.caseid;
+          _this8.toBill.employee_id = item.employee_id;
+          fetch('api/tobill?token=' + token, {
+            method: 'post',
+            body: JSON.stringify(_this8.toBill),
+            headers: {
+              'content-type': 'application/json'
+            }
+          });
+          fetch("api/deleteapprovedcase/".concat(item.caseid, "?token=") + token, {
+            method: 'delete'
+          });
+          window.print();
+          jQuery('#exampleModal' + item.caseid).modal('hide');
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        Swal.fire('Approved!', 'Case Has been Successfully Approved!', 'success');
+        jQuery('#exampleModal' + _this8.toApproval.caseid).modal('hide');
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+    invoice: function invoice() {
+      var _this9 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/invoice?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res.data);
+        _this9.invoiceNo = res.data;
+      });
+    }
+  },
+  filters: {
+    capitalize: function capitalize(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
     }
   }
 });
@@ -2240,6 +2418,577 @@ __webpack_require__.r(__webpack_exports__);
         prev_page_url: links.prev
       };
       this.pagination = pagination;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BilledCase.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BilledCase.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// var converter = require("number-to-words");
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    var converter = __webpack_require__(/*! number-to-words */ "./node_modules/number-to-words/numberToWords.min.js");
+
+    Vue.filter('toWords', function (value) {
+      if (!value) return '';
+      return converter.toWords(value);
+    });
+    return {
+      invoiceNo: '',
+      chequeNo: '',
+      bankNamec: '',
+      transactionNo: '',
+      BankName: '',
+      isDisabled: false,
+      isPaid: false,
+      selected: "0",
+      paymentmode: {
+        selected: ''
+      },
+      lessadvance: '',
+      value: null,
+      numbers: '',
+      time1: '',
+      time2: '',
+      time3: '',
+      // custom lang
+      lang: 'en',
+      myDate: new Date().toISOString().slice(0, 10),
+      completedcases: [],
+      toComplete: {
+        paidamount: '',
+        caseid: '',
+        employee_id: '',
+        selected: '',
+        date: '',
+        transactionNo: '',
+        BankName: '',
+        chequeNo: '',
+        bankNamec: '',
+        gstAmount: ''
+      }
+    };
+  },
+  created: function created() {
+    this.fetchCases();
+  },
+  methods: {
+    fetchCases: function fetchCases(page_url) {
+      var _this = this;
+
+      var token = localStorage.getItem('token');
+      page_url = page_url || 'api/billedcase?token=' + token;
+      var vm = this;
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.completedcases = res.data;
+        vm.makePagination(res.meta, res.links);
+      });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      this.pagination = pagination;
+    },
+    print: function print() {
+      window.print();
+    },
+    pay: function pay(item) {
+      var _this2 = this;
+
+      this.toComplete.paidamount = (parseFloat(2 * item.amount * 0.09) + parseFloat(item.amount) - parseFloat(item.advamount)).toFixed(2);
+      this.toComplete.gstAmount = parseFloat(2 * item.amount * 0.09).toFixed(2);
+      this.toComplete.caseid = item.caseid;
+      this.toComplete.employee_id = item.employee_id;
+      this.toComplete.selected = this.paymentmode.selected;
+      this.toComplete.date = this.myDate;
+      this.toComplete.transactionNo = this.transactionNo;
+      this.toComplete.BankName = this.BankName;
+      this.toComplete.chequeNo = this.chequeNo;
+      this.toComplete.bankNamec = this.bankNamec;
+      var token = localStorage.getItem('token');
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Pay it!'
+      }).then(function (result) {
+        if (result.value) {
+          fetch('api/paymentbycash?token=' + token, {
+            method: 'post',
+            body: JSON.stringify(_this2.toComplete),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            if (res.message == 0) {
+              Swal.fire('Success!', 'Payment Successfull', 'success');
+            } else if (res.message == 1) {
+              Swal.fire('Sorry!', 'You have already paid', 'warning');
+            } else {
+              Swal.fire('Failed!', 'There was something wrong', 'warning');
+            }
+          });
+        }
+      });
+    },
+    invoiceNo: function invoiceNo() {
+      var token = localStorage.getItem('token');
+      fetch('api/invoice?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
+      });
+    }
+  },
+  computed: {
+    total: function total() {
+      return this.$refs.taxable_value;
+    }
+  },
+  filters: {
+    capitalize: function capitalize(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+    todigit: function todigit(value) {
+      if (!value) return '';
+      return value.toFixed(2);
     }
   }
 });
@@ -2666,6 +3415,138 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/lib/index.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
+  data: function data() {
+    return {
+      collectionregister: []
+    };
+  },
+  methods: {
+    fetchCollectionRegister: function fetchCollectionRegister() {
+      var _this = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/fetchcollectionregister?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.collectionregister = res;
+      });
+    },
+    print: function print() {
+      window.print();
+    }
+  },
+  created: function created() {
+    this.fetchCollectionRegister();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCase.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedCase.vue?vue&type=script&lang=js& ***!
@@ -3048,6 +3929,58 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4447,12 +5380,10 @@ __webpack_require__.r(__webpack_exports__);
 
           _this3.fetchCases().then(function (res) {
             return res.json();
-          }).then(function (res) {
-            jQuery('#exampleModal' + _this3.rejectCause.caseid).modal('hide');
-            _this3.rejectCause.caseid = '';
-            _this3.rejectCause.employee_id = '';
-            _this3.rejectCause.msg = '';
-          }).then(Swal.fire('Rejected!', 'Case Has been Rejecred!', 'success')).catch(function (err) {
+          }) // .then(res => {
+          // jQuery('#exampleModal'+this.rejectCause.caseid).modal('hide');
+          //     })
+          .then(Swal.fire('Rejected!', 'Case Has been Rejecred!', 'success')).catch(function (err) {
             return console.log(err);
           });
         }
@@ -4510,6 +5441,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -4598,7 +5533,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4615,7 +5549,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.users.selected == 1) {
-        console.log("this is admin");
         fetch('api/auth/login', {
           method: 'post',
           body: JSON.stringify(this.users),
@@ -4628,8 +5561,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.error = response.error;
           var token = response.access_token;
           var base64Url = token.split('.')[1];
-          var base64 = base64Url.replace('-', '+').replace('_', '/'); // console.log(JSON.parse(window.atob(base64)));
-
+          var base64 = base64Url.replace('-', '+').replace('_', '/');
           localStorage.setItem('token', token);
 
           _this.$router.push({
@@ -5070,11 +6002,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.cases = res.data;
         vm.makePagination(res.meta, res.links);
-        fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          _this.assignedemployee = res.data;
-        });
+      });
+      fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
+        _this.assignedemployee = res.data;
       });
     },
     makePagination: function makePagination(meta, links) {
@@ -5428,10 +6361,16 @@ __webpack_require__.r(__webpack_exports__);
             headers: {
               'content-type': 'application/json'
             }
-          }).then(function () {
-            Swal.fire('Sent!', 'Your file has been sent.', 'success'); // fetch(`api/sendtoadmin/${id.caseid}`, {
-            //     method: 'delete'
-            // })
+          }).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            if (res.message == 0) {
+              Swal.fire('Sent!', 'Your file has been sent.', 'success');
+            } else if (res.message == 1) {
+              Swal.fire('Sorry!', 'You have already sent.', 'warning');
+            } else {
+              Swal.fire('Failed!', 'There was something wrong', 'warning');
+            }
 
             _this5.fetchCases();
           }).catch(function () {
@@ -6339,6 +7278,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -46845,7 +47785,20 @@ var render = function() {
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
-                        _vm._m(8, true),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: " btn btn-primary",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModal" + item.caseid
+                              }
+                            },
+                            [_vm._v("Rise Bill")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -46863,29 +47816,761 @@ var render = function() {
                             _c(
                               "div",
                               {
-                                staticClass: "modal-dialog modal-md",
+                                staticClass: "modal-dialog modal-lg",
                                 attrs: { role: "document" }
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(9, true),
+                                  _vm._m(8, true),
                                   _vm._v(" "),
                                   _c(
-                                    "form",
+                                    "div",
                                     {
-                                      on: {
-                                        submit: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.pushToApproved(item.caseid)
-                                        }
-                                      }
+                                      staticClass: "modal-body",
+                                      attrs: { id: "tax_invoice" }
                                     },
                                     [
-                                      _vm._m(10, true),
-                                      _vm._v(" "),
-                                      _vm._m(11, true)
+                                      _c(
+                                        "div",
+                                        { attrs: { id: "page-wrap" } },
+                                        [
+                                          _c(
+                                            "div",
+                                            { attrs: { id: "header1" } },
+                                            [_vm._v("TAX INVOICE")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "12px",
+                                                "font-weight": "800"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Name & Address of Service Provider:"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { attrs: { id: "identity" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                { attrs: { id: "address" } },
+                                                [
+                                                  _vm._v(
+                                                    "D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "table",
+                                                { attrs: { id: "meta" } },
+                                                [
+                                                  _vm._m(9, true),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass: "meta-head"
+                                                      },
+                                                      [_vm._v("CASE ID:")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value: item.caseid,
+                                                            expression:
+                                                              "item.caseid"
+                                                          }
+                                                        ],
+                                                        attrs: {
+                                                          type: "text",
+                                                          readonly: "",
+                                                          id: "invoice_no"
+                                                        },
+                                                        domProps: {
+                                                          value: item.caseid
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              item,
+                                                              "caseid",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass: "meta-head"
+                                                      },
+                                                      [_vm._v("INVOICE NO:")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              item.invoiceNo,
+                                                            expression:
+                                                              "item.invoiceNo"
+                                                          }
+                                                        ],
+                                                        attrs: {
+                                                          type: "text",
+                                                          readonly: "",
+                                                          id: "invoice_no"
+                                                        },
+                                                        domProps: {
+                                                          value: item.invoiceNo
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              item,
+                                                              "invoiceNo",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass: "meta-head"
+                                                      },
+                                                      [_vm._v("INVOICE DATE:")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value: _vm.myDate,
+                                                            expression: "myDate"
+                                                          }
+                                                        ],
+                                                        attrs: {
+                                                          type: "text",
+                                                          id: "date"
+                                                        },
+                                                        domProps: {
+                                                          value: _vm.myDate
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.myDate =
+                                                              $event.target.value
+                                                          }
+                                                        }
+                                                      })
+                                                    ])
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "table",
+                                                {
+                                                  staticStyle: {
+                                                    width: "900px"
+                                                  }
+                                                },
+                                                [
+                                                  _c("tr", [
+                                                    _vm._m(10, true),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: { width: "90%" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            attrs: {
+                                                              id: "customer"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("textarea", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    item.address,
+                                                                  expression:
+                                                                    "item.address"
+                                                                }
+                                                              ],
+                                                              staticClass:
+                                                                "bill_to",
+                                                              attrs: {
+                                                                rows: "4",
+                                                                cols: "40",
+                                                                id:
+                                                                  "customer-title"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  item.address
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    item,
+                                                                    "address",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _vm._m(11, true),
+                                                  _vm._v(" "),
+                                                  _vm._m(12, true)
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "table",
+                                                { attrs: { id: "items" } },
+                                                [
+                                                  _vm._m(13, true),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "tr",
+                                                    {
+                                                      staticClass: "item-row",
+                                                      attrs: { id: "row1" }
+                                                    },
+                                                    [
+                                                      _c("td", [_vm._v("1")]),
+                                                      _vm._v(" "),
+                                                      _vm._m(14, true),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _c("input", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                item.typeofwork,
+                                                              expression:
+                                                                "item.typeofwork"
+                                                            }
+                                                          ],
+                                                          staticClass:
+                                                            "description requiredField",
+                                                          attrs: {
+                                                            type: "text",
+                                                            id: "description1"
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              item.typeofwork
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.$set(
+                                                                item,
+                                                                "typeofwork",
+                                                                $event.target
+                                                                  .value
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _c("input", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value: item.time2,
+                                                              expression:
+                                                                "item.time2"
+                                                            }
+                                                          ],
+                                                          staticClass:
+                                                            "pos requiredField",
+                                                          attrs: {
+                                                            type: "text",
+                                                            id: "pos1"
+                                                          },
+                                                          domProps: {
+                                                            value: item.time2
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.$set(
+                                                                item,
+                                                                "time2",
+                                                                $event.target
+                                                                  .value
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            (_vm.amount = parseFloat(
+                                                              item.amount
+                                                            ))
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c("td", {
+                                                      staticClass: "blank",
+                                                      attrs: { colspan: "2" }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line"
+                                                      },
+                                                      [_vm._v("Taxable Value:")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: {
+                                                          align: "center"
+                                                        }
+                                                      },
+                                                      [_vm._v("(A)")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "taxabale_value"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(_vm.amount)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c("td", {
+                                                      staticClass: "blank",
+                                                      attrs: { colspan: "2" }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _vm._m(15, true),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: {
+                                                          align: "center"
+                                                        }
+                                                      },
+                                                      [_vm._v("(B)")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-value"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            (_vm.a =
+                                                              _vm.amount *
+                                                              parseFloat(0.09))
+                                                          )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c("td", {
+                                                      staticClass: "blank",
+                                                      attrs: { colspan: "2" }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _vm._m(16, true),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: {
+                                                          align: "center"
+                                                        }
+                                                      },
+                                                      [_vm._v("(C)")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-value"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            (_vm.b =
+                                                              _vm.amount *
+                                                              parseFloat(0.09))
+                                                          )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c("td", {
+                                                      staticClass: "blank",
+                                                      attrs: { colspan: "2" }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line"
+                                                      },
+                                                      [_vm._v("Total Tax")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: {
+                                                          align: "center"
+                                                        }
+                                                      },
+                                                      [_vm._v("(D)(B+C)")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-value"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            (_vm.c =
+                                                              _vm.a + _vm.b)
+                                                          )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: { colspan: "2" }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Invoice Value(in words)"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _c("span", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm._f(
+                                                              "capitalize"
+                                                            )(
+                                                              _vm._f("toWords")(
+                                                                (_vm.d =
+                                                                  _vm.amount +
+                                                                  _vm.c)
+                                                              )
+                                                            )
+                                                          ) + " Rupees Only"
+                                                        )
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line",
+                                                        attrs: { colspan: "3" }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Total Invoice Amount"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c("td", {
+                                                      staticClass: "blank",
+                                                      attrs: { colspan: "3" }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line balance",
+                                                        attrs: { colspan: "1" }
+                                                      },
+                                                      [_vm._v("(A+D)")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-value balance"
+                                                      },
+                                                      [_vm._v(_vm._s(_vm.d))]
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: {
+                                                          rowspan: "3",
+                                                          colspan: "2"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Net Invoice Value(in words)"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        attrs: { rowspan: "3" }
+                                                      },
+                                                      [
+                                                        _c("span", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "capitalize"
+                                                              )(
+                                                                _vm._f(
+                                                                  "toWords"
+                                                                )(
+                                                                  _vm.d -
+                                                                    parseFloat(
+                                                                      item.advamount
+                                                                    )
+                                                                )
+                                                              )
+                                                            ) + " Rupees Only"
+                                                          )
+                                                        ])
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line"
+                                                      },
+                                                      [_vm._v("Less: Advance")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          (_vm.advamount =
+                                                            item.advamount)
+                                                        )
+                                                      )
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _vm._m(17, true),
+                                                  _vm._v(" "),
+                                                  _c("tr", [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "total-line"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Net Invoice Amount"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.d -
+                                                            parseFloat(
+                                                              _vm.advamount
+                                                            )
+                                                        )
+                                                      )
+                                                    ])
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("br")
+                                            ]
+                                          )
+                                        ]
+                                      )
                                     ]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-footer" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-secondary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-dismiss": "modal"
+                                        }
+                                      },
+                                      [_vm._v("Close")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: { type: "submit" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.print(item)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Save & Print")]
+                                    )
+                                  ])
                                 ])
                               ]
                             )
@@ -46905,7 +48590,7 @@ var render = function() {
                   "table",
                   { staticClass: "table" },
                   [
-                    _vm._m(12),
+                    _vm._m(18),
                     _vm._v(" "),
                     _vm._l(_vm.approvedcaseemp, function(item, i) {
                       return _c("tr", { key: i }, [
@@ -46939,7 +48624,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
-                        _vm._m(13, true),
+                        _vm._m(19, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -46962,7 +48647,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(14, true),
+                                  _vm._m(20, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -46975,9 +48660,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(15, true),
+                                      _vm._m(21, true),
                                       _vm._v(" "),
-                                      _vm._m(16, true)
+                                      _vm._m(22, true)
                                     ]
                                   )
                                 ])
@@ -47167,21 +48852,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "alert alert-primary alert-sm" }, [
-        _vm._v("Approved")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Reason for Rejection")]
+        [_vm._v("Tax Invoice")]
       ),
       _vm._v(" "),
       _c(
@@ -47202,18 +48877,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-body" }, [
-      _c("table", { staticClass: "table table-resonsive table-bordered" }, [
-        _c("tr", [_c("thead", [_vm._v("Remarks")])]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "text" }
-            })
-          ])
-        ])
+    return _c("tr", [
+      _c("td", { staticClass: "meta-head" }, [_vm._v("GSTIN:")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            readonly: "",
+            id: "gstin",
+            value: "17AAJFD4695B1ZE"
+          }
+        })
       ])
     ])
   },
@@ -47221,21 +48896,135 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
+    return _c("td", { attrs: { width: "10%" } }, [
       _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Save")]
+        "span",
+        { staticStyle: { "font-size": "18px", "font-weight": "800" } },
+        [_vm._v("Bill To:")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td"),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "randomText",
+            id: "randomText",
+            placeholder: "Give information",
+            size: "100"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { attrs: { colspan: "2" } }, [
+        _vm._v("\n\t\t\t\t\t\t\tGSTIN: "),
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "gstinText",
+            id: "gstinText",
+            placeholder: "GSTIN",
+            size: "45"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Sl.No")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("SAC")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Period Of Service")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Amount(Rs)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticStyle: { "text-align": "center" } }, [
+        _c("input", { attrs: { type: "text", value: "998221", id: "sac1" } })
+      ]),
+      _c(
+        "a",
+        {
+          staticClass: "delete",
+          attrs: { id: "delete", href: "javascript:;", title: "Remove row" }
+        },
+        [_c("img", { attrs: { src: "images/cross.png", width: "12px" } })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("SGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: { id: "sgstRate", type: "text", value: "9" }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("CGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: {
+          id: "cgstRate",
+          type: "text",
+          value: "9",
+          onkeypress: "return isNumberKey(event,this)"
+        }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "total-line" }, [_vm._v("AV No.")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "avNo",
+            id: "avNo",
+            placeholder: "AV No."
+          }
+        })
+      ])
     ])
   },
   function() {
@@ -47523,6 +49312,2275 @@ var staticRenderFns = [
         ])
       ]
     )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "table",
+              { staticClass: "table" },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm._l(_vm.completedcases, function(item, i) {
+                  return _c("tr", { key: i }, [
+                    _c("td", [_vm._v(_vm._s(item.caseid))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        attrs: { type: "hidden" },
+                        domProps: { value: item.employee_id }
+                      }),
+                      _vm._v(_vm._s(item.name))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.helper))]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "./storage/" + item.caseid + "/" + item.docs,
+                            download: ""
+                          }
+                        },
+                        [_vm._v(_vm._s(item.docs))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("div", { staticClass: "btn btn-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: " btn btn-primary",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#exampleModal" + item.caseid
+                            }
+                          },
+                          [_vm._v("FP")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: " btn btn-warning",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#exampleModals" + item.caseid
+                            }
+                          },
+                          [_vm._v("Credit")]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModal" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-lg",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(3, true),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "modal-body",
+                                  attrs: { id: "tax_invoice" }
+                                },
+                                [
+                                  _c("div", { attrs: { id: "page-wrap" } }, [
+                                    _c("div", { attrs: { id: "header1" } }, [
+                                      _vm._v("TAX INVOICE")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticStyle: {
+                                          "font-size": "12px",
+                                          "font-weight": "800"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Name & Address of Service Provider:"
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { attrs: { id: "identity" } }, [
+                                      _c("div", { attrs: { id: "address" } }, [
+                                        _vm._v(
+                                          "D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("table", { attrs: { id: "meta" } }, [
+                                        _vm._m(4, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("CASE ID:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: item.caseid,
+                                                  expression: "item.caseid"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                readonly: "",
+                                                id: "invoice_no"
+                                              },
+                                              domProps: { value: item.caseid },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    item,
+                                                    "caseid",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("INVOICE NO:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.invoiceNo,
+                                                  expression: "invoiceNo"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                readonly: "",
+                                                id: "invoice_no"
+                                              },
+                                              domProps: {
+                                                value: _vm.invoiceNo
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.invoiceNo =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("INVOICE DATE:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.myDate,
+                                                  expression: "myDate"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                id: "date"
+                                              },
+                                              domProps: { value: _vm.myDate },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.myDate =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "table",
+                                        { staticStyle: { width: "900px" } },
+                                        [
+                                          _c("tr", [
+                                            _vm._m(5, true),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              { attrs: { width: "90%" } },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { attrs: { id: "customer" } },
+                                                  [
+                                                    _c("textarea", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: item.address,
+                                                          expression:
+                                                            "item.address"
+                                                        }
+                                                      ],
+                                                      staticClass: "bill_to",
+                                                      attrs: {
+                                                        rows: "4",
+                                                        cols: "40",
+                                                        id: "customer-title"
+                                                      },
+                                                      domProps: {
+                                                        value: item.address
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            item,
+                                                            "address",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._m(6, true),
+                                          _vm._v(" "),
+                                          _vm._m(7, true)
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("table", { attrs: { id: "items" } }, [
+                                        _vm._m(8, true),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          {
+                                            staticClass: "item-row",
+                                            attrs: { id: "row1" }
+                                          },
+                                          [
+                                            _c("td", [_vm._v("1")]),
+                                            _vm._v(" "),
+                                            _vm._m(9, true),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: item.typeofwork,
+                                                    expression:
+                                                      "item.typeofwork"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "description requiredField",
+                                                attrs: {
+                                                  type: "text",
+                                                  id: "description1"
+                                                },
+                                                domProps: {
+                                                  value: item.typeofwork
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      item,
+                                                      "typeofwork",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: item.time2,
+                                                    expression: "item.time2"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "pos requiredField",
+                                                attrs: {
+                                                  type: "text",
+                                                  id: "pos1"
+                                                },
+                                                domProps: { value: item.time2 },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      item,
+                                                      "time2",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.amount = parseFloat(
+                                                    item.amount
+                                                  ))
+                                                )
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Taxable Value:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(A)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "taxabale_value" },
+                                            [_vm._v(_vm._s(_vm.amount))]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _vm._m(10, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(B)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("todigit")(
+                                                    (_vm.a =
+                                                      _vm.amount *
+                                                      parseFloat(0.09))
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _vm._m(11, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(C)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("todigit")(
+                                                    (_vm.b =
+                                                      _vm.amount *
+                                                      parseFloat(0.09))
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Total Tax")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(D)(B+C)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("todigit")(
+                                                    (_vm.c = _vm.a + _vm.b)
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { attrs: { colspan: "2" } },
+                                            [_vm._v("Invoice Value(in words)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("span", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("capitalize")(
+                                                    _vm._f("toWords")(
+                                                      (_vm.d =
+                                                        _vm.amount + _vm.c)
+                                                    )
+                                                  )
+                                                ) + " Rupees Only"
+                                              )
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line",
+                                              attrs: { colspan: "3" }
+                                            },
+                                            [_vm._v("Total Invoice Amount")]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "3" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line balance",
+                                              attrs: { colspan: "1" }
+                                            },
+                                            [_vm._v("(A+D)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-value balance"
+                                            },
+                                            [_vm._v(_vm._s(_vm.d))]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              attrs: {
+                                                rowspan: "3",
+                                                colspan: "2"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Net Invoice Value(in words)"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { rowspan: "3" } },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("capitalize")(
+                                                      _vm._f("toWords")(
+                                                        _vm.d -
+                                                          parseFloat(
+                                                            item.advamount
+                                                          )
+                                                      )
+                                                    )
+                                                  ) + " Rupees Only"
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Less: Advance")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                (_vm.advamount = item.advamount)
+                                              )
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(12, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Net Invoice Amount")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm._f("todigit")(
+                                                  (_vm.f =
+                                                    _vm.d -
+                                                    parseFloat(_vm.advamount))
+                                                )
+                                              )
+                                            )
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br")
+                                    ])
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "container" }, [
+                                _c("div", { staticClass: "row mb-4" }, [
+                                  _c("div", { staticClass: "col-md-2" }, [
+                                    _c("div", { staticClass: "form-group" }, [
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.paymentmode.selected,
+                                              expression: "paymentmode.selected"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.$set(
+                                                _vm.paymentmode,
+                                                "selected",
+                                                $event.target.multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "option",
+                                            {
+                                              attrs: { disabled: "", value: "" }
+                                            },
+                                            [_vm._v("-Select Payment Mode-")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "option",
+                                            { attrs: { value: "1" } },
+                                            [_vm._v("Cash")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "option",
+                                            { attrs: { value: "2" } },
+                                            [_vm._v("Cheque")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "option",
+                                            { attrs: { value: "3" } },
+                                            [_vm._v("RTGS/NEFT")]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-10" }, [
+                                    _vm.paymentmode.selected == 1
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.myDate,
+                                                    expression: "myDate"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: { type: "date" },
+                                                domProps: { value: _vm.myDate },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.myDate =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  "Amount: " + _vm._s(_vm.f)
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-6" },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: [
+                                                      function($event) {
+                                                        return _vm.pay(item)
+                                                      },
+                                                      function($event) {
+                                                        _vm.isPaid = !_vm.isPaid
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                [_vm._v("Pay")]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.isPaid == true
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticClass: "btn-group"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary",
+                                                          attrs: {
+                                                            type: "submit"
+                                                          },
+                                                          on: {
+                                                            click: _vm.print
+                                                          }
+                                                        },
+                                                        [_vm._v("Print")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-secondary",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-dismiss":
+                                                              "modal"
+                                                          }
+                                                        },
+                                                        [_vm._v("Close")]
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.paymentmode.selected == 2
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.myDate,
+                                                    expression: "myDate"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: { type: "date" },
+                                                domProps: { value: _vm.myDate },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.myDate =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.chequeNo,
+                                                    expression: "chequeNo"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  placeholder: "Cheque No"
+                                                },
+                                                domProps: {
+                                                  value: _vm.chequeNo
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.chequeNo =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bankNamec,
+                                                    expression: "bankNamec"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  placeholder: "Bank Name"
+                                                },
+                                                domProps: {
+                                                  value: _vm.bankNamec
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.bankNamec =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  "Amount: " + _vm._s(_vm.f)
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2 mb-2" },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: [
+                                                      function($event) {
+                                                        return _vm.pay(item)
+                                                      },
+                                                      function($event) {
+                                                        _vm.isPaid = !_vm.isPaid
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                [_vm._v("Pay")]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.isPaid == true
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticClass: "btn-group"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary",
+                                                          attrs: {
+                                                            type: "submit"
+                                                          },
+                                                          on: {
+                                                            click: _vm.print
+                                                          }
+                                                        },
+                                                        [_vm._v("Print")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-secondary",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-dismiss":
+                                                              "modal"
+                                                          }
+                                                        },
+                                                        [_vm._v("Close")]
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.paymentmode.selected == 3
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.myDate,
+                                                    expression: "myDate"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: { type: "date" },
+                                                domProps: { value: _vm.myDate },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.myDate =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.BankName,
+                                                    expression: "BankName"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  placeholder: "Bank Name"
+                                                },
+                                                domProps: {
+                                                  value: _vm.BankName
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.BankName =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.transactionNo,
+                                                    expression: "transactionNo"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "",
+                                                  id: "",
+                                                  placeholder: "Transaction No"
+                                                },
+                                                domProps: {
+                                                  value: _vm.transactionNo
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.transactionNo =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _c("span", [
+                                                _vm._v("Rs: " + _vm._s(_vm.f))
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: [
+                                                      function($event) {
+                                                        return _vm.pay(item)
+                                                      },
+                                                      function($event) {
+                                                        _vm.isPaid = !_vm.isPaid
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                [_vm._v("Pay")]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.isPaid == true
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticClass: "btn-group"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary",
+                                                          attrs: {
+                                                            type: "submit"
+                                                          },
+                                                          on: {
+                                                            click: _vm.print
+                                                          }
+                                                        },
+                                                        [_vm._v("Print")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-secondary",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-dismiss":
+                                                              "modal"
+                                                          }
+                                                        },
+                                                        [_vm._v("Close")]
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ])
+                                ])
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModals" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-lg",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(13, true),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "modal-body",
+                                  attrs: { id: "tax_invoice" }
+                                },
+                                [
+                                  _c("div", { attrs: { id: "page-wrap" } }, [
+                                    _c("div", { attrs: { id: "header1" } }, [
+                                      _vm._v("TAX INVOICE")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticStyle: {
+                                          "font-size": "12px",
+                                          "font-weight": "800"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Name & Address of Service Provider:"
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { attrs: { id: "identity" } }, [
+                                      _c("div", { attrs: { id: "address" } }, [
+                                        _vm._v(
+                                          "D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("table", { attrs: { id: "meta" } }, [
+                                        _vm._m(14, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("CASE ID:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: item.caseid,
+                                                  expression: "item.caseid"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                readonly: "",
+                                                id: "invoice_no"
+                                              },
+                                              domProps: { value: item.caseid },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    item,
+                                                    "caseid",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(15, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("INVOICE DATE:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.myDate,
+                                                  expression: "myDate"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                id: "date"
+                                              },
+                                              domProps: { value: _vm.myDate },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.myDate =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "table",
+                                        { staticStyle: { width: "900px" } },
+                                        [
+                                          _c("tr", [
+                                            _vm._m(16, true),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              { attrs: { width: "90%" } },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { attrs: { id: "customer" } },
+                                                  [
+                                                    _c("textarea", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: item.address,
+                                                          expression:
+                                                            "item.address"
+                                                        }
+                                                      ],
+                                                      staticClass: "bill_to",
+                                                      attrs: {
+                                                        rows: "4",
+                                                        cols: "40",
+                                                        id: "customer-title"
+                                                      },
+                                                      domProps: {
+                                                        value: item.address
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            item,
+                                                            "address",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._m(17, true),
+                                          _vm._v(" "),
+                                          _vm._m(18, true)
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("table", { attrs: { id: "items" } }, [
+                                        _vm._m(19, true),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          {
+                                            staticClass: "item-row",
+                                            attrs: { id: "row1" }
+                                          },
+                                          [
+                                            _c("td", [_vm._v("1")]),
+                                            _vm._v(" "),
+                                            _vm._m(20, true),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: item.typeofwork,
+                                                    expression:
+                                                      "item.typeofwork"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "description requiredField",
+                                                attrs: {
+                                                  type: "text",
+                                                  id: "description1"
+                                                },
+                                                domProps: {
+                                                  value: item.typeofwork
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      item,
+                                                      "typeofwork",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: item.time2,
+                                                    expression: "item.time2"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "pos requiredField",
+                                                attrs: {
+                                                  type: "text",
+                                                  id: "pos1"
+                                                },
+                                                domProps: { value: item.time2 },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      item,
+                                                      "time2",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.amount = parseFloat(
+                                                    item.amount
+                                                  ))
+                                                )
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Taxable Value:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(A)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "taxabale_value" },
+                                            [_vm._v(_vm._s(_vm.amount))]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _vm._m(21, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(B)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.a =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _vm._m(22, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(C)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  (_vm.b =
+                                                    _vm.amount *
+                                                    parseFloat(0.09))
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "2" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Total Tax")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { align: "center" } },
+                                            [_vm._v("(D)(B+C)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-value" },
+                                            [
+                                              _vm._v(
+                                                _vm._s((_vm.c = _vm.a + _vm.b))
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { attrs: { colspan: "2" } },
+                                            [_vm._v("Invoice Value(in words)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("span", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("capitalize")(
+                                                    _vm._f("toWords")(
+                                                      (_vm.d =
+                                                        _vm.amount + _vm.c)
+                                                    )
+                                                  )
+                                                ) + " Rupees Only"
+                                              )
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line",
+                                              attrs: { colspan: "3" }
+                                            },
+                                            [_vm._v("Total Invoice Amount")]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", {
+                                            staticClass: "blank",
+                                            attrs: { colspan: "3" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-line balance",
+                                              attrs: { colspan: "1" }
+                                            },
+                                            [_vm._v("(A+D)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "total-value balance"
+                                            },
+                                            [_vm._v(_vm._s(_vm.d))]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              attrs: {
+                                                rowspan: "3",
+                                                colspan: "2"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Net Invoice Value(in words)"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { rowspan: "3" } },
+                                            [
+                                              _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("capitalize")(
+                                                      _vm._f("toWords")(
+                                                        _vm.d -
+                                                          parseFloat(
+                                                            item.advamount
+                                                          )
+                                                      )
+                                                    )
+                                                  ) + " Rupees Only"
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Less: Advance")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                (_vm.advamount = item.advamount)
+                                              )
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(23, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "total-line" },
+                                            [_vm._v("Net Invoice Amount")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.d -
+                                                  parseFloat(_vm.advamount)
+                                              )
+                                            )
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br")
+                                    ])
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    attrs: {
+                                      type: "button",
+                                      "data-dismiss": "modal"
+                                    }
+                                  },
+                                  [_vm._v("Close")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    attrs: { type: "submit" },
+                                    on: { click: _vm.print }
+                                  },
+                                  [_vm._v("Save & Print")]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("tbody")
+              ],
+              2
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "breadcrumbs" }, [
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "page-header float-left" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("h1", [_c("strong", [_vm._v("Billed Case")])])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-8" }, [
+        _c("div", { staticClass: "page-header float-right" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("ol", { staticClass: "breadcrumb text-right" }, [
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "active" }, [_vm._v("Billed Case")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Billed Case")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Final Docs By Employee")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Assigned Docs by Admin")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Tax Invoice")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "meta-head" }, [_vm._v("GSTIN:")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            readonly: "",
+            id: "gstin",
+            value: "17AAJFD4695B1ZE"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { width: "10%" } }, [
+      _c(
+        "span",
+        { staticStyle: { "font-size": "18px", "font-weight": "800" } },
+        [_vm._v("Bill To:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td"),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "randomText",
+            id: "randomText",
+            placeholder: "Give information",
+            size: "100"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { attrs: { colspan: "2" } }, [
+        _vm._v("\n\t\t\t\t\t\t\tGSTIN: "),
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "gstinText",
+            id: "gstinText",
+            placeholder: "GSTIN",
+            size: "45"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Sl.No")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("SAC")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Period Of Service")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Amount(Rs)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticStyle: { "text-align": "center" } }, [
+        _c("input", { attrs: { type: "text", value: "998221", id: "sac1" } })
+      ]),
+      _c(
+        "a",
+        {
+          staticClass: "delete",
+          attrs: { id: "delete", href: "javascript:;", title: "Remove row" }
+        },
+        [_c("img", { attrs: { src: "images/cross.png", width: "12px" } })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("SGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: { id: "sgstRate", type: "text", value: "9" }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("CGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: {
+          id: "cgstRate",
+          type: "text",
+          value: "9",
+          onkeypress: "return isNumberKey(event,this)"
+        }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "total-line" }, [_vm._v("AV No.")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "avNo",
+            id: "avNo",
+            placeholder: "AV No."
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Tax Invoice (Credit)")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "meta-head" }, [_vm._v("GSTIN:")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            readonly: "",
+            id: "gstin",
+            value: "17AAJFD4695B1ZE"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "meta-head" }, [_vm._v("INVOICE NO:")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", { attrs: { type: "text", readonly: "", id: "invoice_no" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { width: "10%" } }, [
+      _c(
+        "span",
+        { staticStyle: { "font-size": "18px", "font-weight": "800" } },
+        [_vm._v("Bill To:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td"),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "randomText",
+            id: "randomText",
+            placeholder: "Give information",
+            size: "100"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { attrs: { colspan: "2" } }, [
+        _vm._v("\n\t\t\t\t\tGSTIN: "),
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "gstinText",
+            id: "gstinText",
+            placeholder: "GSTIN",
+            size: "45"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Sl.No")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("SAC")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Period Of Service")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Amount(Rs)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticStyle: { "text-align": "center" } }, [
+        _c("input", { attrs: { type: "text", value: "998221", id: "sac1" } })
+      ]),
+      _c(
+        "a",
+        {
+          staticClass: "delete",
+          attrs: { id: "delete", href: "javascript:;", title: "Remove row" }
+        },
+        [_c("img", { attrs: { src: "images/cross.png", width: "12px" } })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("SGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: { id: "sgstRate", type: "text", value: "9" }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "total-line" }, [
+      _vm._v("CGST: "),
+      _c("input", {
+        staticStyle: { width: "15px" },
+        attrs: {
+          id: "cgstRate",
+          type: "text",
+          value: "9",
+          onkeypress: "return isNumberKey(event,this)"
+        }
+      }),
+      _c("span", [_vm._v("%")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "total-line" }, [_vm._v("AV No.")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "avNo",
+            id: "avNo",
+            placeholder: "AV No."
+          }
+        })
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -49232,6 +53290,183 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("table", { staticClass: "table" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.collectionregister, function(item) {
+              return _c("tr", { key: item.caseid }, [
+                _c("td", [_vm._v(_vm._s(item.caseid))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.clientName))]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.paidamount))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.gstamount))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.name))])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("tfoot"),
+          _vm._v(" "),
+          _c("th", { attrs: { colspan: "3" } }, [_vm._v("Grand Total")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("6")]),
+          _vm._v(" "),
+          _c("th", { attrs: { colspan: "2" } }, [_vm._v("6")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "pull-right" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", on: { click: _vm.print } },
+              [_vm._v("Print")]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "breadcrumbs" }, [
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "page-header float-left" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("h1", [_c("strong", [_vm._v("Collection Register")])])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-8" }, [
+        _c("div", { staticClass: "page-header float-right" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("ol", { staticClass: "breadcrumb text-right" }, [
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "active" }, [
+                _vm._v("Collection Register")
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Collection")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("CaseID")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Client")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Invoice No")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("GST")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Payment Mode")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _vm._v(
+          "\n                        Today's Total Collection:\n                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._v(
+          "\n                        Today's Total GST:\n                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._v(
+          "\n                        Today's Total Collection By Cash:\n                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._v(
+          "\n                        Today's Total Collection By Cheque:\n                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _vm._v(
+          "\n                        Today's Total Collection By NEFT/RTGS:\n                    "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCase.vue?vue&type=template&id=74e15e40&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedCase.vue?vue&type=template&id=74e15e40& ***!
@@ -50008,25 +54243,17 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm.users.selected == 0
-                ? _c(
-                    "router-link",
-                    { attrs: { to: "/waitingforapproavalcase" } },
-                    [
-                      _c("p", { staticClass: "text-light" }, [
-                        _vm._v("Billed Case")
-                      ])
-                    ]
-                  )
+                ? _c("router-link", { attrs: { to: "/billedcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Billed Case")
+                    ])
+                  ])
                 : _vm.users.selected == 1
-                ? _c(
-                    "router-link",
-                    { attrs: { to: "/waitingforapproavalcase" } },
-                    [
-                      _c("p", { staticClass: "text-light" }, [
-                        _vm._v("Billed Case")
-                      ])
-                    ]
-                  )
+                ? _c("router-link", { attrs: { to: "/billedcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Billed Case")
+                    ])
+                  ])
                 : _c(
                     "router-link",
                     { attrs: { to: "/waitingforapproavalcase" } },
@@ -50193,7 +54420,15 @@ var render = function() {
             1
           )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(9),
+      _vm._v(" "),
+      _vm._m(10),
+      _vm._v(" "),
+      _vm._m(11),
+      _vm._v(" "),
+      _vm._m(12)
     ])
   ])
 }
@@ -50973,6 +55208,100 @@ var staticRenderFns = [
         })
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "stat-widget-one" }, [
+            _c("div", { staticClass: "stat-icon dib" }, [
+              _c("i", { staticClass: "ti-money text-success border-success" })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "stat-content dib" }, [
+              _c("div", { staticClass: "stat-text" }, [
+                _vm._v("Total Collection")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "stat-widget-one" }, [
+            _c("div", { staticClass: "stat-icon dib" }, [
+              _c("i", { staticClass: "ti-money text-success border-success" })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "stat-content dib" }, [
+              _c("div", { staticClass: "stat-text" }, [_vm._v("Due Amount")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "stat-widget-one" }, [
+            _c("div", { staticClass: "stat-icon dib" }, [
+              _c("i", { staticClass: "ti-money text-success border-success" })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "stat-content dib" }, [
+              _c("div", { staticClass: "stat-text" }, [
+                _vm._v("Monthly Collection")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "stat-widget-one" }, [
+            _c("div", { staticClass: "stat-icon dib" }, [
+              _c("i", { staticClass: "ti-money text-success border-success" })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "stat-content dib" }, [
+              _c("div", { staticClass: "stat-text" }, [
+                _vm._v("Credit Amount")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
+            ])
+          ])
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -52788,6 +57117,35 @@ var render = function() {
                     : _vm._e()
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "active" },
+                [
+                  _vm.users.selected == 0
+                    ? _c(
+                        "router-link",
+                        { attrs: { to: "/collectionregister" } },
+                        [
+                          _c("i", { staticClass: "menu-icon fa fa-laptop" }),
+                          _vm._v(" Collection Register")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.users.selected == 1
+                    ? _c(
+                        "router-link",
+                        { attrs: { to: "/collectionregister" } },
+                        [
+                          _c("i", { staticClass: "menu-icon fa fa-laptop" }),
+                          _vm._v(" Collection Register")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
               )
             ])
           ]
@@ -52872,7 +57230,6 @@ var render = function() {
           }
         },
         [
-          _vm._v("\n    Select Role\n        "),
           _c("div", { staticClass: "dropdown" }, [
             _c(
               "select",
@@ -52906,7 +57263,9 @@ var render = function() {
                 }
               },
               [
-                _c("option", [_vm._v("Select Role")]),
+                _c("option", { attrs: { disabled: "", value: "" } }, [
+                  _vm._v("Select Role")
+                ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "1" } }, [_vm._v("Admin")]),
                 _vm._v(" "),
@@ -56342,33 +60701,39 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: {
-                                type: "button",
-                                "data-toggle": "modal",
-                                "data-target": "#exampleModal" + item.caseid
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-plus" })]
-                          ),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary btn-sm",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.sendToAdmin(item)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-send-o" })]
-                          )
-                        ]),
+                        _vm.users.selected == 2
+                          ? _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-sm",
+                                  attrs: {
+                                    type: "button",
+                                    "data-toggle": "modal",
+                                    "data-target": "#exampleModal" + item.caseid
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-plus" })]
+                              ),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.sendToAdmin(item)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-send-o" })]
+                              )
+                            ])
+                          : _c("td", [
+                              _c("button", { staticClass: "btn btn-danger" }, [
+                                _vm._v("Rejected")
+                              ])
+                            ]),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -73271,6 +77636,9 @@ var routes = [{
   path: '/billingcase',
   component: __webpack_require__(/*! ./components/BillingCase.vue */ "./resources/js/components/BillingCase.vue").default
 }, {
+  path: '/billedcase',
+  component: __webpack_require__(/*! ./components/BilledCase.vue */ "./resources/js/components/BilledCase.vue").default
+}, {
   path: '/approvedcase',
   component: __webpack_require__(/*! ./components/ApprovedCase.vue */ "./resources/js/components/ApprovedCase.vue").default
 }, {
@@ -73285,6 +77653,9 @@ var routes = [{
 }, {
   path: '/onprocesscase',
   component: __webpack_require__(/*! ./components/OnProcess.vue */ "./resources/js/components/OnProcess.vue").default
+}, {
+  path: '/collectionregister',
+  component: __webpack_require__(/*! ./components/CollectionRegister.vue */ "./resources/js/components/CollectionRegister.vue").default
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -73515,6 +77886,77 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/BilledCase.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/BilledCase.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BilledCase.vue?vue&type=template&id=368878e1& */ "./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1&");
+/* harmony import */ var _BilledCase_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BilledCase.vue?vue&type=script&lang=js& */ "./resources/js/components/BilledCase.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _BilledCase_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/BilledCase.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/BilledCase.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/BilledCase.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BilledCase_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BilledCase.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BilledCase.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BilledCase_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BilledCase.vue?vue&type=template&id=368878e1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BilledCase.vue?vue&type=template&id=368878e1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BilledCase_vue_vue_type_template_id_368878e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/BillingCase.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/BillingCase.vue ***!
@@ -73581,6 +78023,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingCase_vue_vue_type_template_id_ee638ca0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingCase_vue_vue_type_template_id_ee638ca0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CollectionRegister.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/CollectionRegister.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CollectionRegister.vue?vue&type=template&id=671c148c& */ "./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c&");
+/* harmony import */ var _CollectionRegister_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CollectionRegister.vue?vue&type=script&lang=js& */ "./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CollectionRegister_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CollectionRegister.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CollectionRegister_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CollectionRegister.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CollectionRegister.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CollectionRegister_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CollectionRegister.vue?vue&type=template&id=671c148c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CollectionRegister.vue?vue&type=template&id=671c148c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CollectionRegister_vue_vue_type_template_id_671c148c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

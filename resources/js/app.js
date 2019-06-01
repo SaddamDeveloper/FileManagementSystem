@@ -79,11 +79,13 @@ let routes = [
     { path: '/rejectedcase', component: require('./components/RejectedCase.vue').default },
     { path: '/waitingforapproavalcase', component: require('./components/WaitingForApprovalCase.vue').default },
     { path: '/billingcase', component: require('./components/BillingCase.vue').default },
+    { path: '/billedcase', component: require('./components/BilledCase.vue').default },
     { path: '/approvedcase', component: require('./components/ApprovedCase.vue').default },
     { path: '/empapprovedcase', component: require('./components/EmpApprovedCase.vue').default },
     { path: '/empbillingcase', component: require('./components/EmpBillingCase.vue').default },
     { path: '/transfercase', component: require('./components/TransferCase.vue').default },
     { path: '/onprocesscase', component: require('./components/OnProcess.vue').default },
+    { path: '/collectionregister', component: require('./components/CollectionRegister.vue').default },
     // { path: '/taxinvoice', component: require('./components/TaxInvoice.vue').default },
   //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]

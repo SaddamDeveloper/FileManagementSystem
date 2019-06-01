@@ -50,8 +50,8 @@
         <h4 class="mb-0">
           <span class="count">{{ empWaitingforapprove }}</span>
         </h4>
-        <router-link to="/waitingforapproavalcase" v-if="users.selected == 0"><p class="text-light">Billed Case</p></router-link>
-        <router-link to="/waitingforapproavalcase" v-else-if="users.selected == 1"><p class="text-light">Billed Case</p></router-link>
+        <router-link to="/billedcase" v-if="users.selected == 0"><p class="text-light">Billed Case</p></router-link>
+        <router-link to="/billedcase" v-else-if="users.selected == 1"><p class="text-light">Billed Case</p></router-link>
         <router-link to="/waitingforapproavalcase" v-else><p class="text-light">To be Approved</p></router-link>
 
       </div>
@@ -154,6 +154,58 @@
 
   </div>
 </div>
+</div>
+<div class="col-xl-3 col-lg-6">
+    <div class="card">
+    <div class="card-body">
+        <div class="stat-widget-one">
+            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-content dib">
+                <div class="stat-text">Total Collection</div>
+                <div class="stat-digit">1,012</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="col-xl-3 col-lg-6">
+    <div class="card">
+    <div class="card-body">
+        <div class="stat-widget-one">
+            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-content dib">
+                <div class="stat-text">Due Amount</div>
+                <div class="stat-digit">1,012</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="col-xl-3 col-lg-6">
+    <div class="card">
+    <div class="card-body">
+        <div class="stat-widget-one">
+            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-content dib">
+                <div class="stat-text">Monthly Collection</div>
+                <div class="stat-digit">1,012</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="col-xl-3 col-lg-6">
+    <div class="card">
+    <div class="card-body">
+        <div class="stat-widget-one">
+            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-content dib">
+                <div class="stat-text">Credit Amount</div>
+                <div class="stat-digit">1,012</div>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
 </div>
 </div>

@@ -222,11 +222,12 @@ export default {
             .then(res => {
                 this.cases = res.data;
                 vm.makePagination(res.meta, res.links);
-                    fetch("/api/fetchsendemployees?token="+token)
-                     .then(res => res.json())
-                    .then(res => {
-                        this.assignedemployee = res.data;
-                })
+            })
+                fetch("/api/fetchsendemployees?token="+token)
+                 .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    this.assignedemployee = res.data;
             })
         },
         makePagination(meta, links){
@@ -314,7 +315,6 @@ export default {
                    'Case Has been Sent!.',
                    'success'
                    )
-
                    jQuery('#exampleModal'+this.toEmployee.caseid).modal('hide')
                }
             })

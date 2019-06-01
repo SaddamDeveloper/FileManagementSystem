@@ -171,3 +171,20 @@ Route::delete( 'deleteempnewcase/{id}', ['uses' => 'EmployeeController@DeleteEmp
 
 Route::get( 'checksendtoemployees', ['uses' => 'EmployeeController@checkSendEmployees', 'middleware' => 'jwt']);
 
+Route::post('tobill', ['uses' => 'EmployeeController@toBill', 'middleware' => 'jwt']);
+
+Route::delete( 'deleteapprovedcase/{id}', ['uses' => 'EmployeeController@deleteApprovedCase', 'middleware' => 'jwt']);
+
+Route::get( 'billedcase', ['uses' => 'EmployeeController@fetchBilledCase', 'middleware' => 'jwt']);
+
+Route::post( 'checkwheathersentornot/{id}', ['uses' => 'EmployeeController@checkIfSent', 'middleware' => 'jwt']);
+
+Route::post('paymentbycash', ['uses' => 'EmployeeController@paymentByCash', 'middleware' => 'jwt']);
+
+Route::get('fetchcollectionregister', ['uses' => 'EmployeeController@fetchCollectionRegister', 'middleware' => 'jwt']);
+
+Route::get( 'invoice', ['uses' => 'EmployeeController@getInvoice', 'middleware' => 'jwt']);
+
+
+
+

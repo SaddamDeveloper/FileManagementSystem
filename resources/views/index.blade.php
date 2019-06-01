@@ -13,7 +13,7 @@
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
 
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('sufeeadmin/vendors/font-awesome/css/font-awesome.min.css') }}">
 
     <link rel="stylesheet" href="{{  asset('sufeeadmin/assets/css/style.css') }}">

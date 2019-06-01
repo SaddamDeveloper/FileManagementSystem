@@ -216,15 +216,30 @@ export default {
                             'content-type' : 'application/json'
                         }
                     })
-                    .then(()=>{
-                        Swal.fire(
-                        'Sent!',
-                        'Your file has been sent.',
-                        'success'
-                        )
-                        // fetch(`api/sendtoadmin/${id.caseid}`, {
-                        //     method: 'delete'
-                        // })
+                    .then(res => res.json())
+                    .then((res)=>{
+
+                        if(res.message == 0){
+                            Swal.fire(
+                            'Sent!',
+                            'Your file has been sent.',
+                            'success'
+                            )
+                        }
+                        else if(res.message == 1){
+                             Swal.fire(
+                            'Sorry!',
+                            'You have already sent.',
+                            'warning'
+                            )
+                        }
+                        else{
+                            Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                        }
                         this.fetchCases();
                 })
                 .catch(()=>{

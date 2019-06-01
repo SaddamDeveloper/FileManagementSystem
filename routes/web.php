@@ -29,7 +29,7 @@ Route::get('/', function () {
 // Route::get('/employee', function(){
 //     return view('employee');
 // });
-Route::get('/dashboard', function(){
+Route::get('/dashboard',function(){
     return view('dashboard');
 });
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');

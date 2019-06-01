@@ -13,10 +13,11 @@
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
 
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('sufeeadmin/vendors/font-awesome/css/font-awesome.min.css') }}">
 
     <link rel="stylesheet" href="{{  asset('sufeeadmin/assets/css/style.css') }}">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -28,10 +29,10 @@
     <div id="app">
         @yield('content')
     </div>
-    <script src="/js/app.js"></script>
+    <script src="{{ asset('/js/app.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
-    <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="{{ asset('js/example.js') }}"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

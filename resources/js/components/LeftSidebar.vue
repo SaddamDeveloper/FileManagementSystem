@@ -18,6 +18,10 @@
                     <router-link to="/newcase" v-if="users.selected == 0"> <i class="menu-icon fa fa-laptop"></i> Register</router-link>
                     <router-link to="/employee" v-if="users.selected == 1"> <i class="menu-icon fa fa-laptop"></i> Create Employee</router-link>
                 </li>
+                <li class="active">
+                    <router-link to="/collectionregister" v-if="users.selected == 0"> <i class="menu-icon fa fa-laptop"></i> Collection Register</router-link>
+                    <router-link to="/collectionregister" v-if="users.selected == 1"> <i class="menu-icon fa fa-laptop"></i> Collection Register</router-link>
+                </li>
             </ul>
         </div>
     </nav>

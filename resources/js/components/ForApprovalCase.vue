@@ -251,12 +251,9 @@ export default {
                     })
                     this.fetchCases()
             .then(res => res.json())
-            .then(res => {
-                jQuery('#exampleModal'+this.rejectCause.caseid).modal('hide');
-                this.rejectCause.caseid = '';
-                this.rejectCause.employee_id = '';
-                this.rejectCause.msg = '';
-            })
+            // .then(res => {
+                    // jQuery('#exampleModal'+this.rejectCause.caseid).modal('hide');
+            //     })
             .then(Swal.fire(
                 'Rejected!',
                 'Case Has been Rejecred!',

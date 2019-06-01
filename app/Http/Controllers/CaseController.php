@@ -29,11 +29,24 @@ class CaseController extends Controller
      */
     public function index()
     {
+        // if($request->input('clientType') != 2 ){
 
-       $cases = \App\ClientDetails::with(['cases'])
-       ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
-        ->orderBy('cases.id', 'DESC')
-       ->paginate(15);
+        // }
+
+        $cases = DB::table('cases')
+            ->join('client_details', 'cases.caseid', '=', 'client_details.caseid')
+            // ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
+            ->paginate(15);
+        return $cases;
+
+            // $cases = \App\ClientDetails::with(['cases'])
+            // ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            // ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            // ->orderBy('cases.id', 'DESC')
+            // ->paginate(15);
+
+            // return  $cases->clientType;
+    //    return $cases;
         // foreach($cases2 as $case2)
         //     $caseCollection->push($case2);
 
@@ -47,7 +60,7 @@ class CaseController extends Controller
 
         // return $cases && $cases2;
 
-         return CaseResource::collection($cases);
+        //  return CaseResource::collection($cases);
     }
 
     public function govtnAll(){

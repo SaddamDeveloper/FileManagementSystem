@@ -2,10 +2,9 @@
 <div class="container">
         <center><span class="text text-danger">{{error}}</span></center>
     <form @submit.prevent="login">
-    Select Role
         <div class="dropdown">
         <select class="form-control" name="role" v-model="users.selected">
-            <option>Select Role</option>
+            <option disabled value="">Select Role</option>
             <option value="1">Admin</option>
             <option value="0">User</option>
             <option value="2">Employee</option>
@@ -36,9 +35,8 @@ export default {
         }
     },
         methods: {
-           login(){
+        login(){
         if(this.users.selected == 1){
-            console.log("this is admin")
                fetch('api/auth/login', {
                 method: 'post',
                 body: JSON.stringify(this.users),
@@ -54,7 +52,6 @@ export default {
                             const token = response.access_token;
                             const base64Url = token.split('.')[1];
                             const base64 = base64Url.replace('-', '+').replace('_', '/');
-                            // console.log(JSON.parse(window.atob(base64)));
                             localStorage.setItem('token', token);
                             this.$router.push({ path: '/dashboard', redirect: '/dashboard' })
                             location.reload();

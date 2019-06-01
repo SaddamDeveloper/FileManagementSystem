@@ -10,7 +10,7 @@ class sendToAdmin extends Model
 
     public $timestamps = false;
 
-    public function sendAdmin(){
-        return $this->belongsTo('App\sendToEmployee');
-    }
+    // public function sendAdmin(){
+    //     return $this->belongsTo('App\sendToEmployee');
+    // }
 }
