@@ -12,6 +12,8 @@ run the project by following steps
 9. import the 'fms.sql' file
 10. run command 'php artisan serve'
 
+11. run 'php artisan jwt:secret' and 'php artisan cache:clear' if any error of login
+
 
 
 
