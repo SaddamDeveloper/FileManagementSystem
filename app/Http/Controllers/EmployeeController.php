@@ -556,11 +556,17 @@ class EmployeeController extends Controller
         // $byCheque->chequeNo = $request->input('chequeNo');
         // $byCheque->bankName = $request->input('bankNamec');
 
-        if($toComplete->save() && $byCash->save()){
-            return response()->json(['message' => '0'], 200);
+        $dbCheck = ToComplete::where('caseid', '=', Input::get('caseid'))->first();
+        if($dbCheck == null){
+            if($toComplete->save() && $byCash->save()){
+                return response()->json(['message' => '0'], 200);
+            }
+            else{
+                return response()->json(['message' => '1'], 200);
+            }
         }
         else{
-            return response()->json(['message' => '1'], 200);
+            return response()->json(['message' => '2'], 200);
         }
         // if ( $request->input('selected') == 1) {
         //     $dbCheck = ToComplete::where('caseid', '=', Input::get('caseid'))->first();
@@ -603,7 +609,21 @@ class EmployeeController extends Controller
         $cash = DB::table('completedcase')
             ->join('bycash', 'completedcase.method', '=', 'bycash.method')
             ->join('client_details', 'completedcase.caseid', '=', 'client_details.caseid')
-            ->get();
+            ->paginate(15);
+
+        $OveralltotalAmount =  DB::table('completedcase')->sum('paidamount');
+        $OverallgstAmount =  DB::table('completedcase')->sum('gstamount');
+        $date = substr(Carbon::today(), 0, 10);
+        $todaystotalAmount =  DB::table('completedcase')->where('date', $date)->sum('paidamount');
+        $todaysgstamount =  DB::table('completedcase')->where('date', $date)->sum('gstamount');
+        $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
+        $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
+        $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
+        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount]);
+        $data = $custom->merge($cash);
+        return response()->json($data);
+        // $data = 
+
         // $cheque = DB::table('completedcase')
         //         ->join('bycheque', 'completedcase.method', '=', 'bycheque.method')->get();
 
@@ -612,12 +632,14 @@ class EmployeeController extends Controller
         ->join('byneft', 'completedcase.method', '=', 'byneft.method')
         ->get();
 
-        $data = array($cash);
-        $totalAmount =  DB::table('completedcase')->sum('paidamount');
-        foreach ($data as $d)
+        // $data = array($cash);
+        // $totalAmount =  DB::table('completedcase')->sum('paidamount');
+        // array_push($data, $totalAmount);
+        // return $data;
+        /*foreach ($data as $d)
         $d->push($totalAmount);
+        return $d;*/
         // $this->totalAmount = array_push($data, $totalAmount);
-        return $d;
         // return $totalAmount;
         // $cash = $cheque->union(DB::table('completedcase')->join('bycash', 'completedcase.method', '=', 'bycash.method')->get());
         // ->join('bycash', 'completedcase.method', '=', 'bycash.method')

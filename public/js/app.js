@@ -2959,6 +2959,8 @@ __webpack_require__.r(__webpack_exports__);
               Swal.fire('Success!', 'Payment Successfull', 'success');
             } else if (res.message == 1) {
               Swal.fire('Sorry!', 'You have already paid', 'warning');
+            } else if (res.message == 2) {
+              Swal.fire('Sorry!', 'You have already paid', 'warning');
             } else {
               Swal.fire('Failed!', 'There was something wrong', 'warning');
             }
@@ -3515,6 +3517,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3522,7 +3530,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      collectionregister: []
+      collectionregister: [],
+      OveralltotalAmount: '',
+      OverallgstAmount: '',
+      todaystotalAmount: '',
+      todaysgstAmount: '',
+      TodaysTotalAmountByCash: '',
+      TodaysTotalAmountByCheque: '',
+      TodaysTotalAmountByRtgs: ''
     };
   },
   methods: {
@@ -3533,7 +3548,14 @@ __webpack_require__.r(__webpack_exports__);
       fetch('api/fetchcollectionregister?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.collectionregister = res;
+        _this.collectionregister = res.data;
+        _this.OveralltotalAmount = res.OverallTotalAmount;
+        _this.OverallgstAmount = res.OverallgstAmount;
+        _this.todaystotalAmount = res.todaystotalAmount;
+        _this.todaysgstAmount = res.todaysgstAmount;
+        _this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+        _this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+        _this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
       });
     },
     print: function print() {
@@ -4156,13 +4178,21 @@ __webpack_require__.r(__webpack_exports__);
       users: {
         email: '',
         selected: ''
-      }
+      },
+      OveralltotalAmount: '',
+      OverallgstAmount: '',
+      todaystotalAmount: '',
+      todaysgstAmount: '',
+      TodaysTotalAmountByCash: '',
+      TodaysTotalAmountByCheque: '',
+      TodaysTotalAmountByRtgs: ''
     };
   },
   created: function created() {
     this.loadCounter();
     this.fetchUser();
     this.loadEmployeeCounter();
+    this.fetchCollectionRegister();
   },
   methods: {
     loadCounter: function loadCounter() {
@@ -4205,14 +4235,30 @@ __webpack_require__.r(__webpack_exports__);
           window.location.href = '/';
         }
       });
+    },
+    fetchCollectionRegister: function fetchCollectionRegister() {
+      var _this4 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/fetchcollectionregister?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this4.OveralltotalAmount = res.OverallTotalAmount;
+        _this4.OverallgstAmount = res.OverallgstAmount;
+        _this4.todaystotalAmount = res.todaystotalAmount;
+        _this4.todaysgstAmount = res.todaysgstAmount;
+        _this4.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+        _this4.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+        _this4.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+      });
     }
   },
   mounted: function mounted() {
-    var _this4 = this;
+    var _this5 = this;
 
     window.onpopstate = function (event) {
-      if (window.localStorage.getItem("info") !== null && _this4.$route.path == "/siginin") {
-        _this4.$router.push("/dashboard");
+      if (window.localStorage.getItem("info") !== null && _this5.$route.path == "/siginin") {
+        _this5.$router.push("/dashboard");
       }
     };
   }
@@ -53339,13 +53385,56 @@ var render = function() {
           _vm._v(" "),
           _c("th", { attrs: { colspan: "3" } }, [_vm._v("Grand Total")]),
           _vm._v(" "),
-          _c("th", [_vm._v("6")]),
+          _c("th", [_vm._v(_vm._s(_vm.OveralltotalAmount))]),
           _vm._v(" "),
-          _c("th", { attrs: { colspan: "2" } }, [_vm._v("6")])
+          _c("th", { attrs: { colspan: "2" } }, [
+            _vm._v(_vm._s(_vm.OverallgstAmount))
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(3),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v("\n                        Today's Total Collection: "),
+              _c("b", [_vm._v(_vm._s(_vm.todaystotalAmount))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v("\n                        Today's Total GST: "),
+              _c("b", [_vm._v(_vm._s(_vm.todaysgstAmount))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v(
+                "\n                        Today's Total Collection By Cash: "
+              ),
+              _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCash))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v(
+                "\n                        Today's Total Collection By Cheque: "
+              ),
+              _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCheque))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v(
+                "\n                        Today's Total Collection By NEFT/RTGS: "
+              ),
+              _c("b", [_vm._v(" " + _vm._s(_vm.TodaysTotalAmountByRtgs) + " ")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v("\n                        Over All Total Collection: "),
+              _c("b", [_vm._v(_vm._s(_vm.OveralltotalAmount))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._v("\n                        Over All GST Collection: "),
+              _c("b", [_vm._v(_vm._s(_vm.OverallgstAmount))])
+            ])
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-2" }),
           _vm._v(" "),
@@ -53421,42 +53510,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("GST")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Payment Mode")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _vm._v(
-          "\n                        Today's Total Collection:\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _vm._v(
-          "\n                        Today's Total GST:\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _vm._v(
-          "\n                        Today's Total Collection By Cash:\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _vm._v(
-          "\n                        Today's Total Collection By Cheque:\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _vm._v(
-          "\n                        Today's Total Collection By NEFT/RTGS:\n                    "
-        )
       ])
     ])
   }
@@ -54422,7 +54475,25 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(9),
+      _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "stat-widget-one" }, [
+              _vm._m(9),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-content dib" }, [
+                _c("div", { staticClass: "stat-text" }, [
+                  _vm._v("Total Collection")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "stat-digit" }, [
+                  _vm._v(_vm._s(_vm.OveralltotalAmount))
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
       _vm._m(10),
       _vm._v(" "),
@@ -55213,24 +55284,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "stat-widget-one" }, [
-            _c("div", { staticClass: "stat-icon dib" }, [
-              _c("i", { staticClass: "ti-money text-success border-success" })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "stat-content dib" }, [
-              _c("div", { staticClass: "stat-text" }, [
-                _vm._v("Total Collection")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "stat-icon dib" }, [
+      _c("i", { staticClass: "ti-money text-success border-success" })
     ])
   },
   function() {
@@ -79395,8 +79450,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xamppp\htdocs\FileManagementSystem\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xamppp\htdocs\FileManagementSystem\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\FileManagementSystemFinal\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\FileManagementSystemFinal\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -533,8 +533,15 @@ export default {
                             'warning'
                             )
                         }
+                        else if(res.message == 2){
+                           Swal.fire(
+                            'Sorry!',
+                            'You have already paid',
+                            'warning'
+                            )   
+                        }
                         else{
-                            Swal.fire(
+                             Swal.fire(
                                 'Failed!',
                                 'There was something wrong',
                                 'warning'

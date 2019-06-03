@@ -162,7 +162,7 @@
             <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Total Collection</div>
-                <div class="stat-digit">1,012</div>
+                <div class="stat-digit">{{OveralltotalAmount}}</div>
             </div>
         </div>
     </div>
@@ -226,13 +226,21 @@ export default {
       users: {
           email: '',
           selected: ''
-      }
+      },
+      OveralltotalAmount:'',
+      OverallgstAmount:'',
+      todaystotalAmount: '',
+      todaysgstAmount: '',
+      TodaysTotalAmountByCash: '',
+      TodaysTotalAmountByCheque: '',
+      TodaysTotalAmountByRtgs: ''
     }
   },
   created(){
     this.loadCounter();
     this. fetchUser();
     this.loadEmployeeCounter();
+    this.fetchCollectionRegister();
   },
   methods: {
     loadCounter(){
@@ -268,7 +276,21 @@ export default {
                         window.location.href = '/';
                     }
                 })
-        }
+        },
+        fetchCollectionRegister(){
+        const token = localStorage.getItem('token');
+        fetch('api/fetchcollectionregister?token='+token)
+        .then(res => res.json())
+        .then((res) => {
+            this.OveralltotalAmount = res.OverallTotalAmount;
+            this.OverallgstAmount = res.OverallgstAmount;
+            this.todaystotalAmount = res.todaystotalAmount;
+            this.todaysgstAmount = res.todaysgstAmount;
+            this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+            this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+            this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+        })
+    }
   },
   mounted() {
     window.onpopstate = event => {
