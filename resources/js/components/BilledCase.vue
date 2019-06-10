@@ -68,12 +68,16 @@
 
 		<span style="font-size: 12px; font-weight:800;">Name & Address of Service Provider:</span>
 		<div id="identity">
-            <div id="address">D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001</div>
+        <div class="row">
+            <div class="col-md-3">
+            <textarea class="form-control" readonly v-model="namenaddress"></textarea> 
+            </div>
+        </div>
 
             <table id="meta">
             	 <tr>
                     <td class='meta-head'>GSTIN:</td>
-                    <td><input type="text" readonly id="gstin" value="17AAJFD4695B1ZE"></td>
+                    <td><input type="text" readonly id="gstin" v-model="gstIn"></td>
                 </tr>
                 <tr>
                     <td class="meta-head">CASE ID:</td>
@@ -414,9 +418,9 @@
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
-// var converter = require("number-to-words");
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 export default {
-
         data(){
             var converter = require('number-to-words');
             Vue.filter('toWords', function (value) {
@@ -424,6 +428,7 @@ export default {
             return converter.toWords(value);
             })
         return {
+            namenaddress: 'D. Das & Associates: Chartered Accountants: 1st Floor, Hotel Utsav Building Above Book Stall, Jail Road, Shillong-793001',
             invoiceNo: '',
             chequeNo: '',
             bankNamec:'',
@@ -443,6 +448,7 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
+            gstIn: '17AAJFD4695B1ZE',
             myDate : new Date().toISOString().slice(0,10),
             completedcases: [],
             toComplete: {
@@ -461,6 +467,7 @@ export default {
     },
     created(){
         this.fetchCases();
+        this.invoice();
     },
 
     methods: {
@@ -489,6 +496,7 @@ export default {
             window.print();
         },
         pay(item){
+            console.log(item);
             this.toComplete.paidamount = ((parseFloat(2*item.amount* 0.09) + parseFloat(item.amount)-parseFloat(item.advamount))).toFixed(2);
             this.toComplete.gstAmount = parseFloat(2*item.amount * 0.09).toFixed(2);
             this.toComplete.caseid = item.caseid;
@@ -510,6 +518,30 @@ export default {
             confirmButtonText: 'Yes, Pay it!'
             }).then((result) => {
                 if(result.value){
+                    var pdf = new jsPDF('p', 'pt', 'A4');
+                    var bill_to = item.address;
+                    // var invoice_no = $('#invoice_no').val();
+                    var date = this.myDate;
+                    var gstin = this.gstIn;
+                    var amount = item.amount;
+                    var advance = item.advamount;
+                    var address = this.namenaddress;
+                    pdf.text('RECEIPT', 250, 20);
+                    pdf.setFontSize(9);
+                    pdf.setFontType("bold");
+                    pdf.text('Name & Address of Service Provider:', 50, 40);
+                    var formatedAddress = pdf.splitTextToSize(address, 180);
+                    pdf.text(formatedAddress, 50, 50);
+                    pdf.text('Received with Thanks from ' + bill_to, 50, 110);
+                    pdf.text('With Rupees: ' + amount + ' by Cash/RTGS/NEFT/Credit', 50, 130);
+                    pdf.autoTable({
+                            head: [['GSTIN', 'DATE', 'AMOUNT', 'ADVANCE']],
+                            body: [
+                                [gstin, date, amount, advance]
+                            ],
+                            margin: {right:60,left:50, top:140},
+                        });
+                    pdf.save(item.caseid+'.pdf');
                     fetch('api/paymentbycash?token='+token, {
                         method: 'post',
                         body: JSON.stringify(this.toComplete),
@@ -552,7 +584,7 @@ export default {
 
             })
         },
-        invoiceNo(){
+        invoice(){
             const token = localStorage.getItem('token');
             fetch('api/invoice?token='+token)
             .then(res => res.json())

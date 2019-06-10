@@ -44,7 +44,7 @@
                             <input type="text" id="typeofwork" name="typeofwork" placeholder="Type of work" class="form-control" v-model="casee.typeofwork">
                         </div>
                         <div class="form-group">
-                            <date-picker name="time2" v-model="casee.time2" :lang="lang"></date-picker>
+                            <input type="date" class="form-control" v-model="casee.time2">
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -60,27 +60,27 @@
                     </div>
                     </div>
                 </div>
-                        <div class="card" v-if="casee.selected === 2">
-                            <div class="card-header">
-                                <strong class="card-title">Cash</strong>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input name="advamount" type="text" v-model="casee.advamount" placeholder="Advance Amount" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                         <label>Due Amount:</label>
-                                        <span>{{ a = casee.amount-casee.advamount }}</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Paid Amount:</label>
-                                    <span>{{ casee.advamount }}</span>
-                                    </div>
+                    <div class="card" v-if="casee.selected === 2">
+                        <div class="card-header">
+                            <strong class="card-title">Cash</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="advamount" type="text" v-model="casee.advamount" placeholder="Advance Amount" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                        <label>Due Amount:</label>
+                                    <span>{{ a = casee.amount-casee.advamount }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Paid Amount:</label>
+                                <span>{{ casee.advamount }}</span>
+                                </div>
+                            </div>
 
-                            </div>
-                            </div>
+                        </div>
+                        </div>
                         <div class="card"  v-if="casee.selected === 3">
                             <div class="card-header">
                                 <strong class="card-title">Cheque</strong>
@@ -403,12 +403,12 @@
                             </div>
                         <div class="col-md-12 mb-4">
                             <div style="float: right">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-dot-circle-o"></i> Submit
-                            </button>
-                            <button type="reset" class="btn btn-danger btn-sm">
-                                <i class="fa fa-ban"></i> Reset
-                            </button>
+                                <button type="submit" class="btn btn-primary btn-sm" @click="generatePdf()">
+                                    <i class="fa fa-dot-circle-o"></i> Submit
+                                </button>
+                                <button type="reset" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-ban"></i> Reset
+                                </button>
                             </div>
                         </div>
             </form>
@@ -539,6 +539,7 @@
 </style>
 <script>
 import DatePicker from 'vue2-datepicker'
+import jsPDF from 'jspdf';
 export default {
     components: { DatePicker },
     data(){
@@ -841,6 +842,38 @@ export default {
                 .then(data => {
                     this.casee.caseid = data;
                 })
+        },
+        generatePdf(){
+            var clientName = this.casee.clientName;
+            var caseid = this.casee.caseid;
+            var dd = this.casee.time2;
+            var amount = this.casee.amount;
+            var paidamount = this.casee.advamount;
+            var dueamount = parseFloat(amount)-parseFloat(paidamount);
+            var projectName = this.casee.typeofwork;
+            var pdf = new jsPDF('p', 'pt', 'A4');
+            pdf.text('ACKNOWLEDGEMENT', 250, 20);
+            pdf.setDrawColor(0,0,0);
+            pdf.line(40, 30, 570, 30);
+            pdf.setFontSize(9);
+            pdf.setFontType("bold");
+            pdf.text('Case ID:', 50, 45);
+            pdf.text(caseid, 120, 45);
+            pdf.text('Client Name:', 50, 60);
+            pdf.text(clientName, 120, 60);
+            pdf.text('Delivery Date:', 250, 45);
+            pdf.text(dd, 340, 45);
+            pdf.text('Amount:', 250, 60);
+            pdf.text(amount, 340, 60);
+            pdf.text('Paid Amount:', 400, 45);
+            pdf.text(paidamount.toString(), 500, 45);
+            pdf.text('Due Amount:', 400, 60);
+            pdf.text(dueamount.toString(), 500, 60);
+            pdf.text('Project Name: ',250,80);
+            pdf.text(projectName,320,80);
+            pdf.setDrawColor(0,0,0);
+            pdf.line(40, 90, 570, 90);
+            pdf.save(caseid+'.pdf');
         }
     }
 }
