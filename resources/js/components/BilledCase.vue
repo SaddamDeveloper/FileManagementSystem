@@ -70,7 +70,7 @@
 		<div id="identity">
         <div class="row">
             <div class="col-md-3">
-            <textarea class="form-control" readonly v-model="namenaddress"></textarea> 
+            <textarea class="form-control" readonly v-model="namenaddress"></textarea>
             </div>
         </div>
 
@@ -524,7 +524,12 @@ export default {
                     var date = this.myDate;
                     var gstin = this.gstIn;
                     var amount = item.amount;
+                    var sgst = amount * 0.09;
+                    var cgst = amount * 0.09;
+                    var gst = sgst + cgst;
+                    var amount1 = parseFloat(amount) + parseFloat(gst);
                     var advance = item.advamount;
+                    var finalAmount = amount1-advance;
                     var address = this.namenaddress;
                     pdf.text('RECEIPT', 250, 20);
                     pdf.setFontSize(9);
@@ -533,11 +538,11 @@ export default {
                     var formatedAddress = pdf.splitTextToSize(address, 180);
                     pdf.text(formatedAddress, 50, 50);
                     pdf.text('Received with Thanks from ' + bill_to, 50, 110);
-                    pdf.text('With Rupees: ' + amount + ' by Cash/RTGS/NEFT/Credit', 50, 130);
+                    pdf.text('With Rupees: ' + finalAmount + ' by Cash/RTGS/NEFT/Credit', 50, 130);
                     pdf.autoTable({
                             head: [['GSTIN', 'DATE', 'AMOUNT', 'ADVANCE']],
                             body: [
-                                [gstin, date, amount, advance]
+                                [gstin, date, finalAmount, advance]
                             ],
                             margin: {right:60,left:50, top:140},
                         });
@@ -570,7 +575,7 @@ export default {
                             'Sorry!',
                             'You have already paid',
                             'warning'
-                            )   
+                            )
                         }
                         else{
                              Swal.fire(

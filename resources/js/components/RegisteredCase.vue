@@ -113,13 +113,13 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input name="name" type="number" class="form-control" placeholder="RTGS/NEFT No">
+                                                <input name="rtgsNo" type="number" class="form-control" placeholder="RTGS/NEFT No" v-model="casee.rtgsNo">
                                             </div>
                                             <div class="form-group has-success">
-                                                <input name="no" type="text" class="form-control" placeholder="Bank Name">
+                                                <input name="bankName" type="text" class="form-control" placeholder="Bank Name" v-model="casee.bankName">
                                             </div>
                                             <div class="form-group">
-                                                <input name="altno" type="text" class="form-control" placeholder="Phone no">
+                                                <input name="bankersPhone" type="text" class="form-control" placeholder="Phone no" v-model="casee.bankersPhone">
                                             </div>
                                         </div>
                                         </div>
@@ -164,22 +164,22 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName" required>
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo" required>
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
+                                                <input name="orgName" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
+                                                <input name="telNo" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -227,32 +227,32 @@
                                 <div class="card-body">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name">
+                                            <input id="personname" name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="perscontactno" name="perscontactno" type="text" class="form-control" placeholder="Conatct No">
+                                            <input name="personContactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.contactNo">
                                         </div>
                                     </div>
                                         <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name">
+                                            <input id="organisationname" name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No">
+                                            <input id="organisationtelno" name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input  name="altno" type="text" class="form-control" placeholder="Department">
+                                            <input  name="altno" type="text" class="form-control" placeholder="Department" v-model="casee.dept">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address"></textarea>
+                                            <textarea id="organisationaddr" name="organisationaddr" type="text" class="form-control" placeholder="Organisation Address" v-model="casee.addr"></textarea>
                                         </div>
                                     </div>
 
@@ -295,22 +295,22 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName" required>
+                                                <input name="personname" type="text" class="form-control" placeholder="Conatact Person Name" v-model="casee.clientPersonName" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo" required>
+                                                <input id="pcontactNo" name="pcontactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo" >
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName" required>
+                                                <input name="organisationname" type="text" class="form-control" placeholder="Organisation Name" v-model="casee.orgName" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo" required>
+                                                <input name="organisationtelno" type="text" class="form-control" placeholder="Organisation Tel No" v-model="casee.telNo">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -451,7 +451,7 @@
                                                         <td>{{ item.contactNo }}</td>
                                                         <td>{{ item.email }}</td>
                                                         <td>{{ item.time2 }}</td>
-                                                        <td><div class="btn btn-group"><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                                                        <td><div class="btn btn-group"><button type="button" @click="editCase(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.caseid)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -491,7 +491,7 @@
                                                         <td>{{ item.orgTel }}</td>
                                                         <td>{{ item.dept }}</td>
                                                         <td>{{ item.address }}</td>
-                                                        <td><div class="btn btn-group"><button type="button" @click="editCase2(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                                                        <td><div class="btn btn-group"><button type="button" @click="editCase2(item)" @change="trigger()" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase2(item.caseid)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -576,7 +576,10 @@ export default {
                 telNo: '',
                 dept: '',
                 addr:'',
-                advamount: ''
+                advamount: '',
+                rtgsNo: '',
+                bankName: '',
+                bankersPhone: ''
             },
             caseid: '',
             pagination: {},
@@ -665,7 +668,7 @@ export default {
             }).then((result) => {
                 if (result.value) {
                     const token = localStorage.getItem('token');
-                    fetch(`api/case/${id}`+'?token='+token, {
+                    fetch('/api/cases/'+id+'?token='+token, {
                         method: 'delete'
                     })
                     .then(()=>{
@@ -686,6 +689,24 @@ export default {
 
             })
         },
+        editCase(item){
+        this.edit = true;
+        this.casee.id = item.id;
+        this.casee.clientType = item.clientType;
+        this.casee.typeofwork = item.typeofwork;
+        this.casee.amount = item.amount;
+        this.casee.clientName = item.clientName;
+        this.casee.contactNo = item.contactNo;
+        this.casee.altContactNo = item.altContactNo;
+        this.casee.email = item.email;
+        this.casee.address = item.address;
+        this.casee.time2 = item.time2;
+        this.casee.selected = item.selected;
+
+        if(this.casee.clientType){
+
+        }
+    },
     addCase(){
         if(this.edit === false){
             //Add Case
@@ -724,7 +745,8 @@ export default {
         else{
             //Update Case
         this.casee.caseid = jQuery("#caseid").val();
-        fetch('api/case', {
+        const token = localStorage.getItem('token');
+        fetch('api/case?token='+token, {
                 method: 'put',
                 body: JSON.stringify(this.casee),
                 headers: {
@@ -751,24 +773,7 @@ export default {
             .catch(err => console.log(err));
         }
     },
-    editCase(item){
-        this.edit = true;
-        this.casee.id = item.id;
-        this.casee.clientType = item.clientType;
-        this.casee.typeofwork = item.typeofwork;
-        this.casee.amount = item.amount;
-        this.casee.clientName = item.clientName;
-        this.casee.contactNo = item.contactNo;
-        this.casee.altContactNo = item.altContactNo;
-        this.casee.email = item.email;
-        this.casee.address = item.address;
-        this.casee.time2 = item.time2;
-        this.casee.selected = item.selected;
 
-        if(this.casee.clientType){
-
-        }
-    },
         editCase2(item){
         this.edit = true;
         this.casee.id = item.id;
@@ -843,38 +848,38 @@ export default {
                     this.casee.caseid = data;
                 })
         },
-        generatePdf(){
-            var clientName = this.casee.clientName;
-            var caseid = this.casee.caseid;
-            var dd = this.casee.time2;
-            var amount = this.casee.amount;
-            var paidamount = this.casee.advamount;
-            var dueamount = parseFloat(amount)-parseFloat(paidamount);
-            var projectName = this.casee.typeofwork;
-            var pdf = new jsPDF('p', 'pt', 'A4');
-            pdf.text('ACKNOWLEDGEMENT', 250, 20);
-            pdf.setDrawColor(0,0,0);
-            pdf.line(40, 30, 570, 30);
-            pdf.setFontSize(9);
-            pdf.setFontType("bold");
-            pdf.text('Case ID:', 50, 45);
-            pdf.text(caseid, 120, 45);
-            pdf.text('Client Name:', 50, 60);
-            pdf.text(clientName, 120, 60);
-            pdf.text('Delivery Date:', 250, 45);
-            pdf.text(dd, 340, 45);
-            pdf.text('Amount:', 250, 60);
-            pdf.text(amount, 340, 60);
-            pdf.text('Paid Amount:', 400, 45);
-            pdf.text(paidamount.toString(), 500, 45);
-            pdf.text('Due Amount:', 400, 60);
-            pdf.text(dueamount.toString(), 500, 60);
-            pdf.text('Project Name: ',250,80);
-            pdf.text(projectName,320,80);
-            pdf.setDrawColor(0,0,0);
-            pdf.line(40, 90, 570, 90);
-            pdf.save(caseid+'.pdf');
-        }
+        // generatePdf(){
+        //     var clientName = this.casee.clientName;
+        //     var caseid = this.casee.caseid;
+        //     var dd = this.casee.time2;
+        //     var amount = this.casee.amount;
+        //     var paidamount = this.casee.advamount;
+        //     var dueamount = parseFloat(amount)-parseFloat(paidamount);
+        //     var projectName = this.casee.typeofwork;
+        //     var pdf = new jsPDF('p', 'pt', 'A4');
+        //     pdf.text('ACKNOWLEDGEMENT', 250, 20);
+        //     pdf.setDrawColor(0,0,0);
+        //     pdf.line(40, 30, 570, 30);
+        //     pdf.setFontSize(9);
+        //     pdf.setFontType("bold");
+        //     pdf.text('Case ID:', 50, 45);
+        //     pdf.text(caseid, 120, 45);
+        //     pdf.text('Client Name:', 50, 60);
+        //     pdf.text(clientName, 120, 60);
+        //     pdf.text('Delivery Date:', 250, 45);
+        //     pdf.text(dd, 340, 45);
+        //     pdf.text('Amount:', 250, 60);
+        //     pdf.text(amount, 340, 60);
+        //     pdf.text('Paid Amount:', 400, 45);
+        //     pdf.text(paidamount.toString(), 500, 45);
+        //     pdf.text('Due Amount:', 400, 60);
+        //     pdf.text(dueamount.toString(), 500, 60);
+        //     pdf.text('Project Name: ',250,80);
+        //     pdf.text(projectName,320,80);
+        //     pdf.setDrawColor(0,0,0);
+        //     pdf.line(40, 90, 570, 90);
+        //     pdf.save(caseid+'.pdf');
+        // }
     }
 }
 </script>

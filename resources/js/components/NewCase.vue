@@ -19,28 +19,37 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Registered Case</strong>
-                    </div>
-                    <div class="card-body">
-                    <table class="table table-responsive">
-                        <thead>
-                            <tr>
-                            <th scope="col">#Case</th>
-                            <th scope="col">Types of Work</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">Contact No</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Delivery Date</th>
-                            <th scope="col">Assigned To</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Registered Case</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Individual</a>
+                                                <a class="nav-item nav-link active show" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Govt & all</a>
+
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                            <th scope="col">#Case</th>
+                                                            <th scope="col">Types of Work</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Client Name</th>
+                                                            <th scope="col">Contact No</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">Delivery Date</th>
+                                                            <th scope="col">Assigned To</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                     <tr v-for="item in cases" v-bind:key="item.id">
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.typeofwork }}</td>
@@ -89,7 +98,7 @@
                         </td>
                         <td>
                             <!-- <form action="/multiuploads" method="post" enctype="multipart/form-data"> -->
-                               <input type="file" name="docs" @change="processFile" required>
+                               <input type="file" name="docs" @change="processFile">
                             <!-- </form> -->
                         </td>
                     </tr>
@@ -138,12 +147,101 @@
         </div>
         </div>
                     </tr>
-                </tbody>
-            </table>
-                    </div>
+                                                    </tbody>
+                                            </table>
+                                             <!-- pagination -->
+
+                                            </div>
+                                            <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                           <th scope="col">#Case</th>
+                                                            <th scope="col">Types of Work</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Contact Person Name</th>
+                                                            <th scope="col">Organisation</th>
+                                                            <th scope="col">Department</th>
+                                                            <th scope="col">Delivery Date</th>
+                                                            <th scope="col">Assigned To</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="item in govtnall" v-bind:key="item.id">
+                                                             <td>{{ item.caseid }}</td>
+                                                            <td>{{ item.typeofwork }}</td>
+                                                            <td>{{ item.amount }}</td>
+                                                            <td>{{ item.contactPersonName }}</td>
+                                                            <td>{{ item.orgName }}</td>
+                                                            <td>{{ item.dept }}</td>
+                                                            <td>{{ item.time2 }}</td>
+
+                                                            <td><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                                                                    <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assign Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form @submit.prevent="sendToEmployee(item)">
+            <div class="modal-body" >
+                <table class="table table-hovered">
+                    <tr>
+                        <th>CaseID</th>
+                        <th>Client Name</th>
+                        <th>Amount</th>
+                        <th width="20%">Delivery Date</th>
+                        <th width="20%">Assign Employee</th>
+                        <th width="20%">Helper</th>
+                        <th>Upload Docs</th>
+                    </tr>
+                    <tr>
+                        <td id="caseid">{{ item.caseid }}</td>
+                        <td>{{ item.clientName }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.time2 }}</td>
+                        <td>
+                            <select class="form-control" name="employee_id" v-model="toEmployee.employee_id" required>
+                                <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                           <multiselect name="helper[]" v-model="toEmployee.helper" :options="optionsS" :multiple="true" deselectLabel="Remove" selectLabel="Select"></multiselect>
+                        </td>
+                        <td>
+                            <!-- <form action="/multiuploads" method="post" enctype="multipart/form-data"> -->
+                               <input type="file" name="docs" @change="processFile">
+                            <!-- </form> -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+            </form>
             </div>
         </div>
+        </div>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                             <!-- pagination -->
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
     </div>
 
@@ -161,6 +259,7 @@ export default {
             // custom lang
             lang: 'en',
             cases: [],
+            govtnall: [],
             assignedemployee:'',
             employees: [],
             casee: {
@@ -210,6 +309,7 @@ export default {
     created(){
         this.fetchCases();
         this.loadEmployee();
+        this.fetchGovtnAll();
         // this.fetchsendEmployees();
     },
     methods: {
@@ -238,6 +338,22 @@ export default {
                 prev_page_url: links.prev
             }
             this.pagination = pagination;
+        },
+        fetchGovtnAll(page_url){
+            const token = localStorage.getItem('token');
+            page_url = page_url || '/api/casesgovtnall?token=' +token;
+            let vm = this;
+            fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+                this.govtnall = res.data;
+            })
+                fetch("/api/fetchsendemployees?token="+token)
+                 .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    this.assignedemployee = res.data;
+            })
         },
     deleteCase(id){
         Swal.fire({

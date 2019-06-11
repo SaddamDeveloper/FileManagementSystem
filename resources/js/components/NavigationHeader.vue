@@ -84,7 +84,7 @@
             },
             logout(){
                 const token = localStorage.getItem('token');
-                fetch('/api/auth/logout?token=' +token, {
+                fetch('/api/auth/logout?token='+token, {
                     method: 'post',
                     headers: {
                     'content-type': 'application/json'

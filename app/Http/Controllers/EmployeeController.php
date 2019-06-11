@@ -23,6 +23,7 @@ use App\ToComplete;
 use App\byNeft;
 use App\byCheque;
 use Carbon\Carbon;
+use App\sendFileToAdmin;
 
 class EmployeeController extends Controller
 {
@@ -160,26 +161,31 @@ class EmployeeController extends Controller
 
         public function toDb(Request $request){
         //  //send to Db
-         $toDb = $request->isMethod('put') ? sendToEmployee::findOrFail
-        ($request->employee_id) : new sendToEmployee;
+         $toDb = $request->isMethod('put') ? sendFileToAdmin::findOrFail
+        ($request->docs) : new sendFileToAdmin;
 
          $exploded = explode(',', $request->docs);
          $decoded = base64_decode($exploded[1]);
 
         $fileName = $request->fileName;
 
-         $caseId = $request->input('caseid');
-         return $caseId;
-        // Storage::putFile('public/'.$caseId.'/'.$fileName, $decoded);
+        $caseId = $request->input('caseid');
+        $idCheck = sendFileToAdmin::where('caseid', '=', Input::get('caseid'))->first();
+        if ($idCheck === null) {
+            Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+        } else {
+            return response()->json(['message' => 'File is already uploaded'], 200);
+        }
 
-        // $toEmployee->caseid = $request->input('caseid');
-        // $toEmployee->assignedEmployee = $request->input('assignedEmployee');
-        // $toDb->docs = $fileName;
-        // $toEmployee->helper = implode(",", $request->input('helper'));
-
-        // if($toDb->save()){
-        //     return new EmployeeResource($toDb);
-        // }
+        $toDb->caseid = $request->input('caseid');
+        $toDb->remarks = $request->input('remarks');
+        $toDb->assignedEmployee = $request->input('assignedEmployee');
+        $toDb->docs = $fileName;
+        // $toDb->helper = implode(",", $request->input('helper'));
+        // return $caseId;
+        if($toDb->save()){
+            return new EmployeeResource($toDb);
+        }
 
     }
     public function toAdmin(Request $request){
@@ -252,12 +258,12 @@ class EmployeeController extends Controller
     }
 
     public function CompletedCase(){
-        $completedCase = DB::table('completedcase')
-            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
-            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table('approvedcase')
+            ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
-            ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
-            ->join('payment', 'completedcase.caseid', '=', 'payment.caseid')
+            ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
+            ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
@@ -622,7 +628,7 @@ class EmployeeController extends Controller
         $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount]);
         $data = $custom->merge($cash);
         return response()->json($data);
-        // $data = 
+        // $data =
 
         // $cheque = DB::table('completedcase')
         //         ->join('bycheque', 'completedcase.method', '=', 'bycheque.method')->get();
@@ -658,6 +664,11 @@ class EmployeeController extends Controller
     public function getInvoice(){
        $data = DB::table('approvedcase')->paginate(15);
        return $data;
+    }
+
+    public function fetchFiles(){
+        $data = DB::table('sendfiletoadmin')->paginate(15);
+        return $data;
     }
 
 }

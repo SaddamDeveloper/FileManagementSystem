@@ -55,7 +55,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="pushToDb(item.caseid)">
+                <form @submit.prevent="pushToDb(item)">
                 <div class="modal-body">
                     <table class="table table-bordered table-responsive">
                         <tr>
@@ -64,7 +64,7 @@
                         </tr>
                         <tr>
                             <td><input type="file" name="docs" @change="processFile"></td>
-                            <td><input type="text" value=""></td>
+                            <td><input type="text" name="remarks" v-model="remarks"></td>
                         </tr>
                     </table>
                 </div>
@@ -99,9 +99,11 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
+            remarks: '',
             toDb: {
                 docs: '',
-                remarks: ''
+                assignedEmployee: '',
+                remarks:''
             },
             toAdmin: {
                 caseid: '',
@@ -184,14 +186,31 @@ export default {
             this.toDb.fileName = e.target.files[0].name
         },
         pushToDb(id){
-            this.toDb.caseid = id;
-            fetch(`api/sendtodb`, {
-                method: 'post',
-                body: JSON.stringify(this.toDb),
-                    headers: {
-                'content-type': 'application/json'
+            this.toDb.caseid = id.caseid;
+            this.toDb.assignedEmployee = id.name;
+            this.toDb.remarks = this.remarks;
+            console.log(this.toDb.remarks)
+            const token = localStorage.getItem('token');
+            Swal.fire({
+            title: 'send file to Admin?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send it!'
+            }).then((result) => {
+                if(result.value){
+                     fetch(`api/sendtodb?token=`+token, {
+                        method: 'post',
+                        body: JSON.stringify(this.toDb),
+                            headers: {
+                        'content-type': 'application/json'
+                        }
+                    })
                 }
             })
+
         },
         sendToAdmin(id){
             this.toAdmin.caseid = id.caseid;

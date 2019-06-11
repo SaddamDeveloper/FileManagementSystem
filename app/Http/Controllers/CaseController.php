@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Input;
 use JWTAuth;
 use App\Test;
 use Tymon\JWTAuth\Facades\JWTAuth as TymonJWTAuth;
+use App\chequenrtgs;
 
 class CaseController extends Controller
 {
@@ -63,6 +64,14 @@ class CaseController extends Controller
         //  return CaseResource::collection($cases);
     }
 
+    public function casesgovtnall(){
+        $cases = DB::table('cases')
+            // ->join('client_detsails', 'cases.caseid', '=', 'client_details.caseid')
+            ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
+            ->paginate(15);
+        return $cases;
+    }
+
     public function govtnAll(){
          $cases2 = \App\ClientDetailsAnother::with('cases')
         ->join('cases', 'cases.caseid', '=', 'clientdetails2.caseid')
@@ -80,18 +89,19 @@ class CaseController extends Controller
     public function store(Request $request)
     {
         if($request->isMethod('put')){
-    //       $case = \App\ClientDetails::with('cases')
-    //    ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
-    //     ->findOrFail($request->id);
-    //     return $case;
+          $case = \App\ClientDetails::with('cases')
+        ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+        ->findOrFail($request->id);
+        return $case;
             // $case = Cases::findOrFail($request->caseid);
-          $cdetails = ClientDetails::findOrFail($request->id);
+        //   $cdetails = ClientDetails::findOrFail($request->id);
         }
         else{
             $case = new Cases;
             $cdetails = new ClientDetails;
             $cdetails2 = new ClientDetailsAnother;
             $amount = new Amount;
+            $chequenrtgs = new chequenrtgs;
         }
 
         //Generating CaseID
@@ -127,6 +137,7 @@ class CaseController extends Controller
             }
 
         $case->caseid = $caseid;
+        //individual
         if($request->input('clientType') == 2){
             $case->clientType = $request->input('clientType');
             $case->typeofwork = $request->input('typeofwork');
@@ -150,24 +161,38 @@ class CaseController extends Controller
             $amount->clientid = $clientidstatic;
             $amount->amount = $request->input('amount');
             $amount->advamount = $request->input('advamount');
+
             if($case->save() && $cdetails->save() && $amount->save()){
                 return new CaseResource($case);
                 return new ClientDetailsResource($cdetails);
                 return new AmountsResource($amount);
             }
         }
-        else{
+        //Govtnall
+        else if($request->input('clientType') == 3 || $request->input('clientType') == 4 || $request->input('clientType') == 5 ){
             $case->clientType = $request->input('clientType');
             $case->typeofwork = $request->input('typeofwork');
             $date = $request->input('time2');
-            $formatedDate = substr($date, 0,10);
+            $formatedDate = substr($date, 0, 10);
             $case->time2 = $formatedDate;
             $case->amount = $request->input('amount');
-            $case->paymentmode = $request->input('paymentmode');
-
+            $case->paymentmode = $request->input('selected');
+            if( $request->input('selected') == 2){
+                $amount->caseid = $caseid;
+                $amount->paymentmode = $request->input('selected');
+                $amount->clientid = $clientidstatic;
+                $amount->amount = $request->input('amount');
+                $amount->advamount = $request->input('advamount');
+            }
+            else if( $request->input('selected') == 3 || $request->input('selected') == 4){
+                $chequenrtgs->method = $request->input('rtgsNo');
+                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->bankname = $request->input('bankName');
+                $chequenrtgs->phoneno = $request->input('bankersPhone');
+            }
             $cdetails2->clientid = $clientidstatic;
             $cdetails2->contactPersonName = $request->input('clientPersonName');
-            $cdetails2->contactNo = $request->input('personContactNo');
+            $cdetails2->contactNo = $request->input('contactNo');
             $cdetails2->orgName = $request->input('orgName');
             $cdetails2->orgTel = $request->input('telNo');
             $cdetails2->dept = $request->input('dept');
@@ -175,16 +200,41 @@ class CaseController extends Controller
             $cdetails2->clientType = $request->input('clientType');
             $cdetails2->caseid = $caseid;
 
-            $amount->caseid = $caseid;
-            $amount->paymentmode = $request->input('selected');
-            $amount->clientid = $clientidstatic;
-            $amount->amount = $request->input('amount');
-            $amount->advamount = $request->input('advamount');
-           if($case->save() && $cdetails2->save() && $amount->save()){
-                return new CaseResource($case);
-                return new ClientDetailsResource($cdetails2);
-                return new AmountsResource($amount);
+            // if($request->input('selected') == 2){
+            //     $amount->caseid = $caseid;
+            //     $amount->paymentmode = $request->input('selected');
+            //     $amount->clientid = $clientidstatic;
+            //     $amount->amount = $request->input('amount');
+            //     $amount->advamount = $request->input('advamount');
+            // }
+            // else if( $request->input('selected') == 3){
+            //     $amount->caseid = $caseid;
+            //     $amount->paymentmode = $request->input('selected');
+            //     $amount->clientid = $clientidstatic;
+            //     $amount->chequeno = $request->input('chequeno');
+            //     $amount->bankname = $request->input('bankname');
+            //     $amount->phoneno = $request->input('phoneno');
+            // }
+            // else if ($request->input('selected') == 4) {
+
+            // }
+            if( $request->input('selected') == 2){
+                if ($case->save() && $cdetails2->save() && $amount->save()) {
+                    return new CaseResource($case);
+                    return new ClientDetailsResource($cdetails2);
+                    return new AmountsResource($amount);
+                }
             }
+            else{
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save()) {
+                    return new CaseResource($case);
+                    return new ClientDetailsResource($cdetails2);
+                }
+            }
+        }
+
+        else{
+            return "sorry prblem";
         }
     }
 
@@ -213,10 +263,11 @@ class CaseController extends Controller
     public function destroy($id)
     {
          //Delete Article
-        $case = Cases::findOrFail($id);
+        // $case = Cases::findOrFail($id);
+        $case = DB::table('cases')->where('caseid', $id);
 
         if($case->delete()){
-            return new CaseResource($case);
+            return '1';
         }
     }
 

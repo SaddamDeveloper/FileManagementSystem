@@ -353,6 +353,7 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.completedcases = res.data;
+                console.log(res.data)
                 vm.makePagination(res.meta, res.links);
             })
         },

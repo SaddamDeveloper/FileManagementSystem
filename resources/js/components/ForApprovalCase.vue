@@ -32,8 +32,8 @@
                                 <th scope="col">#Case</th>
                                 <th scope="col">Assigned Employee</th>
                                 <th scope="col">Helper</th>
-                                <th scope="col">Assigned Docs by Admin</th>
                                 <th scope="col">Final Docs By Employee</th>
+                                <th scope="col">Assigned Docs by Admin</th>
                                 <th scope="col">Remarks</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
@@ -43,9 +43,9 @@
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
-                            <td></td>
+                            <td> <a :href="'./storage/'+item.caseid+'/'+docs" download>{{ docs }}</a></td>
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                            <td></td>
+                            <td>{{ remarks }}</td>
                             <td><div class="alert alert-primary alert-sm">NA</div></td>
                             <td><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" :data-target="'#exampleModals'+item.caseid"><i class="fa fa-share-square-o"></i></button></td>
         <!-- Modal -->
@@ -134,6 +134,8 @@ export default {
             time3: '',
             // custom lang
             lang: 'en',
+            docs: '',
+            remarks: '',
             approvalcases: [],
             employees: [],
             toApproval: {
@@ -157,6 +159,7 @@ export default {
     created(){
         this.fetchCases();
         this.loadEmployee();
+        this.fetchFiles();
     },
     methods: {
         fetchCases(page_url){
@@ -297,6 +300,15 @@ export default {
                 jQuery('#exampleModal'+this.toApprovalAgain.caseid).modal('hide')
             })
             .catch(err => console.log(err));
+        },
+        fetchFiles(){
+            const token = localStorage.getItem('token');
+            fetch('api/fetchfiles?token='+token)
+            .then(res => res.json())
+            .then(res => {
+                this.docs = res.data[0].docs;
+                this.remarks = res.data[0].remarks;
+            });
         }
     }
 }

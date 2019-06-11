@@ -23,11 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //List cases
 Route::get('cases', ['uses' =>  'CaseController@index', 'middleware'=>'jwt']);
 
+Route::get( 'casesgovtnall', ['uses' =>  'CaseController@casesgovtnall', 'middleware'=>'jwt']);
+
 //Govt and All
 Route::get('govtnallcases', ['uses' => 'CaseController@govtnAll', 'middleware' => 'jwt']);
 
 //List single case
-Route::get('case/{id}', 'CaseController@show');
+// Route::get('case/{id}', 'CaseController@show');
 
 //Create new case
 // Route::post('case', 'CaseController@store');
@@ -38,10 +40,10 @@ Route::post('case', [
 ]);
 
 //Update case
-Route::put('case', 'CaseController@store');
+Route::put('case', ['uses' => 'CaseController@store', 'middleware' => 'jwt']);
 
 //Delete case
-Route::delete('case/{id}', [
+Route::delete('cases/{id}', [
     'uses'  =>  'CaseController@destroy',
     'middleware'    =>  'jwt'
 ]);
@@ -67,7 +69,7 @@ Route::delete('employee/{id}', 'EmployeeController@destroy');
 Route::post('sendemployee', ['uses' => 'EmployeeController@send', 'middleware' => 'jwt']);
 
 //send to db by employee
-Route::post('sendtodb', 'EmployeeController@toDb');
+Route::post('sendtodb', ['uses' => 'EmployeeController@toDb', 'middleware' => 'jwt']);
 
 //send to admin
 Route::post('sendtoadmin', ['uses' => 'EmployeeController@toAdmin', 'middleware' => 'jwt']);
@@ -185,6 +187,7 @@ Route::get('fetchcollectionregister', ['uses' => 'EmployeeController@fetchCollec
 
 Route::get( 'invoice', ['uses' => 'EmployeeController@getInvoice', 'middleware' => 'jwt']);
 
+Route::get( 'fetchfiles', ['uses' => 'EmployeeController@fetchFiles', 'middleware' => 'jwt']);
 
 
 
