@@ -115,6 +115,7 @@ export default {
     },
     created(){
         this.fetchCases();
+        this.status();
         // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
@@ -269,6 +270,14 @@ export default {
                     )
                 });
                 }
+            })
+        },
+          status(){
+            const token = localStorage.getItem('token');
+            fetch('api/status?token='+token)
+            .then(res => res.json())
+            .then((res) => {
+                console.log(res)
             })
         }
     }

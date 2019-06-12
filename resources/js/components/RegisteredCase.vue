@@ -608,6 +608,7 @@ export default {
         this.fetchCases();
         this.showCaseId();
         this.govtnAll();
+        this.status();
     },
     computed: {
         filterClientbyId: function(){
@@ -739,6 +740,36 @@ export default {
                     )
                 this.fetchCases();
                 this.showCaseId();
+            var clientName = this.casee.clientName;
+            var caseid = this.casee.caseid;
+            var dd = this.casee.time2;
+            var amount = this.casee.amount;
+            var paidamount = this.casee.advamount;
+            var dueamount = parseFloat(amount)-parseFloat(paidamount);
+            var projectName = this.casee.typeofwork;
+            var pdf = new jsPDF('p', 'pt', 'A4');
+            pdf.text('ACKNOWLEDGEMENT', 250, 20);
+            pdf.setDrawColor(0,0,0);
+            pdf.line(40, 30, 570, 30);
+            pdf.setFontSize(9);
+            pdf.setFontType("bold");
+            pdf.text('Case ID:', 50, 45);
+            pdf.text(caseid, 120, 45);
+            pdf.text('Client Name:', 50, 60);
+            pdf.text(clientName, 120, 60);
+            pdf.text('Delivery Date:', 250, 45);
+            pdf.text(dd, 340, 45);
+            pdf.text('Amount:', 250, 60);
+            pdf.text(amount, 340, 60);
+            pdf.text('Paid Amount:', 400, 45);
+            pdf.text(paidamount.toString(), 500, 45);
+            pdf.text('Due Amount:', 400, 60);
+            pdf.text(dueamount.toString(), 500, 60);
+            pdf.text('Project Name: ',250,80);
+            pdf.text(projectName,320,80);
+            pdf.setDrawColor(0,0,0);
+            pdf.line(40, 90, 570, 90);
+            pdf.save(caseid+'.pdf');
             })
             .catch(err => console.log(err));
         }
@@ -848,6 +879,14 @@ export default {
                     this.casee.caseid = data;
                 })
         },
+        status(){
+            const token = localStorage.getItem('token');
+            fetch('api/status?token='+token)
+            .then(res => res.json())
+            .then((res) => {
+                console.log(res)
+            })
+        }
         // generatePdf(){
         //     var clientName = this.casee.clientName;
         //     var caseid = this.casee.caseid;

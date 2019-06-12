@@ -3603,6 +3603,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6180,6 +6217,10 @@ __webpack_require__.r(__webpack_exports__);
       govtnall: [],
       assignedemployee: '',
       employees: [],
+      users: {
+        email: '',
+        selected: ''
+      },
       casee: {
         caseid: '',
         clientType: '',
@@ -6243,7 +6284,8 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.fetchCases();
     this.loadEmployee();
-    this.fetchGovtnAll(); // this.fetchsendEmployees();
+    this.fetchGovtnAll();
+    this.fetchUser(); // this.fetchsendEmployees();
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -6400,6 +6442,21 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    fetchUser: function fetchUser() {
+      var _this8 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('/api/auth/me?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this8.users.email = data.email;
+        _this8.users.selected = data.selected;
+
+        if (data.error == "Token is expired") {
+          window.location.href = '/';
+        }
+      });
     }
   }
 });
@@ -6530,7 +6587,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.fetchCases(); // this.loadEmployee();
+    this.fetchCases();
+    this.status(); // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
   },
@@ -6670,6 +6728,14 @@ __webpack_require__.r(__webpack_exports__);
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
         }
+      });
+    },
+    status: function status() {
+      var token = localStorage.getItem('token');
+      fetch('api/status?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
       });
     }
   }
@@ -7316,6 +7382,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.fetchCases();
     this.showCaseId();
     this.govtnAll();
+    this.status();
   },
   computed: {
     filterClientbyId: function filterClientbyId() {
@@ -7441,6 +7508,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this4.fetchCases();
 
           _this4.showCaseId();
+
+          var clientName = _this4.casee.clientName;
+          var caseid = _this4.casee.caseid;
+          var dd = _this4.casee.time2;
+          var amount = _this4.casee.amount;
+          var paidamount = _this4.casee.advamount;
+          var dueamount = parseFloat(amount) - parseFloat(paidamount);
+          var projectName = _this4.casee.typeofwork;
+          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
+          pdf.text('ACKNOWLEDGEMENT', 250, 20);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 30, 570, 30);
+          pdf.setFontSize(9);
+          pdf.setFontType("bold");
+          pdf.text('Case ID:', 50, 45);
+          pdf.text(caseid, 120, 45);
+          pdf.text('Client Name:', 50, 60);
+          pdf.text(clientName, 120, 60);
+          pdf.text('Delivery Date:', 250, 45);
+          pdf.text(dd, 340, 45);
+          pdf.text('Amount:', 250, 60);
+          pdf.text(amount, 340, 60);
+          pdf.text('Paid Amount:', 400, 45);
+          pdf.text(paidamount.toString(), 500, 45);
+          pdf.text('Due Amount:', 400, 60);
+          pdf.text(dueamount.toString(), 500, 60);
+          pdf.text('Project Name: ', 250, 80);
+          pdf.text(projectName, 320, 80);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 90, 570, 90);
+          pdf.save(caseid + '.pdf');
         }).catch(function (err) {
           return console.log(err);
         });
@@ -7565,7 +7663,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (data) {
         _this7.casee.caseid = data;
       });
-    }
+    },
+    status: function status() {
+      var token = localStorage.getItem('token');
+      fetch('api/status?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
+      });
+    } // generatePdf(){
+    //     var clientName = this.casee.clientName;
+    //     var caseid = this.casee.caseid;
+    //     var dd = this.casee.time2;
+    //     var amount = this.casee.amount;
+    //     var paidamount = this.casee.advamount;
+    //     var dueamount = parseFloat(amount)-parseFloat(paidamount);
+    //     var projectName = this.casee.typeofwork;
+    //     var pdf = new jsPDF('p', 'pt', 'A4');
+    //     pdf.text('ACKNOWLEDGEMENT', 250, 20);
+    //     pdf.setDrawColor(0,0,0);
+    //     pdf.line(40, 30, 570, 30);
+    //     pdf.setFontSize(9);
+    //     pdf.setFontType("bold");
+    //     pdf.text('Case ID:', 50, 45);
+    //     pdf.text(caseid, 120, 45);
+    //     pdf.text('Client Name:', 50, 60);
+    //     pdf.text(clientName, 120, 60);
+    //     pdf.text('Delivery Date:', 250, 45);
+    //     pdf.text(dd, 340, 45);
+    //     pdf.text('Amount:', 250, 60);
+    //     pdf.text(amount, 340, 60);
+    //     pdf.text('Paid Amount:', 400, 45);
+    //     pdf.text(paidamount.toString(), 500, 45);
+    //     pdf.text('Due Amount:', 400, 60);
+    //     pdf.text(dueamount.toString(), 500, 60);
+    //     pdf.text('Project Name: ',250,80);
+    //     pdf.text(projectName,320,80);
+    //     pdf.setDrawColor(0,0,0);
+    //     pdf.line(40, 90, 570, 90);
+    //     pdf.save(caseid+'.pdf');
+    // }
+
   }
 });
 
@@ -55830,7 +55968,7 @@ var render = function() {
       _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("table", { staticClass: "table" }, [
+        _c("table", { staticClass: "table table-bordered " }, [
           _vm._m(2),
           _vm._v(" "),
           _c(
@@ -55865,287 +56003,371 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v("\n                        Today's Total Collection: "),
-              _c("b", [_vm._v(_vm._s(_vm.todaystotalAmount))])
-            ]),
+          _c("div", { staticClass: "col-md-6 alert alert-success" }, [
+            _c("hr"),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v("\n                        Today's Total GST: "),
-              _c("b", [_vm._v(_vm._s(_vm.todaysgstAmount))])
+            _c("h3", { staticClass: "text-center" }, [
+              _vm._v("Collection Report")
             ]),
+            _c("hr"),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v(
-                "\n                        Today's Total Collection By Cash: "
-              ),
-              _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCash))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v(
-                "\n                        Today's Total Collection By Cheque: "
-              ),
-              _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCheque))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v(
-                "\n                        Today's Total Collection By NEFT/RTGS: "
-              ),
-              _c("b", [_vm._v(" " + _vm._s(_vm.TodaysTotalAmountByRtgs) + " ")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v("\n                        Over All Total Collection: "),
-              _c("b", [_vm._v(_vm._s(_vm.OveralltotalAmount))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _vm._v("\n                        Over All GST Collection: "),
-              _c("b", [_vm._v(_vm._s(_vm.OverallgstAmount))])
+            _c("table", [
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                Today's Total Collection:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaystotalAmount))])])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                Today's Total GST:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaysgstAmount))])])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                Today's Total Collection By Cash:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCash))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                Today's Total Collection By Cheque:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCheque))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                 Today's Total Collection By NEFT/RTGS:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("b", [
+                    _vm._v(" " + _vm._s(_vm.TodaysTotalAmountByRtgs) + " ")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                 Over All Total Collection:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.OveralltotalAmount))])])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                 Over All GST Collection:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.OverallgstAmount))])])
+              ])
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-2" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        2000 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.twothousand,
-                    expression: "twothousand"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.twothousand },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+          _c("div", { staticClass: "col-md-6 alert alert-warning" }, [
+            _c("hr"),
+            _vm._v(" "),
+            _c("h3", { staticClass: "text-center" }, [
+              _vm._v("Denomination Check")
+            ]),
+            _c("hr"),
+            _vm._v(" "),
+            _c("table", [
+              _c("tr", [
+                _c("td", [_vm._v("2000 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.twothousand,
+                        expression: "twothousand"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.twothousand },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.twothousand = $event.target.value
+                      }
                     }
-                    _vm.twothousand = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [
-                _vm._v("= " + _vm._s((_vm.t1 = _vm.twothousand * 2000)))
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [
+                    _vm._v("= " + _vm._s((_vm.t1 = _vm.twothousand * 2000)))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("500 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.fivehundred,
+                        expression: "fivehundred"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.fivehundred },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.fivehundred = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [
+                    _vm._v(
+                      "= " + _vm._s((_vm.t2 = _vm.fivehundred * 500)) + " "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("200 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.twohundred,
+                        expression: "twohundred"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.twohundred },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.twohundred = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [
+                    _vm._v("= " + _vm._s((_vm.t3 = _vm.twohundred * 200)))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("100 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.onehundred,
+                        expression: "onehundred"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.onehundred },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.onehundred = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [
+                    _vm._v("= " + _vm._s((_vm.t4 = _vm.onehundred * 100)) + " ")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("50 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.fifty,
+                        expression: "fifty"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.fifty },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.fifty = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [_vm._v("= " + _vm._s((_vm.t5 = _vm.fifty * 50)))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("20 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.twenty,
+                        expression: "twenty"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.twenty },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.twenty = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [
+                    _vm._v("= " + _vm._s((_vm.t6 = _vm.twenty * 20)))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("10 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.ten,
+                        expression: "ten"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.ten },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.ten = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [_vm._v("= " + _vm._s((_vm.t7 = _vm.ten * 10)))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("5 X")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.five,
+                        expression: "five"
+                      }
+                    ],
+                    staticClass: "form-control col-md-6",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.five },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.five = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", [_vm._v("= " + _vm._s((_vm.t8 = _vm.five * 5)))])
+                ])
               ])
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        500 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.fivehundred,
-                    expression: "fivehundred"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.fivehundred },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.fivehundred = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [
-                _vm._v("= " + _vm._s((_vm.t2 = _vm.fivehundred * 500)) + " ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        200 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.twohundred,
-                    expression: "twohundred"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.twohundred },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.twohundred = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [
-                _vm._v("= " + _vm._s((_vm.t3 = _vm.twohundred * 200)))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        100 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.onehundred,
-                    expression: "onehundred"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.onehundred },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.onehundred = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [
-                _vm._v("= " + _vm._s((_vm.t4 = _vm.onehundred * 100)) + " ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        50 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.fifty,
-                    expression: "fifty"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.fifty },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.fifty = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [_vm._v("= " + _vm._s((_vm.t5 = _vm.fifty * 50)))])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        20 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.twenty,
-                    expression: "twenty"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.twenty },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.twenty = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [_vm._v("= " + _vm._s((_vm.t6 = _vm.twenty * 20)))])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        10 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.ten,
-                    expression: "ten"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.ten },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.ten = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [_vm._v("= " + _vm._s((_vm.t7 = _vm.ten * 10)))])
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-inline" }, [
-              _vm._v("\n                        5 X   "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.five,
-                    expression: "five"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.five },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.five = $event.target.value
-                  }
-                }
-              }),
-              _vm._v("  "),
-              _c("span", [_vm._v("= " + _vm._s((_vm.t8 = _vm.five * 5)))])
             ]),
             _vm._v(" "),
             _c("hr"),
@@ -59975,13 +60197,19 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c("a", { staticClass: "navbar-brand", attrs: { href: "/dashboard" } }, [
-        _c("img", { attrs: { src: "", alt: "Logo" } })
+        _c("img", {
+          attrs: { src: "sufeeadmin/images/logo4.png", alt: "Logo" }
+        })
       ]),
       _vm._v(" "),
       _c(
         "a",
         { staticClass: "navbar-brand hidden", attrs: { href: "/dashboard" } },
-        [_c("img", { attrs: { src: "", alt: "Logo" } })]
+        [
+          _c("img", {
+            attrs: { src: "sufeeadmin/images/logo2.png", alt: "Logo" }
+          })
+        ]
       )
     ])
   }
@@ -60266,7 +60494,7 @@ var staticRenderFns = [
       [
         _c("img", {
           staticClass: "user-avatar rounded-circle",
-          attrs: { src: "public/sufeeadmin/assets/images/1.png", alt: "User" }
+          attrs: { src: "sufeeadmin/images/user.png" }
         })
       ]
     )
@@ -60376,7 +60604,47 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(3),
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("#Case")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Types of Work")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Amount")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Client Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Contact No")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Email")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Delivery Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Assigned To")
+                          ]),
+                          _vm._v(" "),
+                          _vm.users.selected == 1
+                            ? _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Action")
+                              ])
+                            : _vm._e()
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -60419,49 +60687,51 @@ var render = function() {
                               0
                             ),
                             _vm._v(" "),
-                            _c("td", [
-                              _c("div", { staticClass: "btn btn-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success btn-sm",
-                                    attrs: {
-                                      type: "button",
-                                      "data-toggle": "modal",
-                                      "data-target":
-                                        "#exampleModal" + item.caseid
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-plus" })]
-                                ),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-primary btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editCase(item)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-edit" })]
-                                ),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.deleteCase(item.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              ])
-                            ]),
+                            _vm.users.selected == 1
+                              ? _c("td", [
+                                  _c("div", { staticClass: "btn btn-group" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success btn-sm",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal",
+                                          "data-target":
+                                            "#exampleModal" + item.caseid
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-plus" })]
+                                    ),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editCase(item)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-edit" })]
+                                    ),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteCase(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  ])
+                                ])
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -60487,7 +60757,7 @@ var render = function() {
                                       "div",
                                       { staticClass: "modal-content" },
                                       [
-                                        _vm._m(4, true),
+                                        _vm._m(3, true),
                                         _vm._v(" "),
                                         _c(
                                           "form",
@@ -60511,7 +60781,7 @@ var render = function() {
                                                       "table table-hovered"
                                                   },
                                                   [
-                                                    _vm._m(5, true),
+                                                    _vm._m(4, true),
                                                     _vm._v(" "),
                                                     _c("tr", [
                                                       _c(
@@ -60687,7 +60957,7 @@ var render = function() {
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _vm._m(6, true)
+                                            _vm._m(5, true)
                                           ]
                                         )
                                       ]
@@ -60721,7 +60991,7 @@ var render = function() {
                                       "div",
                                       { staticClass: "modal-content" },
                                       [
-                                        _vm._m(7, true),
+                                        _vm._m(6, true),
                                         _vm._v(" "),
                                         _c(
                                           "form",
@@ -60745,7 +61015,7 @@ var render = function() {
                                                       "table table-hovered"
                                                   },
                                                   [
-                                                    _vm._m(8, true),
+                                                    _vm._m(7, true),
                                                     _vm._v(" "),
                                                     _c("tr", [
                                                       _c("td", [
@@ -60838,7 +61108,7 @@ var render = function() {
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _vm._m(9, true)
+                                            _vm._m(8, true)
                                           ]
                                         )
                                       ]
@@ -60867,7 +61137,47 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(10),
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("#Case")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Types of Work")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Amount")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Contact Person Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Organisation")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Department")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Delivery Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("th", { attrs: { scope: "col" } }, [
+                            _vm._v("Assigned To")
+                          ]),
+                          _vm._v(" "),
+                          _vm.users.selected == 1
+                            ? _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Action")
+                              ])
+                            : _vm._e()
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -60887,49 +61197,53 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(item.time2))]),
                             _vm._v(" "),
-                            _c("td", [
-                              _c("div", { staticClass: "btn btn-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success btn-sm",
-                                    attrs: {
-                                      type: "button",
-                                      "data-toggle": "modal",
-                                      "data-target":
-                                        "#exampleModal" + item.caseid
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-plus" })]
-                                ),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-primary btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editCase(item)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-edit" })]
-                                ),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.deleteCase(item.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              ])
-                            ]),
+                            _c("td"),
+                            _vm._v(" "),
+                            _vm.users.selected == 1
+                              ? _c("td", [
+                                  _c("div", { staticClass: "btn btn-group" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success btn-sm",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal",
+                                          "data-target":
+                                            "#exampleModal" + item.caseid
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-plus" })]
+                                    ),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editCase(item)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-edit" })]
+                                    ),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteCase(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  ])
+                                ])
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -60955,7 +61269,7 @@ var render = function() {
                                       "div",
                                       { staticClass: "modal-content" },
                                       [
-                                        _vm._m(11, true),
+                                        _vm._m(9, true),
                                         _vm._v(" "),
                                         _c(
                                           "form",
@@ -60979,7 +61293,7 @@ var render = function() {
                                                       "table table-hovered"
                                                   },
                                                   [
-                                                    _vm._m(12, true),
+                                                    _vm._m(10, true),
                                                     _vm._v(" "),
                                                     _c("tr", [
                                                       _c(
@@ -61155,7 +61469,7 @@ var render = function() {
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _vm._m(13, true)
+                                            _vm._m(11, true)
                                           ]
                                         )
                                       ]
@@ -61261,32 +61575,6 @@ var staticRenderFns = [
           )
         ]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Types of Work")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Client Name")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact No")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned To")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
-      ])
     ])
   },
   function() {
@@ -61405,32 +61693,6 @@ var staticRenderFns = [
         },
         [_vm._v("Close")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Types of Work")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact Person Name")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Organisation")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Department")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned To")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
-      ])
     ])
   },
   function() {

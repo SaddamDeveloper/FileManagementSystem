@@ -156,16 +156,40 @@ class CaseController extends Controller
             $cdetails->clientType = $request->input('clientType');
             $cdetails->caseid = $caseid;
 
-            $amount->caseid = $caseid;
-            $amount->paymentmode = $request->input('selected');
-            $amount->clientid = $clientidstatic;
-            $amount->amount = $request->input('amount');
-            $amount->advamount = $request->input('advamount');
+            if ($request->input('selected') == 2) {
+                $amount->caseid = $caseid;
+                $amount->paymentmode = $request->input('selected');
+                $amount->clientid = $clientidstatic;
+                $amount->amount = $request->input('amount');
+                $amount->advamount = $request->input('advamount');
+            } else if ($request->input('selected') == 3 || $request->input('selected') == 4) {
+                $chequenrtgs->method = $request->input('rtgsNo');
+                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->bankname = $request->input('bankName');
+                $chequenrtgs->phoneno = $request->input('bankersPhone');
+            }
+            // $amount->caseid = $caseid;
+            // $amount->paymentmode = $request->input('selected');
+            // $amount->clientid = $clientidstatic;
+            // $amount->amount = $request->input('amount');
+            // $amount->advamount = $request->input('advamount');
 
-            if($case->save() && $cdetails->save() && $amount->save()){
+            // if($case->save() && $cdetails->save() && $amount->save()){
+            //     return new CaseResource($case);
+            //     return new ClientDetailsResource($cdetails);
+            //     return new AmountsResource($amount);
+            // }
+            if ($request->input('selected') == 2) {
+                if ($case->save() && $cdetails->save() && $amount->save()) {
                 return new CaseResource($case);
                 return new ClientDetailsResource($cdetails);
                 return new AmountsResource($amount);
+            }
+            } else if ($request->input('selected') == 3 || $request->input('selected') == 4) {
+                if ($case->save() && $cdetails->save() && $chequenrtgs->save()) {
+                    return new CaseResource($case);
+                    return new ClientDetailsResource($cdetails);
+                }
             }
         }
         //Govtnall
@@ -226,7 +250,7 @@ class CaseController extends Controller
                     return new AmountsResource($amount);
                 }
             }
-            else{
+            else if( $request->input('selected') == 3 || $request->input('selected') == 4){
                 if ($case->save() && $cdetails2->save() && $chequenrtgs->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
@@ -309,4 +333,6 @@ class CaseController extends Controller
         $test->save();
         return response()->json(['content'  =>  $test, 'user'   =>  $user]);
     }
+
+
 }

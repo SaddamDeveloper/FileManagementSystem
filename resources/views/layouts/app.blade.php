@@ -29,11 +29,11 @@
     <div id="app">
         @yield('content')
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="{{ asset('/js/jquery-3.4.1.js') }}"></script>
     <script src="{{ asset('/js/app.js') }}"></script>
     <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
-    <script src="{{ asset('js/example.js') }}"></script>
-    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    {{--  <script src="{{ asset('js/example.js') }}"></script>  --}}
+    {{--  <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>  --}}
 </body>
 
 </html>

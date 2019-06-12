@@ -20,7 +20,7 @@
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="public/sufeeadmin/assets/images/1.png" alt="User">
+                            <img class="user-avatar rounded-circle" src="sufeeadmin/images/user.png">
                         </a>
 
                         <div class="user-menu dropdown-menu">

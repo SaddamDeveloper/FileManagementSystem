@@ -46,7 +46,7 @@
                                                             <th scope="col">Email</th>
                                                             <th scope="col">Delivery Date</th>
                                                             <th scope="col">Assigned To</th>
-                                                            <th scope="col">Action</th>
+                                                            <th scope="col" v-if="users.selected == 1">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -59,7 +59,7 @@
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
                         <td><div class="alert alert-danger" v-for="emp in assignedemployee" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
-                        <td><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                        <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -164,7 +164,7 @@
                                                             <th scope="col">Department</th>
                                                             <th scope="col">Delivery Date</th>
                                                             <th scope="col">Assigned To</th>
-                                                            <th scope="col">Action</th>
+                                                            <th scope="col" v-if="users.selected == 1">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -176,8 +176,8 @@
                                                             <td>{{ item.orgName }}</td>
                                                             <td>{{ item.dept }}</td>
                                                             <td>{{ item.time2 }}</td>
-
-                                                            <td><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                                                            <td></td>
+                                                            <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                                                     <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -262,6 +262,10 @@ export default {
             govtnall: [],
             assignedemployee:'',
             employees: [],
+            users: {
+                email: '',
+                selected: ''
+            },
             casee: {
                 caseid: '',
                 clientType: '',
@@ -310,6 +314,7 @@ export default {
         this.fetchCases();
         this.loadEmployee();
         this.fetchGovtnAll();
+        this.fetchUser();
         // this.fetchsendEmployees();
     },
     methods: {
@@ -474,6 +479,18 @@ export default {
                 });
                 }
             })
+        },
+        fetchUser(){
+        const token = localStorage.getItem('token');
+        fetch('/api/auth/me?token=' +token)
+                .then(res=>res.json())
+                .then(data => {
+                    this.users.email = data.email;
+                    this.users.selected = data.selected;
+                    if(data.error == "Token is expired"){
+                        window.location.href = '/';
+                    }
+                })
         }
     }
 }

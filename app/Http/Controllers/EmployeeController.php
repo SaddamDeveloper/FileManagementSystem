@@ -675,4 +675,9 @@ class EmployeeController extends Controller
         return $data;
     }
 
+    public function status(){
+        $data = DB::table('toadmin')->paginate(15);
+        return $data;
+    }
+
 }
