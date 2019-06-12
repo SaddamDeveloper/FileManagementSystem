@@ -176,9 +176,9 @@
                                                             <td>{{ item.orgName }}</td>
                                                             <td>{{ item.dept }}</td>
                                                             <td>{{ item.time2 }}</td>
-                                                            <td></td>
+                                                            <td><div class="alert alert-danger" v-for="emp in assignedemployee" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
                                                             <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
-                                                                    <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -217,6 +217,40 @@
                             <!-- <form action="/multiuploads" method="post" enctype="multipart/form-data"> -->
                                <input type="file" name="docs" @change="processFile">
                             <!-- </form> -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" :id="'exampleModalss'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Re Assign Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form @submit.prevent="reassign(item)">
+            <div class="modal-body" >
+                <table class="table table-hovered">
+                    <tr>
+                        <th>Re Assign Employee</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="employee_id" v-model="reAssign.employee_id">
+                                <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
+                            </select>
                         </td>
                     </tr>
                 </table>

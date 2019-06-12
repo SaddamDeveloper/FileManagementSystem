@@ -6203,6 +6203,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6587,8 +6621,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.fetchCases();
-    this.status(); // this.loadEmployee();
+    this.fetchCases(); // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
   },
@@ -6715,6 +6748,11 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function (res) {
             return res.json();
           }).then(function (res) {
+            // fetch('api/status?token='+token)
+            // .then(res => res.json())
+            // .then((res) => {
+            //     console.log(res)
+            // })
             if (res.message == 0) {
               Swal.fire('Sent!', 'Your file has been sent.', 'success');
             } else if (res.message == 1) {
@@ -6728,14 +6766,6 @@ __webpack_require__.r(__webpack_exports__);
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
         }
-      });
-    },
-    status: function status() {
-      var token = localStorage.getItem('token');
-      fetch('api/status?token=' + token).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        console.log(res);
       });
     }
   }
@@ -61197,7 +61227,28 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(item.time2))]),
                             _vm._v(" "),
-                            _c("td"),
+                            _c(
+                              "td",
+                              _vm._l(_vm.assignedemployee, function(emp) {
+                                return item.caseid == emp.caseid
+                                  ? _c(
+                                      "div",
+                                      {
+                                        key: emp.id,
+                                        staticClass: "alert alert-danger",
+                                        attrs: {
+                                          value: emp.employee_id,
+                                          "data-toggle": "modal",
+                                          "data-target":
+                                            "#exampleModalss" + item.caseid
+                                        }
+                                      },
+                                      [_vm._v(_vm._s(emp.name))]
+                                    )
+                                  : _vm._e()
+                              }),
+                              0
+                            ),
                             _vm._v(" "),
                             _vm.users.selected == 1
                               ? _c("td", [
@@ -61477,6 +61528,157 @@ var render = function() {
                                   ]
                                 )
                               ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal fade",
+                                attrs: {
+                                  id: "exampleModalss" + item.caseid,
+                                  tabindex: "-1",
+                                  role: "dialog",
+                                  "aria-labelledby": "exampleModalLabel",
+                                  "aria-hidden": "true"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "modal-dialog modal-md",
+                                    attrs: { role: "document" }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "modal-content" },
+                                      [
+                                        _vm._m(12, true),
+                                        _vm._v(" "),
+                                        _c(
+                                          "form",
+                                          {
+                                            on: {
+                                              submit: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.reassign(item)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-body" },
+                                              [
+                                                _c(
+                                                  "table",
+                                                  {
+                                                    staticClass:
+                                                      "table table-hovered"
+                                                  },
+                                                  [
+                                                    _vm._m(13, true),
+                                                    _vm._v(" "),
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _c(
+                                                          "select",
+                                                          {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  _vm.reAssign
+                                                                    .employee_id,
+                                                                expression:
+                                                                  "reAssign.employee_id"
+                                                              }
+                                                            ],
+                                                            staticClass:
+                                                              "form-control",
+                                                            attrs: {
+                                                              name:
+                                                                "employee_id"
+                                                            },
+                                                            on: {
+                                                              change: function(
+                                                                $event
+                                                              ) {
+                                                                var $$selectedVal = Array.prototype.filter
+                                                                  .call(
+                                                                    $event
+                                                                      .target
+                                                                      .options,
+                                                                    function(
+                                                                      o
+                                                                    ) {
+                                                                      return o.selected
+                                                                    }
+                                                                  )
+                                                                  .map(function(
+                                                                    o
+                                                                  ) {
+                                                                    var val =
+                                                                      "_value" in
+                                                                      o
+                                                                        ? o._value
+                                                                        : o.value
+                                                                    return val
+                                                                  })
+                                                                _vm.$set(
+                                                                  _vm.reAssign,
+                                                                  "employee_id",
+                                                                  $event.target
+                                                                    .multiple
+                                                                    ? $$selectedVal
+                                                                    : $$selectedVal[0]
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          _vm._l(
+                                                            _vm.employees,
+                                                            function(employee) {
+                                                              return _c(
+                                                                "option",
+                                                                {
+                                                                  key:
+                                                                    employee.id,
+                                                                  domProps: {
+                                                                    value:
+                                                                      employee.employee_id
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      employee.name
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          0
+                                                        )
+                                                      ])
+                                                    ])
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._m(14, true)
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
                             )
                           ])
                         }),
@@ -61739,6 +61941,58 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Upload Docs")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Send")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Re Assign Employee")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Re Assign Employee")])])
   },
   function() {
     var _vm = this

@@ -189,7 +189,7 @@ Route::get( 'invoice', ['uses' => 'EmployeeController@getInvoice', 'middleware' 
 
 Route::get( 'fetchfiles', ['uses' => 'EmployeeController@fetchFiles', 'middleware' => 'jwt']);
 
-Route::get( 'status/{id}', ['uses' => 'EmployeeController@status', 'middleware' => 'jwt']);
+Route::get( 'status', ['uses' => 'EmployeeController@status', 'middleware' => 'jwt']);
 
 
 
