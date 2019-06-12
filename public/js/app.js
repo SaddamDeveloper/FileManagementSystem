@@ -3568,6 +3568,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3575,6 +3610,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      twothousand: '',
+      fivehundred: '',
+      twohundred: '',
+      onehundred: '',
+      fifty: '',
+      twenty: '',
+      ten: '',
+      five: '',
       collectionregister: [],
       OveralltotalAmount: '',
       OverallgstAmount: '',
@@ -4209,10 +4252,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      approvedcase: '',
+      billedcase: '',
       NewRegistered: '',
+      rejectedcase: '',
       waitingforapprove: '',
       assignedcase: '',
       completedcase: '',
@@ -4251,6 +4298,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.waitingforapprove = res.waitingforapprove;
         _this.assignedcase = res.assignedcase;
         _this.completedcase = res.completedcase;
+        _this.approvedcase = res.approvedCase;
+        _this.billedcase = res.billedcase;
+        _this.rejectedcase = res.rejectedcase;
       });
     },
     loadEmployeeCounter: function loadEmployeeCounter() {
@@ -7783,6 +7833,7 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this2.rejectedCaseEmployee = res.data;
+        console.log(res.data);
       });
     },
     deleteCase: function deleteCase(id) {
@@ -55859,18 +55910,276 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-2" }),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "pull-right" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", on: { click: _vm.print } },
-              [_vm._v("Print")]
-            )
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        2000 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.twothousand,
+                    expression: "twothousand"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.twothousand },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.twothousand = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [
+                _vm._v("= " + _vm._s((_vm.t1 = _vm.twothousand * 2000)))
+              ])
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        500 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.fivehundred,
+                    expression: "fivehundred"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.fivehundred },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.fivehundred = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [
+                _vm._v("= " + _vm._s((_vm.t2 = _vm.fivehundred * 500)) + " ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        200 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.twohundred,
+                    expression: "twohundred"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.twohundred },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.twohundred = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [
+                _vm._v("= " + _vm._s((_vm.t3 = _vm.twohundred * 200)))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        100 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.onehundred,
+                    expression: "onehundred"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.onehundred },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.onehundred = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [
+                _vm._v("= " + _vm._s((_vm.t4 = _vm.onehundred * 100)) + " ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        50 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.fifty,
+                    expression: "fifty"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.fifty },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.fifty = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [_vm._v("= " + _vm._s((_vm.t5 = _vm.fifty * 50)))])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        20 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.twenty,
+                    expression: "twenty"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.twenty },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.twenty = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [_vm._v("= " + _vm._s((_vm.t6 = _vm.twenty * 20)))])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        10 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.ten,
+                    expression: "ten"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.ten },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.ten = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [_vm._v("= " + _vm._s((_vm.t7 = _vm.ten * 10)))])
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _vm._v("\n                        5 X   "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.five,
+                    expression: "five"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: _vm.five },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.five = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("  "),
+              _c("span", [_vm._v("= " + _vm._s((_vm.t8 = _vm.five * 5)))])
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline" }, [
+              _c("b", [
+                _vm._v(
+                  "Grand Total: " +
+                    _vm._s(
+                      _vm.t1 +
+                        _vm.t2 +
+                        _vm.t3 +
+                        _vm.t4 +
+                        _vm.t5 +
+                        _vm.t6 +
+                        _vm.t7 +
+                        _vm.t8
+                    )
+                )
+              ])
+            ])
           ])
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-success btn-sm", on: { click: _vm.print } },
+          [
+            _c("i", { staticClass: "fa fa-dot-circle-o" }),
+            _vm._v(" Print\n                    ")
+          ]
+        )
       ])
     ])
   ])
@@ -56668,11 +56977,11 @@ var render = function() {
               _c("h4", { staticClass: "mb-0" }, [
                 _vm.users.selected == 0
                   ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.empCompletedcase))
+                      _vm._v(_vm._s(_vm.waitingforapprove))
                     ])
                   : _vm.users.selected == 1
                   ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.empCompletedcase))
+                      _vm._v(_vm._s(_vm.waitingforapprove))
                     ])
                   : _c("span", { staticClass: "count" }, [
                       _vm._v(_vm._s(_vm.empCompletedcase))
@@ -56712,7 +57021,7 @@ var render = function() {
             [
               _c("h4", { staticClass: "mb-0" }, [
                 _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.empWaitingforapprove))
+                  _vm._v(_vm._s(_vm.billedcase))
                 ])
               ]),
               _vm._v(" "),
@@ -56786,7 +57095,7 @@ var render = function() {
             [
               _c("h4", { staticClass: "mb-0" }, [
                 _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.completedcase))
+                  _vm._v(_vm._s(_vm.approvedcase))
                 ])
               ]),
               _vm._v(" "),
@@ -56880,7 +57189,9 @@ var render = function() {
             { staticClass: "card-body pb-0" },
             [
               _c("h4", { staticClass: "mb-0" }, [
-                _c("span", { staticClass: "count" }, [_vm._v(_vm._s())])
+                _c("span", { staticClass: "count" }, [
+                  _vm._v(_vm._s(_vm.rejectedcase))
+                ])
               ]),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/rejectedcase" } }, [
@@ -61807,13 +62118,122 @@ var render = function() {
                 ? _c("div", { staticClass: "card" }, [
                     _vm._m(4),
                     _vm._v(" "),
-                    _vm._m(5)
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.rtgsNo,
+                                    expression: "casee.rtgsNo"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "",
+                                  name: "name",
+                                  type: "text",
+                                  placeholder: "Cheque Number"
+                                },
+                                domProps: { value: _vm.casee.rtgsNo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "rtgsNo",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-group has-success" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.casee.bankName,
+                                      expression: "casee.bankName"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: "no",
+                                    name: "no",
+                                    type: "text",
+                                    placeholder: "Bank Name"
+                                  },
+                                  domProps: { value: _vm.casee.bankName },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.casee,
+                                        "bankName",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.bankersPhone,
+                                    expression: "casee.bankersPhone"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "altno",
+                                  name: "altno",
+                                  type: "number",
+                                  placeholder: "Phone"
+                                },
+                                domProps: { value: _vm.casee.bankersPhone },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "bankersPhone",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.casee.selected == 4
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(6),
+                    _vm._m(5),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", [
@@ -61929,15 +62349,15 @@ var render = function() {
             _c("div", { staticClass: "col-lg-8" }, [
               _vm.casee.clientType === 5
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(7),
+                    _vm._m(6),
                     _vm._v(" "),
-                    _vm._m(8)
+                    _vm._m(7)
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.casee.clientType === 5
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(9),
+                    _vm._m(8),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", { staticClass: "col-md-6" }, [
@@ -62142,15 +62562,15 @@ var render = function() {
               _vm._v(" "),
               _vm.casee.clientType === 4
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(10),
+                    _vm._m(9),
                     _vm._v(" "),
-                    _vm._m(11)
+                    _vm._m(10)
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.casee.clientType === 4
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(12),
+                    _vm._m(11),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", [
@@ -62200,8 +62620,8 @@ var render = function() {
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.casee.contactNo,
-                                      expression: "casee.contactNo"
+                                      value: _vm.casee.personContactNo,
+                                      expression: "casee.personContactNo"
                                     }
                                   ],
                                   staticClass: "form-control",
@@ -62210,7 +62630,9 @@ var render = function() {
                                     type: "text",
                                     placeholder: "Conatct No"
                                   },
-                                  domProps: { value: _vm.casee.contactNo },
+                                  domProps: {
+                                    value: _vm.casee.personContactNo
+                                  },
                                   on: {
                                     input: function($event) {
                                       if ($event.target.composing) {
@@ -62218,7 +62640,7 @@ var render = function() {
                                       }
                                       _vm.$set(
                                         _vm.casee,
-                                        "contactNo",
+                                        "personContactNo",
                                         $event.target.value
                                       )
                                     }
@@ -62386,15 +62808,15 @@ var render = function() {
               _vm._v(" "),
               _vm.casee.clientType === 3
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(13),
+                    _vm._m(12),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(13)
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.casee.clientType === 3
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(15),
+                    _vm._m(14),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", [
@@ -62629,7 +63051,7 @@ var render = function() {
               _vm._v(" "),
               _vm.casee.clientType === 2
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(16),
+                    _vm._m(15),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", [
@@ -62709,7 +63131,7 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm._m(17),
+                          _vm._m(16),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c(
@@ -62786,7 +63208,7 @@ var render = function() {
               _vm._v(" "),
               _vm.casee.clientType === 2
                 ? _c("div", { staticClass: "card" }, [
-                    _vm._m(18),
+                    _vm._m(17),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       _c("div", [
@@ -63006,7 +63428,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(19)
+                _vm._m(18)
               ])
             ])
           ]
@@ -63015,11 +63437,11 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-lg-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(20),
+          _vm._m(19),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "default-tab" }, [
-              _vm._m(21),
+              _vm._m(20),
               _vm._v(" "),
               _c(
                 "div",
@@ -63040,7 +63462,7 @@ var render = function() {
                     },
                     [
                       _c("table", { staticClass: "table" }, [
-                        _vm._m(22),
+                        _vm._m(21),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -63193,7 +63615,7 @@ var render = function() {
                     },
                     [
                       _c("table", { staticClass: "table" }, [
-                        _vm._m(23),
+                        _vm._m(22),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -63407,54 +63829,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("strong", { staticClass: "card-title" }, [_vm._v("Cheque")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("div", [
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "",
-                  name: "name",
-                  type: "text",
-                  placeholder: "Cheque Number"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group has-success" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "no",
-                  name: "no",
-                  type: "text",
-                  placeholder: "Bank Name"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "altno",
-                  name: "altno",
-                  type: "number",
-                  placeholder: "Phone"
-                }
-              })
-            ])
-          ])
-        ])
-      ])
     ])
   },
   function() {

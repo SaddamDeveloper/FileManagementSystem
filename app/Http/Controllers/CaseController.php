@@ -193,6 +193,7 @@ class CaseController extends Controller
             $cdetails2->clientid = $clientidstatic;
             $cdetails2->contactPersonName = $request->input('clientPersonName');
             $cdetails2->contactNo = $request->input('contactNo');
+            $cdetails2->contactNo = $request->input('personContactNo');
             $cdetails2->orgName = $request->input('orgName');
             $cdetails2->orgTel = $request->input('telNo');
             $cdetails2->dept = $request->input('dept');

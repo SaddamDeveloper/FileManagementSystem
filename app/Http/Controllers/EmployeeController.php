@@ -258,12 +258,12 @@ class EmployeeController extends Controller
     }
 
     public function CompletedCase(){
-        $completedCase = DB::table('approvedcase')
-            ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
-            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table('completedcase')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
-            ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
-            ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
+            ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
+            ->join('payment', 'completedcase.caseid', '=', 'payment.caseid')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
@@ -320,7 +320,7 @@ class EmployeeController extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
         $rejectedCaseEmployee = DB::table('rejectcase')
-            ->join('send_to_employees', 'rejectcase.caseid', '=', 'send_to_employees.caseid')
+            ->join('onprocess', 'rejectcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
             ->where('users.employee_id', $id)
@@ -360,7 +360,10 @@ class EmployeeController extends Controller
       $waitingforapprove = DB::table('toadmin')->count();
       $assignedcase = DB::table('send_to_employees')->count();
       $completedCase = DB::table('completedcase')->count();
-      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase);
+      $approvedCase = DB::table( 'approvedcase')->count();
+        $billedCase = DB::table('billedcase')->count();
+        $rejectedcase = DB::table('rejectcase')->count();
+      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase, 'approvedCase' => $approvedCase, 'billedcase' => $billedCase, 'rejectedcase' => $rejectedcase);
       return $count;
     }
 
@@ -371,7 +374,8 @@ class EmployeeController extends Controller
         $waitingforapprove = DB::table('toadmin')->where('employee_id', $id)->count();
         $completedCase = DB::table('completedcase')->where('employee_id', $id)->count();
         $rejectedCase = DB::table('rejectcase')->where('employee_id', $id)->count();
-        $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase);
+        $billedCase = DB::table( 'billedcase')->where('employee_id', $id)->count();
+        $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase, 'billedcase' => $billedCase);
         return $count;
     }
 

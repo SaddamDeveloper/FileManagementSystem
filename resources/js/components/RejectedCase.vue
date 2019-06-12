@@ -249,6 +249,7 @@ created(){
             .then(res => res.json())
             .then(res => {
                 this.rejectedCaseEmployee = res.data;
+                console.log(res.data)
             })
         },
     deleteCase(id){

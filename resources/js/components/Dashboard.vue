@@ -27,8 +27,8 @@
       <div class="card text-white bg-flat-color-2">
         <div class="card-body pb-0">
           <h4 class="mb-0">
-            <span class="count" v-if="users.selected == 0">{{ empCompletedcase }}</span>
-            <span class="count" v-else-if="users.selected == 1">{{ empCompletedcase }}</span>
+            <span class="count" v-if="users.selected == 0">{{ waitingforapprove }}</span>
+            <span class="count" v-else-if="users.selected == 1">{{ waitingforapprove }}</span>
             <span class="count" v-else>{{ empCompletedcase }}</span>
           </h4>
           <router-link to="/a"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
@@ -48,7 +48,7 @@
     <div class="card text-white bg-flat-color-3">
       <div class="card-body pb-0">
         <h4 class="mb-0">
-          <span class="count">{{ empWaitingforapprove }}</span>
+          <span class="count">{{ billedcase }}</span>
         </h4>
         <router-link to="/billedcase" v-if="users.selected == 0"><p class="text-light">Billed Case</p></router-link>
         <router-link to="/billedcase" v-else-if="users.selected == 1"><p class="text-light">Billed Case</p></router-link>
@@ -86,7 +86,7 @@
   <div class="card text-white bg-flat-color-1">
     <div class="card-body pb-0">
       <h4 class="mb-0">
-        <span class="count">{{ completedcase }}</span>
+        <span class="count">{{ approvedcase }}</span>
       </h4>
      <router-link to="/approvedcase"><p class="text-light">Approved Case</p></router-link>
 
@@ -144,7 +144,8 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">{{  }}</span>
+        <span class="count" >{{ rejectedcase }}</span>
+
       </h4>
        <router-link to="/rejectedcase"><p class="text-light">Rejected Case</p></router-link>
 
@@ -215,7 +216,10 @@
 export default {
   data() {
     return {
+        approvedcase: '',
+        billedcase: '',
       NewRegistered: '',
+      rejectedcase:'',
       waitingforapprove: '',
       assignedcase: '',
       completedcase: '',
@@ -252,6 +256,9 @@ export default {
         this.waitingforapprove = res.waitingforapprove;
         this.assignedcase = res.assignedcase;
         this.completedcase = res.completedcase;
+        this.approvedcase = res.approvedCase;
+        this.billedcase = res.billedcase;
+        this.rejectedcase = res.rejectedcase;
       })
     },
     loadEmployeeCounter(){

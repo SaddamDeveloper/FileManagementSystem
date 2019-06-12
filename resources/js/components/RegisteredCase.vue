@@ -91,13 +91,13 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number">
+                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number" v-model="casee.rtgsNo">
                                             </div>
                                             <div class="form-group has-success">
-                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name">
+                                                <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name" v-model="casee.bankName">
                                             </div>
                                             <div class="form-group">
-                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone">
+                                                <input id="altno" name="altno" type="number" class="form-control" placeholder="Phone" v-model="casee.bankersPhone">
                                             </div>
                                         </div>
                                         </div>
@@ -232,7 +232,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
-                                            <input name="personContactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.contactNo">
+                                            <input name="personContactNo" type="text" class="form-control" placeholder="Conatct No" v-model="casee.personContactNo">
                                         </div>
                                     </div>
                                         <div class="col-md-6">

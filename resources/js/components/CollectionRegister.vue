@@ -77,17 +77,52 @@
                     </div>
                     <div class="col-md-2">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <div class="form-inline">
+                            2000 X  &nbsp;<input type="text" class="form-control" v-model="twothousand"> &nbsp;<span>= {{ t1 = twothousand * 2000 }}</span>
+                        </div><br>
+                        <div class="form-inline">
+                            500 X  &nbsp;<input type="text" class="form-control" v-model="fivehundred"> &nbsp;<span>= {{ t2 = fivehundred * 500 }} </span>
+                        </div>
+
+                        <br>
+                        <div class="form-inline">
+                            200 X  &nbsp;<input type="text" class="form-control" v-model="twohundred"> &nbsp;<span>= {{ t3 = twohundred * 200 }}</span>
+                        </div>
+
+                        <br>
+                        <div class="form-inline">
+                            100 X  &nbsp;<input type="text" class="form-control" v-model="onehundred"> &nbsp;<span>= {{ t4 = onehundred * 100 }} </span>
+                        </div>
+                        <br>
+                        <div class="form-inline">
+                            50 X  &nbsp;<input type="text" class="form-control" v-model="fifty"> &nbsp;<span>= {{ t5 = fifty * 50 }}</span>
+                        </div>
+                        <br>
+                        <div class="form-inline">
+                            20 X  &nbsp;<input type="text" class="form-control" v-model="twenty"> &nbsp;<span>= {{ t6 = twenty * 20 }}</span>
+                        </div>
+                        <br>
+                        <div class="form-inline">
+                            10 X  &nbsp;<input type="text" class="form-control" v-model="ten"> &nbsp;<span>= {{ t7 = ten * 10 }}</span>
+                        </div>
+                        <br>
+                        <div class="form-inline">
+                            5 X  &nbsp;<input type="text" class="form-control" v-model="five"> &nbsp;<span>= {{ t8 = five * 5 }}</span>
+                        </div>
+                        <hr>
+                        <div class="form-inline">
+                           <b>Grand Total: {{ t1+t2+t3+t4+t5+t6+t7+t8 }}</b>
+                        </div>
 
                     </div>
-                    <div class="col-md-3">
-                    </div>
-                    <div class="pull-right">
-                        <button class="btn btn-primary" @click="print">Print</button>
-                    </div>
-
                   </div>
                         </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success btn-sm" @click="print">
+                          <i class="fa fa-dot-circle-o"></i> Print
+                        </button>
+                      </div>
                     </div>
 
             </div>
@@ -99,6 +134,14 @@ export default {
   components: { DatePicker },
   data() {
     return {
+        twothousand: '',
+        fivehundred: '',
+        twohundred: '',
+        onehundred: '',
+        fifty: '',
+        twenty: '',
+        ten: '',
+        five: '',
         collectionregister: [],
         OveralltotalAmount:'',
         OverallgstAmount:'',
