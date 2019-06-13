@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2019 at 03:50 PM
+-- Generation Time: Jun 13, 2019 at 03:20 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -64,13 +64,6 @@ CREATE TABLE `billedcase` (
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `billedcase`
---
-
-INSERT INTO `billedcase` (`id`, `caseid`, `employee_id`) VALUES
-(10, 'CASE00002', 'EMP00001');
-
 -- --------------------------------------------------------
 
 --
@@ -82,13 +75,6 @@ CREATE TABLE `bycash` (
   `method` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bycash`
---
-
-INSERT INTO `bycash` (`caseid`, `method`, `name`) VALUES
-('CASE00002', '1', 'By Cash');
 
 -- --------------------------------------------------------
 
@@ -134,14 +120,6 @@ CREATE TABLE `cases` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cases`
---
-
-INSERT INTO `cases` (`id`, `caseid`, `clientType`, `typeofwork`, `time2`, `amount`, `paymentmode`, `created_at`, `updated_at`) VALUES
-(151, 'CASE00001', '4', 'ATLInfosys', '2019-06-21', '12333', '4', '2019-06-11 06:04:53', '2019-06-11 06:04:53'),
-(153, 'CASE00002', '2', 'Live', '2019-06-13', '1000', '2', '2019-06-11 06:39:17', '2019-06-11 06:39:17');
-
 -- --------------------------------------------------------
 
 --
@@ -155,13 +133,6 @@ CREATE TABLE `chequenrtgs` (
   `phoneno` varchar(255) NOT NULL,
   `caseid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `chequenrtgs`
---
-
-INSERT INTO `chequenrtgs` (`id`, `method`, `bankname`, `phoneno`, `caseid`) VALUES
-(1, '23232', 'sbi', '23232', 'CASE00001');
 
 -- --------------------------------------------------------
 
@@ -181,13 +152,6 @@ CREATE TABLE `clientdetails2` (
   `caseid` varchar(255) NOT NULL,
   `clientType` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `clientdetails2`
---
-
-INSERT INTO `clientdetails2` (`id`, `clientid`, `contactPersonName`, `contactNo`, `orgName`, `orgTel`, `dept`, `address`, `caseid`, `clientType`) VALUES
-(13, 'CL00001', 'Khalid', '34343', 'KRANS', '7656747456', 'IT', '343434', 'CASE00001', 4);
 
 -- --------------------------------------------------------
 
@@ -209,13 +173,6 @@ CREATE TABLE `client_details` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `client_details`
---
-
-INSERT INTO `client_details` (`id`, `clientid`, `clientName`, `contactNo`, `altContactNo`, `email`, `address`, `caseid`, `clientType`, `created_at`, `updated_at`) VALUES
-(70, 'CL00001', 'Huxxen', '7845321', '87858757', 's@m.c', 'Shillong', 'CASE00002', 2, '2019-06-11 06:39:17', '2019-06-11 06:39:17');
-
 -- --------------------------------------------------------
 
 --
@@ -231,13 +188,6 @@ CREATE TABLE `completedcase` (
   `method` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `completedcase`
---
-
-INSERT INTO `completedcase` (`id`, `caseid`, `employee_id`, `paidamount`, `gstamount`, `method`, `date`) VALUES
-(55, 'CASE00002', 'EMP00001', '1168.00', '180.00', '1', '2019-06-11');
 
 -- --------------------------------------------------------
 
@@ -275,7 +225,9 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `employee_id`, `no`, `email`, `designation`, `expertise`, `address`, `created_at`, `updated_at`) VALUES
-(14, 'EMP00001', '869676', 'medini@mail.com', 'Back office', 'it,banking', 'Dibrugarh', '2019-06-11 07:50:07', '2019-06-11 07:50:07');
+(14, 'EMP00001', '869676', 'medini@mail.com', 'Back office', 'it,banking', 'Dibrugarh', '2019-06-11 07:50:07', '2019-06-11 07:50:07'),
+(15, 'EMP00002', '867686', 'prakash@mail.com', '898679678', 'it', 'Jharkhand', '2019-06-12 01:45:21', '2019-06-12 01:45:21'),
+(16, 'EMP00003', '8689890', 'raghu@mail.com', 'IT', 'it,banking', 'Shillong', '2019-06-13 00:51:25', '2019-06-13 00:51:25');
 
 -- --------------------------------------------------------
 
@@ -316,13 +268,6 @@ CREATE TABLE `onprocess` (
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `onprocess`
---
-
-INSERT INTO `onprocess` (`id`, `caseid`, `helper`, `docs`, `employee_id`) VALUES
-(18, 'CASE00002', 'Mohit,Rajesh,Raju', 'mailList.xlsx', 'EMP00001');
-
 -- --------------------------------------------------------
 
 --
@@ -349,13 +294,6 @@ CREATE TABLE `payment` (
   `amount` varchar(255) NOT NULL,
   `advamount` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`id`, `paymentmode`, `clientid`, `caseid`, `amount`, `advamount`) VALUES
-(24, '2', 'CL00001', 'CASE00002', '1000', '12');
 
 -- --------------------------------------------------------
 
@@ -399,13 +337,6 @@ CREATE TABLE `sendfiletoadmin` (
   `docs` varchar(255) NOT NULL,
   `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sendfiletoadmin`
---
-
-INSERT INTO `sendfiletoadmin` (`id`, `caseid`, `assignedEmployee`, `docs`, `remarks`) VALUES
-(4, 'CASE00002', 'medini', 'stdform_0.docx', 'Comment');
 
 -- --------------------------------------------------------
 
@@ -496,7 +427,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `employee_id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `selected`) VALUES
 (17, '', 'user', 'user@mail.com', NULL, '$2y$10$HSfM5csmys/tPrrqi62rXuKMgiyQ//4kYdGM5x5KxhCSB1Ds48rDa', NULL, NULL, NULL, 0),
 (18, '', 'admin', 'admin@mail.com', NULL, '$2y$10$wzAIzoKpB6rZP0hNViyoXeBO/3TPrVSTAaArQvjNAYMMU1PcEW4ie', NULL, NULL, NULL, 1),
-(19, 'EMP00001', 'medini', 'medini@mail.com', NULL, '$2y$10$1SwJUMdb4v/zjpmSXB.auuHvASI5sAgSNO44TFVQBSJ3dQYsgOw9S', NULL, NULL, NULL, 2);
+(19, 'EMP00001', 'medini', 'medini@mail.com', NULL, '$2y$10$1SwJUMdb4v/zjpmSXB.auuHvASI5sAgSNO44TFVQBSJ3dQYsgOw9S', NULL, NULL, NULL, 2),
+(20, 'EMP00002', 'Prakash', 'prakash@mail.com', NULL, '$2y$10$4SAXfVLlhad75snA9QdUV.ToR7aAVQtFIBQiSLsd7hqMHHmo3d64G', NULL, NULL, NULL, 2),
+(21, 'EMP00003', 'raghab', 'raghu@mail.com', NULL, '$2y$10$2scLSVDEvlanYruD8rrFcuBzffzK7ngXgPdAc5yCQnsfO/bsXhFF.', NULL, NULL, NULL, 2);
 
 --
 -- Indexes for dumped tables
@@ -641,7 +574,8 @@ ALTER TABLE `rejectcase`
 -- Indexes for table `sendfiletoadmin`
 --
 ALTER TABLE `sendfiletoadmin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `caseid` (`caseid`);
 
 --
 -- Indexes for table `send_to_employees`
@@ -688,19 +622,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `approvedcase`
 --
 ALTER TABLE `approvedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `billedcase`
 --
 ALTER TABLE `billedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bycheque`
@@ -712,37 +646,37 @@ ALTER TABLE `bycheque`
 -- AUTO_INCREMENT for table `byneft`
 --
 ALTER TABLE `byneft`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `chequenrtgs`
 --
 ALTER TABLE `chequenrtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `clientdetails2`
 --
 ALTER TABLE `clientdetails2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `client_details`
 --
 ALTER TABLE `client_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `completedcase`
 --
 ALTER TABLE `completedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `docfile`
@@ -754,7 +688,7 @@ ALTER TABLE `docfile`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -766,37 +700,37 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `onprocess`
 --
 ALTER TABLE `onprocess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `receptions`
 --
 ALTER TABLE `receptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rejectcase`
 --
 ALTER TABLE `rejectcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sendfiletoadmin`
 --
 ALTER TABLE `sendfiletoadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `send_to_employees`
 --
 ALTER TABLE `send_to_employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `test`
@@ -808,19 +742,19 @@ ALTER TABLE `test`
 -- AUTO_INCREMENT for table `toadmin`
 --
 ALTER TABLE `toadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transfercase`
 --
 ALTER TABLE `transfercase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
@@ -896,6 +830,12 @@ ALTER TABLE `payment`
 ALTER TABLE `rejectcase`
   ADD CONSTRAINT `rejectcase_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `onprocess` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rejectcase_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `onprocess` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sendfiletoadmin`
+--
+ALTER TABLE `sendfiletoadmin`
+  ADD CONSTRAINT `sendfiletoadmin_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `send_to_employees`
