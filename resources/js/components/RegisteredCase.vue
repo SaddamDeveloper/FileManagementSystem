@@ -586,16 +586,20 @@ export default {
             pagination2: {},
             edit: false,
             searchEdit: false,
-            selected: "1",
+             casee: {
+                 selected: "1",
+             },
             optiontypes: [
-                { id: 1, name: 'Select Payment Method'},
+                { id: 1, name: '-Select Payment Method-'},
                 { id: 2, name: 'Cash' },
                 { id: 3, name: 'Cheque' },
                 { id: 4, name: 'RTGS/NEFT' }
             ],
-             clientType: "1",
+             casee: {
+                 clientType: "1",
+             },
                 options: [
-                    {id: 1, name: 'Select client type'},
+                    {id: 1, name: '-Select Client Type-'},
                     {id: 2, name: 'Individual'},
                     {id: 3, name: 'Govt'},
                     {id: 4, name: 'Pvt Ltd'},

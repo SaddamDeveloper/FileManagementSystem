@@ -55,7 +55,6 @@
 
                   <div class="row">
                     <div class="col-md-6 alert alert-success">
-                        <hr>
                         <h3 class="text-center">Collection Report</h3><hr>
                         <table>
                             <tr>
@@ -103,7 +102,6 @@
                         </table>
                     </div>
                     <div class="col-md-6 alert alert-warning">
-                        <hr>
                          <h3 class="text-center">Denomination Check</h3><hr>
                          <table>
                              <tr>

@@ -680,4 +680,12 @@ class EmployeeController extends Controller
         return $data;
     }
 
+    public function VerifyEmployee(){
+        $verifyEmployee = DB::table( 'transfercase')
+            ->join('cases', 'transfercase.caseid', '=', 'cases.caseid')
+            ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
+            ->paginate(15);
+        return $verifyEmployee;
+    }
+
 }

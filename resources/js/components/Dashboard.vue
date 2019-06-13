@@ -279,9 +279,10 @@ export default {
                 .then(data => {
                     this.users.email = data.email;
                     this.users.selected = data.selected;
-                    if(data.error == "Token is expired"){
-                        window.location.href = '/';
-                    }
+                    console.log(data.error)
+                    // if(data.error == "Token is expired"){
+                    //     window.location.href = '/';
+                    // }
                 })
         },
         fetchCollectionRegister(){

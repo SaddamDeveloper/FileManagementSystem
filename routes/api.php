@@ -191,5 +191,7 @@ Route::get( 'fetchfiles', ['uses' => 'EmployeeController@fetchFiles', 'middlewar
 
 Route::get( 'status', ['uses' => 'EmployeeController@status', 'middleware' => 'jwt']);
 
+Route::get( 'verifyemployee', ['uses' => 'EmployeeController@VerifyEmployee', 'middleware' => 'jwt']);
+
 
 

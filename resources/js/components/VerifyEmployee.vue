@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Waiting for Approve</strong></h1>
+                        <h1><strong>Verify Employee</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">For Approval Case</li>
+                            <li class="active">Verify Employee</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Assigned Case</strong>
+                        <strong class="card-title">Verify Employee</strong>
                     </div>
                     <div class="card-body">
                     <table class="table">
@@ -39,7 +39,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tr v-for="item in approvalcases" :key="item.id">
+                        <tr v-for="item in verifyemployee" :key="item.id">
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
@@ -47,7 +47,7 @@
                             <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
                             <td>{{ remarks }}</td>
                             <td><div class="alert alert-primary alert-sm">NA</div></td>
-                            <td class="btn-group"><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" :data-target="'#exampleModals'+item.caseid"><i class="fa fa-share-square-o"></i></button></td>
+                            <td class="btn-group"><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button></td>
         <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
@@ -72,39 +72,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Reject</button>
-                </div>
-                </form>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" :id="'exampleModals'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Send for Approval</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form @submit.prevent="sendToApprovalAgain(item)">
-                <div class="modal-body">
-                    <table class="table table-resonsive table-bordered">
-                        <tr>
-                            <thead>Send for Approval</thead>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select  v-model="toApprovalAgain.employee_id" class="form-control" v-if="item.caseid">
-                                    <option v-for="employee in employees" v-bind:key="employee.id" :value="employee.employee_id">{{ employee.name }}</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Send</button>
                 </div>
                 </form>
                 </div>
@@ -136,7 +103,7 @@ export default {
             lang: 'en',
             docs: '',
             remarks: '',
-            approvalcases: [],
+            verifyemployee: [],
             employees: [],
             toApproval: {
                 caseid: '',
@@ -164,12 +131,12 @@ export default {
     methods: {
         fetchCases(page_url){
             const token = localStorage.getItem('token');
-            page_url = page_url || 'api/aprovedcases?token='+token;
+            page_url = page_url || 'api/verifyemployee?token='+token;
             let vm = this;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.approvalcases = res.data;
+                this.verifyemployee = res.data;
                 vm.makePagination(res.meta, res.links);
             })
         },
