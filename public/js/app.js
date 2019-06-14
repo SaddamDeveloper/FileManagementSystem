@@ -2101,8 +2101,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.fetchCases();
-    this.fetchApprovedCaseEmployee();
+    this.fetchCases(); // this.fetchApprovedCaseEmployee();
+
     this.fetchUser();
     this.invoice(); // this.loadEmployee();
     // console.log(this.$refs)
@@ -3638,6 +3638,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3660,7 +3666,8 @@ __webpack_require__.r(__webpack_exports__);
       todaysgstAmount: '',
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
-      TodaysTotalAmountByRtgs: ''
+      TodaysTotalAmountByRtgs: '',
+      todaysDailyAmount: ''
     };
   },
   methods: {
@@ -3679,6 +3686,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
         _this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
         _this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+        _this.todaysDailyAmount = res.totalDailyCollection;
       });
     },
     print: function print() {
@@ -4288,11 +4296,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       approvedcase: '',
       billedcase: '',
+      onprocesscase: '',
       NewRegistered: '',
       rejectedcase: '',
       waitingforapprove: '',
@@ -4336,6 +4347,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.approvedcase = res.approvedCase;
         _this.billedcase = res.billedcase;
         _this.rejectedcase = res.rejectedcase;
+        _this.onprocesscase = res.onprocess;
       });
     },
     loadEmployeeCounter: function loadEmployeeCounter() {
@@ -4360,9 +4372,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (data) {
         _this3.users.email = data.email;
         _this3.users.selected = data.selected;
-        console.log(data.error); // if(data.error == "Token is expired"){
-        //     window.location.href = '/';
-        // }
+
+        if (data.error == "Token is expired") {
+          window.location.href = '/';
+        }
       });
     },
     fetchCollectionRegister: function fetchCollectionRegister() {
@@ -7325,6 +7338,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7336,7 +7371,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       advamount: '',
-      selected: 0,
       queryString: '',
       clientNo: '',
       visible: false,
@@ -7369,6 +7403,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         addr: '',
         advamount: '',
         rtgsNo: '',
+        chequeNo: '',
         bankName: '',
         bankersPhone: ''
       },
@@ -7378,6 +7413,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       edit: false,
       searchEdit: false
     }, _defineProperty(_ref, "casee", {
+      clientType: "1",
       selected: "1"
     }), _defineProperty(_ref, "optiontypes", [{
       id: 1,
@@ -7391,9 +7427,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, {
       id: 4,
       name: 'RTGS/NEFT'
-    }]), _defineProperty(_ref, "casee", {
-      clientType: "1"
-    }), _defineProperty(_ref, "options", [{
+    }]), _defineProperty(_ref, "options", [{
       id: 1,
       name: '-Select Client Type-'
     }, {
@@ -7433,6 +7467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (res) {
         _this.cases = res.data;
         vm.makePagination(res.meta, res.links);
+        console.log(res);
       });
     },
     makePagination: function makePagination(meta, links) {
@@ -7540,37 +7575,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this4.fetchCases();
 
           _this4.showCaseId();
-
-          var clientName = _this4.casee.clientName;
-          var caseid = _this4.casee.caseid;
-          var dd = _this4.casee.time2;
-          var amount = _this4.casee.amount;
-          var paidamount = _this4.casee.advamount;
-          var dueamount = parseFloat(amount) - parseFloat(paidamount);
-          var projectName = _this4.casee.typeofwork;
-          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
-          pdf.text('ACKNOWLEDGEMENT', 250, 20);
-          pdf.setDrawColor(0, 0, 0);
-          pdf.line(40, 30, 570, 30);
-          pdf.setFontSize(9);
-          pdf.setFontType("bold");
-          pdf.text('Case ID:', 50, 45);
-          pdf.text(caseid, 120, 45);
-          pdf.text('Client Name:', 50, 60);
-          pdf.text(clientName, 120, 60);
-          pdf.text('Delivery Date:', 250, 45);
-          pdf.text(dd, 340, 45);
-          pdf.text('Amount:', 250, 60);
-          pdf.text(amount, 340, 60);
-          pdf.text('Paid Amount:', 400, 45);
-          pdf.text(paidamount.toString(), 500, 45);
-          pdf.text('Due Amount:', 400, 60);
-          pdf.text(dueamount.toString(), 500, 60);
-          pdf.text('Project Name: ', 250, 80);
-          pdf.text(projectName, 320, 80);
-          pdf.setDrawColor(0, 0, 0);
-          pdf.line(40, 90, 570, 90);
-          pdf.save(caseid + '.pdf');
         }).catch(function (err) {
           return console.log(err);
         });
@@ -7701,41 +7705,109 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       fetch('api/status?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        console.log(res);
+        if (res.error == 400) {
+          window.location.href = '/';
+        }
       });
-    } // generatePdf(){
-    //     var clientName = this.casee.clientName;
-    //     var caseid = this.casee.caseid;
-    //     var dd = this.casee.time2;
-    //     var amount = this.casee.amount;
-    //     var paidamount = this.casee.advamount;
-    //     var dueamount = parseFloat(amount)-parseFloat(paidamount);
-    //     var projectName = this.casee.typeofwork;
-    //     var pdf = new jsPDF('p', 'pt', 'A4');
-    //     pdf.text('ACKNOWLEDGEMENT', 250, 20);
-    //     pdf.setDrawColor(0,0,0);
-    //     pdf.line(40, 30, 570, 30);
-    //     pdf.setFontSize(9);
-    //     pdf.setFontType("bold");
-    //     pdf.text('Case ID:', 50, 45);
-    //     pdf.text(caseid, 120, 45);
-    //     pdf.text('Client Name:', 50, 60);
-    //     pdf.text(clientName, 120, 60);
-    //     pdf.text('Delivery Date:', 250, 45);
-    //     pdf.text(dd, 340, 45);
-    //     pdf.text('Amount:', 250, 60);
-    //     pdf.text(amount, 340, 60);
-    //     pdf.text('Paid Amount:', 400, 45);
-    //     pdf.text(paidamount.toString(), 500, 45);
-    //     pdf.text('Due Amount:', 400, 60);
-    //     pdf.text(dueamount.toString(), 500, 60);
-    //     pdf.text('Project Name: ',250,80);
-    //     pdf.text(projectName,320,80);
-    //     pdf.setDrawColor(0,0,0);
-    //     pdf.line(40, 90, 570, 90);
-    //     pdf.save(caseid+'.pdf');
-    // }
-
+    },
+    generatePdf: function generatePdf() {
+      // if cash is selected
+      if (this.casee.selected == 2) {
+        var clientName = this.casee.clientName;
+        var caseid = this.casee.caseid;
+        var dd = this.casee.time2;
+        var amount = this.casee.amount;
+        var paidamount = this.casee.advamount;
+        var dueamount = parseFloat(amount) - parseFloat(paidamount);
+        var projectName = this.casee.typeofwork;
+        var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
+        pdf.text('ACKNOWLEDGEMENT', 250, 20);
+        pdf.setDrawColor(0, 0, 0);
+        pdf.line(40, 30, 570, 30);
+        pdf.setFontSize(9);
+        pdf.setFontType("bold");
+        pdf.text('Case ID:', 50, 45);
+        pdf.text(caseid, 120, 45);
+        pdf.text('Client Name:', 50, 60);
+        pdf.text(clientName, 120, 60);
+        pdf.text('Delivery Date:', 250, 45);
+        pdf.text(dd, 340, 45);
+        pdf.text('Amount:', 250, 60);
+        pdf.text(amount, 340, 60);
+        pdf.text('Paid Amount:', 400, 45);
+        pdf.text(paidamount.toString(), 500, 45);
+        pdf.text('Due Amount:', 400, 60);
+        pdf.text(dueamount.toString(), 500, 60);
+        pdf.text('Project Name: ', 250, 80);
+        pdf.text(projectName, 320, 80);
+        pdf.setDrawColor(0, 0, 0);
+        pdf.line(40, 90, 570, 90);
+        pdf.save(caseid + '.pdf');
+      } //if cheque is selected
+      else if (this.casee.selected == 3) {
+          var clientName = this.casee.clientName;
+          var caseid = this.casee.caseid;
+          var dd = this.casee.time2;
+          var amount = this.casee.amount;
+          var projectName = this.casee.typeofwork;
+          var chequeno = this.casee.rtgsNo;
+          var bankname = this.casee.bankName;
+          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
+          pdf.text('ACKNOWLEDGEMENT', 250, 20);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 30, 570, 30);
+          pdf.setFontSize(9);
+          pdf.setFontType("bold");
+          pdf.text('Case ID:', 50, 45);
+          pdf.text(caseid, 120, 45);
+          pdf.text('Client Name:', 50, 60);
+          pdf.text(clientName, 120, 60);
+          pdf.text('Delivery Date:', 250, 45);
+          pdf.text(dd, 340, 45);
+          pdf.text('Amount:', 250, 60);
+          pdf.text(amount, 340, 60);
+          pdf.text('Cheque No/ RTGS/NEFT:', 400, 45);
+          pdf.text(chequeno.toString(), 500, 45);
+          pdf.text('Bank Name:', 400, 60);
+          pdf.text(bankname.toString(), 500, 60);
+          pdf.text('Project Name: ', 250, 80);
+          pdf.text(projectName, 320, 80);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 90, 570, 90);
+          pdf.save(caseid + '.pdf');
+        } else if (this.casee.selected == 4) {
+          var clientName = this.casee.clientName;
+          var caseid = this.casee.caseid;
+          var dd = this.casee.time2;
+          var amount = this.casee.amount;
+          var projectName = this.casee.typeofwork;
+          var chequeno = this.casee.rtgsNo;
+          var bankname = this.casee.bankName;
+          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
+          pdf.text('ACKNOWLEDGEMENT', 250, 20);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 30, 570, 30);
+          pdf.setFontSize(9);
+          pdf.setFontType("bold");
+          pdf.text('Case ID:', 50, 45);
+          pdf.text(caseid, 120, 45);
+          pdf.text('Client Name:', 50, 60);
+          pdf.text(clientName, 120, 60);
+          pdf.text('Delivery Date:', 250, 45);
+          pdf.text(dd, 340, 45);
+          pdf.text('Amount:', 250, 60);
+          pdf.text(amount, 340, 60);
+          pdf.text('RTGS/NEFT:', 400, 45);
+          pdf.text(chequeno.toString(), 500, 45);
+          pdf.text('Bank Name:', 400, 60);
+          pdf.text(bankname.toString(), 500, 60);
+          pdf.text('Project Name: ', 250, 80);
+          pdf.text(projectName, 320, 80);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 90, 570, 90);
+          pdf.save(caseid + '.pdf');
+        }
+    }
   }
 });
 
@@ -56339,6 +56411,16 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
+                    "\n                                Today's Daily Collection By Cash:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaysDailyAmount))])])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
                     "\n                                Today's Total Collection:\n                            "
                   )
                 ]),
@@ -57564,9 +57646,19 @@ var render = function() {
             { staticClass: "card-body pb-0" },
             [
               _c("h4", { staticClass: "mb-0" }, [
-                _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.billedcase))
-                ])
+                _vm.users.selected == 0
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.billedcase))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.users.selected == 1
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.billedcase))
+                    ])
+                  : _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.waitingforapprove))
+                    ])
               ]),
               _vm._v(" "),
               _vm.users.selected == 0
@@ -57697,7 +57789,7 @@ var render = function() {
                       _vm._v(" " + _vm._s(_vm.completedcase))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(" " + _vm._s(_vm.completedcase))
+                      _vm._v(" " + _vm._s(_vm.onprocesscase))
                     ])
               ]),
               _vm._v(" "),
@@ -62943,8 +63035,59 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.casee.rtgsNo,
-                                    expression: "casee.rtgsNo"
+                                    value: _vm.casee.advamount,
+                                    expression: "casee.advamount"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  name: "advamount",
+                                  type: "text",
+                                  placeholder: "Amount"
+                                },
+                                domProps: { value: _vm.casee.advamount },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "advamount",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Due Amount:")]),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    (_vm.a =
+                                      _vm.casee.amount - _vm.casee.advamount)
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Paid Amount:")]),
+                              _vm._v(" "),
+                              _c("span", [_vm._v(_vm._s(_vm.casee.advamount))])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.chequeNo,
+                                    expression: "casee.chequeNo"
                                   }
                                 ],
                                 staticClass: "form-control",
@@ -62954,7 +63097,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Cheque Number"
                                 },
-                                domProps: { value: _vm.casee.rtgsNo },
+                                domProps: { value: _vm.casee.chequeNo },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -62962,7 +63105,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.casee,
-                                      "rtgsNo",
+                                      "chequeNo",
                                       $event.target.value
                                     )
                                   }
@@ -63054,6 +63197,57 @@ var render = function() {
                       _c("div", [
                         _c("div", { staticClass: "card-body" }, [
                           _c("div", { staticClass: "col-md-12" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.casee.advamount,
+                                    expression: "casee.advamount"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  name: "advamount",
+                                  type: "text",
+                                  placeholder: "Amount"
+                                },
+                                domProps: { value: _vm.casee.advamount },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.casee,
+                                      "advamount",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Due Amount:")]),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    (_vm.a =
+                                      _vm.casee.amount - _vm.casee.advamount)
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Paid Amount:")]),
+                              _vm._v(" "),
+                              _c("span", [_vm._v(_vm._s(_vm.casee.advamount))])
+                            ]),
+                            _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
                               _c("input", {
                                 directives: [

@@ -228,7 +228,7 @@ class EmployeeController extends Controller
 
 
         //Generate INVOICE NO
-        $invoice = DB::table('approvedcase')->select(DB::raw('max(substring(invoiceNo, 5, 5)) as max_val'))->get();
+        $invoice = DB::table('approvedcase')->select(DB::raw( 'max(substring(invoiceNo, 21, 3)) as max_val'))->get();
         foreach ($invoice as $row_data) {
             $postfix =  $row_data->max_val;
         }
@@ -258,12 +258,12 @@ class EmployeeController extends Controller
     }
 
     public function CompletedCase(){
-        $completedCase = DB::table('completedcase')
-            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
-            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table( 'approvedcase')
+            ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
-            ->join('cases', 'completedcase.caseid', '=', 'cases.caseid')
-            ->join('payment', 'completedcase.caseid', '=', 'payment.caseid')
+            // ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
+            // ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
             ->paginate(15);
             return $completedCase;
               // return  EmployeeResource::collection($completedCase);
@@ -356,14 +356,15 @@ class EmployeeController extends Controller
     }
 
     public function countingNewlyRegisterd(){
-      $newRegistered = DB::table('cases')->count();
-      $waitingforapprove = DB::table('toadmin')->count();
-      $assignedcase = DB::table('send_to_employees')->count();
-      $completedCase = DB::table('completedcase')->count();
-      $approvedCase = DB::table( 'approvedcase')->count();
+        $newRegistered = DB::table('cases')->count();
+        $waitingforapprove = DB::table('toadmin')->count();
+        $assignedcase = DB::table('send_to_employees')->count();
+        $completedCase = DB::table('completedcase')->count();
+        $approvedCase = DB::table( 'approvedcase')->count();
         $billedCase = DB::table('billedcase')->count();
         $rejectedcase = DB::table('rejectcase')->count();
-      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase, 'approvedCase' => $approvedCase, 'billedcase' => $billedCase, 'rejectedcase' => $rejectedcase);
+        $onprocesscase = DB::table('onprocess')->count();
+      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase, 'approvedCase' => $approvedCase, 'billedcase' => $billedCase, 'rejectedcase' => $rejectedcase, 'onprocess' => $onprocesscase);
       return $count;
     }
 
@@ -621,6 +622,7 @@ class EmployeeController extends Controller
             ->join('client_details', 'completedcase.caseid', '=', 'client_details.caseid')
             ->paginate(15);
 
+        $todaysDailyCollection = DB::table('payment')->sum('advamount');
         $OveralltotalAmount =  DB::table('completedcase')->sum('paidamount');
         $OverallgstAmount =  DB::table('completedcase')->sum('gstamount');
         $date = substr(Carbon::today(), 0, 10);
@@ -629,7 +631,7 @@ class EmployeeController extends Controller
         $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
         $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
         $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
-        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount]);
+        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount, 'totalDailyCollection' => $todaysDailyCollection]);
         $data = $custom->merge($cash);
         return response()->json($data);
         // $data =

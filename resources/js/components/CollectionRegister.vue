@@ -59,6 +59,12 @@
                         <table>
                             <tr>
                                 <td>
+                                    Today's Daily Collection By Cash:
+                                </td>
+                                <td><b>{{ todaysDailyAmount }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>
                                     Today's Total Collection:
                                 </td>
                                 <td><b>{{ todaystotalAmount }}</b></td>
@@ -184,7 +190,8 @@ export default {
         todaysgstAmount: '',
         TodaysTotalAmountByCash: '',
         TodaysTotalAmountByCheque: '',
-        TodaysTotalAmountByRtgs: ''
+        TodaysTotalAmountByRtgs: '',
+        todaysDailyAmount: ''
     }
 },
 methods: {
@@ -201,6 +208,7 @@ methods: {
             this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
             this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
             this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+            this.todaysDailyAmount = res.totalDailyCollection;
         })
     },
     print(){

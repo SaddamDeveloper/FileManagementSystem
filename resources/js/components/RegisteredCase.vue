@@ -91,7 +91,18 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number" v-model="casee.rtgsNo">
+                                                <input name="advamount" type="text" v-model="casee.advamount" placeholder="Amount" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                    <label>Due Amount:</label>
+                                                <span>{{ a = casee.amount-casee.advamount }}</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Paid Amount:</label>
+                                            <span>{{ casee.advamount }}</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="" name="name" type="text" class="form-control" placeholder="Cheque Number" v-model="casee.chequeNo">
                                             </div>
                                             <div class="form-group has-success">
                                                 <input id="no" name="no" type="text" class="form-control" placeholder="Bank Name" v-model="casee.bankName">
@@ -112,6 +123,17 @@
                                 <div>
                                     <div class="card-body">
                                         <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="advamount" type="text" v-model="casee.advamount" placeholder="Amount" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                    <label>Due Amount:</label>
+                                                <span>{{ a = casee.amount-casee.advamount }}</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Paid Amount:</label>
+                                            <span>{{ casee.advamount }}</span>
+                                            </div>
                                             <div class="form-group">
                                                 <input name="rtgsNo" type="number" class="form-control" placeholder="RTGS/NEFT No" v-model="casee.rtgsNo">
                                             </div>
@@ -545,7 +567,6 @@ export default {
     data(){
         return {
             advamount: '',
-            selected: 0,
             queryString:'',
             clientNo:'',
             visible:false,
@@ -578,6 +599,7 @@ export default {
                 addr:'',
                 advamount: '',
                 rtgsNo: '',
+                chequeNo: '',
                 bankName: '',
                 bankersPhone: ''
             },
@@ -586,18 +608,16 @@ export default {
             pagination2: {},
             edit: false,
             searchEdit: false,
-             casee: {
-                 selected: "1",
-             },
+            casee: {
+                clientType: "1",
+                 selected: "1"
+            },
             optiontypes: [
                 { id: 1, name: '-Select Payment Method-'},
                 { id: 2, name: 'Cash' },
                 { id: 3, name: 'Cheque' },
                 { id: 4, name: 'RTGS/NEFT' }
             ],
-             casee: {
-                 clientType: "1",
-             },
                 options: [
                     {id: 1, name: '-Select Client Type-'},
                     {id: 2, name: 'Individual'},
@@ -630,6 +650,7 @@ export default {
             .then(res => {
                 this.cases = res.data;
                 vm.makePagination(res.meta, res.links);
+                console.log(res)
             })
         },
         makePagination(meta, links){
@@ -714,6 +735,7 @@ export default {
     },
     addCase(){
         if(this.edit === false){
+
             //Add Case
             const token = localStorage.getItem('token')
             this.casee.caseid = jQuery("#caseid").val();
@@ -744,36 +766,7 @@ export default {
                     )
                 this.fetchCases();
                 this.showCaseId();
-            var clientName = this.casee.clientName;
-            var caseid = this.casee.caseid;
-            var dd = this.casee.time2;
-            var amount = this.casee.amount;
-            var paidamount = this.casee.advamount;
-            var dueamount = parseFloat(amount)-parseFloat(paidamount);
-            var projectName = this.casee.typeofwork;
-            var pdf = new jsPDF('p', 'pt', 'A4');
-            pdf.text('ACKNOWLEDGEMENT', 250, 20);
-            pdf.setDrawColor(0,0,0);
-            pdf.line(40, 30, 570, 30);
-            pdf.setFontSize(9);
-            pdf.setFontType("bold");
-            pdf.text('Case ID:', 50, 45);
-            pdf.text(caseid, 120, 45);
-            pdf.text('Client Name:', 50, 60);
-            pdf.text(clientName, 120, 60);
-            pdf.text('Delivery Date:', 250, 45);
-            pdf.text(dd, 340, 45);
-            pdf.text('Amount:', 250, 60);
-            pdf.text(amount, 340, 60);
-            pdf.text('Paid Amount:', 400, 45);
-            pdf.text(paidamount.toString(), 500, 45);
-            pdf.text('Due Amount:', 400, 60);
-            pdf.text(dueamount.toString(), 500, 60);
-            pdf.text('Project Name: ',250,80);
-            pdf.text(projectName,320,80);
-            pdf.setDrawColor(0,0,0);
-            pdf.line(40, 90, 570, 90);
-            pdf.save(caseid+'.pdf');
+
             })
             .catch(err => console.log(err));
         }
@@ -888,41 +881,111 @@ export default {
             fetch('api/status?token='+token)
             .then(res => res.json())
             .then((res) => {
-                console.log(res)
+                if(res.error == 400){
+                     window.location.href = '/';
+                }
             })
+        },
+        generatePdf(){
+                        // if cash is selected
+                if(this.casee.selected == 2){
+                    var clientName = this.casee.clientName;
+                    var caseid = this.casee.caseid;
+                    var dd = this.casee.time2;
+                    var amount = this.casee.amount;
+                    var paidamount = this.casee.advamount;
+                    var dueamount = parseFloat(amount)-parseFloat(paidamount);
+                    var projectName = this.casee.typeofwork;
+                    var pdf = new jsPDF('p', 'pt', 'A4');
+                    pdf.text('ACKNOWLEDGEMENT', 250, 20);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 30, 570, 30);
+                    pdf.setFontSize(9);
+                    pdf.setFontType("bold");
+                    pdf.text('Case ID:', 50, 45);
+                    pdf.text(caseid, 120, 45);
+                    pdf.text('Client Name:', 50, 60);
+                    pdf.text(clientName, 120, 60);
+                    pdf.text('Delivery Date:', 250, 45);
+                    pdf.text(dd, 340, 45);
+                    pdf.text('Amount:', 250, 60);
+                    pdf.text(amount, 340, 60);
+                    pdf.text('Paid Amount:', 400, 45);
+                    pdf.text(paidamount.toString(), 500, 45);
+                    pdf.text('Due Amount:', 400, 60);
+                    pdf.text(dueamount.toString(), 500, 60);
+                    pdf.text('Project Name: ',250,80);
+                    pdf.text(projectName,320,80);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 90, 570, 90);
+                    pdf.save(caseid+'.pdf');
+                }
+                //if cheque is selected
+                else if(this.casee.selected == 3){
+                    var clientName = this.casee.clientName;
+                    var caseid = this.casee.caseid;
+                    var dd = this.casee.time2;
+                    var amount = this.casee.amount;
+                    var projectName = this.casee.typeofwork;
+                    var chequeno = this.casee.rtgsNo;
+                    var bankname = this.casee.bankName;
+                    var pdf = new jsPDF('p', 'pt', 'A4');
+                    pdf.text('ACKNOWLEDGEMENT', 250, 20);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 30, 570, 30);
+                    pdf.setFontSize(9);
+                    pdf.setFontType("bold");
+                    pdf.text('Case ID:', 50, 45);
+                    pdf.text(caseid, 120, 45);
+                    pdf.text('Client Name:', 50, 60);
+                    pdf.text(clientName, 120, 60);
+                    pdf.text('Delivery Date:', 250, 45);
+                    pdf.text(dd, 340, 45);
+                    pdf.text('Amount:', 250, 60);
+                    pdf.text(amount, 340, 60);
+                    pdf.text('Cheque No/ RTGS/NEFT:', 400, 45);
+                    pdf.text(chequeno.toString(), 500, 45);
+                    pdf.text('Bank Name:', 400, 60);
+                    pdf.text(bankname.toString(), 500, 60);
+                    pdf.text('Project Name: ',250,80);
+                    pdf.text(projectName,320,80);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 90, 570, 90);
+                    pdf.save(caseid+'.pdf');
+                }
+                else if(this.casee.selected == 4){
+                    var clientName = this.casee.clientName;
+                    var caseid = this.casee.caseid;
+                    var dd = this.casee.time2;
+                    var amount = this.casee.amount;
+                    var projectName = this.casee.typeofwork;
+                    var chequeno = this.casee.rtgsNo;
+                    var bankname = this.casee.bankName;
+                    var pdf = new jsPDF('p', 'pt', 'A4');
+                    pdf.text('ACKNOWLEDGEMENT', 250, 20);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 30, 570, 30);
+                    pdf.setFontSize(9);
+                    pdf.setFontType("bold");
+                    pdf.text('Case ID:', 50, 45);
+                    pdf.text(caseid, 120, 45);
+                    pdf.text('Client Name:', 50, 60);
+                    pdf.text(clientName, 120, 60);
+                    pdf.text('Delivery Date:', 250, 45);
+                    pdf.text(dd, 340, 45);
+                    pdf.text('Amount:', 250, 60);
+                    pdf.text(amount, 340, 60);
+                    pdf.text('RTGS/NEFT:', 400, 45);
+                    pdf.text(chequeno.toString(), 500, 45);
+                    pdf.text('Bank Name:', 400, 60);
+                    pdf.text(bankname.toString(), 500, 60);
+                    pdf.text('Project Name: ',250,80);
+                    pdf.text(projectName,320,80);
+                    pdf.setDrawColor(0,0,0);
+                    pdf.line(40, 90, 570, 90);
+                    pdf.save(caseid+'.pdf');
+                }
         }
-        // generatePdf(){
-        //     var clientName = this.casee.clientName;
-        //     var caseid = this.casee.caseid;
-        //     var dd = this.casee.time2;
-        //     var amount = this.casee.amount;
-        //     var paidamount = this.casee.advamount;
-        //     var dueamount = parseFloat(amount)-parseFloat(paidamount);
-        //     var projectName = this.casee.typeofwork;
-        //     var pdf = new jsPDF('p', 'pt', 'A4');
-        //     pdf.text('ACKNOWLEDGEMENT', 250, 20);
-        //     pdf.setDrawColor(0,0,0);
-        //     pdf.line(40, 30, 570, 30);
-        //     pdf.setFontSize(9);
-        //     pdf.setFontType("bold");
-        //     pdf.text('Case ID:', 50, 45);
-        //     pdf.text(caseid, 120, 45);
-        //     pdf.text('Client Name:', 50, 60);
-        //     pdf.text(clientName, 120, 60);
-        //     pdf.text('Delivery Date:', 250, 45);
-        //     pdf.text(dd, 340, 45);
-        //     pdf.text('Amount:', 250, 60);
-        //     pdf.text(amount, 340, 60);
-        //     pdf.text('Paid Amount:', 400, 45);
-        //     pdf.text(paidamount.toString(), 500, 45);
-        //     pdf.text('Due Amount:', 400, 60);
-        //     pdf.text(dueamount.toString(), 500, 60);
-        //     pdf.text('Project Name: ',250,80);
-        //     pdf.text(projectName,320,80);
-        //     pdf.setDrawColor(0,0,0);
-        //     pdf.line(40, 90, 570, 90);
-        //     pdf.save(caseid+'.pdf');
-        // }
     }
 }
 </script>

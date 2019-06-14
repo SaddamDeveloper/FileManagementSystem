@@ -48,7 +48,9 @@
     <div class="card text-white bg-flat-color-3">
       <div class="card-body pb-0">
         <h4 class="mb-0">
-          <span class="count">{{ billedcase }}</span>
+          <span class="count" v-if="users.selected == 0">{{ billedcase }}</span>
+          <span class="count" v-if="users.selected == 1">{{ billedcase }}</span>
+          <span class="count" v-else>{{ waitingforapprove }}</span>
         </h4>
         <router-link to="/billedcase" v-if="users.selected == 0"><p class="text-light">Billed Case</p></router-link>
         <router-link to="/billedcase" v-else-if="users.selected == 1"><p class="text-light">Billed Case</p></router-link>
@@ -124,7 +126,7 @@
       <h4 class="mb-0">
         <span class="count" v-if="users.selected == 0"> {{  completedcase }}</span>
         <span class="count" v-else-if="users.selected == 1"> {{  completedcase }}</span>
-        <span class="count" v-else> {{  completedcase }}</span>
+        <span class="count" v-else> {{  onprocesscase }}</span>
       </h4>
       <router-link to="/billingcase" v-if="users.selected == 0"><p class="text-light">Billing Case</p></router-link>
       <router-link to="/billingcase" v-else-if="users.selected == 1"><p class="text-light">Billing Case</p></router-link>
@@ -218,6 +220,7 @@ export default {
     return {
         approvedcase: '',
         billedcase: '',
+        onprocesscase: '',
       NewRegistered: '',
       rejectedcase:'',
       waitingforapprove: '',
@@ -259,6 +262,7 @@ export default {
         this.approvedcase = res.approvedCase;
         this.billedcase = res.billedcase;
         this.rejectedcase = res.rejectedcase;
+        this.onprocesscase = res.onprocess;
       })
     },
     loadEmployeeCounter(){
@@ -279,10 +283,9 @@ export default {
                 .then(data => {
                     this.users.email = data.email;
                     this.users.selected = data.selected;
-                    console.log(data.error)
-                    // if(data.error == "Token is expired"){
-                    //     window.location.href = '/';
-                    // }
+                    if(data.error == "Token is expired"){
+                        window.location.href = '/';
+                    }
                 })
         },
         fetchCollectionRegister(){

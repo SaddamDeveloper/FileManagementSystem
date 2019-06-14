@@ -20,6 +20,8 @@ use JWTAuth;
 use App\Test;
 use Tymon\JWTAuth\Facades\JWTAuth as TymonJWTAuth;
 use App\chequenrtgs;
+use App\Cheque;
+use App\Rtgs;
 
 class CaseController extends Controller
 {
@@ -102,6 +104,8 @@ class CaseController extends Controller
             $cdetails2 = new ClientDetailsAnother;
             $amount = new Amount;
             $chequenrtgs = new chequenrtgs;
+            $check = new Cheque;
+            $rtgs = new Rtgs;
         }
 
         //Generating CaseID
@@ -162,8 +166,31 @@ class CaseController extends Controller
                 $amount->clientid = $clientidstatic;
                 $amount->amount = $request->input('amount');
                 $amount->advamount = $request->input('advamount');
-            } else if ($request->input('selected') == 3 || $request->input('selected') == 4) {
-                $chequenrtgs->method = $request->input('rtgsNo');
+            }
+            else if ($request->input('selected') == 3) {
+                $chequenrtgs->method = $request->input('selected');
+                //for cash
+                if($request->input('selected') == 3){
+                    $check->methodId = $request->input('selected');
+                    $check->ChequeNo = $request->input('chequeNo');
+                    $check->caseid = $caseid;
+                    $check->amount = $request->input('amount');
+                    $check->advamount = $request->input('advamount');
+                }
+                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->bankname = $request->input('bankName');
+                $chequenrtgs->phoneno = $request->input('bankersPhone');
+            }
+            else if( $request->input('selected') == 4){
+                $chequenrtgs->method = $request->input('selected');
+                //for rtgs/neft
+                if ($request->input('selected') == 4) {
+                    $rtgs->methodId = $request->input('selected');
+                    $rtgs->transactionNo = $request->input('rtgsNo');
+                    $rtgs->caseid = $caseid;
+                    $rtgs->amount = $request->input('amount');
+                    $rtgs->advamount = $request->input('advamount');
+                }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
                 $chequenrtgs->phoneno = $request->input('bankersPhone');
@@ -185,10 +212,16 @@ class CaseController extends Controller
                 return new ClientDetailsResource($cdetails);
                 return new AmountsResource($amount);
             }
-            } else if ($request->input('selected') == 3 || $request->input('selected') == 4) {
-                if ($case->save() && $cdetails->save() && $chequenrtgs->save()) {
+            } else if ($request->input('selected') == 3) {
+                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $check->save()) {
                     return new CaseResource($case);
-                    return new ClientDetailsResource($cdetails);
+                    // return new ClientDetailsResource($cdetails);
+                }
+            }
+            else if( $request->input('selected') == 4){
+                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $rtgs->save()) {
+                    return new CaseResource($case);
+                    // return new ClientDetailsResource($cdetails);
                 }
             }
         }
@@ -208,8 +241,30 @@ class CaseController extends Controller
                 $amount->amount = $request->input('amount');
                 $amount->advamount = $request->input('advamount');
             }
-            else if( $request->input('selected') == 3 || $request->input('selected') == 4){
-                $chequenrtgs->method = $request->input('rtgsNo');
+            else if( $request->input('selected') == 3){
+                $chequenrtgs->method = $request->input('selected');
+                //for cash
+                if ($request->input('selected') == 3) {
+                    $check->methodId = $request->input('selected');
+                    $check->ChequeNo = $request->input('chequeNo');
+                    $check->caseid = $caseid;
+                    $check->amount = $request->input('amount');
+                    $check->advamount = $request->input('advamount');
+                }
+                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->bankname = $request->input('bankName');
+                $chequenrtgs->phoneno = $request->input('bankersPhone');
+            }
+            else if( $request->input('selected') == 4){
+                $chequenrtgs->method = $request->input('selected');
+                //for rtgs/neft
+                if ($request->input('selected') == 4) {
+                    $rtgs->methodId = $request->input('selected');
+                    $rtgs->transactionNo = $request->input('rtgsNo');
+                    $rtgs->caseid = $caseid;
+                    $rtgs->amount = $request->input('amount');
+                    $rtgs->advamount = $request->input('advamount');
+                }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
                 $chequenrtgs->phoneno = $request->input('bankersPhone');
@@ -250,8 +305,14 @@ class CaseController extends Controller
                     return new AmountsResource($amount);
                 }
             }
-            else if( $request->input('selected') == 3 || $request->input('selected') == 4){
-                if ($case->save() && $cdetails2->save() && $chequenrtgs->save()) {
+            else if( $request->input('selected') == 3){
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $check->save()) {
+                    return new CaseResource($case);
+                    return new ClientDetailsResource($cdetails2);
+                }
+            }
+            else if( $request->input('selected') == 4){
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $rtgs->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                 }
