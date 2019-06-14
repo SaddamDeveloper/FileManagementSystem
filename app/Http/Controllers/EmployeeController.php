@@ -623,6 +623,8 @@ class EmployeeController extends Controller
             ->paginate(15);
 
         $todaysDailyCollection = DB::table('payment')->sum('advamount');
+        $todaysDailyCollectionCheque = DB::table('cheque')->sum('advamount');
+        $todaysDailyCollectionRtgs = DB::table('rtgs')->sum('advamount');
         $OveralltotalAmount =  DB::table('completedcase')->sum('paidamount');
         $OverallgstAmount =  DB::table('completedcase')->sum('gstamount');
         $date = substr(Carbon::today(), 0, 10);
@@ -631,7 +633,7 @@ class EmployeeController extends Controller
         $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
         $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
         $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
-        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount, 'totalDailyCollection' => $todaysDailyCollection]);
+        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount, 'totalDailyCollection' => $todaysDailyCollection, 'todayscollectionByCheque' => $todaysDailyCollectionCheque, 'todaysCollectionByRtgs' => $todaysDailyCollectionRtgs]);
         $data = $custom->merge($cash);
         return response()->json($data);
         // $data =

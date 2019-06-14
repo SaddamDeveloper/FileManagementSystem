@@ -57,17 +57,12 @@
                     <div class="col-md-6 alert alert-success">
                         <h3 class="text-center">Collection Report</h3><hr>
                         <table>
-                            <tr>
-                                <td>
-                                    Today's Daily Collection By Cash:
-                                </td>
-                                <td><b>{{ todaysDailyAmount }}</b></td>
-                            </tr>
+
                             <tr>
                                 <td>
                                     Today's Total Collection:
                                 </td>
-                                <td><b>{{ todaystotalAmount }}</b></td>
+                                <td><b>{{ todaysDailyAmount + todaysDailyAmountByCheque + todaysDailyAmountByRtgs }}</b></td>
                             </tr>
                             <tr>
                                 <td>
@@ -77,21 +72,21 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Today's Total Collection By Cash:
+                                    Today's Daily Collection By Cash:
                                 </td>
-                                <td><b>{{ TodaysTotalAmountByCash }}</b></td>
+                                <td><b>{{ todaysDailyAmount }}</b></td>
                             </tr>
                             <tr>
                                 <td>
                                     Today's Total Collection By Cheque:
                                 </td>
-                                <td><b>{{ TodaysTotalAmountByCheque }}</b></td>
+                                <td><b>{{ todaysDailyAmountByCheque }}</b></td>
                             </tr>
                             <tr>
                                 <td>
                                      Today's Total Collection By NEFT/RTGS:
                                 </td>
-                                <td><b> {{ TodaysTotalAmountByRtgs }} </b></td>
+                                <td><b> {{ todaysDailyAmountByRtgs }} </b></td>
                             </tr>
                             <tr>
                                 <td>
@@ -191,7 +186,9 @@ export default {
         TodaysTotalAmountByCash: '',
         TodaysTotalAmountByCheque: '',
         TodaysTotalAmountByRtgs: '',
-        todaysDailyAmount: ''
+        todaysDailyAmount: '',
+        todaysDailyAmountByCheque:'',
+        todaysDailyAmountByRtgs: ''
     }
 },
 methods: {
@@ -209,6 +206,8 @@ methods: {
             this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
             this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
             this.todaysDailyAmount = res.totalDailyCollection;
+            this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
+            this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
         })
     },
     print(){

@@ -3639,11 +3639,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3667,7 +3662,9 @@ __webpack_require__.r(__webpack_exports__);
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
-      todaysDailyAmount: ''
+      todaysDailyAmount: '',
+      todaysDailyAmountByCheque: '',
+      todaysDailyAmountByRtgs: ''
     };
   },
   methods: {
@@ -3687,6 +3684,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
         _this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
         _this.todaysDailyAmount = res.totalDailyCollection;
+        _this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
+        _this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
       });
     },
     print: function print() {
@@ -56411,21 +56410,21 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                Today's Daily Collection By Cash:\n                            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaysDailyAmount))])])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _vm._v(
                     "\n                                Today's Total Collection:\n                            "
                   )
                 ]),
                 _vm._v(" "),
-                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaystotalAmount))])])
+                _c("td", [
+                  _c("b", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.todaysDailyAmount +
+                          _vm.todaysDailyAmountByCheque +
+                          _vm.todaysDailyAmountByRtgs
+                      )
+                    )
+                  ])
+                ])
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -56441,13 +56440,11 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                Today's Total Collection By Cash:\n                            "
+                    "\n                                Today's Daily Collection By Cash:\n                            "
                   )
                 ]),
                 _vm._v(" "),
-                _c("td", [
-                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCash))])
-                ])
+                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaysDailyAmount))])])
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -56458,7 +56455,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", [
-                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCheque))])
+                  _c("b", [_vm._v(_vm._s(_vm.todaysDailyAmountByCheque))])
                 ])
               ]),
               _vm._v(" "),
@@ -56471,7 +56468,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("b", [
-                    _vm._v(" " + _vm._s(_vm.TodaysTotalAmountByRtgs) + " ")
+                    _vm._v(" " + _vm._s(_vm.todaysDailyAmountByRtgs) + " ")
                   ])
                 ])
               ]),
