@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Amount extends Model
+class Cash extends Model
 {
-    protected $table = 'amount';
+    protected $table = 'cash';
+
     public $timestamps = false;
 }

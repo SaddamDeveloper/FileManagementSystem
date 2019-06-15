@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Cases;
 use App\ClientDetailsAnother;
 use App\ClientDetails;
-use App\Amount;
+use App\Cash;
 use App\Http\Resources\Cases as CaseResource;
 use App\Http\Resources\ClientDetails as ClientDetailsResource;
 use App\Http\Resources\AmountResource as AmountsResource;
@@ -22,6 +22,7 @@ use Tymon\JWTAuth\Facades\JWTAuth as TymonJWTAuth;
 use App\chequenrtgs;
 use App\Cheque;
 use App\Rtgs;
+use App\Amount;
 
 class CaseController extends Controller
 {
@@ -102,10 +103,11 @@ class CaseController extends Controller
             $case = new Cases;
             $cdetails = new ClientDetails;
             $cdetails2 = new ClientDetailsAnother;
-            $amount = new Amount;
+            $cash = new Cash;
             $chequenrtgs = new chequenrtgs;
             $check = new Cheque;
             $rtgs = new Rtgs;
+            $amount = new Amount;
         }
 
         //Generating CaseID
@@ -161,11 +163,12 @@ class CaseController extends Controller
             $cdetails->caseid = $caseid;
 
             if ($request->input('selected') == 2) {
-                $amount->caseid = $caseid;
-                $amount->paymentmode = $request->input('selected');
-                $amount->clientid = $clientidstatic;
+                $cash->caseid = $caseid;
+                $cash->paymentmode = $request->input('selected');
+                $cash->clientid = $clientidstatic;
                 $amount->amount = $request->input('amount');
                 $amount->advamount = $request->input('advamount');
+                $amount->caseid = $caseid;
             }
             else if ($request->input('selected') == 3) {
                 $chequenrtgs->method = $request->input('selected');
@@ -174,8 +177,6 @@ class CaseController extends Controller
                     $check->methodId = $request->input('selected');
                     $check->ChequeNo = $request->input('chequeNo');
                     $check->caseid = $caseid;
-                    $check->amount = $request->input('amount');
-                    $check->advamount = $request->input('advamount');
                 }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
@@ -188,8 +189,6 @@ class CaseController extends Controller
                     $rtgs->methodId = $request->input('selected');
                     $rtgs->transactionNo = $request->input('rtgsNo');
                     $rtgs->caseid = $caseid;
-                    $rtgs->amount = $request->input('amount');
-                    $rtgs->advamount = $request->input('advamount');
                 }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
@@ -206,20 +205,23 @@ class CaseController extends Controller
             //     return new ClientDetailsResource($cdetails);
             //     return new AmountsResource($amount);
             // }
+            $amount->amount = $request->input('amount');
+            $amount->advamount = $request->input('advamount');
+            $amount->caseid = $caseid;
             if ($request->input('selected') == 2) {
-                if ($case->save() && $cdetails->save() && $amount->save()) {
+                if ($case->save() && $cdetails->save() && $cash->save() && $amount->save()) {
                 return new CaseResource($case);
                 return new ClientDetailsResource($cdetails);
-                return new AmountsResource($amount);
+                return new AmountsResource($cash);
             }
             } else if ($request->input('selected') == 3) {
-                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $check->save()) {
+                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $check->save() && $amount->save()) {
                     return new CaseResource($case);
                     // return new ClientDetailsResource($cdetails);
                 }
             }
             else if( $request->input('selected') == 4){
-                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $rtgs->save()) {
+                if ($case->save() && $cdetails->save() && $chequenrtgs->save() && $rtgs->save() && $amount->save()) {
                     return new CaseResource($case);
                     // return new ClientDetailsResource($cdetails);
                 }
@@ -235,11 +237,11 @@ class CaseController extends Controller
             $case->amount = $request->input('amount');
             $case->paymentmode = $request->input('selected');
             if( $request->input('selected') == 2){
-                $amount->caseid = $caseid;
-                $amount->paymentmode = $request->input('selected');
-                $amount->clientid = $clientidstatic;
-                $amount->amount = $request->input('amount');
-                $amount->advamount = $request->input('advamount');
+                $cash->caseid = $caseid;
+                $cash->paymentmode = $request->input('selected');
+                $cash->clientid = $clientidstatic;
+                // $cash->amount = $request->input('amount');
+                // $cash->advamount = $request->input('advamount');
             }
             else if( $request->input('selected') == 3){
                 $chequenrtgs->method = $request->input('selected');
@@ -248,8 +250,8 @@ class CaseController extends Controller
                     $check->methodId = $request->input('selected');
                     $check->ChequeNo = $request->input('chequeNo');
                     $check->caseid = $caseid;
-                    $check->amount = $request->input('amount');
-                    $check->advamount = $request->input('advamount');
+                    // $check->amount = $request->input('amount');
+                    // $check->advamount = $request->input('advamount');
                 }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
@@ -262,8 +264,8 @@ class CaseController extends Controller
                     $rtgs->methodId = $request->input('selected');
                     $rtgs->transactionNo = $request->input('rtgsNo');
                     $rtgs->caseid = $caseid;
-                    $rtgs->amount = $request->input('amount');
-                    $rtgs->advamount = $request->input('advamount');
+                    // $rtgs->amount = $request->input('amount');
+                    // $rtgs->advamount = $request->input('advamount');
                 }
                 $chequenrtgs->caseid = $caseid;
                 $chequenrtgs->bankname = $request->input('bankName');
@@ -279,6 +281,10 @@ class CaseController extends Controller
             $cdetails2->address = $request->input('addr');
             $cdetails2->clientType = $request->input('clientType');
             $cdetails2->caseid = $caseid;
+
+            $amount->amount = $request->input('amount');
+            $amount->advamount = $request->input('advamount');
+            $amount->caseid = $caseid;
 
             // if($request->input('selected') == 2){
             //     $amount->caseid = $caseid;
@@ -299,20 +305,20 @@ class CaseController extends Controller
 
             // }
             if( $request->input('selected') == 2){
-                if ($case->save() && $cdetails2->save() && $amount->save()) {
+                if ($case->save() && $cdetails2->save() && $cash->save() && $amount->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
-                    return new AmountsResource($amount);
+                    return new AmountsResource($cash);
                 }
             }
             else if( $request->input('selected') == 3){
-                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $check->save()) {
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $check->save() && $amount->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                 }
             }
             else if( $request->input('selected') == 4){
-                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $rtgs->save()) {
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $rtgs->save() && $amount->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                 }

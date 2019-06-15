@@ -80,7 +80,7 @@
                         <th>Amount</th>
                         <th width="20%">Delivery Date</th>
                         <th width="20%">Assign Employee</th>
-                        <th width="20%">Helper</th>
+                        <th width="20%">Support Staff</th>
                         <th>Upload Docs</th>
                     </tr>
                     <tr>
@@ -197,7 +197,7 @@
                         <th>Amount</th>
                         <th width="20%">Delivery Date</th>
                         <th width="20%">Assign Employee</th>
-                        <th width="20%">Helper</th>
+                        <th width="20%">Support Staff</th>
                         <th>Upload Docs</th>
                     </tr>
                     <tr>
@@ -286,7 +286,7 @@ export default {
         data(){
         return {
             value: null,
-            optionsS: ['Mohit', 'Rajesh', 'Raju'],
+            optionsS: [],
             time1: '',
             time2: '',
             time3: '',
@@ -349,6 +349,7 @@ export default {
         this.loadEmployee();
         this.fetchGovtnAll();
         this.fetchUser();
+        this.loadSupportStaff();
         // this.fetchsendEmployees();
     },
     methods: {
@@ -429,7 +430,16 @@ export default {
         },
         loadEmployee(){
             const token = localStorage.getItem('token');
-             axios.get("/api/employees?token="+token).then(( { data }) => (this.employees = data));
+             axios.get("/api/employees?token="+token).then((res) => {
+                 this.employees = res.data;
+                 console.log(res.data)
+             });
+        },
+        loadSupportStaff(){
+            const token = localStorage.getItem('token');
+             axios.get("/api/supportstaff?token="+token).then((res) => {
+                 this.optionsS = res.data;
+             });
         },
         processFile(e) {
 
@@ -466,8 +476,8 @@ export default {
                }
                else{
                    Swal.fire(
-                   'Sent!',
-                   'Case Has been Sent!.',
+                   'Assigned!',
+                   'Case Has been Assigned!.',
                    'success'
                    )
                    jQuery('#exampleModal'+this.toEmployee.caseid).modal('hide')

@@ -29,7 +29,7 @@
           <h4 class="mb-0">
             <span class="count" v-if="users.selected == 0">{{ waitingforapprove }}</span>
             <span class="count" v-else-if="users.selected == 1">{{ waitingforapprove }}</span>
-            <span class="count" v-else>{{ empCompletedcase }}</span>
+            <span class="count" v-else>{{ empApprovedcase }}</span>
           </h4>
           <router-link to="/a"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
             <router-link to="/forapprovalcase" v-else-if="users.selected == 1"><p class="text-light">Waiting For Approval Case</p></router-link>
@@ -230,6 +230,7 @@ export default {
       empWaitingforapprove: '',
       empRejectedcase: '',
       empCompletedcase: '',
+      empApprovedcase: '',
       users: {
           email: '',
           selected: ''
@@ -274,6 +275,7 @@ export default {
             this.empWaitingforapprove = res.waitingforapprove;
             this.empRejectedcase = res.rejectedcase;
             this.empCompletedcase = res.completedcase;
+            this.empApprovedcase = res.approvecaseEmp;
         })
     },
     fetchUser(){

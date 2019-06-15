@@ -258,7 +258,9 @@ class EmployeeController extends Controller
     }
 
     public function CompletedCase(){
+
         $completedCase = DB::table( 'approvedcase')
+            ->join('amount', 'approvedcase.caseid', '=', 'amount.caseid')
             ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
@@ -376,7 +378,8 @@ class EmployeeController extends Controller
         $completedCase = DB::table('completedcase')->where('employee_id', $id)->count();
         $rejectedCase = DB::table('rejectcase')->where('employee_id', $id)->count();
         $billedCase = DB::table( 'billedcase')->where('employee_id', $id)->count();
-        $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase, 'billedcase' => $billedCase);
+        $approvedCaseEmp = DB::table('approvedcase')->where('employee_id', $id)->count();
+        $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase, 'billedcase' => $billedCase, 'approvecaseEmp' => $approvedCaseEmp);
         return $count;
     }
 
@@ -506,6 +509,7 @@ class EmployeeController extends Controller
 
         $toBill->caseid = $request->input('caseid');
         $toBill->employee_id = $request->input('employee_id');
+        $toBill->invoiceNo = $request->input('invoiceNo');
 
         if ( $toBill->save()) {
             return new EmployeeResource($toBill);
@@ -521,8 +525,7 @@ class EmployeeController extends Controller
             ->join('onprocess', 'billedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'billedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
-            ->join('cases', 'billedcase.caseid', '=', 'cases.caseid')
-            ->join('payment', 'billedcase.caseid', '=', 'payment.caseid')
+            ->join('amount', 'billedcase.caseid', '=', 'amount.caseid')
             ->paginate(15);
         return $BilledCase;
     }
@@ -690,6 +693,11 @@ class EmployeeController extends Controller
             ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
             ->paginate(15);
         return $verifyEmployee;
+    }
+
+    public function SupportStaff(){
+        $data = DB::table('users')->where('users.selected', 2)->pluck('users.name');
+        return $data;
     }
 
 }

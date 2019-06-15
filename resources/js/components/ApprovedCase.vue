@@ -331,7 +331,8 @@ export default {
             },
             toBill: {
                 caseid: '',
-                employee_id: ''
+                employee_id: '',
+                invoiceNo: ''
             }
         }
     },
@@ -492,6 +493,8 @@ export default {
                     const token = localStorage.getItem('token');
                     this.toBill.caseid = item.caseid;
                     this.toBill.employee_id = item.employee_id;
+                    this.toBill.invoiceNo = item.invoiceNo;
+                    console.log(item.invoiceNo)
                     fetch('api/tobill?token='+token, {
                     method: 'post',
                     body: JSON.stringify(this.toBill),

@@ -2096,7 +2096,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       toBill: {
         caseid: '',
-        employee_id: ''
+        employee_id: '',
+        invoiceNo: ''
       }
     };
   },
@@ -2261,6 +2262,8 @@ __webpack_require__.r(__webpack_exports__);
           var token = localStorage.getItem('token');
           _this8.toBill.caseid = item.caseid;
           _this8.toBill.employee_id = item.employee_id;
+          _this8.toBill.invoiceNo = item.invoiceNo;
+          console.log(item.invoiceNo);
           fetch('api/tobill?token=' + token, {
             method: 'post',
             body: JSON.stringify(_this8.toBill),
@@ -4312,6 +4315,7 @@ __webpack_require__.r(__webpack_exports__);
       empWaitingforapprove: '',
       empRejectedcase: '',
       empCompletedcase: '',
+      empApprovedcase: '',
       users: {
         email: '',
         selected: ''
@@ -4360,6 +4364,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.empWaitingforapprove = res.waitingforapprove;
         _this2.empRejectedcase = res.rejectedcase;
         _this2.empCompletedcase = res.completedcase;
+        _this2.empApprovedcase = res.approvecaseEmp;
       });
     },
     fetchUser: function fetchUser() {
@@ -6251,7 +6256,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       value: null,
-      optionsS: ['Mohit', 'Rajesh', 'Raju'],
+      optionsS: [],
       time1: '',
       time2: '',
       time3: '',
@@ -6329,7 +6334,8 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchCases();
     this.loadEmployee();
     this.fetchGovtnAll();
-    this.fetchUser(); // this.fetchsendEmployees();
+    this.fetchUser();
+    this.loadSupportStaff(); // this.fetchsendEmployees();
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -6408,25 +6414,33 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       var token = localStorage.getItem('token');
-      axios.get("/api/employees?token=" + token).then(function (_ref) {
-        var data = _ref.data;
-        return _this4.employees = data;
+      axios.get("/api/employees?token=" + token).then(function (res) {
+        _this4.employees = res.data;
+        console.log(res.data);
+      });
+    },
+    loadSupportStaff: function loadSupportStaff() {
+      var _this5 = this;
+
+      var token = localStorage.getItem('token');
+      axios.get("/api/supportstaff?token=" + token).then(function (res) {
+        _this5.optionsS = res.data;
       });
     },
     processFile: function processFile(e) {
-      var _this5 = this;
+      var _this6 = this;
 
       var fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
 
       fileReader.onload = function (e) {
-        _this5.toEmployee.docs = e.target.result;
+        _this6.toEmployee.docs = e.target.result;
       };
 
       this.toEmployee.fileName = e.target.files[0].name;
     },
     sendToEmployee: function sendToEmployee(id) {
-      var _this6 = this;
+      var _this7 = this;
 
       var token = localStorage.getItem('token');
       this.toEmployee.caseid = id.caseid;
@@ -6439,22 +6453,22 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this6.toEmployee.assignedEmployee = '';
-        _this6.toEmployee.helper = '';
-        _this6.toEmployee.assignedEmployee = '';
+        _this7.toEmployee.assignedEmployee = '';
+        _this7.toEmployee.helper = '';
+        _this7.toEmployee.assignedEmployee = '';
 
         if (res.message) {
           Swal.fire('Failed!', 'This case is already Reservered', 'warning');
         } else {
-          Swal.fire('Sent!', 'Case Has been Sent!.', 'success');
-          jQuery('#exampleModal' + _this6.toEmployee.caseid).modal('hide');
+          Swal.fire('Assigned!', 'Case Has been Assigned!.', 'success');
+          jQuery('#exampleModal' + _this7.toEmployee.caseid).modal('hide');
         }
       }).catch(function (err) {
         return console.log(err);
       });
     },
     reassign: function reassign(item) {
-      var _this7 = this;
+      var _this8 = this;
 
       var token = localStorage.getItem('token');
       var id = item.caseid;
@@ -6473,14 +6487,14 @@ __webpack_require__.r(__webpack_exports__);
 
           fetch('api/updateemployee/' + id + '/?token=' + _token, {
             method: 'put',
-            body: JSON.stringify(_this7.reAssign),
+            body: JSON.stringify(_this8.reAssign),
             headers: {
               'content-type': 'application/json'
             }
           }).then(function () {
             Swal.fire('Transfered!', 'Case has been Transferred successfully.', 'success');
 
-            _this7.fetchCases();
+            _this8.fetchCases();
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
@@ -6488,14 +6502,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     fetchUser: function fetchUser() {
-      var _this8 = this;
+      var _this9 = this;
 
       var token = localStorage.getItem('token');
       fetch('/api/auth/me?token=' + token).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this8.users.email = data.email;
-        _this8.users.selected = data.selected;
+        _this9.users.email = data.email;
+        _this9.users.selected = data.selected;
 
         if (data.error == "Token is expired") {
           window.location.href = '/';
@@ -52595,8 +52609,8 @@ var render = function() {
                                                 {
                                                   name: "model",
                                                   rawName: "v-model",
-                                                  value: _vm.invoiceNo,
-                                                  expression: "invoiceNo"
+                                                  value: item.invoiceNo,
+                                                  expression: "item.invoiceNo"
                                                 }
                                               ],
                                               attrs: {
@@ -52605,15 +52619,18 @@ var render = function() {
                                                 id: "invoice_no"
                                               },
                                               domProps: {
-                                                value: _vm.invoiceNo
+                                                value: item.invoiceNo
                                               },
                                               on: {
                                                 input: function($event) {
                                                   if ($event.target.composing) {
                                                     return
                                                   }
-                                                  _vm.invoiceNo =
+                                                  _vm.$set(
+                                                    item,
+                                                    "invoiceNo",
                                                     $event.target.value
+                                                  )
                                                 }
                                               }
                                             })
@@ -57607,7 +57624,7 @@ var render = function() {
                       _vm._v(_vm._s(_vm.waitingforapprove))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.empCompletedcase))
+                      _vm._v(_vm._s(_vm.empApprovedcase))
                     ])
               ]),
               _vm._v(" "),
@@ -62207,7 +62224,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { attrs: { width: "20%" } }, [_vm._v("Assign Employee")]),
       _vm._v(" "),
-      _c("th", { attrs: { width: "20%" } }, [_vm._v("Helper")]),
+      _c("th", { attrs: { width: "20%" } }, [_vm._v("Support Staff")]),
       _vm._v(" "),
       _c("th", [_vm._v("Upload Docs")])
     ])
@@ -62325,7 +62342,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { attrs: { width: "20%" } }, [_vm._v("Assign Employee")]),
       _vm._v(" "),
-      _c("th", { attrs: { width: "20%" } }, [_vm._v("Helper")]),
+      _c("th", { attrs: { width: "20%" } }, [_vm._v("Support Staff")]),
       _vm._v(" "),
       _c("th", [_vm._v("Upload Docs")])
     ])
@@ -65114,7 +65131,7 @@ var staticRenderFns = [
                 "aria-selected": "true"
               }
             },
-            [_vm._v("Govt & all")]
+            [_vm._v("Govt/Pvt LTD/NGO")]
           )
         ]
       )

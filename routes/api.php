@@ -43,7 +43,7 @@ Route::post('case', [
 Route::put('case', ['uses' => 'CaseController@store', 'middleware' => 'jwt']);
 
 //Delete case
-Route::delete('cases/{id}', [
+Route::delete('case/{id}', [
     'uses'  =>  'CaseController@destroy',
     'middleware'    =>  'jwt'
 ]);
@@ -192,6 +192,8 @@ Route::get( 'fetchfiles', ['uses' => 'EmployeeController@fetchFiles', 'middlewar
 Route::get( 'status', ['uses' => 'EmployeeController@status', 'middleware' => 'jwt']);
 
 Route::get( 'verifyemployee', ['uses' => 'EmployeeController@VerifyEmployee', 'middleware' => 'jwt']);
+
+Route::get( 'supportstaff', ['uses' => 'EmployeeController@SupportStaff', 'middleware' => 'jwt']);
 
 
 

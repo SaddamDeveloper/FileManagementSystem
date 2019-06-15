@@ -85,7 +85,7 @@
                 </tr>
                 <tr>
                     <td class="meta-head">INVOICE NO:</td>
-                    <td><input type="text" readonly id="invoice_no" v-model="invoiceNo"></td>
+                    <td><input type="text" readonly id="invoice_no" v-model="item.invoiceNo"></td>
                 </tr>
                 <tr>
                     <td class="meta-head">INVOICE DATE:</td>
