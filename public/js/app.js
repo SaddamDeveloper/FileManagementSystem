@@ -7725,46 +7725,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     generatePdf: function generatePdf() {
       // if cash is selected
-      if (this.casee.selected == 2) {
-        var clientName = this.casee.clientName;
-        var caseid = this.casee.caseid;
-        var dd = this.casee.time2;
-        var amount = this.casee.amount;
-        var paidamount = this.casee.advamount;
-        var dueamount = parseFloat(amount) - parseFloat(paidamount);
-        var projectName = this.casee.typeofwork;
-        var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
-        pdf.text('ACKNOWLEDGEMENT', 250, 20);
-        pdf.setDrawColor(0, 0, 0);
-        pdf.line(40, 30, 570, 30);
-        pdf.setFontSize(9);
-        pdf.setFontType("bold");
-        pdf.text('Case ID:', 50, 45);
-        pdf.text(caseid, 120, 45);
-        pdf.text('Client Name:', 50, 60);
-        pdf.text(clientName, 120, 60);
-        pdf.text('Delivery Date:', 250, 45);
-        pdf.text(dd, 340, 45);
-        pdf.text('Amount:', 250, 60);
-        pdf.text(amount, 340, 60);
-        pdf.text('Paid Amount:', 400, 45);
-        pdf.text(paidamount.toString(), 500, 45);
-        pdf.text('Due Amount:', 400, 60);
-        pdf.text(dueamount.toString(), 500, 60);
-        pdf.text('Project Name: ', 250, 80);
-        pdf.text(projectName, 320, 80);
-        pdf.setDrawColor(0, 0, 0);
-        pdf.line(40, 90, 570, 90);
-        pdf.save(caseid + '.pdf');
-      } //if cheque is selected
-      else if (this.casee.selected == 3) {
+      if (this.casee.clientType == 2) {
+        if (this.casee.selected == 2 || this.casee.selected == 3 || this.casee.selected == 4) {
           var clientName = this.casee.clientName;
           var caseid = this.casee.caseid;
           var dd = this.casee.time2;
           var amount = this.casee.amount;
+          var paidamount = this.casee.advamount;
+          var dueamount = parseFloat(amount) - parseFloat(paidamount);
           var projectName = this.casee.typeofwork;
-          var chequeno = this.casee.rtgsNo;
-          var bankname = this.casee.bankName;
           var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
           pdf.text('ACKNOWLEDGEMENT', 250, 20);
           pdf.setDrawColor(0, 0, 0);
@@ -7779,47 +7748,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           pdf.text(dd, 340, 45);
           pdf.text('Amount:', 250, 60);
           pdf.text(amount, 340, 60);
-          pdf.text('Cheque No/ RTGS/NEFT:', 400, 45);
-          pdf.text(chequeno.toString(), 500, 45);
-          pdf.text('Bank Name:', 400, 60);
-          pdf.text(bankname.toString(), 500, 60);
-          pdf.text('Project Name: ', 250, 80);
-          pdf.text(projectName, 320, 80);
-          pdf.setDrawColor(0, 0, 0);
-          pdf.line(40, 90, 570, 90);
-          pdf.save(caseid + '.pdf');
-        } else if (this.casee.selected == 4) {
-          var clientName = this.casee.clientName;
-          var caseid = this.casee.caseid;
-          var dd = this.casee.time2;
-          var amount = this.casee.amount;
-          var projectName = this.casee.typeofwork;
-          var chequeno = this.casee.rtgsNo;
-          var bankname = this.casee.bankName;
-          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
-          pdf.text('ACKNOWLEDGEMENT', 250, 20);
-          pdf.setDrawColor(0, 0, 0);
-          pdf.line(40, 30, 570, 30);
-          pdf.setFontSize(9);
-          pdf.setFontType("bold");
-          pdf.text('Case ID:', 50, 45);
-          pdf.text(caseid, 120, 45);
-          pdf.text('Client Name:', 50, 60);
-          pdf.text(clientName, 120, 60);
-          pdf.text('Delivery Date:', 250, 45);
-          pdf.text(dd, 340, 45);
-          pdf.text('Amount:', 250, 60);
-          pdf.text(amount, 340, 60);
-          pdf.text('RTGS/NEFT:', 400, 45);
-          pdf.text(chequeno.toString(), 500, 45);
-          pdf.text('Bank Name:', 400, 60);
-          pdf.text(bankname.toString(), 500, 60);
+          pdf.text('Paid Amount:', 400, 45);
+          pdf.text(paidamount.toString(), 500, 45);
+          pdf.text('Due Amount:', 400, 60);
+          pdf.text(dueamount.toString(), 500, 60);
           pdf.text('Project Name: ', 250, 80);
           pdf.text(projectName, 320, 80);
           pdf.setDrawColor(0, 0, 0);
           pdf.line(40, 90, 570, 90);
           pdf.save(caseid + '.pdf');
         }
+      } else if (this.casee.clientType == 3 || this.casee.clientType == 4 || this.casee.clientType == 5) {
+        if (this.casee.selected == 2 || this.casee.selected == 3 || this.casee.selected == 4) {
+          var clientName = this.casee.clientPersonName;
+          var caseid = this.casee.caseid;
+          var dd = this.casee.time2;
+          var amount = this.casee.amount;
+          var paidamount = this.casee.advamount;
+          var dueamount = parseFloat(amount) - parseFloat(paidamount);
+          var projectName = this.casee.typeofwork;
+          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
+          pdf.text('ACKNOWLEDGEMENT', 250, 20);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 30, 570, 30);
+          pdf.setFontSize(9);
+          pdf.setFontType("bold");
+          pdf.text('Case ID:', 50, 45);
+          pdf.text(caseid, 120, 45);
+          pdf.text('Client Name:', 50, 60);
+          pdf.text(clientName, 120, 60);
+          pdf.text('Delivery Date:', 250, 45);
+          pdf.text(dd, 340, 45);
+          pdf.text('Amount:', 250, 60);
+          pdf.text(amount, 340, 60);
+          pdf.text('Paid Amount:', 400, 45);
+          pdf.text(paidamount.toString(), 500, 45);
+          pdf.text('Due Amount:', 400, 60);
+          pdf.text(dueamount.toString(), 500, 60);
+          pdf.text('Project Name: ', 250, 80);
+          pdf.text(projectName, 320, 80);
+          pdf.setDrawColor(0, 0, 0);
+          pdf.line(40, 90, 570, 90);
+          pdf.save(caseid + '.pdf');
+        }
+      }
     }
   }
 });

@@ -124,12 +124,12 @@ class EmployeeController extends Controller
 
         $caseId = $request->input('caseid');
         $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
-        if ($idCheck === null) {
-            Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
-        }
-        else{
-            return response()->json(['message' => 'Case is already reserved'], 200);
-        }
+        // if ($idCheck === null) {
+        //     Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
+        // }
+        // else{
+        //     return response()->json(['message' => 'Case is already reserved'], 200);
+        // }
 
         // $inquiries = DB::table('send_to_employees')->where('caseid', $caseId)->get();
         // foreach($inquiries as $row_data){
@@ -140,11 +140,25 @@ class EmployeeController extends Controller
 
         $toEmployee->caseid = $request->input('caseid');;
         $toEmployee->employee_id = $request->input('employee_id');
-        $toEmployee->docs = $fileName;
-        $toEmployee->helper = implode(",", $request->input('helper'));
-        if($toEmployee->save()){
-          return new EmployeeResource($toEmployee);
-        }
+        return $request->input('caseid');
+        // $toEmployee->docs = $fileName ? $fileName : '';
+        // if($request->input('docs') === null){
+        //     return "null";
+        // }
+        // else{
+        //     $toEmployee->docs = $fileName;
+        // }
+
+        // $helper = implode(",", $request->input('helper'));
+        // if( $$toEmployee->helper != null){
+        //     $toEmployee->helper = $helper;
+        // }
+        // else{
+        //     $toEmployee->helper = '';
+        // }
+        // if($toEmployee->save()){
+        //   return new EmployeeResource($toEmployee);
+        // }
             // foreach ( $inquiries as $kunde ) {
             //      $existing_kunde = DB::table('send_to_employees')->where('caseid', $kunde->caseid)->first();
             //      return $existing_kunde;
