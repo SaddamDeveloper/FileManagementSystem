@@ -117,19 +117,40 @@ class EmployeeController extends Controller
          $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
         ($request->employee_id) : new sendToEmployee;
 
-         $exploded = explode(',', $request->docs);
-         $decoded = base64_decode($exploded[1]);
 
-        $fileName = $request->fileName;
+        $toEmployee->caseid = $request->input('caseid');;
+        $toEmployee->employee_id = $request->input('employee_id');
 
-        $caseId = $request->input('caseid');
-        $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
-        // if ($idCheck === null) {
-        //     Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
-        // }
-        // else{
-        //     return response()->json(['message' => 'Case is already reserved'], 200);
-        // }
+        if($request->input('docs') == null){
+            $toEmployee->docs = '';
+        }
+        else{
+            $exploded = explode(',', $request->docs);
+            $decoded = base64_decode($exploded[1]);
+
+           $fileName = $request->fileName;
+           $caseId = $request->input('caseid');
+           $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
+           if ($idCheck === null) {
+               Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
+           }
+           else{
+               return response()->json(['message' => 'Case is already reserved'], 200);
+           }
+            $toEmployee->docs = $fileName;
+        }
+
+        if($request->input('helper') == null){
+            $toEmployee->helper = '';
+        }
+        else{
+            $helper = implode(",", $request->input('helper'));
+            $toEmployee->helper = $helper;
+        }
+
+        if($toEmployee->save()){
+                return new EmployeeResource($toEmployee);
+        }
 
         // $inquiries = DB::table('send_to_employees')->where('caseid', $caseId)->get();
         // foreach($inquiries as $row_data){
@@ -138,9 +159,6 @@ class EmployeeController extends Controller
         //     }
         // }
 
-        $toEmployee->caseid = $request->input('caseid');;
-        $toEmployee->employee_id = $request->input('employee_id');
-        return $request->input('caseid');
         // $toEmployee->docs = $fileName ? $fileName : '';
         // if($request->input('docs') === null){
         //     return "null";
