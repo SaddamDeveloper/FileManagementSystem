@@ -24,6 +24,7 @@ use App\byNeft;
 use App\byCheque;
 use Carbon\Carbon;
 use App\sendFileToAdmin;
+use App\UploadedFile;
 
 class EmployeeController extends Controller
 {
@@ -193,29 +194,23 @@ class EmployeeController extends Controller
 
         public function toDb(Request $request){
         //  //send to Db
-         $toDb = $request->isMethod('put') ? sendFileToAdmin::findOrFail
-        ($request->docs) : new sendFileToAdmin;
-
-         $exploded = explode(',', $request->docs);
-         $decoded = base64_decode($exploded[1]);
-
+        $toDb = $request->isMethod('put') ? UploadedFile::findOrFail($request->docs) : new UploadedFile;
+        $exploded = explode(',', $request->docs);
+        $decoded = base64_decode($exploded[1]);
         $fileName = $request->fileName;
-
         $caseId = $request->input('caseid');
-        $idCheck = sendFileToAdmin::where('caseid', '=', Input::get('caseid'))->first();
-        if ($idCheck === null) {
+        // $idCheck = UploadedFile::where('caseid', '=', Input::get('caseid'))->first();
+        // if ($idCheck === null) {
             Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
-        } else {
-            return response()->json(['message' => 'File is already uploaded'], 200);
-        }
-
+        // } else {
+        //     return response()->json(['message' => 'File is already uploaded'], 200);
+        // }
         $toDb->caseid = $request->input('caseid');
-        $toDb->remarks = $request->input('remarks');
-        $toDb->assignedEmployee = $request->input('assignedEmployee');
+        $toDb->employee_id = $request->input('assignedEmployee');
         $toDb->docs = $fileName;
         // $toDb->helper = implode(",", $request->input('helper'));
         // return $caseId;
-        if($toDb->save()){
+        if ($toDb->save()) {
             return new EmployeeResource($toDb);
         }
 
@@ -736,9 +731,12 @@ class EmployeeController extends Controller
     }
 
     public function VerifyEmployee(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
         $verifyEmployee = DB::table( 'transfercase')
             ->join('cases', 'transfercase.caseid', '=', 'cases.caseid')
             ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
+            ->where('transfercase.employee_id', $id)
             ->paginate(15);
         return $verifyEmployee;
     }
@@ -746,6 +744,14 @@ class EmployeeController extends Controller
     public function SupportStaff(){
         $data = DB::table('users')->where('users.selected', 2)->pluck('users.name');
         return $data;
+    }
+
+    public function DeleteOnProcess($id){
+        $onprocessdelete = DB::table('onprocess')->where('caseid', $id);
+
+        if ($onprocessdelete->delete()) {
+            return '1';
+        }
     }
 
 }

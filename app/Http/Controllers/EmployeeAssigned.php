@@ -20,10 +20,10 @@ class EmployeeAssigned extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
         $employee = DB::table('onprocess')
-            ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
-            ->join('users', 'employees.email', '=', 'users.email')
-            ->orderBy('onprocess.id', 'DESC')
-            ->where('onprocess.employee_id', $id)
+            ->select( "onprocess.caseid", "onprocess.docs")
+                // ->join('users', 'employees.email', '=', 'users.email')
+                // ->orderBy('onprocess.id', 'DESC')
+                ->where('onprocess.employee_id', $id)
             ->paginate(15);
           return $employee;
         //  return CaseResource::collection($employee);
@@ -31,6 +31,23 @@ class EmployeeAssigned extends Controller
         // return $employee;
         // return $employee;
         // return  EmployeeAssignedResource::collection($employee);
+    }
+
+    public function checkcaseid(){
+        $caseid = DB::table( 'uploadedfile')->pluck('caseid');
+        return $caseid;
+    }
+
+    public function showUploadedFile(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+        $employee = DB::table('uploadedfile')
+            ->join('employees', 'uploadedfile.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
+            ->join('onprocess', 'uploadedfile.caseid', '=', 'onprocess.caseid')
+            ->where( 'uploadedfile.employee_id', $id)
+            ->paginate(15);
+        return $employee;
     }
 
     /**

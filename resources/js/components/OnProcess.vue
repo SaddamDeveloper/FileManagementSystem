@@ -32,7 +32,8 @@
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
+                            <th scope="col">Docs</th>
+                            <th scope="col"></th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -42,9 +43,12 @@
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
-                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td>
+                            <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid"><i class="fa fa-file"></i></button>
+                        </td>
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button></td>
                         <td> NA </td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                        <td><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
@@ -57,22 +61,46 @@
                 </div>
                 <form @submit.prevent="pushToDb(item)">
                 <div class="modal-body">
-                    <table class="table table-bordered table-responsive">
+                    <table class="table table-bordered">
                         <tr>
                             <th>Docs</th>
-                            <th>Remarks</th>
                         </tr>
                         <tr>
                             <td><input type="file" name="docs" @change="processFile"></td>
-                            <td><input type="text" name="remarks" v-model="remarks"></td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
                 </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 </div>
             </div>
         </div>
@@ -88,6 +116,23 @@
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+    .show:hover ul.list-categories{
+  max-height: inherit;
+  opacity: 1;
+}
+
+.list-categories{
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  max-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 300ms ease;
+}
+</style>
+
 <script>
 export default {
         data(){
@@ -99,6 +144,7 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
+            showUploaded: [],
             remarks: '',
             toDb: {
                 docs: '',
@@ -106,6 +152,12 @@ export default {
                 remarks:''
             },
             toAdmin: {
+                caseid: '',
+                docs: '',
+                employee_id: '',
+                helper: ''
+            },
+            toOnProcess: {
                 caseid: '',
                 docs: '',
                 employee_id: '',
@@ -118,6 +170,7 @@ export default {
         // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
+        this.showUploadedFile();
     },
     methods: {
         fetchCases(page_url){
@@ -140,6 +193,18 @@ export default {
             }
             this.pagination = pagination;
         },
+        showUploadedFile(){
+            const token = localStorage.getItem('token');
+            fetch('api/checkcaseid?token='+token)
+            .then(res => res.json())
+            .then(res => {
+                fetch('api/showuploadedfile?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                    this.showUploaded = res.data;
+                })
+            })
+    },
     deleteCase(id){
         Swal.fire({
             title: 'Are you sure?',
@@ -187,29 +252,29 @@ export default {
         },
         pushToDb(id){
             this.toDb.caseid = id.caseid;
-            this.toDb.assignedEmployee = id.name;
-            this.toDb.remarks = this.remarks;
-            console.log(this.toDb.remarks)
+            this.toDb.assignedEmployee = id.employee_id;
             const token = localStorage.getItem('token');
-            Swal.fire({
-            title: 'send file to Admin?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, send it!'
-            }).then((result) => {
-                if(result.value){
-                     fetch(`api/sendtodb?token=`+token, {
+                    // this.toOnProcess.caseid = id.caseid;
+                    // this.toOnProcess.docs = id.docs;
+                    // this.toOnProcess.helper = id.helper;
+                    // this.toOnProcess.employee_id = id.employee_id;
+                      fetch(`api/sendtodb?token=`+token, {
                         method: 'post',
                         body: JSON.stringify(this.toDb),
                             headers: {
                         'content-type': 'application/json'
                         }
                     })
-                }
-            })
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.message == 0){
+                            alert('Uploaded');
+                            jQuery('#exampleModal'+id.caseid).modal('hide');
+                        }
+                        else{
+                            alert('Already Uploaded');
+                        }
+                    })
 
         },
         sendToAdmin(id){
@@ -234,6 +299,9 @@ export default {
                         headers: {
                             'content-type' : 'application/json'
                         }
+                    })
+                     fetch('api/deleteonprocess/'+item.caseid+'?token='+token, {
+                        method: 'delete'
                     })
                     .then(res => res.json())
                     .then((res)=>{

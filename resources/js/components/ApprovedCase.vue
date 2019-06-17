@@ -338,7 +338,7 @@ export default {
     },
     created(){
         this.fetchCases();
-        // this.fetchApprovedCaseEmployee();
+        this.fetchApprovedCaseEmployee();
         this.fetchUser();
         this.invoice();
         // this.loadEmployee();

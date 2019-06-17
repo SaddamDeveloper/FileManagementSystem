@@ -98,6 +98,9 @@ Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 //Employee
 Route::get('employeeassignedemployees/', ['uses' => 'EmployeeAssigned@index', 'middleware' => 'jwt']);
 
+Route::get( 'showuploadedfile/', ['uses' => 'EmployeeAssigned@showUploadedFile', 'middleware' => 'jwt']);
+
+
 
 //For Approval project API
 Route::get('aprovedcases', ['uses' => 'EmployeeController@fetchApproveCase', 'middleware' => 'jwt']);
@@ -194,6 +197,10 @@ Route::get( 'status', ['uses' => 'EmployeeController@status', 'middleware' => 'j
 Route::get( 'verifyemployee', ['uses' => 'EmployeeController@VerifyEmployee', 'middleware' => 'jwt']);
 
 Route::get( 'supportstaff', ['uses' => 'EmployeeController@SupportStaff', 'middleware' => 'jwt']);
+
+Route::delete( 'deleteonprocess/{id}', ['uses' => 'EmployeeController@DeleteOnProcess', 'middleware' => 'jwt']);
+
+Route::get( 'checkcaseid', ['uses' => 'EmployeeAssigned@checkcaseid', 'middleware' => 'jwt']);
 
 
 
