@@ -228,7 +228,12 @@ class EmployeeController extends Controller
         // return $count;
         $toAdmin->caseid = $request->input('caseid');
         $toAdmin->employee_id = $request->input('employee_id');
-        $toAdmin->docs = $request->input('docs');
+        if( $request->input('docs') == null){
+            $toAdmin->docs = '';
+        }
+        else{
+            $toAdmin->docs = $request->input('docs');
+        }
 
         $dbCheck = sendToAdmin::where('caseid', '=', Input::get('caseid'))->first();
         if($dbCheck == null){
@@ -512,8 +517,19 @@ class EmployeeController extends Controller
         $OnProcessCase->caseid = $request->input('caseid');
         // return $request->input('assignedEmployee');
         $OnProcessCase->employee_id = $request->input('employee_id');
-        $OnProcessCase->docs = $request->input('docs');
-        $OnProcessCase->helper = $request->input('helper');
+        if( $request->input('docs') == null){
+            $OnProcessCase->docs = '';
+        }
+        else{
+            $OnProcessCase->docs = $request->input('docs');
+        }
+
+        if( $request->input('helper') == null){
+            $OnProcessCase->helper = '';
+        }
+        else{
+            $OnProcessCase->helper = $request->input('helper');
+        }
         if ($OnProcessCase->save()) {
             return new EmployeeResource($OnProcessCase);
         }
