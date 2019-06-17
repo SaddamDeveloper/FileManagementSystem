@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2019 at 03:57 PM
+-- Generation Time: Jun 15, 2019 at 03:50 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -42,6 +42,19 @@ CREATE TABLE `admins` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `amount`
+--
+
+CREATE TABLE `amount` (
+  `id` int(11) NOT NULL,
+  `amount` varchar(255) NOT NULL,
+  `advamount` varchar(255) NOT NULL,
+  `caseid` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `approvedcase`
 --
 
@@ -61,7 +74,8 @@ CREATE TABLE `approvedcase` (
 CREATE TABLE `billedcase` (
   `id` int(11) NOT NULL,
   `caseid` varchar(255) NOT NULL,
-  `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoiceNo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -120,17 +134,18 @@ CREATE TABLE `cases` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `cases`
+-- Table structure for table `cash`
 --
 
-INSERT INTO `cases` (`id`, `caseid`, `clientType`, `typeofwork`, `time2`, `amount`, `paymentmode`, `created_at`, `updated_at`) VALUES
-(43, 'CASE00001', '2', 'Smart City', '2019-06-21', '12000', '4', '2019-06-14 08:01:12', '2019-06-14 08:01:12'),
-(44, 'CASE00002', '3', 'Smart City', '2019-06-27', '120000', '4', '2019-06-14 08:05:32', '2019-06-14 08:05:32'),
-(45, 'CASE00003', '3', 'Smart City', '2019-06-27', '12000', '3', '2019-06-14 08:10:38', '2019-06-14 08:10:38'),
-(46, 'CASE00004', '4', 'ROBO', '2019-06-05', '12000', '4', '2019-06-14 08:12:22', '2019-06-14 08:12:22'),
-(47, 'CASE00005', '4', 'Hello Project', '2019-06-11', '12333', '4', '2019-06-14 08:13:06', '2019-06-14 08:13:06'),
-(48, 'CASE00006', '3', 'ATLInfosys', '2019-06-28', '129999', '3', '2019-06-14 08:13:35', '2019-06-14 08:13:35');
+CREATE TABLE `cash` (
+  `id` int(11) NOT NULL,
+  `paymentmode` varchar(255) NOT NULL,
+  `clientid` varchar(255) NOT NULL,
+  `caseid` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -142,17 +157,8 @@ CREATE TABLE `cheque` (
   `id` int(11) NOT NULL,
   `methodId` varchar(255) NOT NULL,
   `ChequeNo` varchar(255) NOT NULL,
-  `caseid` varchar(255) NOT NULL,
-  `amount` varchar(255) NOT NULL,
-  `advamount` varchar(255) NOT NULL
+  `caseid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cheque`
---
-
-INSERT INTO `cheque` (`id`, `methodId`, `ChequeNo`, `caseid`, `amount`, `advamount`) VALUES
-(5, '3', '1232', 'CASE00003', '12000', '1200');
 
 -- --------------------------------------------------------
 
@@ -167,18 +173,6 @@ CREATE TABLE `chequenrtgs` (
   `phoneno` varchar(255) NOT NULL,
   `caseid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `chequenrtgs`
---
-
-INSERT INTO `chequenrtgs` (`id`, `method`, `bankname`, `phoneno`, `caseid`) VALUES
-(30, '4', 'UBI', '112132', 'CASE00001'),
-(31, '4', 'UBI', '23232', 'CASE00002'),
-(32, '3', 'UBI', '1223232', 'CASE00003'),
-(33, '4', 'UBI', '1223232', 'CASE00004'),
-(34, '4', 'UBI', '1223232', 'CASE00005'),
-(35, '3', 'UBI', '1223232', 'CASE00006');
 
 -- --------------------------------------------------------
 
@@ -199,17 +193,6 @@ CREATE TABLE `clientdetails2` (
   `clientType` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `clientdetails2`
---
-
-INSERT INTO `clientdetails2` (`id`, `clientid`, `contactPersonName`, `contactNo`, `orgName`, `orgTel`, `dept`, `address`, `caseid`, `clientType`) VALUES
-(11, 'CL00002', 'Abhijit Saikia', '9789867', 'KRANS', '978787', 'IT', 'adassas', 'CASE00002', 3),
-(12, 'CL00002', 'Shabnam', '9789867', 'KRANS', '876875', 'Acc', 'fdfdf', 'CASE00003', 3),
-(13, 'CL00002', 'Shabnam', '9789867', 'KRANS', '876875', 'Acc', 'fdfdf', 'CASE00004', 4),
-(14, 'CL00002', 'Shabnam', '9789867', 'KRANS', '876875', 'Acc', 'fdfdf', 'CASE00005', 4),
-(15, 'CL00002', 'Shabnam', '9789867', 'KRANS', '876875', 'Acc', 'fdfdf', 'CASE00006', 3);
-
 -- --------------------------------------------------------
 
 --
@@ -229,13 +212,6 @@ CREATE TABLE `client_details` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `client_details`
---
-
-INSERT INTO `client_details` (`id`, `clientid`, `clientName`, `contactNo`, `altContactNo`, `email`, `address`, `caseid`, `clientType`, `created_at`, `updated_at`) VALUES
-(32, 'CL00001', 'Panna Sigh Tomar', 'rwr', '86758767', 'panna@mail.com', 'dewewe', 'CASE00001', 2, '2019-06-14 08:01:12', '2019-06-14 08:01:12');
 
 -- --------------------------------------------------------
 
@@ -346,21 +322,6 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment`
---
-
-CREATE TABLE `payment` (
-  `id` int(11) NOT NULL,
-  `paymentmode` varchar(255) NOT NULL,
-  `clientid` varchar(255) NOT NULL,
-  `caseid` varchar(255) NOT NULL,
-  `amount` varchar(255) NOT NULL,
-  `advamount` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `receptions`
 --
 
@@ -397,20 +358,8 @@ CREATE TABLE `rtgs` (
   `id` int(11) NOT NULL,
   `methodId` varchar(255) NOT NULL,
   `transactionNo` varchar(255) NOT NULL,
-  `caseid` varchar(255) NOT NULL,
-  `amount` varchar(255) NOT NULL,
-  `advamount` varchar(255) NOT NULL
+  `caseid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rtgs`
---
-
-INSERT INTO `rtgs` (`id`, `methodId`, `transactionNo`, `caseid`, `amount`, `advamount`) VALUES
-(4, '4', '23232', 'CASE00001', '12000', '23'),
-(5, '4', '34343434', 'CASE00002', '120000', '2000'),
-(6, '4', '23232', 'CASE00004', '12000', '1200'),
-(7, '4', '23232', 'CASE00005', '12333', '1200');
 
 -- --------------------------------------------------------
 
@@ -530,6 +479,13 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `amount`
+--
+ALTER TABLE `amount`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `caseid` (`caseid`);
+
+--
 -- Indexes for table `approvedcase`
 --
 ALTER TABLE `approvedcase`
@@ -568,6 +524,13 @@ ALTER TABLE `byneft`
 --
 ALTER TABLE `cases`
   ADD PRIMARY KEY (`id`,`caseid`),
+  ADD KEY `caseid` (`caseid`);
+
+--
+-- Indexes for table `cash`
+--
+ALTER TABLE `cash`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `caseid` (`caseid`);
 
 --
@@ -643,13 +606,6 @@ ALTER TABLE `onprocess`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indexes for table `payment`
---
-ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `caseid` (`caseid`);
 
 --
 -- Indexes for table `receptions`
@@ -729,10 +685,16 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `amount`
+--
+ALTER TABLE `amount`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `approvedcase`
 --
 ALTER TABLE `approvedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `billedcase`
@@ -756,37 +718,43 @@ ALTER TABLE `byneft`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `cash`
+--
+ALTER TABLE `cash`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cheque`
 --
 ALTER TABLE `cheque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `chequenrtgs`
 --
 ALTER TABLE `chequenrtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `clientdetails2`
 --
 ALTER TABLE `clientdetails2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `client_details`
 --
 ALTER TABLE `client_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `completedcase`
 --
 ALTER TABLE `completedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `docfile`
@@ -810,13 +778,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `onprocess`
 --
 ALTER TABLE `onprocess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `payment`
---
-ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `receptions`
@@ -828,13 +790,13 @@ ALTER TABLE `receptions`
 -- AUTO_INCREMENT for table `rejectcase`
 --
 ALTER TABLE `rejectcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rtgs`
 --
 ALTER TABLE `rtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sendfiletoadmin`
@@ -846,7 +808,7 @@ ALTER TABLE `sendfiletoadmin`
 -- AUTO_INCREMENT for table `send_to_employees`
 --
 ALTER TABLE `send_to_employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `test`
@@ -858,7 +820,7 @@ ALTER TABLE `test`
 -- AUTO_INCREMENT for table `toadmin`
 --
 ALTER TABLE `toadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transfercase`
@@ -895,6 +857,12 @@ ALTER TABLE `billedcase`
 --
 ALTER TABLE `bycash`
   ADD CONSTRAINT `bycash_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `completedcase` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cash`
+--
+ALTER TABLE `cash`
+  ADD CONSTRAINT `cash_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cheque`
@@ -939,12 +907,6 @@ ALTER TABLE `docfile`
 ALTER TABLE `onprocess`
   ADD CONSTRAINT `onprocess_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `onprocess_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `payment`
---
-ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rejectcase`
