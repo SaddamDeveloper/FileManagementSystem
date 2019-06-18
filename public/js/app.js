@@ -2071,6 +2071,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var converter = __webpack_require__(/*! number-to-words */ "./node_modules/number-to-words/numberToWords.min.js");
@@ -2087,6 +2121,7 @@ __webpack_require__.r(__webpack_exports__);
       time3: '',
       // custom lang
       lang: 'en',
+      files: [],
       completedcases: [],
       approvedcaseemp: [],
       myDate: new Date().toISOString().slice(0, 10),
@@ -2259,11 +2294,11 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yo, killin it!'
       }).then(function (result) {
         if (result.value) {
+          window.print();
           var token = localStorage.getItem('token');
           _this8.toBill.caseid = item.caseid;
           _this8.toBill.employee_id = item.employee_id;
           _this8.toBill.invoiceNo = item.invoiceNo;
-          console.log(item.invoiceNo);
           fetch('api/tobill?token=' + token, {
             method: 'post',
             body: JSON.stringify(_this8.toBill),
@@ -2274,7 +2309,6 @@ __webpack_require__.r(__webpack_exports__);
           fetch("api/deleteapprovedcase/".concat(item.caseid, "?token=") + token, {
             method: 'delete'
           });
-          window.print();
           jQuery('#exampleModal' + item.caseid).modal('hide');
         }
       }).then(function (res) {
@@ -2295,6 +2329,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         console.log(res.data);
         _this9.invoiceNo = res.data;
+      });
+    },
+    showFile: function showFile(item) {
+      var _this10 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this10.files = res;
       });
     }
   },
@@ -2860,6 +2904,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2876,6 +2951,7 @@ __webpack_require__.r(__webpack_exports__);
       chequeNo: '',
       bankNamec: '',
       transactionNo: '',
+      files: [],
       BankName: '',
       isDisabled: false,
       isPaid: false,
@@ -3022,6 +3098,16 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         console.log(res);
+      });
+    },
+    showFile: function showFile(item) {
+      var _this3 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this3.files = res;
       });
     }
   },
@@ -3642,6 +3728,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3662,6 +3749,9 @@ __webpack_require__.r(__webpack_exports__);
       OverallgstAmount: '',
       todaystotalAmount: '',
       todaysgstAmount: '',
+      TotalAmountByCash: '',
+      TotalAmountByCheque: '',
+      TotalAmountByRtgs: '',
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
@@ -3678,17 +3768,23 @@ __webpack_require__.r(__webpack_exports__);
       fetch('api/fetchcollectionregister?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.collectionregister = res.data;
-        _this.OveralltotalAmount = res.OverallTotalAmount;
-        _this.OverallgstAmount = res.OverallgstAmount;
-        _this.todaystotalAmount = res.todaystotalAmount;
-        _this.todaysgstAmount = res.todaysgstAmount;
+        _this.TotalAmountByCash = res.TotalAmountByCash;
+        _this.TotalAmountByCheque = res.TotalAmountByCheque;
+        _this.TotalAmountByRtgs = res.TotalAmountByRtgs;
         _this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
         _this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
         _this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
-        _this.todaysDailyAmount = res.totalDailyCollection;
-        _this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
-        _this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
+        _this.OveralltotalAmount = res.OverallTotalCollection; // this.collectionregister = res.data;
+        // this.OveralltotalAmount = res.OverallTotalAmount;
+        // this.OverallgstAmount = res.OverallgstAmount;
+        // this.todaystotalAmount = res.todaystotalAmount;
+        // this.todaysgstAmount = res.todaysgstAmount;
+        // this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+        // this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+        // this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+        // this.todaysDailyAmount = res.totalDailyCollection;
+        // this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
+        // this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
       });
     },
     print: function print() {
@@ -3910,6 +4006,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3917,6 +4044,7 @@ __webpack_require__.r(__webpack_exports__);
       time1: '',
       time2: '',
       time3: '',
+      files: [],
       // custom lang
       lang: 'en',
       completedcases: [],
@@ -4068,6 +4196,16 @@ __webpack_require__.r(__webpack_exports__);
         if (data.error == "Token is expired") {
           window.location.href = '/';
         }
+      });
+    },
+    showFile: function showFile(item) {
+      var _this8 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this8.files = res;
       });
     }
   }
@@ -4326,7 +4464,9 @@ __webpack_require__.r(__webpack_exports__);
       todaysgstAmount: '',
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
-      TodaysTotalAmountByRtgs: ''
+      TodaysTotalAmountByRtgs: '',
+      OverallTotalCollection: '',
+      totalActualAmount: ''
     };
   },
   created: function created() {
@@ -4390,6 +4530,8 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this4.OveralltotalAmount = res.OverallTotalAmount;
+        _this4.OverallTotalCollection = res.OverallTotalCollection;
+        _this4.totalActualAmount = res.actualAmount;
         _this4.OverallgstAmount = res.OverallgstAmount;
         _this4.todaystotalAmount = res.todaystotalAmount;
         _this4.todaysgstAmount = res.todaysgstAmount;
@@ -5446,6 +5588,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5457,6 +5629,7 @@ __webpack_require__.r(__webpack_exports__);
       lang: 'en',
       docs: '',
       remarks: '',
+      files: [],
       approvalcases: [],
       employees: [],
       toApproval: {
@@ -5537,7 +5710,7 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function (res) {
             _this2.toApproval.caseid = '';
             _this2.toApproval.employee_id = '';
-            jQuery('#exampleModal' + _this2.toApproval.caseid).modal('hide');
+            jQuery('#exampleModal' + item.caseid).modal('hide');
           }).then(Swal.fire('Approved!', 'Case Has been Successfully Approved!', 'success')).catch(function (err) {
             return console.log(err);
           });
@@ -5631,6 +5804,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this6.docs = res.data[0].docs;
         _this6.remarks = res.data[0].remarks;
+      });
+    },
+    showFile: function showFile(item) {
+      var _this7 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this7.files = res;
       });
     }
   }
@@ -6665,6 +6848,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6675,6 +6863,7 @@ __webpack_require__.r(__webpack_exports__);
       // custom lang
       lang: 'en',
       assignedemployees: [],
+      files: [],
       showUploaded: [],
       remarks: '',
       toDb: {
@@ -6684,7 +6873,6 @@ __webpack_require__.r(__webpack_exports__);
       },
       toAdmin: {
         caseid: '',
-        docs: '',
         employee_id: '',
         helper: ''
       },
@@ -6700,8 +6888,7 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchCases(); // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
-
-    this.showUploadedFile();
+    // this.showUploadedFile();
   },
   methods: {
     fetchCases: function fetchCases(page_url) {
@@ -6727,21 +6914,13 @@ __webpack_require__.r(__webpack_exports__);
       this.pagination = pagination;
     },
     showUploadedFile: function showUploadedFile() {
-      var _this2 = this;
-
       var token = localStorage.getItem('token');
       fetch('api/checkcaseid?token=' + token).then(function (res) {
         return res.json();
-      }).then(function (res) {
-        fetch('api/showuploadedfile?token=' + token).then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          _this2.showUploaded = res.data;
-        });
-      });
+      }).then(function (res) {});
     },
     deleteCase: function deleteCase(id) {
-      var _this3 = this;
+      var _this2 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -6758,7 +6937,7 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
-            _this3.fetchCases();
+            _this2.fetchCases();
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
@@ -6766,21 +6945,21 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     loadEmployee: function loadEmployee() {
-      var _this4 = this;
+      var _this3 = this;
 
       axios.get("api/employees").then(function (_ref) {
         var data = _ref.data;
-        return _this4.employees = data.data;
+        return _this3.employees = data.data;
       });
     },
     processFile: function processFile(e) {
-      var _this5 = this;
+      var _this4 = this;
 
       var fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
 
       fileReader.onload = function (e) {
-        _this5.toDb.docs = e.target.result;
+        _this4.toDb.docs = e.target.result;
       };
 
       this.toDb.fileName = e.target.files[0].name;
@@ -6811,7 +6990,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendToAdmin: function sendToAdmin(id) {
-      var _this6 = this;
+      var _this5 = this;
 
       this.toAdmin.caseid = id.caseid;
       this.toAdmin.employee_id = id.employee_id;
@@ -6830,13 +7009,10 @@ __webpack_require__.r(__webpack_exports__);
           var token = localStorage.getItem('token');
           fetch("api/sendtoadmin?token=" + token, {
             method: 'post',
-            body: JSON.stringify(_this6.toAdmin),
+            body: JSON.stringify(_this5.toAdmin),
             headers: {
               'content-type': 'application/json'
             }
-          });
-          fetch('api/deleteonprocess/' + item.caseid + '?token=' + token, {
-            method: 'delete'
           }).then(function (res) {
             return res.json();
           }).then(function (res) {
@@ -6845,6 +7021,11 @@ __webpack_require__.r(__webpack_exports__);
             // .then((res) => {
             //     console.log(res)
             // })
+            // if(res){
+            //     fetch('api/deleteonprocess/'+id.caseid+'?token='+token, {
+            //     method: 'delete'
+            //      })
+            // }
             if (res.message == 0) {
               Swal.fire('Sent!', 'Your file has been sent.', 'success');
             } else if (res.message == 1) {
@@ -6853,11 +7034,21 @@ __webpack_require__.r(__webpack_exports__);
               Swal.fire('Failed!', 'There was something wrong', 'warning');
             }
 
-            _this6.fetchCases();
+            _this5.fetchCases();
           }).catch(function () {
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
         }
+      });
+    },
+    showFile: function showFile(item) {
+      var _this6 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this6.files = res;
       });
     }
   }
@@ -8066,6 +8257,106 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
@@ -8077,7 +8368,13 @@ __webpack_require__.r(__webpack_exports__);
       // custom lang
       lang: 'en',
       rejectedCase: [],
+      files: [],
       rejectedCaseEmployee: [],
+      toDb: {
+        docs: '',
+        assignedEmployee: '',
+        remarks: ''
+      },
       toAdmin: {
         caseid: '',
         docs: '',
@@ -8171,10 +8468,35 @@ __webpack_require__.r(__webpack_exports__);
       fileReader.readAsDataURL(e.target.files[0]);
 
       fileReader.onload = function (e) {
-        _this5.toEmployee.docs = e.target.result;
+        _this5.toDb.docs = e.target.result;
       };
 
-      this.toEmployee.fileName = e.target.files[0].name;
+      this.toDb.fileName = e.target.files[0].name;
+    },
+    pushToDb: function pushToDb(id) {
+      this.toDb.caseid = id.caseid;
+      this.toDb.assignedEmployee = id.employee_id;
+      var token = localStorage.getItem('token'); // this.toOnProcess.caseid = id.caseid;
+      // this.toOnProcess.docs = id.docs;
+      // this.toOnProcess.helper = id.helper;
+      // this.toOnProcess.employee_id = id.employee_id;
+
+      fetch("api/sendtodb?token=" + token, {
+        method: 'post',
+        body: JSON.stringify(this.toDb),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        if (res.message == 0) {
+          alert('Uploaded');
+          jQuery('#exampleModal' + id.caseid).modal('hide');
+        } else {
+          alert('Already Uploaded');
+        }
+      });
     },
     sendToEmployee: function sendToEmployee(id) {
       this.toEmployee.caseid = id;
@@ -8192,7 +8514,6 @@ __webpack_require__.r(__webpack_exports__);
       this.toAdmin.caseid = id.caseid;
       this.toAdmin.assignedEmployee = id.employee_id;
       this.toAdmin.helper = id.helper;
-      this.toAdmin.docs = id.docs;
       Swal.fire({
         title: 'Are you sure want send to Admin again?',
         text: "You won't be able to revert this!",
@@ -8235,6 +8556,16 @@ __webpack_require__.r(__webpack_exports__);
         if (data.error == "Token is expired") {
           window.location.href = '/';
         }
+      });
+    },
+    showFile: function showFile(item) {
+      var _this8 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this8.files = res;
       });
     }
   }
@@ -50885,7 +51216,25 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.helper))]),
                         _vm._v(" "),
-                        _c("td"),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-file" })]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _c(
@@ -50923,6 +51272,100 @@ var render = function() {
                           {
                             staticClass: "modal fade",
                             attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(8, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(9, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
                               id: "exampleModal" + item.caseid,
                               tabindex: "-1",
                               role: "dialog",
@@ -50939,7 +51382,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(8, true),
+                                  _vm._m(10, true),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -50991,7 +51434,7 @@ var render = function() {
                                                 "table",
                                                 { attrs: { id: "meta" } },
                                                 [
-                                                  _vm._m(9, true),
+                                                  _vm._m(11, true),
                                                   _vm._v(" "),
                                                   _c("tr", [
                                                     _c(
@@ -51149,7 +51592,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _c("tr", [
-                                                    _vm._m(10, true),
+                                                    _vm._m(12, true),
                                                     _vm._v(" "),
                                                     _c(
                                                       "td",
@@ -51216,9 +51659,9 @@ var render = function() {
                                                     )
                                                   ]),
                                                   _vm._v(" "),
-                                                  _vm._m(11, true),
+                                                  _vm._m(13, true),
                                                   _vm._v(" "),
-                                                  _vm._m(12, true)
+                                                  _vm._m(14, true)
                                                 ]
                                               ),
                                               _vm._v(" "),
@@ -51226,7 +51669,7 @@ var render = function() {
                                                 "table",
                                                 { attrs: { id: "items" } },
                                                 [
-                                                  _vm._m(13, true),
+                                                  _vm._m(15, true),
                                                   _vm._v(" "),
                                                   _c(
                                                     "tr",
@@ -51237,7 +51680,7 @@ var render = function() {
                                                     [
                                                       _c("td", [_vm._v("1")]),
                                                       _vm._v(" "),
-                                                      _vm._m(14, true),
+                                                      _vm._m(16, true),
                                                       _vm._v(" "),
                                                       _c("td", [
                                                         _c("input", {
@@ -51382,7 +51825,7 @@ var render = function() {
                                                       attrs: { colspan: "2" }
                                                     }),
                                                     _vm._v(" "),
-                                                    _vm._m(15, true),
+                                                    _vm._m(17, true),
                                                     _vm._v(" "),
                                                     _c(
                                                       "td",
@@ -51418,7 +51861,7 @@ var render = function() {
                                                       attrs: { colspan: "2" }
                                                     }),
                                                     _vm._v(" "),
-                                                    _vm._m(16, true),
+                                                    _vm._m(18, true),
                                                     _vm._v(" "),
                                                     _c(
                                                       "td",
@@ -51624,7 +52067,7 @@ var render = function() {
                                                     ])
                                                   ]),
                                                   _vm._v(" "),
-                                                  _vm._m(17, true),
+                                                  _vm._m(19, true),
                                                   _vm._v(" "),
                                                   _c("tr", [
                                                     _c(
@@ -51708,7 +52151,7 @@ var render = function() {
                   "table",
                   { staticClass: "table" },
                   [
-                    _vm._m(18),
+                    _vm._m(20),
                     _vm._v(" "),
                     _vm._l(_vm.approvedcaseemp, function(item, i) {
                       return _c("tr", { key: i }, [
@@ -51742,7 +52185,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
-                        _vm._m(19, true),
+                        _vm._m(21, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -51765,7 +52208,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(20, true),
+                                  _vm._m(22, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -51778,9 +52221,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(21, true),
+                                      _vm._m(23, true),
                                       _vm._v(" "),
-                                      _vm._m(22, true)
+                                      _vm._m(24, true)
                                     ]
                                   )
                                 ])
@@ -51952,18 +52395,49 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case docs")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -52486,18 +52960,23 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c(
-                        "a",
+                        "button",
                         {
+                          staticClass: "btn btn-sm",
                           attrs: {
-                            href: "./storage/" + item.caseid + "/" + item.docs,
-                            download: ""
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#exampleModals1" + item.caseid
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showFile(item)
+                            }
                           }
                         },
-                        [_vm._v(_vm._s(item.docs))]
+                        [_c("i", { staticClass: "fa fa-file" })]
                       )
                     ]),
-                    _vm._v(" "),
-                    _c("td"),
                     _vm._v(" "),
                     _c("td", [
                       _c("div", { staticClass: "btn btn-group" }, [
@@ -52534,6 +53013,92 @@ var render = function() {
                       {
                         staticClass: "modal fade",
                         attrs: {
+                          id: "exampleModals1" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-md",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(3, true),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-body" }, [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-bordered" },
+                                  [
+                                    _vm._m(4, true),
+                                    _vm._v(" "),
+                                    _c("tr", [
+                                      _c("td", [
+                                        _c(
+                                          "ul",
+                                          _vm._l(_vm.files, function(data) {
+                                            return _c("li", { key: data.id }, [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "./storage/" +
+                                                      item.caseid +
+                                                      "/" +
+                                                      data.docs,
+                                                    download: ""
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(data.docs))]
+                                              )
+                                            ])
+                                          }),
+                                          0
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("ul", [
+                                          _c("li", [
+                                            _c(
+                                              "a",
+                                              {
+                                                attrs: {
+                                                  href:
+                                                    "./storage/" +
+                                                    item.caseid +
+                                                    "/" +
+                                                    item.docs,
+                                                  download: ""
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(item.docs))]
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
                           id: "exampleModal" + item.caseid,
                           tabindex: "-1",
                           role: "dialog",
@@ -52550,7 +53115,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(3, true),
+                              _vm._m(5, true),
                               _vm._v(" "),
                               _c(
                                 "div",
@@ -52767,7 +53332,7 @@ var render = function() {
                                         { staticStyle: { width: "900px" } },
                                         [
                                           _c("tr", [
-                                            _vm._m(4, true),
+                                            _vm._m(6, true),
                                             _vm._v(" "),
                                             _c(
                                               "td",
@@ -52820,14 +53385,14 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _vm._m(5, true),
+                                          _vm._m(7, true),
                                           _vm._v(" "),
-                                          _vm._m(6, true)
+                                          _vm._m(8, true)
                                         ]
                                       ),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "items" } }, [
-                                        _vm._m(7, true),
+                                        _vm._m(9, true),
                                         _vm._v(" "),
                                         _c(
                                           "tr",
@@ -52838,7 +53403,7 @@ var render = function() {
                                           [
                                             _c("td", [_vm._v("1")]),
                                             _vm._v(" "),
-                                            _vm._m(8, true),
+                                            _vm._m(10, true),
                                             _vm._v(" "),
                                             _c("td", [
                                               _c("input", {
@@ -52954,7 +53519,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(9, true),
+                                          _vm._m(11, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -52985,7 +53550,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(10, true),
+                                          _vm._m(12, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -53151,7 +53716,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(11, true),
+                                        _vm._m(13, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -53763,7 +54328,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(12, true),
+                              _vm._m(14, true),
                               _vm._v(" "),
                               _c(
                                 "div",
@@ -53800,7 +54365,7 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "meta" } }, [
-                                        _vm._m(13, true),
+                                        _vm._m(15, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -53841,7 +54406,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(14, true),
+                                        _vm._m(16, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -53884,7 +54449,7 @@ var render = function() {
                                         { staticStyle: { width: "900px" } },
                                         [
                                           _c("tr", [
-                                            _vm._m(15, true),
+                                            _vm._m(17, true),
                                             _vm._v(" "),
                                             _c(
                                               "td",
@@ -53937,14 +54502,14 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _vm._m(16, true),
+                                          _vm._m(18, true),
                                           _vm._v(" "),
-                                          _vm._m(17, true)
+                                          _vm._m(19, true)
                                         ]
                                       ),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "items" } }, [
-                                        _vm._m(18, true),
+                                        _vm._m(20, true),
                                         _vm._v(" "),
                                         _c(
                                           "tr",
@@ -53955,7 +54520,7 @@ var render = function() {
                                           [
                                             _c("td", [_vm._v("1")]),
                                             _vm._v(" "),
-                                            _vm._m(19, true),
+                                            _vm._m(21, true),
                                             _vm._v(" "),
                                             _c("td", [
                                               _c("input", {
@@ -54071,7 +54636,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(20, true),
+                                          _vm._m(22, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -54100,7 +54665,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(21, true),
+                                          _vm._m(23, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -54260,7 +54825,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(22, true),
+                                        _vm._m(24, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -54376,18 +54941,47 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case Docs")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -56546,35 +57140,37 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                Today's Daily Collection By Cash:\n                            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [_c("b", [_vm._v(_vm._s(_vm.todaysDailyAmount))])])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _vm._v(
-                    "\n                                Today's Total Collection By Cheque:\n                            "
+                    "\n                                Today's Collection By Cash:\n                            "
                   )
                 ]),
                 _vm._v(" "),
                 _c("td", [
-                  _c("b", [_vm._v(_vm._s(_vm.todaysDailyAmountByCheque))])
+                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCash))])
                 ])
               ]),
               _vm._v(" "),
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                 Today's Total Collection By NEFT/RTGS:\n                            "
+                    "\n                                Today's Collection By Cheque:\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("b", [_vm._v(_vm._s(_vm.TodaysTotalAmountByCheque))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                                Today's Collection By NEFT/RTGS:\n                            "
                   )
                 ]),
                 _vm._v(" "),
                 _c("td", [
                   _c("b", [
-                    _vm._v(" " + _vm._s(_vm.todaysDailyAmountByRtgs) + " ")
+                    _vm._v(" " + _vm._s(_vm.TodaysTotalAmountByRtgs) + " ")
                   ])
                 ])
               ]),
@@ -57116,25 +57712,123 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.helper))]),
                         _vm._v(" "),
-                        _c("td"),
-                        _vm._v(" "),
                         _c("td", [
                           _c(
-                            "a",
+                            "button",
                             {
+                              staticClass: "btn btn-sm",
                               attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
                               }
                             },
-                            [_vm._v(_vm._s(item.docs))]
+                            [_c("i", { staticClass: "fa fa-file" })]
                           )
                         ]),
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
                         _vm._m(8, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(9, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(10, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -57157,7 +57851,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(9, true),
+                                  _vm._m(11, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -57170,9 +57864,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(10, true),
+                                      _vm._m(12, true),
                                       _vm._v(" "),
-                                      _vm._m(11, true)
+                                      _vm._m(13, true)
                                     ]
                                   )
                                 ])
@@ -57191,7 +57885,7 @@ var render = function() {
                   "table",
                   { staticClass: "table" },
                   [
-                    _vm._m(12),
+                    _vm._m(14),
                     _vm._v(" "),
                     _vm._l(_vm.fetchcompletedcaseemp, function(item, i) {
                       return _c("tr", { key: i }, [
@@ -57225,7 +57919,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
-                        _vm._m(13, true),
+                        _vm._m(15, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -57248,7 +57942,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(14, true),
+                                  _vm._m(16, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -57261,9 +57955,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(15, true),
+                                      _vm._m(17, true),
                                       _vm._v(" "),
-                                      _vm._m(16, true)
+                                      _vm._m(18, true)
                                     ]
                                   )
                                 ])
@@ -57434,13 +58128,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
@@ -57456,6 +58144,41 @@ var staticRenderFns = [
       _c("div", { staticClass: "alert alert-primary alert-sm" }, [
         _vm._v("Completed")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -57954,11 +58677,11 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "stat-content dib" }, [
                 _c("div", { staticClass: "stat-text" }, [
-                  _vm._v("Total Collection")
+                  _vm._v("Today's Collection")
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "stat-digit" }, [
-                  _vm._v(_vm._s(_vm.OveralltotalAmount))
+                  _vm._v(_vm._s(_vm.OverallTotalCollection))
                 ])
               ])
             ])
@@ -57966,7 +58689,25 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(10),
+      _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "stat-widget-one" }, [
+              _vm._m(10),
+              _vm._v(" "),
+              _c("div", { staticClass: "stat-content dib" }, [
+                _c("div", { staticClass: "stat-text" }, [_vm._v("Due Amount")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "stat-digit" }, [
+                  _vm._v(
+                    _vm._s(_vm.totalActualAmount - _vm.OverallTotalCollection)
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
       _vm._m(11),
       _vm._v(" "),
@@ -58763,22 +59504,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "stat-widget-one" }, [
-            _c("div", { staticClass: "stat-icon dib" }, [
-              _c("i", { staticClass: "ti-money text-success border-success" })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "stat-content dib" }, [
-              _c("div", { staticClass: "stat-text" }, [_vm._v("Due Amount")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "stat-digit" }, [_vm._v("1,012")])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "stat-icon dib" }, [
+      _c("i", { staticClass: "ti-money text-success border-success" })
     ])
   },
   function() {
@@ -60107,27 +60834,21 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c(
-                        "a",
+                        "button",
                         {
+                          staticClass: "btn btn-sm",
                           attrs: {
-                            href: "./storage/" + item.caseid + "/" + _vm.docs,
-                            download: ""
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#exampleModals1" + item.caseid
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showFile(item)
+                            }
                           }
                         },
-                        [_vm._v(_vm._s(_vm.docs))]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "./storage/" + item.caseid + "/" + item.docs,
-                            download: ""
-                          }
-                        },
-                        [_vm._v(_vm._s(item.docs))]
+                        [_c("i", { staticClass: "fa fa-file" })]
                       )
                     ]),
                     _vm._v(" "),
@@ -60393,6 +61114,92 @@ var render = function() {
                           ]
                         )
                       ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModals1" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-md",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(10, true),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-body" }, [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-bordered" },
+                                  [
+                                    _vm._m(11, true),
+                                    _vm._v(" "),
+                                    _c("tr", [
+                                      _c("td", [
+                                        _c(
+                                          "ul",
+                                          _vm._l(_vm.files, function(data) {
+                                            return _c("li", { key: data.id }, [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "./storage/" +
+                                                      item.caseid +
+                                                      "/" +
+                                                      data.docs,
+                                                    download: ""
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(data.docs))]
+                                              )
+                                            ])
+                                          }),
+                                          0
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("ul", [
+                                          _c("li", [
+                                            _c(
+                                              "a",
+                                              {
+                                                attrs: {
+                                                  href:
+                                                    "./storage/" +
+                                                    item.caseid +
+                                                    "/" +
+                                                    item.docs,
+                                                  download: ""
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(item.docs))]
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
                     )
                   ])
                 }),
@@ -60456,13 +61263,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case Docs")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
@@ -60582,6 +61383,41 @@ var staticRenderFns = [
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
         [_vm._v("Send")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   }
 ]
@@ -62562,13 +63398,16 @@ var render = function() {
                             type: "button",
                             "data-toggle": "modal",
                             "data-target": "#exampleModals1" + item.caseid
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showFile(item)
+                            }
                           }
                         },
                         [_c("i", { staticClass: "fa fa-file" })]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
+                      ),
+                      _vm._v(" "),
                       _c(
                         "button",
                         {
@@ -62698,6 +63537,31 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("tr", [
                                       _c("td", [
+                                        _c(
+                                          "ul",
+                                          _vm._l(_vm.files, function(data) {
+                                            return _c("li", { key: data.id }, [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "./storage/" +
+                                                      item.caseid +
+                                                      "/" +
+                                                      data.docs,
+                                                    download: ""
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(data.docs))]
+                                              )
+                                            ])
+                                          }),
+                                          0
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
                                         _c("ul", [
                                           _c("li", [
                                             _c(
@@ -62788,8 +63652,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Docs")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
@@ -62877,7 +63739,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [_c("th", [_vm._v("Docs")])])
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
+    ])
   }
 ]
 render._withStripped = true
@@ -65390,15 +66256,21 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c(
-                            "a",
+                            "button",
                             {
+                              staticClass: "btn btn-sm",
                               attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
                               }
                             },
-                            [_vm._v(_vm._s(item.docs))]
+                            [_c("i", { staticClass: "fa fa-file" })]
                           )
                         ]),
                         _vm._v(" "),
@@ -65435,7 +66307,7 @@ var render = function() {
                           {
                             staticClass: "modal fade",
                             attrs: {
-                              id: "exampleModal" + item.caseid,
+                              id: "exampleModals1" + item.caseid,
                               tabindex: "-1",
                               role: "dialog",
                               "aria-labelledby": "exampleModalLabel",
@@ -65452,6 +66324,100 @@ var render = function() {
                               [
                                 _c("div", { staticClass: "modal-content" }, [
                                   _vm._m(3, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(4, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModal" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(5, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -65472,7 +66438,7 @@ var render = function() {
                                               "table table-bordered table-responsive"
                                           },
                                           [
-                                            _vm._m(4, true),
+                                            _vm._m(6, true),
                                             _vm._v(" "),
                                             _c("tr", [
                                               _c("td", [
@@ -65487,13 +66453,13 @@ var render = function() {
                                                 })
                                               ]),
                                               _vm._v(" "),
-                                              _vm._m(5, true)
+                                              _vm._m(7, true)
                                             ])
                                           ]
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _vm._m(6, true)
+                                      _vm._m(8, true)
                                     ]
                                   )
                                 ])
@@ -65510,7 +66476,7 @@ var render = function() {
             _vm._v(" "),
             _vm.users.selected == 1
               ? _c("table", { staticClass: "table" }, [
-                  _vm._m(7),
+                  _vm._m(9),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -65524,15 +66490,21 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c(
-                            "a",
+                            "button",
                             {
+                              staticClass: "btn btn-sm",
                               attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
                               }
                             },
-                            [_vm._v(_vm._s(item.docs))]
+                            [_c("i", { staticClass: "fa fa-file" })]
                           )
                         ]),
                         _vm._v(" "),
@@ -65575,7 +66547,7 @@ var render = function() {
                           {
                             staticClass: "modal fade",
                             attrs: {
-                              id: "exampleModal" + item.caseid,
+                              id: "exampleModals1" + item.caseid,
                               tabindex: "-1",
                               role: "dialog",
                               "aria-labelledby": "exampleModalLabel",
@@ -65591,118 +66563,78 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(8, true),
+                                  _vm._m(10, true),
                                   _vm._v(" "),
-                                  _c(
-                                    "form",
-                                    {
-                                      on: {
-                                        submit: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.pushToDb(item.caseid)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("div", { staticClass: "modal-body" }, [
-                                        _c(
-                                          "table",
-                                          {
-                                            staticClass:
-                                              "table table-bordered table-responsive"
-                                          },
-                                          [
-                                            _vm._m(9, true),
-                                            _vm._v(" "),
-                                            _c("tr", [
-                                              _c("td", [
-                                                _c("input", {
-                                                  attrs: {
-                                                    type: "file",
-                                                    name: "docs"
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(11, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
                                                   },
-                                                  on: {
-                                                    change: _vm.processFile
-                                                  }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _vm._m(10, true)
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
                                             ])
-                                          ]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._m(11, true)
-                                    ]
-                                  )
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
                                 ])
                               ]
                             )
                           ]
-                        )
-                      ])
-                    }),
-                    0
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.users.selected == 2
-              ? _c("table", { staticClass: "table" }, [
-                  _vm._m(12),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.rejectedCaseEmployee, function(item) {
-                      return _c("tr", { key: item.id }, [
-                        _c("td", [_vm._v(_vm._s(item.caseid))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.helper))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
-                              }
-                            },
-                            [_vm._v(_vm._s(item.docs))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: {
-                                type: "button",
-                                "data-toggle": "modal",
-                                "data-target": "#exampleModal" + item.caseid
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-plus" })]
-                          ),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary btn-sm",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.sendToAdmin(item)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-send-o" })]
-                          )
-                        ]),
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -65725,7 +66657,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(13, true),
+                                  _vm._m(12, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -65746,7 +66678,7 @@ var render = function() {
                                               "table table-bordered table-responsive"
                                           },
                                           [
-                                            _vm._m(14, true),
+                                            _vm._m(13, true),
                                             _vm._v(" "),
                                             _c("tr", [
                                               _c("td", [
@@ -65761,13 +66693,247 @@ var render = function() {
                                                 })
                                               ]),
                                               _vm._v(" "),
-                                              _vm._m(15, true)
+                                              _vm._m(14, true)
                                             ])
                                           ]
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _vm._m(16, true)
+                                      _vm._m(15, true)
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.users.selected == 2
+              ? _c("table", { staticClass: "table" }, [
+                  _vm._m(16),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.rejectedCaseEmployee, function(item) {
+                      return _c("tr", { key: item.id }, [
+                        _c("td", [_vm._v(_vm._s(item.caseid))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.helper))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-file" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModal" + item.caseid
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-plus" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.msg))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.sendToAdmin(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-send-o" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(17, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(18, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModal" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(19, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "form",
+                                    {
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.pushToDb(item)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("div", { staticClass: "modal-body" }, [
+                                        _c(
+                                          "table",
+                                          {
+                                            staticClass: "table table-bordered"
+                                          },
+                                          [
+                                            _vm._m(20, true),
+                                            _vm._v(" "),
+                                            _c("tr", [
+                                              _c("td", [
+                                                _c("input", {
+                                                  attrs: {
+                                                    type: "file",
+                                                    name: "docs"
+                                                  },
+                                                  on: {
+                                                    change: _vm.processFile
+                                                  }
+                                                })
+                                              ])
+                                            ])
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._m(21, true)
                                     ]
                                   )
                                 ])
@@ -65836,10 +67002,45 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case Documents")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -65916,10 +67117,45 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case Docs")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -65996,10 +67232,47 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case Docs")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -66031,17 +67304,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Docs")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Remarks")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("input", { attrs: { type: "text", value: "" } })])
+    return _c("tr", [_c("th", [_vm._v("Docs")])])
   },
   function() {
     var _vm = this
@@ -66060,7 +67323,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Save")]
+        [_vm._v("Upload")]
       )
     ])
   }

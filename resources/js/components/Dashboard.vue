@@ -164,8 +164,8 @@
         <div class="stat-widget-one">
             <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
             <div class="stat-content dib">
-                <div class="stat-text">Total Collection</div>
-                <div class="stat-digit">{{OveralltotalAmount}}</div>
+                <div class="stat-text">Today's Collection</div>
+                <div class="stat-digit">{{ OverallTotalCollection }}</div>
             </div>
         </div>
     </div>
@@ -178,7 +178,7 @@
             <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Due Amount</div>
-                <div class="stat-digit">1,012</div>
+                <div class="stat-digit">{{ totalActualAmount-OverallTotalCollection }}</div>
             </div>
         </div>
     </div>
@@ -241,7 +241,9 @@ export default {
       todaysgstAmount: '',
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
-      TodaysTotalAmountByRtgs: ''
+      TodaysTotalAmountByRtgs: '',
+      OverallTotalCollection: '',
+      totalActualAmount: ''
     }
   },
   created(){
@@ -296,6 +298,8 @@ export default {
         .then(res => res.json())
         .then((res) => {
             this.OveralltotalAmount = res.OverallTotalAmount;
+            this.OverallTotalCollection = res.OverallTotalCollection;
+            this.totalActualAmount = res.actualAmount;
             this.OverallgstAmount = res.OverallgstAmount;
             this.todaystotalAmount = res.todaystotalAmount;
             this.todaysgstAmount = res.todaysgstAmount;

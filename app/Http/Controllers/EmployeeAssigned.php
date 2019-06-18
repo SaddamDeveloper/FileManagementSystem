@@ -20,7 +20,8 @@ class EmployeeAssigned extends Controller
         $user = auth()->user();
         $id = $user['employee_id'];
         $employee = DB::table('onprocess')
-            ->select( "onprocess.caseid", "onprocess.docs")
+            ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.email', '=', 'users.email')
                 // ->join('users', 'employees.email', '=', 'users.email')
                 // ->orderBy('onprocess.id', 'DESC')
                 ->where('onprocess.employee_id', $id)
@@ -38,15 +39,17 @@ class EmployeeAssigned extends Controller
         return $caseid;
     }
 
-    public function showUploadedFile(){
+    public function showUploadedFile($caseid){
         $user = auth()->user();
         $id = $user['employee_id'];
         $employee = DB::table('uploadedfile')
-            ->join('employees', 'uploadedfile.employee_id', '=', 'employees.employee_id')
-            ->join('users', 'employees.email', '=', 'users.email')
-            ->join('onprocess', 'uploadedfile.caseid', '=', 'onprocess.caseid')
-            ->where( 'uploadedfile.employee_id', $id)
-            ->paginate(15);
+            ->select('docs')
+            ->where('caseid', $caseid)
+            // ->join('employees', 'uploadedfile.employee_id', '=', 'employees.employee_id')
+            // ->join('users', 'employees.email', '=', 'users.email')
+            // ->join('onprocess', 'uploadedfile.caseid', '=', 'onprocess.caseid')
+            // ->where( 'uploadedfile.employee_id', $id)
+            ->get();
         return $employee;
     }
 

@@ -72,22 +72,23 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Today's Daily Collection By Cash:
+                                    Today's Collection By Cash:
                                 </td>
-                                <td><b>{{ todaysDailyAmount }}</b></td>
+                                <td><b>{{ TodaysTotalAmountByCash }}</b></td>
                             </tr>
                             <tr>
                                 <td>
-                                    Today's Total Collection By Cheque:
+                                    Today's Collection By Cheque:
                                 </td>
-                                <td><b>{{ todaysDailyAmountByCheque }}</b></td>
+                                <td><b>{{ TodaysTotalAmountByCheque }}</b></td>
                             </tr>
                             <tr>
                                 <td>
-                                     Today's Total Collection By NEFT/RTGS:
+                                    Today's Collection By NEFT/RTGS:
                                 </td>
-                                <td><b> {{ todaysDailyAmountByRtgs }} </b></td>
+                                <td><b> {{ TodaysTotalAmountByRtgs }} </b></td>
                             </tr>
+
                             <tr>
                                 <td>
                                      Over All Total Collection:
@@ -183,6 +184,9 @@ export default {
         OverallgstAmount:'',
         todaystotalAmount: '',
         todaysgstAmount: '',
+        TotalAmountByCash: '',
+        TotalAmountByCheque: '',
+        TotalAmountByRtgs: '',
         TodaysTotalAmountByCash: '',
         TodaysTotalAmountByCheque: '',
         TodaysTotalAmountByRtgs: '',
@@ -197,17 +201,26 @@ methods: {
         fetch('api/fetchcollectionregister?token='+token)
         .then(res => res.json())
         .then((res) => {
-            this.collectionregister = res.data;
-            this.OveralltotalAmount = res.OverallTotalAmount;
-            this.OverallgstAmount = res.OverallgstAmount;
-            this.todaystotalAmount = res.todaystotalAmount;
-            this.todaysgstAmount = res.todaysgstAmount;
+            this.TotalAmountByCash = res.TotalAmountByCash;
+            this.TotalAmountByCheque = res.TotalAmountByCheque;
+            this.TotalAmountByRtgs = res.TotalAmountByRtgs;
+
             this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
             this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
             this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
-            this.todaysDailyAmount = res.totalDailyCollection;
-            this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
-            this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
+
+            this.OveralltotalAmount = res.OverallTotalCollection;
+            // this.collectionregister = res.data;
+            // this.OveralltotalAmount = res.OverallTotalAmount;
+            // this.OverallgstAmount = res.OverallgstAmount;
+            // this.todaystotalAmount = res.todaystotalAmount;
+            // this.todaysgstAmount = res.todaysgstAmount;
+            // this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+            // this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+            // this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+            // this.todaysDailyAmount = res.totalDailyCollection;
+            // this.todaysDailyAmountByCheque = res.todayscollectionByCheque;
+            // this.todaysDailyAmountByRtgs = res.todaysCollectionByRtgs;
         })
     },
     print(){

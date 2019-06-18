@@ -32,7 +32,7 @@
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
+                            <th scope="col">Case Documents</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -41,9 +41,41 @@
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
-                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button></td>
                         <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                           <!-- Modal -->
+                                      <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Admin docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
                             <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-md" role="document">
                                 <div class="modal-content">
@@ -83,7 +115,7 @@
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
+                            <th scope="col">Case Docs</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -92,10 +124,44 @@
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
-                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                        <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button></td>
                         <td v-if="users.selected == 2"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                         <td v-else><button class="btn btn-danger">Rejected</button></td>
+
                           <!-- Modal -->
+            <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Admin docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+
                             <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-md" role="document">
                                 <div class="modal-content">
@@ -135,7 +201,8 @@
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
+                            <th scope="col">Case Docs</th>
+                            <th scope="col">Remarks</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -144,39 +211,72 @@
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
-                        <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
+                        <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button>
+                        </td>
+                        <td>{{ item.msg }}</td>
+                        <td><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                           <!-- Modal -->
-                            <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-md" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form @submit.prevent="pushToDb(item.caseid)">
-                                <div class="modal-body">
-                                    <table class="table table-bordered table-responsive">
-                                        <tr>
-                                            <th>Docs</th>
-                                            <th>Remarks</th>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="file" name="docs" @change="processFile"></td>
-                                            <td><input type="text" value=""></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                                </form>
-                                </div>
-                            </div>
-                            </div>
+            <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Admin docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="pushToDb(item)">
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                        </tr>
+                        <tr>
+                            <td><input type="file" name="docs" @change="processFile"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
                         </tr>
                 </tbody>
             </table>
@@ -201,7 +301,13 @@ data(){
         // custom lang
         lang: 'en',
         rejectedCase: [],
+        files:[],
         rejectedCaseEmployee: [],
+        toDb: {
+                docs: '',
+                assignedEmployee: '',
+                remarks:''
+            },
         toAdmin: {
             caseid: '',
             docs: '',
@@ -287,16 +393,41 @@ created(){
         loadEmployee(){
              axios.get("api/employees").then(( { data }) => (this.employees = data.data) );
         },
-        processFile(e) {
+         processFile(e) {
 
             var fileReader = new FileReader();
 
             fileReader.readAsDataURL(e.target.files[0]);
-
             fileReader.onload = (e) => {
-                this.toEmployee.docs = e.target.result
+                this.toDb.docs = e.target.result
             }
-            this.toEmployee.fileName = e.target.files[0].name
+            this.toDb.fileName = e.target.files[0].name
+        },
+        pushToDb(id){
+            this.toDb.caseid = id.caseid;
+            this.toDb.assignedEmployee = id.employee_id;
+            const token = localStorage.getItem('token');
+                    // this.toOnProcess.caseid = id.caseid;
+                    // this.toOnProcess.docs = id.docs;
+                    // this.toOnProcess.helper = id.helper;
+                    // this.toOnProcess.employee_id = id.employee_id;
+                      fetch(`api/sendtodb?token=`+token, {
+                        method: 'post',
+                        body: JSON.stringify(this.toDb),
+                            headers: {
+                        'content-type': 'application/json'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.message == 0){
+                            alert('Uploaded');
+                            jQuery('#exampleModal'+id.caseid).modal('hide');
+                        }
+                        else{
+                            alert('Already Uploaded');
+                        }
+                    })
         },
         sendToEmployee(id){
             this.toEmployee.caseid = id;
@@ -312,7 +443,6 @@ created(){
             this.toAdmin.caseid = id.caseid;
             this.toAdmin.assignedEmployee = id.employee_id;
             this.toAdmin.helper = id.helper;
-            this.toAdmin.docs = id.docs;
             Swal.fire({
             title: 'Are you sure want send to Admin again?',
             text: "You won't be able to revert this!",
@@ -361,6 +491,14 @@ created(){
                     if(data.error == "Token is expired"){
                         window.location.href = '/';
                     }
+                })
+        },
+         showFile(item){
+            const token = localStorage.getItem('token');
+             fetch('api/showuploadedfile/'+item.caseid+'?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                   this.files = res
                 })
         }
     }

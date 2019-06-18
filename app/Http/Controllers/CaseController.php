@@ -70,7 +70,7 @@ class CaseController extends Controller
     public function casesgovtnall(){
         $cases = DB::table('cases')
             // ->join('client_detsails', 'cases.caseid', '=', 'client_details.caseid')
-            ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
+            ->join('clientdetails2', 'cases.caseid', '=', 'clientdetails2.caseid')
             ->paginate(15);
         return $cases;
     }
@@ -169,6 +169,7 @@ class CaseController extends Controller
                 $amount->amount = $request->input('amount');
                 $amount->advamount = $request->input('advamount');
                 $amount->caseid = $caseid;
+                $amount->time2 = $formatedDate;
             }
             else if ($request->input('selected') == 3) {
                 $chequenrtgs->method = $request->input('selected');
@@ -208,6 +209,7 @@ class CaseController extends Controller
             $amount->amount = $request->input('amount');
             $amount->advamount = $request->input('advamount');
             $amount->caseid = $caseid;
+            $amount->time2 = $formatedDate;
             if ($request->input('selected') == 2) {
                 if ($case->save() && $cdetails->save() && $cash->save() && $amount->save()) {
                 return new CaseResource($case);
@@ -285,6 +287,7 @@ class CaseController extends Controller
             $amount->amount = $request->input('amount');
             $amount->advamount = $request->input('advamount');
             $amount->caseid = $caseid;
+            $amount->time2 = $formatedDate;
 
             // if($request->input('selected') == 2){
             //     $amount->caseid = $caseid;

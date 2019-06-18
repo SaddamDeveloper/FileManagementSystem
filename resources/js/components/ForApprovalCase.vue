@@ -32,8 +32,7 @@
                                 <th scope="col">#Case</th>
                                 <th scope="col">Assigned Employee</th>
                                 <th scope="col">Helper</th>
-                                <th scope="col">Final Docs By Employee</th>
-                                <th scope="col">Assigned Docs by Admin</th>
+                                <th scope="col">Case Docs</th>
                                 <th scope="col">Remarks</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
@@ -43,8 +42,7 @@
                             <td>{{ item.caseid }}</td>
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
-                            <td> <a :href="'./storage/'+item.caseid+'/'+docs" download>{{ docs }}</a></td>
-                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
+                            <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button></td>
                             <td>{{ remarks }}</td>
                             <td><div class="alert alert-primary alert-sm">NA</div></td>
                             <td class="btn-group"><button type="button" class="btn btn-success btn-sm" @click="confirmApprove(item)"><i class="fa fa-check"></i></button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-ban"></i></button><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" :data-target="'#exampleModals'+item.caseid"><i class="fa fa-share-square-o"></i></button></td>
@@ -110,6 +108,38 @@
                 </div>
             </div>
         </div>
+                <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Admin docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
                         </tr>
                     <tbody>
 
@@ -136,6 +166,7 @@ export default {
             lang: 'en',
             docs: '',
             remarks: '',
+            files: [],
             approvalcases: [],
             employees: [],
             toApproval: {
@@ -214,7 +245,7 @@ export default {
             .then(res => {
                 this.toApproval.caseid = '';
                 this.toApproval.employee_id = '';
-                jQuery('#exampleModal'+this.toApproval.caseid).modal('hide');
+                jQuery('#exampleModal'+item.caseid).modal('hide');
             })
             .then(Swal.fire(
                 'Approved!',
@@ -309,6 +340,14 @@ export default {
                 this.docs = res.data[0].docs;
                 this.remarks = res.data[0].remarks;
             });
+        },
+        showFile(item){
+            const token = localStorage.getItem('token');
+             fetch('api/showuploadedfile/'+item.caseid+'?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                   this.files = res
+                })
         }
     }
 }

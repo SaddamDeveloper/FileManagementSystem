@@ -98,7 +98,7 @@ Route::delete('assignedemployee/{id}', 'AssignedEmployee@destroy');
 //Employee
 Route::get('employeeassignedemployees/', ['uses' => 'EmployeeAssigned@index', 'middleware' => 'jwt']);
 
-Route::get( 'showuploadedfile/', ['uses' => 'EmployeeAssigned@showUploadedFile', 'middleware' => 'jwt']);
+Route::get( 'showuploadedfile/{id}', ['uses' => 'EmployeeAssigned@showUploadedFile', 'middleware' => 'jwt']);
 
 
 

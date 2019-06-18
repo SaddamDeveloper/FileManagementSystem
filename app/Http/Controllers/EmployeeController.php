@@ -201,17 +201,19 @@ class EmployeeController extends Controller
         $caseId = $request->input('caseid');
         // $idCheck = UploadedFile::where('caseid', '=', Input::get('caseid'))->first();
         // if ($idCheck === null) {
-            Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+            $store = Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+
         // } else {
-        //     return response()->json(['message' => 'File is already uploaded'], 200);
         // }
         $toDb->caseid = $request->input('caseid');
         $toDb->employee_id = $request->input('assignedEmployee');
         $toDb->docs = $fileName;
         // $toDb->helper = implode(",", $request->input('helper'));
         // return $caseId;
-        if ($toDb->save()) {
-            return new EmployeeResource($toDb);
+        if ($store && $toDb->save()) {
+            return response()->json(['message' => '0'], 200);
+        } else {
+            return response()->json(['message' => '1'], 200);
         }
 
     }
@@ -223,12 +225,13 @@ class EmployeeController extends Controller
         // return $count;
         $toAdmin->caseid = $request->input('caseid');
         $toAdmin->employee_id = $request->input('employee_id');
-        if( $request->input('docs') == null){
-            $toAdmin->docs = '';
-        }
-        else{
-            $toAdmin->docs = $request->input('docs');
-        }
+
+        // if( $request->input('docs') == null){
+        //     $toAdmin->docs = '';
+        // }
+        // else{
+        //     $toAdmin->docs = $request->input('docs');
+        // }
 
         $dbCheck = sendToAdmin::where('caseid', '=', Input::get('caseid'))->first();
         if($dbCheck == null){
@@ -248,7 +251,7 @@ class EmployeeController extends Controller
 
        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-            ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
+            // ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
             ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
             ->paginate(15);
             return $approvedCase;
@@ -291,10 +294,10 @@ class EmployeeController extends Controller
 
     public function CompletedCase(){
 
-        $completedCase = DB::table( 'approvedcase')
-            ->join('amount', 'approvedcase.caseid', '=', 'amount.caseid')
-            ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
-            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table( 'completedcase')
+            ->join('amount', 'completedcase.caseid', '=', 'amount.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             // ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
             // ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
@@ -421,7 +424,7 @@ class EmployeeController extends Controller
         $toAdmin->caseid = $request->input('caseid');
         // return $request->input('assignedEmployee');
         $toAdmin->employee_id = $request->input('assignedEmployee');
-        $toAdmin->docs = $request->input('docs');
+        // $toAdmin->docs = $request->input('docs');
 
         if($toAdmin->save()){
             return new EmployeeResource($toAdmin);
@@ -588,7 +591,6 @@ class EmployeeController extends Controller
 
         $toComplete->method = $request->input('selected');
         $toComplete->date = $request->input('date');
-
         if( $request->input('selected') == 1){
             $byCash->name = "By Cash";
         }
@@ -600,7 +602,6 @@ class EmployeeController extends Controller
         }
         $byCash->caseid = $request->input('caseid');
         $byCash->method = $request->input('selected');
-
         // $byCash->name = "By NEFT";
         // $byCash->method = $request->input('selected');
 
@@ -668,20 +669,31 @@ class EmployeeController extends Controller
             ->join('client_details', 'completedcase.caseid', '=', 'client_details.caseid')
             ->paginate(15);
 
-        $todaysDailyCollection = DB::table('payment')->sum('advamount');
-        $todaysDailyCollectionCheque = DB::table('cheque')->sum('advamount');
-        $todaysDailyCollectionRtgs = DB::table('rtgs')->sum('advamount');
-        $OveralltotalAmount =  DB::table('completedcase')->sum('paidamount');
-        $OverallgstAmount =  DB::table('completedcase')->sum('gstamount');
         $date = substr(Carbon::today(), 0, 10);
-        $todaystotalAmount =  DB::table('completedcase')->where('date', $date)->sum('paidamount');
-        $todaysgstamount =  DB::table('completedcase')->where('date', $date)->sum('gstamount');
-        $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
-        $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
-        $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
-        $custom = collect(['todaystotalAmount' => $todaystotalAmount, 'todaysgstAmount' => $todaysgstamount, 'TodaysTotalAmountByCash' => $todaystotalAmountByCash, 'TodaysTotalAmountByCheque' => $todaystotalAmountByCheque, 'TodaysTotalAmountByRtgs' => $todaystotalAmountByRtgs, 'OverallTotalAmount' => $OveralltotalAmount, 'OverallgstAmount' => $OverallgstAmount, 'totalDailyCollection' => $todaysDailyCollection, 'todayscollectionByCheque' => $todaysDailyCollectionCheque, 'todaysCollectionByRtgs' => $todaysDailyCollectionRtgs]);
-        $data = $custom->merge($cash);
-        return response()->json($data);
+        $DailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->sum('advamount');
+        $DailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->sum('advamount');
+        $DailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->sum('advamount');
+
+
+        $TodaysDailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
+        $TodaysDailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
+        $TodaysDailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
+
+        $OveralltotalCollection = DB::table('amount')->sum('advamount');
+        $actualAmount = DB::table('amount')->sum('amount');
+
+        // $todaysDailyCollectionRtgs = DB::table('rtgs')->sum('advamount');
+        // $OveralltotalAmount =  DB::table('completedcase')->sum('paidamount');
+        // $OverallgstAmount =  DB::table('completedcase')->sum('gstamount');
+        // $date = substr(Carbon::today(), 0, 10);
+        // $todaystotalAmount =  DB::table('completedcase')->where('date', $date)->sum('paidamount');
+        // $todaysgstamount =  DB::table('completedcase')->where('date', $date)->sum('gstamount');
+        // $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
+        // $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
+        // $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
+        $custom = collect([ 'TotalAmountByCash' => $DailyCollectionCash, 'TotalAmountByCheque' => $DailyCollectionCheque, 'TotalAmountByRtgs' => $DailyCollectionRtgs,  'TodaysTotalAmountByCash' => $TodaysDailyCollectionCash, 'TodaysTotalAmountByCheque' => $TodaysDailyCollectionCheque, 'TodaysTotalAmountByRtgs' => $TodaysDailyCollectionRtgs, 'OverallTotalCollection' => $OveralltotalCollection, 'actualAmount' => $actualAmount]);
+        // $data = $custom->merge($cash);
+        return response()->json($custom);
         // $data =
 
         // $cheque = DB::table('completedcase')
@@ -749,9 +761,7 @@ class EmployeeController extends Controller
     public function DeleteOnProcess($id){
         $onprocessdelete = DB::table('onprocess')->where('caseid', $id);
 
-        if ($onprocessdelete->delete()) {
-            return '1';
-        }
+        $onprocessdelete->delete();
     }
 
 }

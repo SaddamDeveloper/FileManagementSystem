@@ -33,7 +33,6 @@
                             <th scope="col">Assigned Employee</th>
                             <th scope="col">Helper</th>
                             <th scope="col">Docs</th>
-                            <th scope="col"></th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -44,9 +43,9 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.helper }}</td>
                         <td>
-                            <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid"><i class="fa fa-file"></i></button>
+                            <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button>
                         </td>
-                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button></td>
                         <td> NA </td>
                         <td><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                                    <!-- Modal -->
@@ -91,11 +90,17 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Docs</th>
+                            <th>Admin docs</th>
                         </tr>
                         <tr>
                             <td>
                                 <ul>
-                                    <li><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
                                 </ul>
                             </td>
                         </tr>
@@ -144,6 +149,7 @@ export default {
             // custom lang
             lang: 'en',
             assignedemployees: [],
+            files: [],
             showUploaded: [],
             remarks: '',
             toDb: {
@@ -153,7 +159,6 @@ export default {
             },
             toAdmin: {
                 caseid: '',
-                docs: '',
                 employee_id: '',
                 helper: ''
             },
@@ -170,7 +175,7 @@ export default {
         // this.loadEmployee();
         // console.log(this.$refs)
         // console.log(field);
-        this.showUploadedFile();
+        // this.showUploadedFile();
     },
     methods: {
         fetchCases(page_url){
@@ -198,11 +203,7 @@ export default {
             fetch('api/checkcaseid?token='+token)
             .then(res => res.json())
             .then(res => {
-                fetch('api/showuploadedfile?token='+token)
-                .then(res=> res.json())
-                .then(res => {
-                    this.showUploaded = res.data;
-                })
+
             })
     },
     deleteCase(id){
@@ -300,9 +301,6 @@ export default {
                             'content-type' : 'application/json'
                         }
                     })
-                     fetch('api/deleteonprocess/'+item.caseid+'?token='+token, {
-                        method: 'delete'
-                    })
                     .then(res => res.json())
                     .then((res)=>{
 
@@ -311,7 +309,11 @@ export default {
                         // .then((res) => {
                         //     console.log(res)
                         // })
-
+                        // if(res){
+                        //     fetch('api/deleteonprocess/'+id.caseid+'?token='+token, {
+                        //     method: 'delete'
+                        //      })
+                        // }
                         if(res.message == 0){
                             Swal.fire(
                             'Sent!',
@@ -344,6 +346,14 @@ export default {
                 });
                 }
             })
+        },
+        showFile(item){
+            const token = localStorage.getItem('token');
+             fetch('api/showuploadedfile/'+item.caseid+'?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                   this.files = res
+                })
         }
     }
 }

@@ -32,8 +32,7 @@
                                 <th scope="col">#Case</th>
                                 <th scope="col">Assigned Employee</th>
                                 <th scope="col">Helper</th>
-                                <th scope="col">Final Docs By Employee</th>
-                                <th scope="col">Assigned Docs by Admin</th>
+                                <th scope="col">Case Docs</th>
                                 <th scope="col">Remarks</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -43,8 +42,7 @@
                             <td><input type="hidden" :value="item.employee_id">{{ item.name }}</td>
                             <td>{{ item.helper }}</td>
                             <td></td>
-                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                            <td></td>
+                            <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button></td>
                             <td>
                                 <div class="btn btn-group">
                                 <button type="button" class=" btn btn-primary" data-toggle="modal" :data-target="'#exampleModal'+item.caseid">FP</button>
@@ -52,6 +50,39 @@
                                 </div>
                             </td>
         <!-- Modal -->
+        <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Docs</th>
+                            <th>Admin docs</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li v-for="data in files" v-bind:key="data.id"><a :href="'./storage/'+item.caseid+'/'+data.docs" download>{{ data.docs }}</a></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -433,6 +464,7 @@ export default {
             chequeNo: '',
             bankNamec:'',
             transactionNo: '',
+            files: [],
             BankName: '',
             isDisabled: false,
             isPaid: false,
@@ -596,6 +628,14 @@ export default {
             .then((res) => {
                 console.log(res)
             })
+        },
+        showFile(item){
+            const token = localStorage.getItem('token');
+             fetch('api/showuploadedfile/'+item.caseid+'?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                   this.files = res
+                })
         }
     },
     computed: {
