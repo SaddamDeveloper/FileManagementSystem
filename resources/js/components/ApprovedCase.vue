@@ -388,9 +388,9 @@
 		  </tr>
 		   <tr>
 		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
-		  	<td rowspan="3"><span>{{ d-parseFloat(item.advamount) | toWords | capitalize }} Rupees Only</span></td>
+		  	<td rowspan="3"><span v-if="item.advamount == null">{{ d-parseFloat(0) | toWords | capitalize }} Rupees Only</span><span v-else>{{ d-parseFloat(item.advamount) | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line">Less: Advance</td>
-		      <td>{{ advamount = item.advamount }}</td>
+		      <td><span v-if="item.advamount == null">{{ parseFloat(0.00) }}</span><span v-else>>{{ advamount = item.advamount }}</span></td>
 		  </tr>
 		  <tr>
 		  	<td class="total-line">AV No.</td>
@@ -398,7 +398,7 @@
 		  </tr>
 		  <tr>
 		  	<td class="total-line">Net Invoice Amount</td>
-		  	<td>{{ d-parseFloat(advamount) }}</td>
+		  	<td><span v-if="item.advamount == null">{{ d-parseFloat(0.00) }}</span><span v-else>{{ d-parseFloat(advamount) }}</span></td>
 		  </tr>
 
 		</table>

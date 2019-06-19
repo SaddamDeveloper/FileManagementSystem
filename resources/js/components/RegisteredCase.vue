@@ -35,7 +35,7 @@
                         </div>
                         <div class="row form-group">
                             <div class="col col-md-12">
-                                <select name="clientType" class="form-control" v-model="casee.clientType">
+                                <select name="clientType" class="form-control" v-model="casee.clientType" required>
                                     <option v-for="option in options" v-bind:value="option.id">{{ option.name }}</option>
                                 </select>
                             </div>
@@ -403,12 +403,12 @@
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" v-model="casee.altContactNo" required>
+                                                <input id="altContactNo" name="altContactNo" type="text" class="form-control" placeholder="Alternate Contact No" v-model="casee.altContactNo">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-success">
-                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="casee.email" required>
+                                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="casee.email">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -894,7 +894,13 @@ export default {
                     var caseid = this.casee.caseid;
                     var dd = this.casee.time2;
                     var amount = this.casee.amount;
-                    var paidamount = this.casee.advamount;
+                    var paidamount;
+                    if(this.casee.advamount == null){
+                        paidamount = 0;
+                    }
+                    else{
+                        paidamount = this.casee.advamount;
+                    }
                     var dueamount = parseFloat(amount)-parseFloat(paidamount);
                     var projectName = this.casee.typeofwork;
                     var pdf = new jsPDF('p', 'pt', 'A4');
@@ -928,7 +934,13 @@ export default {
                     var caseid = this.casee.caseid;
                     var dd = this.casee.time2;
                     var amount = this.casee.amount;
-                    var paidamount = this.casee.advamount;
+                    var paidamount;
+                        if(this.casee.advamount == null){
+                            paidamount = 0;
+                        }
+                        else{
+                            paidamount = this.casee.advamount;
+                        }
                     var dueamount = parseFloat(amount)-parseFloat(paidamount);
                     var projectName = this.casee.typeofwork;
                     var pdf = new jsPDF('p', 'pt', 'A4');

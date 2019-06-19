@@ -223,6 +223,13 @@ class EmployeeController extends Controller
 
         // $count = DB::table('toadmin')->select('caseid')->get();
         // return $count;
+        if($request->input('docs') == null){
+            $toAdmin->docs = '';
+        }
+        else{
+            $toAdmin->docs = $request->input('docs');
+        }
+        $toAdmin->helper = $request->input('helper');
         $toAdmin->caseid = $request->input('caseid');
         $toAdmin->employee_id = $request->input('employee_id');
 
@@ -286,7 +293,7 @@ class EmployeeController extends Controller
             $toApproval->invoiceNo = $invoice;
             $toApproval->caseid = $request->input('caseid');
             $toApproval->employee_id = $request->input('employee_id');
-
+            
             if($toApproval->save()){
             return new EmployeeResource($toApproval);
         }

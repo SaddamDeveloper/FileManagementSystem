@@ -8162,7 +8162,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var caseid = this.casee.caseid;
           var dd = this.casee.time2;
           var amount = this.casee.amount;
-          var paidamount = this.casee.advamount;
+          var paidamount;
+
+          if (this.casee.advamount == null) {
+            paidamount = 0;
+          } else {
+            paidamount = this.casee.advamount;
+          }
+
           var dueamount = parseFloat(amount) - parseFloat(paidamount);
           var projectName = this.casee.typeofwork;
           var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
@@ -8195,7 +8202,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var caseid = this.casee.caseid;
           var dd = this.casee.time2;
           var amount = this.casee.amount;
-          var paidamount = this.casee.advamount;
+          var paidamount;
+
+          if (this.casee.advamount == null) {
+            paidamount = 0;
+          } else {
+            paidamount = this.casee.advamount;
+          }
+
           var dueamount = parseFloat(amount) - parseFloat(paidamount);
           var projectName = this.casee.typeofwork;
           var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_1___default.a('p', 'pt', 'A4');
@@ -53054,24 +53068,45 @@ var render = function() {
                                                         attrs: { rowspan: "3" }
                                                       },
                                                       [
-                                                        _c("span", [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              _vm._f(
-                                                                "capitalize"
-                                                              )(
-                                                                _vm._f(
-                                                                  "toWords"
-                                                                )(
-                                                                  _vm.d -
-                                                                    parseFloat(
-                                                                      item.advamount
+                                                        item.advamount == null
+                                                          ? _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm._f(
+                                                                    "capitalize"
+                                                                  )(
+                                                                    _vm._f(
+                                                                      "toWords"
+                                                                    )(
+                                                                      _vm.d -
+                                                                        parseFloat(
+                                                                          0
+                                                                        )
                                                                     )
-                                                                )
+                                                                  )
+                                                                ) +
+                                                                  " Rupees Only"
                                                               )
-                                                            ) + " Rupees Only"
-                                                          )
-                                                        ])
+                                                            ])
+                                                          : _c("span", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm._f(
+                                                                    "capitalize"
+                                                                  )(
+                                                                    _vm._f(
+                                                                      "toWords"
+                                                                    )(
+                                                                      _vm.d -
+                                                                        parseFloat(
+                                                                          item.advamount
+                                                                        )
+                                                                    )
+                                                                  )
+                                                                ) +
+                                                                  " Rupees Only"
+                                                              )
+                                                            ])
                                                       ]
                                                     ),
                                                     _vm._v(" "),
@@ -53085,12 +53120,23 @@ var render = function() {
                                                     ),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          (_vm.advamount =
-                                                            item.advamount)
-                                                        )
-                                                      )
+                                                      item.advamount == null
+                                                        ? _c("span", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                parseFloat(0.0)
+                                                              )
+                                                            )
+                                                          ])
+                                                        : _c("span", [
+                                                            _vm._v(
+                                                              ">" +
+                                                                _vm._s(
+                                                                  (_vm.advamount =
+                                                                    item.advamount)
+                                                                )
+                                                            )
+                                                          ])
                                                     ])
                                                   ]),
                                                   _vm._v(" "),
@@ -53111,14 +53157,27 @@ var render = function() {
                                                     ),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.d -
-                                                            parseFloat(
-                                                              _vm.advamount
+                                                      item.advamount == null
+                                                        ? _c("span", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.d -
+                                                                  parseFloat(
+                                                                    0.0
+                                                                  )
+                                                              )
                                                             )
-                                                        )
-                                                      )
+                                                          ])
+                                                        : _c("span", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.d -
+                                                                  parseFloat(
+                                                                    _vm.advamount
+                                                                  )
+                                                              )
+                                                            )
+                                                          ])
                                                     ])
                                                   ])
                                                 ]
@@ -65106,7 +65165,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { name: "clientType" },
+                          attrs: { name: "clientType", required: "" },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
@@ -66624,8 +66683,7 @@ var render = function() {
                                   id: "altContactNo",
                                   name: "altContactNo",
                                   type: "text",
-                                  placeholder: "Alternate Contact No",
-                                  required: ""
+                                  placeholder: "Alternate Contact No"
                                 },
                                 domProps: { value: _vm.casee.altContactNo },
                                 on: {
@@ -66663,8 +66721,7 @@ var render = function() {
                                     type: "email",
                                     id: "email",
                                     name: "email",
-                                    placeholder: "Email",
-                                    required: ""
+                                    placeholder: "Email"
                                   },
                                   domProps: { value: _vm.casee.email },
                                   on: {

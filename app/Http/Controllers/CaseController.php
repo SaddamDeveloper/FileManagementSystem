@@ -156,8 +156,19 @@ class CaseController extends Controller
 
             $cdetails->clientName = $request->input('clientName');
             $cdetails->contactNo = $request->input('contactNo');
-            $cdetails->altContactNo = $request->input('altContactNo');
-            $cdetails->email = $request->input('email');
+            if( $request->input('altContactNo') == null){
+                $cdetails->altContactNo = '';
+            }
+            else{
+                $cdetails->altContactNo = $request->input('altContactNo');
+            }
+
+            if( $request->input('email') == null){
+                $cdetails->email = '';
+            }
+            else{
+                $cdetails->email = $request->input('email');
+            }
             $cdetails->address = $request->input('address');
             $cdetails->clientType = $request->input('clientType');
             $cdetails->caseid = $caseid;
@@ -167,7 +178,12 @@ class CaseController extends Controller
                 $cash->paymentmode = $request->input('selected');
                 $cash->clientid = $clientidstatic;
                 $amount->amount = $request->input('amount');
-                $amount->advamount = $request->input('advamount');
+                if( $request->input('advamount') == null){
+                    $amount->advamount = 0;
+                }
+                else{
+                    $amount->advamount = $request->input('advamount');
+                }
                 $amount->caseid = $caseid;
                 $amount->time2 = $formatedDate;
             }
