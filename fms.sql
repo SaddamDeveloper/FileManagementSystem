@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2019 at 03:44 PM
+-- Generation Time: Jun 19, 2019 at 09:01 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -267,7 +267,7 @@ CREATE TABLE `employees` (
 
 INSERT INTO `employees` (`id`, `employee_id`, `no`, `email`, `designation`, `expertise`, `address`, `created_at`, `updated_at`) VALUES
 (17, 'EMP00001', '9089609855', 'nishi@mail.com', 'TEst', 'banking,accounting', 'pb', '2019-06-14 04:54:53', '2019-06-14 04:54:53'),
-(18, 'EMP00002', '78676767', 'sadam@mail.com', 'Eng', 'boffice', 'Laimu', '2019-06-14 05:32:33', '2019-06-14 05:32:33');
+(19, 'EMP00002', '876668', 'sadam@mail.com', 'MCA', 'it,banking', 'Barpeta', '2019-06-19 01:31:31', '2019-06-19 01:31:31');
 
 -- --------------------------------------------------------
 
@@ -307,13 +307,6 @@ CREATE TABLE `onprocess` (
   `docs` varchar(255) NOT NULL,
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `onprocess`
---
-
-INSERT INTO `onprocess` (`id`, `caseid`, `helper`, `docs`, `employee_id`) VALUES
-(26, 'CASE00001', 'nishi', '', 'EMP00002');
 
 -- --------------------------------------------------------
 
@@ -485,7 +478,7 @@ INSERT INTO `users` (`id`, `employee_id`, `name`, `email`, `email_verified_at`, 
 (17, '', 'user', 'user@mail.com', NULL, '$2y$10$HSfM5csmys/tPrrqi62rXuKMgiyQ//4kYdGM5x5KxhCSB1Ds48rDa', NULL, NULL, NULL, 0),
 (18, '', 'admin', 'admin@mail.com', NULL, '$2y$10$wzAIzoKpB6rZP0hNViyoXeBO/3TPrVSTAaArQvjNAYMMU1PcEW4ie', NULL, NULL, NULL, 1),
 (22, 'EMP00001', 'nishi', 'nishi@mail.com', NULL, '$2y$10$iaA6Jq1O.p5Cuap21bQ98uTg9w.s.vd8M1eYevI.PmMZ2CrehRqcS', NULL, NULL, NULL, 2),
-(23, 'EMP00002', 'sadam', 'sadam@mail.com', NULL, '$2y$10$JZZHJpjh6KMeVEqK95M3X.aigy4NRYln2f6J2Q17xrfr2T.iKwlca', NULL, NULL, NULL, 2);
+(24, 'EMP00002', 'Saddam', 'sadam@mail.com', NULL, '$2y$10$KrKJFm56Ve.iM.qDO8RF2ukYlgVq7lnltjWeAvJ.HCrEVsWSzEi32', NULL, NULL, NULL, 2);
 
 --
 -- Indexes for dumped tables
@@ -715,19 +708,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `amount`
 --
 ALTER TABLE `amount`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `approvedcase`
 --
 ALTER TABLE `approvedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `billedcase`
 --
 ALTER TABLE `billedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bycheque`
@@ -745,43 +738,43 @@ ALTER TABLE `byneft`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cash`
 --
 ALTER TABLE `cash`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cheque`
 --
 ALTER TABLE `cheque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `chequenrtgs`
 --
 ALTER TABLE `chequenrtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `clientdetails2`
 --
 ALTER TABLE `clientdetails2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `client_details`
 --
 ALTER TABLE `client_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `completedcase`
 --
 ALTER TABLE `completedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `docfile`
@@ -793,7 +786,7 @@ ALTER TABLE `docfile`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -805,7 +798,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `onprocess`
 --
 ALTER TABLE `onprocess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `receptions`
@@ -817,13 +810,13 @@ ALTER TABLE `receptions`
 -- AUTO_INCREMENT for table `rejectcase`
 --
 ALTER TABLE `rejectcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rtgs`
 --
 ALTER TABLE `rtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sendfiletoadmin`
@@ -835,7 +828,7 @@ ALTER TABLE `sendfiletoadmin`
 -- AUTO_INCREMENT for table `send_to_employees`
 --
 ALTER TABLE `send_to_employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `test`
@@ -847,7 +840,7 @@ ALTER TABLE `test`
 -- AUTO_INCREMENT for table `toadmin`
 --
 ALTER TABLE `toadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transfercase`
@@ -859,13 +852,13 @@ ALTER TABLE `transfercase`
 -- AUTO_INCREMENT for table `uploadedfile`
 --
 ALTER TABLE `uploadedfile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables
