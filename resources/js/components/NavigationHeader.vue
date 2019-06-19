@@ -20,13 +20,12 @@
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="sufeeadmin/images/user.png">
+                             <i class="fa fa-user"> {{ name }}</i>
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"> {{ name }}</i></a>
                             <a class="nav-link">
-                                          <a class="nav-link" href="#" @click="logout"><i class="fa fa-power-off"> Logout</i></a>
+                                <a class="nav-link" href="#" @click="logout"><i class="fa fa-power-off"> Logout</i></a>
                              </a>
                             <!-- <form id="logout-form" method="POST" style="display: none;">
                              @csrf

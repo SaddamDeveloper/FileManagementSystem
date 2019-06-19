@@ -294,10 +294,10 @@ class EmployeeController extends Controller
 
     public function CompletedCase(){
 
-        $completedCase = DB::table( 'completedcase')
-            ->join('amount', 'completedcase.caseid', '=', 'amount.caseid')
-            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
-            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+        $completedCase = DB::table( 'approvedcase')
+            ->join('amount', 'approvedcase.caseid', '=', 'amount.caseid')
+            ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             // ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
             // ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
