@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2019 at 03:50 PM
+-- Generation Time: Jun 18, 2019 at 03:44 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -49,7 +49,8 @@ CREATE TABLE `amount` (
   `id` int(11) NOT NULL,
   `amount` varchar(255) NOT NULL,
   `advamount` varchar(255) NOT NULL,
-  `caseid` varchar(255) NOT NULL
+  `caseid` varchar(255) NOT NULL,
+  `time2` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -307,6 +308,13 @@ CREATE TABLE `onprocess` (
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `onprocess`
+--
+
+INSERT INTO `onprocess` (`id`, `caseid`, `helper`, `docs`, `employee_id`) VALUES
+(26, 'CASE00001', 'nishi', '', 'EMP00002');
+
 -- --------------------------------------------------------
 
 --
@@ -419,7 +427,6 @@ INSERT INTO `test` (`id`, `content`) VALUES
 
 CREATE TABLE `toadmin` (
   `id` int(11) NOT NULL,
-  `docs` varchar(255) NOT NULL,
   `caseid` varchar(255) NOT NULL,
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -436,6 +443,19 @@ CREATE TABLE `transfercase` (
   `helper` varchar(255) NOT NULL,
   `docs` varchar(255) NOT NULL,
   `employee_id` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uploadedfile`
+--
+
+CREATE TABLE `uploadedfile` (
+  `id` int(11) NOT NULL,
+  `caseid` varchar(255) NOT NULL,
+  `docs` varchar(255) NOT NULL,
+  `employee_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -668,6 +688,13 @@ ALTER TABLE `transfercase`
   ADD KEY `caseid` (`caseid`);
 
 --
+-- Indexes for table `uploadedfile`
+--
+ALTER TABLE `uploadedfile`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `caseid` (`caseid`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -688,7 +715,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `amount`
 --
 ALTER TABLE `amount`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `approvedcase`
@@ -718,43 +745,43 @@ ALTER TABLE `byneft`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `cash`
 --
 ALTER TABLE `cash`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `cheque`
 --
 ALTER TABLE `cheque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `chequenrtgs`
 --
 ALTER TABLE `chequenrtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `clientdetails2`
 --
 ALTER TABLE `clientdetails2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `client_details`
 --
 ALTER TABLE `client_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `completedcase`
 --
 ALTER TABLE `completedcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `docfile`
@@ -778,7 +805,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `onprocess`
 --
 ALTER TABLE `onprocess`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `receptions`
@@ -790,13 +817,13 @@ ALTER TABLE `receptions`
 -- AUTO_INCREMENT for table `rejectcase`
 --
 ALTER TABLE `rejectcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `rtgs`
 --
 ALTER TABLE `rtgs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sendfiletoadmin`
@@ -808,7 +835,7 @@ ALTER TABLE `sendfiletoadmin`
 -- AUTO_INCREMENT for table `send_to_employees`
 --
 ALTER TABLE `send_to_employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `test`
@@ -820,13 +847,19 @@ ALTER TABLE `test`
 -- AUTO_INCREMENT for table `toadmin`
 --
 ALTER TABLE `toadmin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `transfercase`
 --
 ALTER TABLE `transfercase`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `uploadedfile`
+--
+ALTER TABLE `uploadedfile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -892,7 +925,6 @@ ALTER TABLE `client_details`
 -- Constraints for table `completedcase`
 --
 ALTER TABLE `completedcase`
-  ADD CONSTRAINT `completedcase_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `client_details` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `completedcase_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -905,8 +937,7 @@ ALTER TABLE `docfile`
 -- Constraints for table `onprocess`
 --
 ALTER TABLE `onprocess`
-  ADD CONSTRAINT `onprocess_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `onprocess_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `onprocess_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rejectcase`
@@ -947,6 +978,12 @@ ALTER TABLE `toadmin`
 ALTER TABLE `transfercase`
   ADD CONSTRAINT `transfercase_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transfercase_ibfk_2` FOREIGN KEY (`caseid`) REFERENCES `cases` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `uploadedfile`
+--
+ALTER TABLE `uploadedfile`
+  ADD CONSTRAINT `uploadedfile_ibfk_1` FOREIGN KEY (`caseid`) REFERENCES `onprocess` (`caseid`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
