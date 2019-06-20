@@ -2247,6 +2247,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var converter = __webpack_require__(/*! number-to-words */ "./node_modules/number-to-words/numberToWords.min.js");
@@ -4211,6 +4241,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4241,7 +4303,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var token = localStorage.getItem('token');
-      page_url = page_url || 'api/completedcases?token=' + token;
+      page_url = page_url || 'api/admincompletedcases?token=' + token;
       var vm = this;
       fetch(page_url).then(function (res) {
         return res.json();
@@ -4387,6 +4449,463 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      value: null,
+      time1: '',
+      time2: '',
+      time3: '',
+      files: [],
+      // custom lang
+      lang: 'en',
+      completedcases: [],
+      fetchcompletedcaseemp: [],
+      users: {
+        email: '',
+        selected: ''
+      }
+    };
+  },
+  created: function created() {
+    // this.fetchCases();
+    this.fetchCompletedCaseEmp();
+    this.fetchUser(); // this.loadEmployee();
+    // console.log(this.$refs)
+    // console.log(field);
+  },
+  methods: {
+    fetchCompletedCaseEmp: function fetchCompletedCaseEmp() {
+      var _this = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/fetchcompletedcaseemployee/?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.completedcases = res.data;
+      });
+    },
+    deleteCase: function deleteCase(id) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          fetch("api/case/".concat(id), {
+            method: 'delete'
+          }).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this2.fetchCases();
+          }).catch(function () {
+            Swal.fire('Failed!', 'There was something wrong', 'warning');
+          });
+        }
+      });
+    },
+    loadEmployee: function loadEmployee() {
+      var _this3 = this;
+
+      axios.get("api/employees").then(function (_ref) {
+        var data = _ref.data;
+        return _this3.employees = data.data;
+      });
+    },
+    processFile: function processFile(e) {
+      var _this4 = this;
+
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(e.target.files[0]);
+
+      fileReader.onload = function (e) {
+        _this4.toEmployee.docs = e.target.result;
+      };
+
+      this.toEmployee.fileName = e.target.files[0].name;
+    },
+    sendToEmployee: function sendToEmployee(id) {
+      this.toEmployee.caseid = id;
+      fetch("api/sendemployee", {
+        method: 'post',
+        body: JSON.stringify(this.toEmployee),
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+    },
+    confirmApprove: function confirmApprove(item) {
+      var _this5 = this;
+
+      Swal.fire({
+        title: 'Do you want to Approve?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Approve it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this5.toApproval.caseid = item.caseid;
+          _this5.toApproval.employee_id = item.employee_id;
+          fetch("api/sendapproval", {
+            method: 'post',
+            body: JSON.stringify(_this5.toApproval),
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            _this5.toApproval.caseid = '';
+            _this5.toApproval.employee_id = '';
+            jQuery('#exampleModal' + _this5.toApproval.caseid).modal('hide');
+          }).then(Swal.fire('Approved!', 'Case Has been Successfully Approved!', 'success')).catch(function (err) {
+            return console.log(err);
+          });
+        }
+      });
+    },
+    fetchUser: function fetchUser() {
+      var _this6 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('/api/auth/me?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this6.users.email = data.email;
+        _this6.users.selected = data.selected;
+
+        if (data.error == "Token is expired") {
+          window.location.href = '/';
+        }
+      });
+    },
+    showFile: function showFile(item) {
+      var _this7 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this7.files = res;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dashboard.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=script&lang=js& ***!
@@ -4396,6 +4915,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4639,7 +5163,13 @@ __webpack_require__.r(__webpack_exports__);
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
       OverallTotalCollection: '',
-      totalActualAmount: ''
+      totalActualAmount: '',
+      newRegisteredEmp: '',
+      onprocessEmp: '',
+      waitingforapproveEmp: '',
+      completedCaseEmp: '',
+      approvedCaseEmp: '',
+      rejectedCaseEmp: ''
     };
   },
   created: function created() {
@@ -4664,6 +5194,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.billedcase = res.billedcase;
         _this.rejectedcase = res.rejectedcase;
         _this.onprocesscase = res.onprocess;
+        _this.newRegisteredEmp = res.newRegisteredEmp;
+        _this.onprocessEmp = res.onprocessEmp;
+        _this.waitingforapproveEmp = res.waitingforapproveEmp;
+        _this.completedCaseEmp = res.completedCaseEmp;
+        _this.approvedCaseEmp = res.approvedCaseEmp;
+        _this.rejectedCaseEmp = res.rejectedCaseEmp;
       });
     },
     loadEmployeeCounter: function loadEmployeeCounter() {
@@ -7971,6 +8507,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
     },
+    deleteCase2: function deleteCase2(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          var token = localStorage.getItem('token');
+          fetch('/api/cases/' + id + '?token=' + token, {
+            method: 'delete'
+          }).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this4.fetchCases();
+          }).catch(function () {
+            Swal.fire('Failed!', 'There was something wrong', 'warning');
+          });
+        }
+      });
+    },
     editCase: function editCase(item) {
       this.edit = true;
       this.casee.id = item.id;
@@ -7988,12 +8550,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.casee.clientType) {}
     },
     addCase: function addCase() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.edit === false) {
         //Add Case
         var token = localStorage.getItem('token');
-        this.casee.caseid = jQuery("#caseid").val();
+
+        if (this.casee.advamount == null) {
+          this.casee.advamount = '0';
+        }
+
         fetch('api/case?token=' + token, {
           method: 'post',
           body: JSON.stringify(this.casee),
@@ -8003,30 +8569,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this4.casee.caseid = '';
-          _this4.casee.clientType = '';
-          _this4.casee.typeofwork = '';
-          _this4.casee.amount = '';
-          _this4.casee.clientName = '';
-          _this4.casee.contactNo = '';
-          _this4.casee.altContactNo = '';
-          _this4.casee.email = '';
-          _this4.casee.address = '';
-          _this4.casee.time2 = '';
-          _this4.casee.selected = '';
+          _this5.casee.caseid = '';
+          _this5.casee.clientType = '';
+          _this5.casee.typeofwork = '';
+          _this5.casee.amount = '';
+          _this5.casee.clientName = '';
+          _this5.casee.contactNo = '';
+          _this5.casee.altContactNo = '';
+          _this5.casee.email = '';
+          _this5.casee.address = '';
+          _this5.casee.time2 = '';
+          _this5.casee.selected = '';
           Swal.fire('Sent!', 'Your Project has been Saved.', 'success');
 
-          _this4.fetchCases();
+          _this5.fetchCases();
 
-          _this4.showCaseId();
+          _this5.showCaseId();
         }).catch(function (err) {
           return console.log(err);
         });
       } else {
         //Update Case
-        this.casee.caseid = jQuery("#caseid").val();
-
         var _token = localStorage.getItem('token');
+
+        if (this.casee.advamount == null) {
+          this.casee.advamount = '0';
+        }
 
         fetch('api/case?token=' + _token, {
           method: 'put',
@@ -8037,22 +8605,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this4.casee.caseid = '';
-          _this4.casee.clientType = '';
-          _this4.casee.typeofwork = '';
-          _this4.casee.amount = '';
-          _this4.casee.clientName = '';
-          _this4.casee.contactNo = '';
-          _this4.casee.altContactNo = '';
-          _this4.casee.email = '';
-          _this4.casee.address = '';
-          _this4.casee.time2 = '';
-          _this4.casee.selected = '';
-          alert('Case Updated');
+          Swal.fire('Sent!', 'Your Project has been Updated!', 'success');
 
-          _this4.fetchCases();
+          _this5.fetchCases();
 
-          _this4.showCaseId();
+          _this5.showCaseId();
         }).catch(function (err) {
           return console.log(err);
         });
@@ -8080,7 +8637,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log('Hello');
     },
     getResults: function getResults() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.clientDetails = [];
 
@@ -8091,13 +8648,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }).then(function (res) {
           res.data.forEach(function (clientDetail) {
-            _this5.clientDetails.push(clientDetail);
+            _this6.clientDetails.push(clientDetail);
           });
         });
       }
     },
     getPhoneNo: function getPhoneNo() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.clientDetailsNo = [];
 
@@ -8108,7 +8665,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }).then(function (res) {
           res.data.forEach(function (Detail) {
-            _this6.clientDetailsNo.push(Detail);
+            _this7.clientDetailsNo.push(Detail);
           });
         });
       }
@@ -8135,13 +8692,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.visible = false;
     },
     showCaseId: function showCaseId() {
-      var _this7 = this;
+      var _this8 = this;
 
       var token = localStorage.getItem('token');
       fetch('api/caseid?token=' + token).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this7.casee.caseid = data;
+        _this8.casee.caseid = data;
       });
     },
     status: function status() {
@@ -53230,10 +53787,7 @@ var render = function() {
                   ],
                   2
                 )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.users.selected == 2
-              ? _c(
+              : _c(
                   "table",
                   { staticClass: "table" },
                   [
@@ -53253,25 +53807,123 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.helper))]),
                         _vm._v(" "),
-                        _c("td"),
-                        _vm._v(" "),
                         _c("td", [
                           _c(
-                            "a",
+                            "button",
                             {
+                              staticClass: "btn btn-sm",
                               attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
                               }
                             },
-                            [_vm._v(_vm._s(item.docs))]
+                            [_c("i", { staticClass: "fa fa-file" })]
                           )
                         ]),
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
                         _vm._m(29, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(30, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(31, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -53294,7 +53946,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(30, true),
+                                  _vm._m(32, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -53307,9 +53959,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(31, true),
+                                      _vm._m(33, true),
                                       _vm._v(" "),
-                                      _vm._m(32, true)
+                                      _vm._m(34, true)
                                     ]
                                   )
                                 ])
@@ -53324,7 +53976,6 @@ var render = function() {
                   ],
                   2
                 )
-              : _vm._e()
           ])
         ])
       ])
@@ -53852,13 +54503,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
@@ -53872,8 +54517,43 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", [
       _c("div", { staticClass: "alert alert-primary alert-sm" }, [
-        _vm._v("Approved")
+        _vm._v("Completed")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -54211,7 +54891,7 @@ var render = function() {
                               "data-target": "#exampleModal" + item.caseid
                             }
                           },
-                          [_vm._v("FP")]
+                          [_vm._v("Paid")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -54843,7 +55523,7 @@ var render = function() {
                                                   _vm._f("capitalize")(
                                                     _vm._f("toWords")(
                                                       (_vm.d =
-                                                        _vm.amount + _vm.c)
+                                                        _vm.amount - _vm.c)
                                                     )
                                                   )
                                                 ) + " Rupees Only"
@@ -54873,7 +55553,7 @@ var render = function() {
                                               staticClass: "total-line balance",
                                               attrs: { colspan: "1" }
                                             },
-                                            [_vm._v("(A+D)")]
+                                            [_vm._v("(A-D)")]
                                           ),
                                           _vm._v(" "),
                                           _c(
@@ -59206,7 +59886,7 @@ var render = function() {
                   [
                     _vm._m(16),
                     _vm._v(" "),
-                    _vm._l(_vm.fetchcompletedcaseemp, function(item, i) {
+                    _vm._l(_vm.completedcases, function(item, i) {
                       return _c("tr", { key: i }, [
                         _c("td", [_vm._v(_vm._s(item.caseid))]),
                         _vm._v(" "),
@@ -59220,25 +59900,123 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.helper))]),
                         _vm._v(" "),
-                        _c("td"),
-                        _vm._v(" "),
                         _c("td", [
                           _c(
-                            "a",
+                            "button",
                             {
+                              staticClass: "btn btn-sm",
                               attrs: {
-                                href:
-                                  "./storage/" + item.caseid + "/" + item.docs,
-                                download: ""
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
                               }
                             },
-                            [_vm._v(_vm._s(item.docs))]
+                            [_c("i", { staticClass: "fa fa-file" })]
                           )
                         ]),
                         _vm._v(" "),
                         _c("td"),
                         _vm._v(" "),
                         _vm._m(17, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(18, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(19, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -59261,7 +60039,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(18, true),
+                                  _vm._m(20, true),
                                   _vm._v(" "),
                                   _c(
                                     "form",
@@ -59274,9 +60052,9 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(19, true),
+                                      _vm._m(21, true),
                                       _vm._v(" "),
-                                      _vm._m(20, true)
+                                      _vm._m(22, true)
                                     ]
                                   )
                                 ])
@@ -59606,13 +60384,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Assigned Docs by Admin")
-        ]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Final Docs By Employee")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
         _vm._v(" "),
@@ -59628,6 +60400,1074 @@ var staticRenderFns = [
       _c("div", { staticClass: "alert alert-primary alert-sm" }, [
         _vm._v("Completed")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Reason for Rejection")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("table", { staticClass: "table table-resonsive table-bordered" }, [
+        _c("tr", [_c("thead", [_vm._v("Remarks")])]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text" }
+            })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Save")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm.users.selected == 0
+              ? _c(
+                  "table",
+                  { staticClass: "table" },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm._l(_vm.completedcases, function(item, i) {
+                      return _c("tr", { key: i }, [
+                        _c("td", [_vm._v(_vm._s(item.caseid))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            attrs: { type: "hidden" },
+                            domProps: { value: item.employee_id }
+                          }),
+                          _vm._v(_vm._s(item.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.helper))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-file" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _vm._m(3, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(4, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(5, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModal" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(6, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "form",
+                                    {
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.pushToApproved(item.caseid)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._m(7, true),
+                                      _vm._v(" "),
+                                      _vm._m(8, true)
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("tbody")
+                  ],
+                  2
+                )
+              : _vm.users.selected == 1
+              ? _c(
+                  "table",
+                  { staticClass: "table" },
+                  [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _vm._l(_vm.completedcases, function(item, i) {
+                      return _c("tr", { key: i }, [
+                        _c("td", [_vm._v(_vm._s(item.caseid))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            attrs: { type: "hidden" },
+                            domProps: { value: item.employee_id }
+                          }),
+                          _vm._v(_vm._s(item.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.helper))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-file" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _vm._m(10, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(11, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(12, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModal" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(13, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "form",
+                                    {
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.pushToApproved(item.caseid)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._m(14, true),
+                                      _vm._v(" "),
+                                      _vm._m(15, true)
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("tbody")
+                  ],
+                  2
+                )
+              : _c(
+                  "table",
+                  { staticClass: "table" },
+                  [
+                    _vm._m(16),
+                    _vm._v(" "),
+                    _vm._l(_vm.completedcases, function(item, i) {
+                      return _c("tr", { key: i }, [
+                        _c("td", [_vm._v(_vm._s(item.caseid))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            attrs: { type: "hidden" },
+                            domProps: { value: item.employee_id }
+                          }),
+                          _vm._v(_vm._s(item.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.helper))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModals1" + item.caseid
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showFile(item)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-file" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td"),
+                        _vm._v(" "),
+                        _vm._m(17, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModals1" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(18, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c(
+                                      "table",
+                                      { staticClass: "table table-bordered" },
+                                      [
+                                        _vm._m(19, true),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [
+                                            _c(
+                                              "ul",
+                                              _vm._l(_vm.files, function(data) {
+                                                return _c(
+                                                  "li",
+                                                  { key: data.id },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "./storage/" +
+                                                            item.caseid +
+                                                            "/" +
+                                                            data.docs,
+                                                          download: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(data.docs)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }),
+                                              0
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("ul", [
+                                              _c("li", [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      href:
+                                                        "./storage/" +
+                                                        item.caseid +
+                                                        "/" +
+                                                        item.docs,
+                                                      download: ""
+                                                    }
+                                                  },
+                                                  [_vm._v(_vm._s(item.docs))]
+                                                )
+                                              ])
+                                            ])
+                                          ])
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal fade",
+                            attrs: {
+                              id: "exampleModal" + item.caseid,
+                              tabindex: "-1",
+                              role: "dialog",
+                              "aria-labelledby": "exampleModalLabel",
+                              "aria-hidden": "true"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal-dialog modal-md",
+                                attrs: { role: "document" }
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(20, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "form",
+                                    {
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.pushToApproved(item.caseid)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._m(21, true),
+                                      _vm._v(" "),
+                                      _vm._m(22, true)
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("tbody")
+                  ],
+                  2
+                )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "breadcrumbs" }, [
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "page-header float-left" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("h1", [_c("strong", [_vm._v("Completed Case")])])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-8" }, [
+        _c("div", { staticClass: "page-header float-right" }, [
+          _c("div", { staticClass: "page-title" }, [
+            _c("ol", { staticClass: "breadcrumb text-right" }, [
+              _c("li", [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "active" }, [_vm._v("Completed Case")])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Completed Case")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "alert alert-primary alert-sm" }, [
+        _vm._v("Completed")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Reason for Rejection")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("table", { staticClass: "table table-resonsive table-bordered" }, [
+        _c("tr", [_c("thead", [_vm._v("Remarks")])]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text" }
+            })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Save")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "alert alert-primary alert-sm" }, [
+        _vm._v("Completed")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Reason for Rejection")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("table", { staticClass: "table table-resonsive table-bordered" }, [
+        _c("tr", [_c("thead", [_vm._v("Remarks")])]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text" }
+            })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Save")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Case files")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "alert alert-primary alert-sm" }, [
+        _vm._v("Completed")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Docs")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Admin docs")])
     ])
   },
   function() {
@@ -59735,7 +61575,7 @@ var render = function() {
                       _vm._v(_vm._s(_vm.NewRegistered))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.empNewRegistered))
+                      _vm._v(_vm._s(_vm.newRegisteredEmp))
                     ])
               ]),
               _vm._v(" "),
@@ -59784,7 +61624,7 @@ var render = function() {
                       _vm._v(_vm._s(_vm.waitingforapprove))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.empApprovedcase))
+                      _vm._v(_vm._s(_vm.approvedCaseEmp))
                     ])
               ]),
               _vm._v(" "),
@@ -59824,14 +61664,12 @@ var render = function() {
                   ? _c("span", { staticClass: "count" }, [
                       _vm._v(_vm._s(_vm.billedcase))
                     ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.users.selected == 1
+                  : _vm.users.selected == 1
                   ? _c("span", { staticClass: "count" }, [
                       _vm._v(_vm._s(_vm.billedcase))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.waitingforapprove))
+                      _vm._v(_vm._s(_vm.waitingforapproveEmp))
                     ])
               ]),
               _vm._v(" "),
@@ -59929,16 +61767,36 @@ var render = function() {
             { staticClass: "card-body pb-0" },
             [
               _c("h4", { staticClass: "mb-0" }, [
-                _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.completedcase))
-                ])
+                _vm.users.selected == 0
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.completedcase))
+                    ])
+                  : _vm.users.selected == 1
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.completedcase))
+                    ])
+                  : _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.completedCaseEmp))
+                    ])
               ]),
               _vm._v(" "),
-              _c("router-link", { attrs: { to: "/completedcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Completed Case")
-                ])
-              ]),
+              _vm.users.selected == 0
+                ? _c("router-link", { attrs: { to: "/completedcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Completed Case")
+                    ])
+                  ])
+                : _vm.users.selected == 1
+                ? _c("router-link", { attrs: { to: "/completedcase" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Completed Case")
+                    ])
+                  ])
+                : _c("router-link", { attrs: { to: "/completedcaseemp" } }, [
+                    _c("p", { staticClass: "text-light" }, [
+                      _vm._v("Completed Case")
+                    ])
+                  ]),
               _vm._v(" "),
               _vm._m(6)
             ],
@@ -59963,7 +61821,7 @@ var render = function() {
                       _vm._v(" " + _vm._s(_vm.completedcase))
                     ])
                   : _c("span", { staticClass: "count" }, [
-                      _vm._v(" " + _vm._s(_vm.onprocesscase))
+                      _vm._v(" " + _vm._s(_vm.onprocessEmp))
                     ])
               ]),
               _vm._v(" "),
@@ -59999,9 +61857,17 @@ var render = function() {
             { staticClass: "card-body pb-0" },
             [
               _c("h4", { staticClass: "mb-0" }, [
-                _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.rejectedcase))
-                ])
+                _vm.users.selected == 0
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.rejectedcase))
+                    ])
+                  : _vm.users.selected == 0
+                  ? _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.rejectedcase))
+                    ])
+                  : _c("span", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.rejectedCaseEmp))
+                    ])
               ]),
               _vm._v(" "),
               _c("router-link", { attrs: { to: "/rejectedcase" } }, [
@@ -65136,7 +67002,7 @@ var render = function() {
                               expression: "casee.caseid"
                             }
                           ],
-                          attrs: { type: "text", readonly: "" },
+                          attrs: { type: "text", name: "caseid", readonly: "" },
                           domProps: { value: _vm.casee.caseid },
                           on: {
                             input: function($event) {
@@ -85427,6 +87293,9 @@ var routes = [{
 }, {
   path: '/verifyemployee',
   component: __webpack_require__(/*! ./components/VerifyEmployee.vue */ "./resources/js/components/VerifyEmployee.vue").default
+}, {
+  path: '/completedcaseemp',
+  component: __webpack_require__(/*! ./components/CompletedCaseEmp.vue */ "./resources/js/components/CompletedCaseEmp.vue").default
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -85934,6 +87803,77 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCase_vue_vue_type_template_id_74e15e40___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCase_vue_vue_type_template_id_74e15e40___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CompletedCaseEmp.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/CompletedCaseEmp.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CompletedCaseEmp.vue?vue&type=template&id=2f4d0298& */ "./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298&");
+/* harmony import */ var _CompletedCaseEmp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CompletedCaseEmp.vue?vue&type=script&lang=js& */ "./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CompletedCaseEmp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CompletedCaseEmp.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCaseEmp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CompletedCaseEmp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCaseEmp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCaseEmp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CompletedCaseEmp.vue?vue&type=template&id=2f4d0298& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedCaseEmp.vue?vue&type=template&id=2f4d0298&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedCaseEmp_vue_vue_type_template_id_2f4d0298___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

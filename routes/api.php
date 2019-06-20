@@ -43,10 +43,7 @@ Route::post('case', [
 Route::put('case', ['uses' => 'CaseController@store', 'middleware' => 'jwt']);
 
 //Delete case
-Route::delete('case/{id}', [
-    'uses'  =>  'CaseController@destroy',
-    'middleware'    =>  'jwt'
-]);
+Route::delete('cases/{id}', ['uses'  =>  'CaseController@destroy', 'middleware'    =>  'jwt']);
 
 
 //Route for Employee Crud
@@ -110,6 +107,8 @@ Route::post('sendapproval', ['uses' => 'EmployeeController@AprovedCase', 'middle
 Route::delete('sendapproval/{id}', ['uses' => 'EmployeeController@DeleteAprovedCase', 'middleware' => 'jwt']);
 
 Route::get('completedcases', ['uses' => 'EmployeeController@CompletedCase', 'middleware' => 'jwt']);
+
+Route::get('admincompletedcases', ['uses' => 'EmployeeController@AdminCompletedCase', 'middleware' => 'jwt']);
 
 Route::get('fetchcompletedcaseemployee', ['uses' => 'EmployeeController@CompletedCaseEmp', 'middleware' => 'jwt']);
 

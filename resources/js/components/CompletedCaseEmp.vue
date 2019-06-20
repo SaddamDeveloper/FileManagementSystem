@@ -312,7 +312,7 @@ export default {
         }
     },
     created(){
-        this.fetchCases();
+        // this.fetchCases();
         this.fetchCompletedCaseEmp();
         this.fetchUser();
         // this.loadEmployee();
@@ -320,32 +320,12 @@ export default {
         // console.log(field);
     },
     methods: {
-        fetchCases(page_url){
-            const token = localStorage.getItem('token');
-            page_url = page_url || 'api/admincompletedcases?token='+token;
-            let vm = this;
-            fetch(page_url)
-            .then(res => res.json())
-            .then(res => {
-                this.completedcases = res.data;
-                vm.makePagination(res.meta, res.links);
-            })
-        },
-        makePagination(meta, links){
-            let pagination = {
-                current_page: meta.current_page,
-                last_page: meta.last_page,
-                next_page_url: links.next,
-                prev_page_url: links.prev
-            }
-            this.pagination = pagination;
-        },
         fetchCompletedCaseEmp(){
             const token = localStorage.getItem('token');
             fetch('api/fetchcompletedcaseemployee/?token='+token)
             .then(res => res.json())
             .then(res => {
-                this.fetchcompletedcaseemp = res.data;
+                this.completedcases = res.data;
             })
         },
     deleteCase(id){

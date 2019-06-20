@@ -171,31 +171,30 @@ class CaseController extends Controller
             }
             $cdetails->address = $request->input('address');
             $cdetails->clientType = $request->input('clientType');
-            $cdetails->caseid = $caseid;
+            $cdetails->caseid = $request->input('caseid');
 
             if ($request->input('selected') == 2) {
-                $cash->caseid = $caseid;
+                $cash->caseid = $request->input('caseid');
                 $cash->paymentmode = $request->input('selected');
                 $cash->clientid = $clientidstatic;
                 $amount->amount = $request->input('amount');
-                if( $request->input('advamount') == null){
-                    $amount->advamount = 0;
-                }
-                else{
-                    $amount->advamount = $request->input('advamount');
-                }
-                $amount->caseid = $caseid;
+                $amount->advamount = $request->input('advamount');
+                $amount->caseid = $request->input('caseid');
                 $amount->time2 = $formatedDate;
             }
+            //for cheque
             else if ($request->input('selected') == 3) {
                 $chequenrtgs->method = $request->input('selected');
-                //for cash
                 if($request->input('selected') == 3){
                     $check->methodId = $request->input('selected');
                     $check->ChequeNo = $request->input('chequeNo');
-                    $check->caseid = $caseid;
+                    $check->caseid = $request->input('caseid');
+                    $amount->amount = $request->input('amount');
+                    $amount->advamount = $request->input('advamount');
+                    $amount->caseid = $request->input('caseid');
+                    $amount->time2 = $formatedDate;
                 }
-                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->caseid = $request->input('caseid');
                 $chequenrtgs->bankname = $request->input('bankName');
                 $chequenrtgs->phoneno = $request->input('bankersPhone');
             }
@@ -205,27 +204,26 @@ class CaseController extends Controller
                 if ($request->input('selected') == 4) {
                     $rtgs->methodId = $request->input('selected');
                     $rtgs->transactionNo = $request->input('rtgsNo');
-                    $rtgs->caseid = $caseid;
+                    $rtgs->caseid = $request->input('caseid');
+                    $amount->amount = $request->input('amount');
+                    $amount->advamount = $request->input('advamount');
+                    $amount->caseid = $request->input('caseid');
+                    $amount->time2 = $formatedDate;
                 }
-                $chequenrtgs->caseid = $caseid;
+                $chequenrtgs->caseid = $request->input('caseid');
                 $chequenrtgs->bankname = $request->input('bankName');
                 $chequenrtgs->phoneno = $request->input('bankersPhone');
             }
-            // $amount->caseid = $caseid;
-            // $amount->paymentmode = $request->input('selected');
-            // $amount->clientid = $clientidstatic;
-            // $amount->amount = $request->input('amount');
-            // $amount->advamount = $request->input('advamount');
 
             // if($case->save() && $cdetails->save() && $amount->save()){
             //     return new CaseResource($case);
             //     return new ClientDetailsResource($cdetails);
             //     return new AmountsResource($amount);
             // }
-            $amount->amount = $request->input('amount');
-            $amount->advamount = $request->input('advamount');
-            $amount->caseid = $caseid;
-            $amount->time2 = $formatedDate;
+            // $amount->amount = $request->input('amount');
+            // $amount->advamount = $request->input('advamount');
+            // $amount->caseid = $request->input('caseid');
+            // $amount->time2 = $formatedDate;
             if ($request->input('selected') == 2) {
                 if ($case->save() && $cdetails->save() && $cash->save() && $amount->save()) {
                 return new CaseResource($case);
@@ -292,9 +290,24 @@ class CaseController extends Controller
             $cdetails2->clientid = $clientidstatic;
             $cdetails2->contactPersonName = $request->input('clientPersonName');
             $cdetails2->contactNo = $request->input('contactNo');
-            $cdetails2->contactNo = $request->input('personContactNo');
-            $cdetails2->orgName = $request->input('orgName');
-            $cdetails2->orgTel = $request->input('telNo');
+            if($request->input('personContactNo') == null){
+                $cdetails2->contactNo = '';
+            }
+            else{
+                $cdetails2->contactNo = $request->input('personContactNo');
+            }
+            if($request->input('orgName') == null){
+                $cdetails2->orgName = '';
+            }
+            else{
+                $cdetails2->orgName = $request->input('orgName');
+            }
+            if($request->input('telNo') == null){
+                $cdetails2->orgTel = '';
+            }
+            else{
+                $cdetails2->orgTel = $request->input('telNo');
+            }
             $cdetails2->dept = $request->input('dept');
             $cdetails2->address = $request->input('addr');
             $cdetails2->clientType = $request->input('clientType');

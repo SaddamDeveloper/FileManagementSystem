@@ -293,12 +293,23 @@ class EmployeeController extends Controller
             $toApproval->invoiceNo = $invoice;
             $toApproval->caseid = $request->input('caseid');
             $toApproval->employee_id = $request->input('employee_id');
-            
+
             if($toApproval->save()){
             return new EmployeeResource($toApproval);
         }
     }
 
+    public function AdminCompletedCase(){
+        $completedCase = DB::table('completedcase')
+            ->join('amount', 'completedcase.caseid', '=', 'amount.caseid')
+            ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'employees.employee_id', '=', 'users.employee_id')
+            // ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
+            // ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
+            ->paginate(15);
+        return $completedCase;
+    }
     public function CompletedCase(){
 
         $completedCase = DB::table( 'approvedcase')
@@ -400,15 +411,41 @@ class EmployeeController extends Controller
     }
 
     public function countingNewlyRegisterd(){
+        $user = auth()->user();
+        $id = $user['employee_id'];
+
         $newRegistered = DB::table('cases')->count();
+        $newRegisteredEmp = DB::table('send_to_employees')->where('employee_id', '=', $id)->count();
+        $onprocessEmp = DB::table('onprocess')->where('employee_id', '=', $id)->count();
         $waitingforapprove = DB::table('toadmin')->count();
+        $waitingforapproveEmp = DB::table('toadmin')->where('employee_id', '=', $id)->count();
         $assignedcase = DB::table('send_to_employees')->count();
         $completedCase = DB::table('completedcase')->count();
+        $completedCaseEmp = DB::table('completedcase')->where('employee_id', '=', $id)->count();
+
         $approvedCase = DB::table( 'approvedcase')->count();
+        $approvedCaseEmp = DB::table( 'approvedcase')->where('employee_id', '=', $id)->count();
+
         $billedCase = DB::table('billedcase')->count();
         $rejectedcase = DB::table('rejectcase')->count();
+        $rejectedcaseEmp = DB::table('rejectcase')->where('employee_id', '=', $id)->count();
         $onprocesscase = DB::table('onprocess')->count();
-      $count = array('newRegistered'=> $newRegistered, 'waitingforapprove' => $waitingforapprove, 'assignedcase' => $assignedcase, 'completedcase' => $completedCase, 'approvedCase' => $approvedCase, 'billedcase' => $billedCase, 'rejectedcase' => $rejectedcase, 'onprocess' => $onprocesscase);
+      $count = array(
+            'newRegistered'=> $newRegistered,
+            'waitingforapprove' => $waitingforapprove,
+            'assignedcase' => $assignedcase,
+            'completedcase' => $completedCase,
+            'approvedCase' => $approvedCase,
+            'billedcase' => $billedCase,
+            'rejectedcase' => $rejectedcase,
+            'onprocess' => $onprocesscase,
+            'newRegisteredEmp' => $newRegisteredEmp,
+            'onprocessEmp' => $onprocessEmp,
+            'waitingforapproveEmp' => $waitingforapproveEmp,
+            'completedCaseEmp'  =>  $completedCaseEmp,
+            'approvedCaseEmp'   => $approvedCaseEmp,
+            'rejectedcaseEmp'   => $rejectedcaseEmp
+            );
       return $count;
     }
 
@@ -671,6 +708,7 @@ class EmployeeController extends Controller
     }
 
     public function fetchCollectionRegister(){
+
         $cash = DB::table('completedcase')
             ->join('bycash', 'completedcase.method', '=', 'bycash.method')
             ->join('client_details', 'completedcase.caseid', '=', 'client_details.caseid')

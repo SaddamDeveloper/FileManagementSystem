@@ -7,7 +7,7 @@
             <h4 class="mb-0">
               <span class="count" v-if="users.selected == 0">{{ NewRegistered }}</span>
               <span class="count" v-else-if="users.selected == 1">{{ NewRegistered }}</span>
-              <span class="count" v-else>{{ empNewRegistered }}</span>
+              <span class="count" v-else>{{ newRegisteredEmp }}</span>
             </h4>
             <router-link to="/registeredcase"  v-if="users.selected == 0"><p class="text-light">Register New Case</p></router-link>
             <router-link to="/newcase" v-else-if="users.selected == 1"><p class="text-light">Newly Registered Case</p></router-link>
@@ -29,7 +29,7 @@
           <h4 class="mb-0">
             <span class="count" v-if="users.selected == 0">{{ waitingforapprove }}</span>
             <span class="count" v-else-if="users.selected == 1">{{ waitingforapprove }}</span>
-            <span class="count" v-else>{{ empApprovedcase }}</span>
+            <span class="count" v-else>{{ approvedCaseEmp }}</span>
           </h4>
           <router-link to="/a"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
             <router-link to="/forapprovalcase" v-else-if="users.selected == 1"><p class="text-light">Waiting For Approval Case</p></router-link>
@@ -49,8 +49,8 @@
       <div class="card-body pb-0">
         <h4 class="mb-0">
           <span class="count" v-if="users.selected == 0">{{ billedcase }}</span>
-          <span class="count" v-if="users.selected == 1">{{ billedcase }}</span>
-          <span class="count" v-else>{{ waitingforapprove }}</span>
+          <span class="count" v-else-if="users.selected == 1">{{ billedcase }}</span>
+          <span class="count" v-else>{{ waitingforapproveEmp }}</span>
         </h4>
         <router-link to="/billedcase" v-if="users.selected == 0"><p class="text-light">Billed Case</p></router-link>
         <router-link to="/billedcase" v-else-if="users.selected == 1"><p class="text-light">Billed Case</p></router-link>
@@ -107,9 +107,13 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count">{{ completedcase }}</span>
+        <span class="count" v-if="users.selected == 0">{{ completedcase }}</span>
+        <span class="count" v-else-if="users.selected == 1">{{ completedcase }}</span>
+        <span class="count" v-else>{{ completedCaseEmp }}</span>
       </h4>
-      <router-link to="/completedcase"><p class="text-light">Completed Case</p></router-link>
+      <router-link to="/completedcase" v-if="users.selected == 0"><p class="text-light">Completed Case</p></router-link>
+      <router-link to="/completedcase" v-else-if="users.selected == 1"><p class="text-light">Completed Case</p></router-link>
+      <router-link to="/completedcaseemp" v-else><p class="text-light">Completed Case</p></router-link>
 
       <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <canvas id="widgetChart2" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
@@ -126,7 +130,7 @@
       <h4 class="mb-0">
         <span class="count" v-if="users.selected == 0"> {{  completedcase }}</span>
         <span class="count" v-else-if="users.selected == 1"> {{  completedcase }}</span>
-        <span class="count" v-else> {{  onprocesscase }}</span>
+        <span class="count" v-else> {{  onprocessEmp }}</span>
       </h4>
       <router-link to="/billingcase" v-if="users.selected == 0"><p class="text-light">Billing Case</p></router-link>
       <router-link to="/billingcase" v-else-if="users.selected == 1"><p class="text-light">Billing Case</p></router-link>
@@ -146,8 +150,9 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count" >{{ rejectedcase }}</span>
-
+        <span class="count" v-if="users.selected == 0">{{ rejectedcase }}</span>
+        <span class="count" v-else-if="users.selected == 0">{{ rejectedcase }}</span>
+        <span class="count" v-else>{{ rejectedCaseEmp }}</span>
       </h4>
        <router-link to="/rejectedcase"><p class="text-light">Rejected Case</p></router-link>
 
@@ -242,7 +247,13 @@ export default {
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
       OverallTotalCollection: '',
-      totalActualAmount: ''
+      totalActualAmount: '',
+        newRegisteredEmp: '',
+        onprocessEmp: '',
+        waitingforapproveEmp: '',
+        completedCaseEmp: '',
+        approvedCaseEmp: '',
+        rejectedCaseEmp: ''
     }
   },
   created(){
@@ -265,6 +276,12 @@ export default {
         this.billedcase = res.billedcase;
         this.rejectedcase = res.rejectedcase;
         this.onprocesscase = res.onprocess;
+        this.newRegisteredEmp = res.newRegisteredEmp;
+        this.onprocessEmp = res.onprocessEmp;
+        this.waitingforapproveEmp = res.waitingforapproveEmp;
+        this.completedCaseEmp = res.completedCaseEmp;
+        this.approvedCaseEmp = res.approvedCaseEmp;
+        this.rejectedCaseEmp = res.rejectedCaseEmp;
       })
     },
     loadEmployeeCounter(){

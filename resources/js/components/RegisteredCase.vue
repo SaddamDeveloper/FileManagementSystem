@@ -30,7 +30,7 @@
                     <div class="card-body card-block">
                         <div class="form-group">
                             <div class="form-group">
-                                <strong>CaseID: <input type="text" readonly v-model="casee.caseid"> </strong>
+                                <strong>CaseID: <input type="text" name="caseid" readonly v-model="casee.caseid"> </strong>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -715,6 +715,39 @@ export default {
 
             })
         },
+        deleteCase2(id){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    const token = localStorage.getItem('token');
+                    fetch('/api/cases/'+id+'?token='+token, {
+                        method: 'delete'
+                    })
+                    .then(()=>{
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                        this.fetchCases();
+                }).catch(()=>{
+                    Swal.fire(
+                        'Failed!',
+                        'There was something wrong',
+                        'warning'
+                    )
+                });
+                }
+
+            })
+        },
         editCase(item){
         this.edit = true;
         this.casee.id = item.id;
@@ -735,10 +768,11 @@ export default {
     },
     addCase(){
         if(this.edit === false){
-
             //Add Case
             const token = localStorage.getItem('token')
-            this.casee.caseid = jQuery("#caseid").val();
+            if(this.casee.advamount == null){
+                this.casee.advamount = '0'
+            }
             fetch('api/case?token=' + token, {
                 method: 'post',
                 body: JSON.stringify(this.casee),
@@ -772,9 +806,11 @@ export default {
         }
         else{
             //Update Case
-        this.casee.caseid = jQuery("#caseid").val();
-        const token = localStorage.getItem('token');
-        fetch('api/case?token='+token, {
+            const token = localStorage.getItem('token')
+            if(this.casee.advamount == null){
+                this.casee.advamount = '0'
+            }
+            fetch('api/case?token=' + token, {
                 method: 'put',
                 body: JSON.stringify(this.casee),
                 headers: {
@@ -783,20 +819,14 @@ export default {
             })
             .then(res => res.json())
             .then(data => {
-                this.casee.caseid = '';
-                this.casee.clientType = '';
-                this.casee.typeofwork = '';
-                this.casee.amount = '';
-                this.casee.clientName = '';
-                this.casee.contactNo = '';
-                this.casee.altContactNo = '';
-                this.casee.email = '';
-                this.casee.address = '';
-                this.casee.time2 = '';
-                this.casee.selected = ''
-                alert('Case Updated');
+                    Swal.fire(
+                    'Sent!',
+                    'Your Project has been Updated!',
+                    'success'
+                    )
                 this.fetchCases();
                 this.showCaseId();
+
             })
             .catch(err => console.log(err));
         }
@@ -887,7 +917,7 @@ export default {
             })
         },
         generatePdf(){
-                        // if cash is selected
+            // if cash is selected
             if(this.casee.clientType == 2){
                 if(this.casee.selected == 2 || this.casee.selected == 3 || this.casee.selected == 4){
                     var clientName = this.casee.clientName;

@@ -45,7 +45,7 @@
                             <td><button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button></td>
                             <td>
                                 <div class="btn btn-group">
-                                <button type="button" class=" btn btn-primary" data-toggle="modal" :data-target="'#exampleModal'+item.caseid">FP</button>
+                                <button type="button" class=" btn btn-primary" data-toggle="modal" :data-target="'#exampleModal'+item.caseid">Paid</button>
                                 <button type="button" class=" btn btn-warning" data-toggle="modal" :data-target="'#exampleModals'+item.caseid">Credit</button>
                                 </div>
                             </td>
@@ -189,12 +189,12 @@
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><span>{{ d = amount + c | toWords | capitalize }} Rupees Only</span></td>
+		  	<td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line" colspan="3">Total Invoice Amount</td>
 		  </tr>
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
-		      <td colspan="1" class="total-line balance">(A+D)</td>
+		      <td colspan="1" class="total-line balance">(A-D)</td>
 		      <td class="total-value balance">{{ d }}</td>
 		  </tr>
 		   <tr>
