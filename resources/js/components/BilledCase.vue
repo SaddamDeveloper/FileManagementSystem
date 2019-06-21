@@ -106,7 +106,7 @@
         </div>
 
             <table id="meta">
-            	 <tr>
+                <tr>
                     <td class='meta-head'>GSTIN:</td>
                     <td><input type="text" readonly id="gstin" v-model="gstIn"></td>
                 </tr>
@@ -131,7 +131,7 @@
 				</td>
 				<td width="90%">
 					<div id="customer">
-			            <textarea rows="4" cols="40" id="customer-title" class="bill_to" v-model="item.address"></textarea>
+	                        <textarea rows="4" cols="40" id="customer-title" class="bill_to" v-model="item.address"></textarea>
 					</div>
 				</td>
 			</tr>
@@ -147,70 +147,70 @@
 				</td>
 			</tr>
 		</table>
-		<table id="items">
-		  <tr>
-		  	<th>Sl.No</th>
-		      <th >SAC</th>
-		      <th>Description</th>
-		      <th >Period Of Service</th>
-		      <th>Amount(Rs)</th>
-		  </tr>
-		  <tr class="item-row" id="row1">
-		  	  <td>1</td>
-		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
-		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
-		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
-		      <td>{{ amount = parseFloat(item.amount) }}</td>
-		  </tr>
-		  <tr>
-		      <td colspan="2" class="blank"> </td>
-		      <td class="total-line">Taxable Value:</td>
-		      <td align="center">(A)</td>
-		      <td class="taxabale_value">{{ amount }}</td>
-		  </tr>
-		  <tr>
+            <table id="items">
+            <tr>
+                <th>Sl.No</th>
+                <th >SAC</th>
+                <th>Description</th>
+                <th >Period Of Service</th>
+                <th>Amount(Rs)</th>
+            </tr>
+            <tr class="item-row" id="row1">
+                <td>1</td>
+                <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
+                <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
+                <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
+                <td>{{ amount = parseFloat(item.amount) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="blank"> </td>
+                <td class="total-line">Taxable Value:</td>
+                <td align="center">(A)</td>
+                <td class="taxabale_value">{{ amount }}</td>
+            </tr>
+            <tr>
 
-		      <td colspan="2" class="blank"> </td>
-		      <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
-		      <td align="center">(B)</td>
-		      <td class="total-value">{{ a = amount* parseFloat(0.09) | todigit }}</td>
-		  </tr>
-		  <tr>
-		      <td colspan="2" class="blank"> </td>
-		      <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
-		      <td align="center">(C)</td>
-		      <td class="total-value">{{ b = amount* parseFloat(0.09) | todigit }}</td>
-		  </tr>
-		  <tr>
-		      <td colspan="2" class="blank"> </td>
-		      <td class="total-line">Total Tax</td>
-		      <td align="center">(D)(B+C)</td>
-		      <td class="total-value">{{ c = a + b | todigit }}</td>
-		  </tr>
-		  <tr>
-		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
-		      <td class="total-line" colspan="3">Total Invoice Amount</td>
-		  </tr>
-		  <tr>
-		      <td colspan="3" class="blank"> </td>
-		      <td colspan="1" class="total-line balance">(A-D)</td>
-		      <td class="total-value balance">{{ d }}</td>
-		  </tr>
-		   <tr>
-		  	<td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
-		  	<td rowspan="3"><span>{{ d-parseFloat(item.advamount) | toWords | capitalize }} Rupees Only</span></td>
-		      <td class="total-line">Less: Advance</td>
-		      <td>{{ advamount = item.advamount }}</td>
-		  </tr>
-		  <tr>
-		  	<td class="total-line">AV No.</td>
-		  	<td><input type="text" name="avNo" id="avNo" placeholder="AV No."></td>
-		  </tr>
-		  <tr>
-		  	<td class="total-line">Net Invoice Amount</td>
-		  	<td>{{ f = d-parseFloat(advamount) | todigit }}</td>
-		  </tr>
+                <td colspan="2" class="blank"> </td>
+                <td class="total-line">SGST: <input id="sgstRate" type="text" value="9" style="width: 15px"><span>%</span></td>
+                <td align="center">(B)</td>
+                <td class="total-value">{{ a = amount* parseFloat(0.09) | todigit }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="blank"> </td>
+                <td class="total-line">CGST: <input id="cgstRate" type="text" value="9" style="width: 15px" onkeypress="return isNumberKey(event,this)"><span>%</span></td>
+                <td align="center">(C)</td>
+                <td class="total-value">{{ b = amount* parseFloat(0.09) | todigit }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="blank"> </td>
+                <td class="total-line">Total Tax</td>
+                <td align="center">(D)(B+C)</td>
+                <td class="total-value">{{ c = a + b | todigit }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">Invoice Value(in words)</td>
+                <td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
+                <td class="total-line" colspan="3">Total Invoice Amount</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="blank"> </td>
+                <td colspan="1" class="total-line balance">(A-D)</td>
+                <td class="total-value balance">{{ d }}</td>
+            </tr>
+            <tr>
+                <td rowspan="3" colspan="2">Net Invoice Value(in words)</td>
+                <td rowspan="3"><span>{{ d-parseFloat(item.advamount) | toWords | capitalize }} Rupees Only</span></td>
+                <td class="total-line">Less: Advance</td>
+                <td>{{ advamount = item.advamount }}</td>
+            </tr>
+            <tr>
+                <td class="total-line">AV No.</td>
+                <td><input type="text" name="avNo" id="avNo" placeholder="AV No."></td>
+            </tr>
+            <tr>
+                <td class="total-line">Net Invoice Amount</td>
+                <td>{{ f = d-parseFloat(advamount) | todigit }}</td>
+            </tr>
 
 		</table>
 		<br>

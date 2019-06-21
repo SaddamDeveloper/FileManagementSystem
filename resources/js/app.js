@@ -15,12 +15,13 @@ import Swal from 'sweetalert2';
 import Multiselect from 'vue-multiselect';
 import toWords from 'number-to-words';
 import inToWords from 'written-number';
+import pagination from 'laravel-vue-pagination';
 
 Vue.use(inToWords);
 Vue.use(toWords);
 
 Vue.component('multiselect', Multiselect);
-
+Vue.component('pagination', pagination);
 
 
 window.Multiselect = Multiselect;

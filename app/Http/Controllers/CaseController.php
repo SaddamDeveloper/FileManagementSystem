@@ -40,7 +40,7 @@ class CaseController extends Controller
         $cases = DB::table('cases')
             ->join('client_details', 'cases.caseid', '=', 'client_details.caseid')
             // ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
-            ->paginate(15);
+            ->paginate(10);
         return $cases;
 
             // $cases = \App\ClientDetails::with(['cases'])
@@ -71,7 +71,7 @@ class CaseController extends Controller
         $cases = DB::table('cases')
             // ->join('client_detsails', 'cases.caseid', '=', 'client_details.caseid')
             ->join('clientdetails2', 'cases.caseid', '=', 'clientdetails2.caseid')
-            ->paginate(15);
+            ->paginate(10);
         return $cases;
     }
 
@@ -79,7 +79,7 @@ class CaseController extends Controller
          $cases2 = \App\ClientDetailsAnother::with('cases')
         ->join('cases', 'cases.caseid', '=', 'clientdetails2.caseid')
         ->orderBy('cases.id', 'DESC')
-        ->paginate(15);
+        ->paginate(1);
 
         return CaseResource::collection($cases2);
     }

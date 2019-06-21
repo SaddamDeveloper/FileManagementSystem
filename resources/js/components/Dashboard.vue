@@ -31,7 +31,7 @@
             <span class="count" v-else-if="users.selected == 1">{{ waitingforapprove }}</span>
             <span class="count" v-else>{{ approvedCaseEmp }}</span>
           </h4>
-          <router-link to="/a"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
+          <router-link to="/assignedcase"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>
             <router-link to="/forapprovalcase" v-else-if="users.selected == 1"><p class="text-light">Waiting For Approval Case</p></router-link>
          <router-link to="/empapprovedcase" v-else><p class="text-light">Approved Case</p></router-link>
 

@@ -480,9 +480,9 @@
                                              <!-- pagination -->
                                             <nav aria-label="Page navigation example">
                                                 <ul class="pagination">
-                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.prev_page_url)">Previous</a></li>
-                                                    <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>
-                                                    <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]"><a class="page-link" href="#" @click="fetchCases(pagination.next_page_url)">Next</a></li>
+                                                    <li class="page-item" v-bind:class="[{ disabled: !prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(prev_page_url)">Previous</a></li>
+                                                    <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ current_page }} of {{ last_page }}</a></li>
+                                                    <li class="page-item" v-bind:class="[{ disabled: !next_page_url }]"><a class="page-link" href="#" @click="fetchCases(next_page_url)">Next</a></li>
                                                 </ul>
                                             </nav>
                                             </div>
@@ -566,6 +566,12 @@ export default {
     components: { DatePicker },
     data(){
         return {
+            first_page_url: '',
+            last_page_url: '',
+            next_page_url: '',
+            prev_page_url: '',
+            current_page: '',
+            last_page: '',
             advamount: '',
             queryString:'',
             clientNo:'',
@@ -649,8 +655,14 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.cases = res.data;
-                vm.makePagination(res.meta, res.links);
-                console.log(res)
+            //    console.log(JSON.parse(res.first_page_url));
+               // vm.makePagination(res.meta, res.links);
+                this.first_page_url = res.first_page_url+"&token="+token;
+                this.last_page_url = res.last_page_url+"&token="+token;
+                this.next_page_url = res.next_page_url+"&token="+token;
+                this.prev_page_url = res.prev_page_url+"&token="+token;
+                this.current_page = res.current_page;
+                this.last_page = res.last_page;
             })
         },
         makePagination(meta, links){
@@ -670,6 +682,11 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.govtnallcases = res.data;
+                res.links.first+"&token="+token;
+                res.links.last+"&token="+token;
+                res.links.next+"&token="+token;
+                res.links.prev+"&token="+token;
+                res.links.current_page;
                 vm.makePagination2(res.meta, res.links);
             })
         },

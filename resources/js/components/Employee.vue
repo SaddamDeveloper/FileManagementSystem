@@ -4,7 +4,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1><strong>Create Employee</strong></h1>
+                        <h1><strong>Register Employee</strong></h1>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
                         <li><a href="#">Dashboard</a></li>
-                        <li class="active">Create Employee</li>
+                        <li class="active">Register Employee</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <form @submit.prevent="addEmployee">
                     <div class="card">
                         <div class="card-header">
-                            Create Employee
+                            Register Employee
                         </div>
                         <div class="card-body">
                             <div class="col-md-6">
