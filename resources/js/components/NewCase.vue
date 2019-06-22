@@ -147,10 +147,16 @@
         </div>
         </div>
                     </tr>
-                                                    </tbody>
-                                            </table>
-                                             <!-- pagination -->
-
+                    </tbody>
+                        </table>
+                            <!-- pagination -->
+                    <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item" v-bind:class="[{ disabled: !prev_page_url }]"><a class="page-link" href="#" @click="fetchCases(prev_page_url)">Previous</a></li>
+                                <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ current_page }} of {{ last_page }}</a></li>
+                                <li class="page-item" v-bind:class="[{ disabled: !next_page_url }]"><a class="page-link" href="#" @click="fetchCases(next_page_url)">Next</a></li>
+                            </ul>
+                        </nav>
                                             </div>
                                             <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                                 <table class="table">
@@ -301,6 +307,12 @@ export default {
                 selected: ''
             },
             casee: {
+                first_page_url: '',
+                last_page_url: '',
+                next_page_url: '',
+                prev_page_url: '',
+                current_page: '',
+                last_page: '',
                 caseid: '',
                 clientType: '',
                 typeofwork: '',
@@ -361,7 +373,13 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.cases = res.data;
-                vm.makePagination(res.meta, res.links);
+                // vm.makePagination(res.meta, res.links);
+                this.first_page_url = res.first_page_url+"&token="+token;
+                this.last_page_url = res.last_page_url+"&token="+token;
+                this.next_page_url = res.next_page_url+"&token="+token;
+                this.prev_page_url = res.prev_page_url+"&token="+token;
+                this.current_page = res.current_page;
+                this.last_page = res.last_page;
             })
                 fetch("/api/fetchsendemployees?token="+token)
                  .then(res => res.json())
