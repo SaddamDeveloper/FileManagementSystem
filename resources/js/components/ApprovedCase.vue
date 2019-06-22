@@ -182,12 +182,12 @@
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><span>{{ d = amount + c | toWords | capitalize }} Rupees Only</span></td>
+		  	<td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line" colspan="3">Total Invoice Amount</td>
 		  </tr>
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
-		      <td colspan="1" class="total-line balance">(A+D)</td>
+		      <td colspan="1" class="total-line balance">(A-D)</td>
 		      <td class="total-value balance">{{ d }}</td>
 		  </tr>
 		   <tr>

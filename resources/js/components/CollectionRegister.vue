@@ -60,12 +60,6 @@
 
                             <tr>
                                 <td>
-                                    Today's Total Collection:
-                                </td>
-                                <td><b>{{ todaysDailyAmount + todaysDailyAmountByCheque + todaysDailyAmountByRtgs }}</b></td>
-                            </tr>
-                            <tr>
-                                <td>
                                     Today's Total GST:
                                 </td>
                                 <td><b>{{ todaysgstAmount }}</b></td>
@@ -91,7 +85,7 @@
 
                             <tr>
                                 <td>
-                                     Over All Total Collection:
+                                     Today's Overall Total Collection:
                                 </td>
                                 <td><b>{{ OveralltotalAmount }}</b></td>
                             </tr>

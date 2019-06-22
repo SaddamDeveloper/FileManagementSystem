@@ -3851,12 +3851,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -7126,6 +7120,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      first_page_url: '',
+      last_page_url: '',
+      next_page_url: '',
+      prev_page_url: '',
+      current_page: '',
+      last_page: '',
       value: null,
       optionsS: [],
       time1: '',
@@ -7136,18 +7136,13 @@ __webpack_require__.r(__webpack_exports__);
       cases: [],
       govtnall: [],
       assignedemployee: '',
+      employeeassigned: [],
       employees: [],
       users: {
         email: '',
         selected: ''
       },
       casee: {
-        first_page_url: '',
-        last_page_url: '',
-        next_page_url: '',
-        prev_page_url: '',
-        current_page: '',
-        last_page: '',
         caseid: '',
         clientType: '',
         typeofwork: '',
@@ -7236,8 +7231,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        console.log(res);
-        _this.assignedemployee = res.data;
+        _this.employeeassigned = res;
       });
     },
     makePagination: function makePagination(meta, links) {
@@ -7263,7 +7257,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        console.log(res);
+        // console.log(res);
         _this2.assignedemployee = res.data;
       });
     },
@@ -7280,8 +7274,9 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          var token = localStorage.getItem('token');
-          fetch("api/case/".concat(id) + '?token=' + token, {
+          var _token = localStorage.getItem('token');
+
+          fetch("api/case/".concat(id) + '?token=' + _token, {
             method: 'delete'
           }).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
@@ -7298,8 +7293,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var token = localStorage.getItem('token');
       axios.get("/api/employees?token=" + token).then(function (res) {
-        _this4.employees = res.data;
-        console.log(res.data);
+        _this4.employees = res.data; //  console.log(res.data)
       });
     },
     loadSupportStaff: function loadSupportStaff() {
@@ -7339,6 +7333,11 @@ __webpack_require__.r(__webpack_exports__);
         _this7.toEmployee.assignedEmployee = '';
         _this7.toEmployee.helper = '';
         _this7.toEmployee.assignedEmployee = '';
+        fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          _this7.employeeassigned = res;
+        });
 
         if (res.message) {
           Swal.fire('Failed!', 'This case is already Reservered', 'warning');
@@ -7366,9 +7365,9 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, transfer it!'
       }).then(function (result) {
         if (result.value) {
-          var _token = localStorage.getItem('token');
+          var _token2 = localStorage.getItem('token');
 
-          fetch('api/updateemployee/' + id + '/?token=' + _token, {
+          fetch('api/updateemployee/' + id + '/?token=' + _token2, {
             method: 'put',
             body: JSON.stringify(_this8.reAssign),
             headers: {
@@ -7397,6 +7396,28 @@ __webpack_require__.r(__webpack_exports__);
         if (data.error == "Token is expired") {
           window.location.href = '/';
         }
+      });
+    },
+    fetchAssignedEmployee: function fetchAssignedEmployee() {
+      var _this10 = this;
+
+      fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        // console.log(res);
+        _this10.assignedemployee = res.data;
+      });
+    }
+  },
+  computed: {
+    isDisabled: function isDisabled() {
+      var _this11 = this;
+
+      var token = localStorage.getItem('token');
+      fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this11.status = res;
       });
     }
   }
@@ -54018,7 +54039,7 @@ var render = function() {
                                                             )(
                                                               _vm._f("toWords")(
                                                                 (_vm.d =
-                                                                  _vm.amount +
+                                                                  _vm.amount -
                                                                   _vm.c)
                                                               )
                                                             )
@@ -54055,7 +54076,7 @@ var render = function() {
                                                           "total-line balance",
                                                         attrs: { colspan: "1" }
                                                       },
-                                                      [_vm._v("(A+D)")]
+                                                      [_vm._v("(A-D)")]
                                                     ),
                                                     _vm._v(" "),
                                                     _c(
@@ -60425,26 +60446,6 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                Today's Total Collection:\n                            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("b", [
-                    _vm._v(
-                      _vm._s(
-                        _vm.todaysDailyAmount +
-                          _vm.todaysDailyAmountByCheque +
-                          _vm.todaysDailyAmountByRtgs
-                      )
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _vm._v(
                     "\n                                Today's Total GST:\n                            "
                   )
                 ]),
@@ -60493,7 +60494,7 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _vm._v(
-                    "\n                                 Over All Total Collection:\n                            "
+                    "\n                                 Today's Overall Total Collection:\n                            "
                   )
                 ]),
                 _vm._v(" "),
@@ -66737,7 +66738,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "td",
-                              _vm._l(_vm.assignedemployee, function(emp) {
+                              _vm._l(_vm.employeeassigned, function(emp) {
                                 return item.caseid == emp.caseid
                                   ? _c(
                                       "div",
@@ -66769,7 +66770,8 @@ var render = function() {
                                           type: "button",
                                           "data-toggle": "modal",
                                           "data-target":
-                                            "#exampleModal" + item.caseid
+                                            "#exampleModal" + item.caseid,
+                                          disabled: _vm.isDisabled
                                         }
                                       },
                                       [_c("i", { staticClass: "fa fa-plus" })]

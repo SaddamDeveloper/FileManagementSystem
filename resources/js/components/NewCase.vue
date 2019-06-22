@@ -58,8 +58,8 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><div class="alert alert-danger" v-for="emp in assignedemployee" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
-                        <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
+                        <td><div class="alert alert-danger" v-for="emp in employeeassigned" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
+                        <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid" :disabled=isDisabled><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -291,6 +291,12 @@
 export default {
         data(){
         return {
+            first_page_url: '',
+            last_page_url: '',
+            next_page_url: '',
+            prev_page_url: '',
+            current_page: '',
+            last_page: '',
             value: null,
             optionsS: [],
             time1: '',
@@ -301,18 +307,14 @@ export default {
             cases: [],
             govtnall: [],
             assignedemployee:'',
+            employeeassigned: [],
             employees: [],
             users: {
                 email: '',
                 selected: ''
             },
             casee: {
-                first_page_url: '',
-                last_page_url: '',
-                next_page_url: '',
-                prev_page_url: '',
-                current_page: '',
-                last_page: '',
+
                 caseid: '',
                 clientType: '',
                 typeofwork: '',
@@ -381,11 +383,10 @@ export default {
                 this.current_page = res.current_page;
                 this.last_page = res.last_page;
             })
-                fetch("/api/fetchsendemployees?token="+token)
+            fetch("/api/fetchsendemployees?token="+token)
                  .then(res => res.json())
                 .then(res => {
-                    console.log(res);
-                    this.assignedemployee = res.data;
+                    this.employeeassigned = res;
             })
         },
         makePagination(meta, links){
@@ -409,7 +410,7 @@ export default {
                 fetch("/api/fetchsendemployees?token="+token)
                  .then(res => res.json())
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     this.assignedemployee = res.data;
             })
         },
@@ -450,7 +451,7 @@ export default {
             const token = localStorage.getItem('token');
              axios.get("/api/employees?token="+token).then((res) => {
                  this.employees = res.data;
-                 console.log(res.data)
+                //  console.log(res.data)
              });
         },
         loadSupportStaff(){
@@ -485,6 +486,11 @@ export default {
                 this.toEmployee.assignedEmployee = '';
                 this.toEmployee.helper = '';
                 this.toEmployee.assignedEmployee = '';
+                fetch("/api/fetchsendemployees?token="+token)
+                 .then(res => res.json())
+                .then(res => {
+                    this.employeeassigned = res;
+            })
                if(res.message){
                    Swal.fire(
                         'Failed!',
@@ -500,6 +506,7 @@ export default {
                    )
                    jQuery('#exampleModal'+this.toEmployee.caseid).modal('hide')
                }
+
             })
             .catch(err => console.log(err));
         },
@@ -531,7 +538,7 @@ export default {
                         'Case has been Transferred successfully.',
                         'success'
                         )
-                        this.fetchCases();
+                    this.fetchCases();
                 }).catch(()=>{
                     Swal.fire(
                         'Failed!',
@@ -553,6 +560,24 @@ export default {
                         window.location.href = '/';
                     }
                 })
+        },
+        fetchAssignedEmployee(){
+            fetch("/api/fetchsendemployees?token="+token)
+                .then(res => res.json())
+                .then(res => {
+                    // console.log(res);
+                    this.assignedemployee = res.data;
+            })
+        }
+    },
+    computed: {
+        isDisabled() {
+            const token = localStorage.getItem('token');
+            fetch("/api/fetchsendemployees?token="+token)
+                 .then(res => res.json())
+                .then(res => {
+                    this.status = res
+            })
         }
     }
 }

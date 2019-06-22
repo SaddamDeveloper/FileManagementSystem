@@ -25,6 +25,7 @@ use App\byCheque;
 use Carbon\Carbon;
 use App\sendFileToAdmin;
 use App\UploadedFile;
+use App\Http\Resources\Cases;
 
 class EmployeeController extends Controller
 {
@@ -526,15 +527,35 @@ class EmployeeController extends Controller
             ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
             ->join('users', 'onprocess.employee_id', '=', 'users.employee_id')
             ->paginate(15);
-        $all = DB::table("onprocess")->union(DB::table('send_to_employees'))->paginate(15);
+        // $all = DB::table("onprocess")->union(DB::table('send_to_employees'))->paginate(15);
 
-
-
-
+        $all = DB::query()
+            ->fromSub(
+                DB::table('send_to_employees')
+                    ->select([
+                        'caseid',
+                        'docs',
+                        'helper',
+                        'employee_id'
+                    ])
+                    ->union(
+                        DB::table('onprocess')
+                            ->select([
+                                'caseid',
+                                'docs',
+                                'helper',
+                                'employee_id'
+                            ])
+                    ),
+                'inner'
+            )
+            ->join('users', 'users.employee_id', '=', 'inner.employee_id')
+            ->select(['inner.*', 'users.*'])
+            ->get();
 
 
         // $users = DB::table( 'onprocess')->where('employee_id')->union($sendEmployees)->get();
-        return $onprocess;
+        return $all;
         // if($sendEmployees){
         //     return $sendEmployees;
         // }
@@ -714,17 +735,18 @@ class EmployeeController extends Controller
             ->join('client_details', 'completedcase.caseid', '=', 'client_details.caseid')
             ->paginate(15);
 
-        $date = substr(Carbon::today(), 0, 10);
         $DailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->sum('advamount');
         $DailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->sum('advamount');
         $DailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->sum('advamount');
 
+        $posts = DB::table('cases')->whereDate('created_at', DB::raw('CURDATE()'))->get();
+        // return $posts;
+        $TodaysDailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->join('cases', 'cash.caseid', '=', 'cases.caseid')->whereDate('created_at', DB::raw('CURDATE()'))->sum('advamount');
+        // return $TodaysDailyCollectionCash;
+        $TodaysDailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->join('cases', 'cheque.caseid', '=', 'cases.caseid')->whereDate('created_at', DB::raw('CURDATE()'))->sum('advamount');
+        $TodaysDailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->join('cases', 'rtgs.caseid', '=', 'cases.caseid')->whereDate('created_at', DB::raw('CURDATE()'))->sum('advamount');
 
-        $TodaysDailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
-        $TodaysDailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
-        $TodaysDailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->where('time2',$date)->sum('advamount');
-
-        $OveralltotalCollection = DB::table('amount')->sum('advamount');
+        $OveralltotalCollection = DB::table('amount')->join('cases', 'amount.caseid', '=', 'cases.caseid')->whereDate('created_at', DB::raw('CURDATE()'))->sum('advamount');
         $actualAmount = DB::table('amount')->sum('amount');
 
         // $todaysDailyCollectionRtgs = DB::table('rtgs')->sum('advamount');
