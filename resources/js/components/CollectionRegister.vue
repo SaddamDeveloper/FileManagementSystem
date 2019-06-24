@@ -60,34 +60,53 @@
 
                             <tr>
                                 <td>
-                                    Today's Total GST:
-                                </td>
-                                <td><b>{{ todaysgstAmount }}</b></td>
-                            </tr>
-                            <tr>
-                                <td>
                                     Today's Collection By Cash:
                                 </td>
-                                <td><b>{{ TodaysTotalAmountByCash }}</b></td>
+                                <td><b>{{ c = TodaysTotalAmountByCash }}</b></td>
                             </tr>
                             <tr>
                                 <td>
                                     Today's Collection By Cheque:
                                 </td>
-                                <td><b>{{ TodaysTotalAmountByCheque }}</b></td>
+                                <td><b>{{ ch = TodaysTotalAmountByCheque }}</b></td>
                             </tr>
                             <tr>
                                 <td>
                                     Today's Collection By NEFT/RTGS:
                                 </td>
-                                <td><b> {{ TodaysTotalAmountByRtgs }} </b></td>
+                                <td><b> {{ r = TodaysTotalAmountByRtgs }} </b></td>
                             </tr>
 
                             <tr>
                                 <td>
                                      Today's Overall Total Collection:
                                 </td>
-                                <td><b>{{ OveralltotalAmount }}</b></td>
+                                <td><b>{{ t = OveralltotalAmount }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Today's GST Collection By Cash:
+                                </td>
+                                <td><b>{{ c * 0.18 }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Today's GST Collection By Cheque:
+                                </td>
+                                <td><b>{{ ch * 0.18 }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Today's GST Collection By NEFT/RTGS:
+                                </td>
+                                <td><b> {{ r * 0.18 }} </b></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Today's Total GST:
+                                </td>
+                                <td><b>{{ t * 0.18 }}</b></td>
                             </tr>
                             <tr>
                                 <td>

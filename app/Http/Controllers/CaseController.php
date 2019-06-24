@@ -401,6 +401,12 @@ class CaseController extends Controller
         return response()->json($clientDetails);
     }
 
+    public function searchAnything(){
+        $queryString = Input::get('queryString');
+        $cases = Cases::where('caseid', 'like', '%' . $queryString . '%')->get();
+        return response()->json($cases);
+    }
+
     public function showCaseId(){
         $sql = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get();
         foreach($sql as $row_data){

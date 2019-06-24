@@ -89,6 +89,7 @@ let routes = [
     { path: '/collectionregister', component: require('./components/CollectionRegister.vue').default },
     { path: '/verifyemployee', component: require('./components/VerifyEmployee.vue').default },
     { path: '/completedcaseemp', component: require('./components/CompletedCaseEmp.vue').default },
+    { path: '/search', component: require('./components/Search.vue').default },
     // { path: '/taxinvoice', component: require('./components/TaxInvoice.vue').default },
   //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]

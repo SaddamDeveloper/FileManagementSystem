@@ -545,6 +545,8 @@
         display: block;
         width:90%;
         z-index:1;
+        overflow-x: scroll;
+        height: 200px;
     }
     .options ul {
         padding-left: 0;
@@ -874,8 +876,9 @@ export default {
     },
     getResults(){
         this.clientDetails = [];
+        const token = localStorage.getItem('token');
         if(this.queryString){
-            axios.get('api/search', {params: {queryString:this.queryString}}).then(res =>  {
+            axios.get('api/search?token='+token, {params: {queryString:this.queryString}}).then(res =>  {
                 res.data.forEach((clientDetail) =>  {
                     this.clientDetails.push(clientDetail);
                 })

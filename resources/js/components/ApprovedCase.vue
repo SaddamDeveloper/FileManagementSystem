@@ -349,8 +349,9 @@
 		      <td ><div style="text-align: center;"><input type="text" value="998221" id="sac1"></div><a class="delete" id="delete" href="javascript:;" title="Remove row"><img src="images/cross.png" width="12px"></a></td>
 		      <td ><input type="text" class="description requiredField" v-model="item.typeofwork" id="description1"></td>
 		      <td ><input type="text" class="pos requiredField" v-model="item.time2" id="pos1"></td>
-		      <td>{{ amount = parseFloat(item.amount) }}</td>
+		      <td><input type="text" class="amount" v-model="item.amount" @change="amountReassign(item)"></td>
 		  </tr>
+          <span style="display:none">{{ amount = parseFloat(item.amount) }}</span>
 		  <tr>
 		      <td colspan="2" class="blank"> </td>
 		      <td class="total-line">Taxable Value:</td>
@@ -378,7 +379,7 @@
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><span>{{ d = amount + c | toWords | capitalize }} Rupees Only</span></td>
+		  	<td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line" colspan="3">Total Invoice Amount</td>
 		  </tr>
 		  <tr>
@@ -540,6 +541,10 @@ export default {
                 caseid: '',
                 employee_id: '',
                 invoiceNo: ''
+            },
+            amountReassignVar: {
+                caseid: '',
+                amount: ''
             }
         }
     },
@@ -747,8 +752,23 @@ export default {
                 .then(res => {
                    this.files = res
                 })
+        },
+        amountReassign(item){
+            this.amountReassignVar.caseid = item.caseid;
+            this.amountReassignVar.amount = item.amount;
+            const token = localStorage.getItem('token');
+            fetch('api/amountreassign/?token='+token, {
+                method: 'post',
+                body: JSON.stringify(this.amountReassignVar),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                })
         }
-
     },
     filters: {
             capitalize: function (value) {

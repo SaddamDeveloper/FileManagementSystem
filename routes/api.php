@@ -130,7 +130,7 @@ Route::get('employeecounter', 'EmployeeController@EmployeeCounter');
 
 Route::delete('sendtoadminagain/{id}', 'EmployeeController@deleteSendToAdmin');
 
-Route::get('search', 'CaseController@search');
+Route::get('search', ['uses' => 'CaseController@search', 'middleware' => 'jwt']);
 
 Route::get('caseid', ['uses' => 'CaseController@showCaseId', 'middleware' => 'jwt']);
 
@@ -200,6 +200,10 @@ Route::get( 'supportstaff', ['uses' => 'EmployeeController@SupportStaff', 'middl
 Route::delete( 'deleteonprocess/{id}', ['uses' => 'EmployeeController@DeleteOnProcess', 'middleware' => 'jwt']);
 
 Route::get( 'checkcaseid', ['uses' => 'EmployeeAssigned@checkcaseid', 'middleware' => 'jwt']);
+
+Route::post('amountreassign/', ['uses' => 'EmployeeController@AmountReassign', 'middleware' => 'jwt']);
+
+Route::get('searchanything', ['uses' => 'CaseController@searchAnything', 'middleware' => 'jwt']);
 
 
 

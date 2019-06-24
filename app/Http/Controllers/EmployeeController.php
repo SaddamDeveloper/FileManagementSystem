@@ -831,4 +831,9 @@ class EmployeeController extends Controller
         $onprocessdelete->delete();
     }
 
+    public function AmountReassign( Request $request){
+        DB::statement("UPDATE amount SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
+        DB::statement("UPDATE cases SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
+    }
+
 }
