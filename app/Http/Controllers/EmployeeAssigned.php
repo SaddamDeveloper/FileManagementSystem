@@ -22,6 +22,7 @@ class EmployeeAssigned extends Controller
         $employee = DB::table('onprocess')
             ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
+            ->join('cases', 'onprocess.caseid', '=', 'cases.caseid')
                 // ->join('users', 'employees.email', '=', 'users.email')
                 // ->orderBy('onprocess.id', 'DESC')
                 ->where('onprocess.employee_id', $id)

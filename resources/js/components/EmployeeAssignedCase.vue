@@ -31,24 +31,56 @@
                             <tr>
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
+                            <th scope="col">TOW</th>
+                            <th scope="col">Delivery Date</th>
                             <th scope="col">Helper</th>
-                            <th scope="col">Related Documents</th>
+                            <th scope="col">Docs</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
-                            <td>{{ item.caseid }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.helper }}</td>
-                            <td><a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></td>
-                            <td> NA </td>
-                            <td><button type="button" class="btn btn-primary" @click="acceptcase(item)"><i class="fa fa-envelope" aria-hidden="true"></i>
+                    <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
+                        <td>{{ item.caseid }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.typeofwork }}</td>
+                        <td>{{ item.time2 }}</td>
+                        <td>{{ item.helper }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>
+                        </td>
+                        <td> NA </td>
+                        <td><button type="button" class="btn btn-primary" @click="acceptcase(item)"><i class="fa fa-envelope" aria-hidden="true"></i>OPEN</button></td>
+                                   <!-- Modal -->
 
- OPEN</button></td>
+        <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Admin docs</th>
                         </tr>
-                    </tbody>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li> <a :href="'./storage/'+item.caseid+'/'+item.docs" download>{{ item.docs }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+        </tr>
+                </tbody>
             </table>
                     </div>
                 </div>
@@ -64,6 +96,7 @@ export default {
         data(){
         return {
             value: null,
+            files:[],
             time1: '',
             time2: '',
             time3: '',
@@ -258,6 +291,14 @@ export default {
                 }
             })
 
+        },
+        showFile(item){
+            const token = localStorage.getItem('token');
+             fetch('api/showuploadedfile/'+item.caseid+'?token='+token)
+                .then(res=> res.json())
+                .then(res => {
+                   this.files = res
+                })
         }
     }
 }

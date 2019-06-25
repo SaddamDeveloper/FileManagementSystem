@@ -31,6 +31,8 @@
                             <tr>
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
+                            <th scope="col">TOW</th>
+                            <th scope="col">Delivery Date</th>
                             <th scope="col">Helper</th>
                             <th scope="col">Docs</th>
                             <th scope="col">Status</th>
@@ -41,6 +43,8 @@
                     <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
+                        <td>{{ item.typeofwork }}</td>
+                        <td>{{ item.time2 }}</td>
                         <td>{{ item.helper }}</td>
                         <td>
                             <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>

@@ -608,6 +608,7 @@ class EmployeeController extends Controller
         $id = $user['employee_id'];
         $employee = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
+            ->join('cases', 'send_to_employees.caseid', '=', 'cases.caseid')
             ->join('users', 'employees.email', '=', 'users.email')
             ->orderBy('send_to_employees.id', 'DESC')
             ->where('send_to_employees.employee_id', $id)

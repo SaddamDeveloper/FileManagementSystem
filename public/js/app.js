@@ -5121,10 +5121,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5930,10 +5926,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       value: null,
+      files: [],
       time1: '',
       time2: '',
       time3: '',
@@ -6112,6 +6141,16 @@ __webpack_require__.r(__webpack_exports__);
             Swal.fire('Failed!', 'There was something wrong', 'warning');
           });
         }
+      });
+    },
+    showFile: function showFile(item) {
+      var _this7 = this;
+
+      var token = localStorage.getItem('token');
+      fetch('api/showuploadedfile/' + item.caseid + '?token=' + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this7.files = res;
       });
     }
   }
@@ -7495,6 +7534,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -63210,7 +63253,9 @@ var render = function() {
                     ]
                   ),
               _vm._v(" "),
-              _vm._m(0)
+              _c("img", {
+                attrs: { src: "sufeeadmin/images/canvas.png", alt: "" }
+              })
             ],
             1
           )
@@ -63255,7 +63300,9 @@ var render = function() {
                     ])
                   ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("img", {
+                attrs: { src: "sufeeadmin/images/canvas2.png", alt: "" }
+              })
             ],
             1
           )
@@ -63307,7 +63354,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(0)
         ])
       ]),
       _vm._v(" "),
@@ -63317,7 +63364,7 @@ var render = function() {
             "div",
             { staticClass: "card-body pb-0" },
             [
-              _vm._m(3),
+              _vm._m(1),
               _vm._v(" "),
               _vm.users.selected == 0
                 ? _c("router-link", { attrs: { to: "/empbillingcase" } }, [
@@ -63337,7 +63384,7 @@ var render = function() {
                     ])
                   ]),
               _vm._v(" "),
-              _vm._m(4)
+              _vm._m(2)
             ],
             1
           )
@@ -63362,7 +63409,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(5)
+              _vm._m(3)
             ],
             1
           )
@@ -63407,7 +63454,7 @@ var render = function() {
                     ])
                   ]),
               _vm._v(" "),
-              _vm._m(6)
+              _vm._m(4)
             ],
             1
           )
@@ -63452,7 +63499,7 @@ var render = function() {
                     ])
                   ]),
               _vm._v(" "),
-              _vm._m(7)
+              _vm._m(5)
             ],
             1
           )
@@ -63485,7 +63532,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(8)
+              _vm._m(6)
             ],
             1
           )
@@ -63496,7 +63543,7 @@ var render = function() {
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "stat-widget-one" }, [
-              _vm._m(9),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "stat-content dib" }, [
                 _c("div", { staticClass: "stat-text" }, [
@@ -63516,7 +63563,7 @@ var render = function() {
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "stat-widget-one" }, [
-              _vm._m(10),
+              _vm._m(8),
               _vm._v(" "),
               _c("div", { staticClass: "stat-content dib" }, [
                 _c("div", { staticClass: "stat-text" }, [_vm._v("Due Amount")]),
@@ -63532,309 +63579,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(11),
+      _vm._m(9),
       _vm._v(" "),
-      _vm._m(12)
+      _vm._m(10)
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "chart-wrapper px-0",
-        staticStyle: { height: "70px" },
-        attrs: { height: "70" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "chartjs-size-monitor",
-            staticStyle: {
-              position: "absolute",
-              left: "0px",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              overflow: "hidden",
-              "pointer-events": "none",
-              visibility: "hidden",
-              "z-index": "-1"
-            }
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-expand",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "1000000px",
-                    height: "1000000px",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            ),
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-shrink",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "200%",
-                    height: "200%",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "198px", height: "70px" },
-          attrs: { id: "widgetChart1", height: "70", width: "198" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "chart-wrapper px-0",
-        staticStyle: { height: "70px" },
-        attrs: { height: "70" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "chartjs-size-monitor",
-            staticStyle: {
-              position: "absolute",
-              left: "0px",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              overflow: "hidden",
-              "pointer-events": "none",
-              visibility: "hidden",
-              "z-index": "-1"
-            }
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-expand",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "1000000px",
-                    height: "1000000px",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            ),
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-shrink",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "200%",
-                    height: "200%",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "198px", height: "70px" },
-          attrs: { id: "widgetChart2", height: "70", width: "198" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "chart-wrapper px-0",
-        staticStyle: { height: "70px" },
-        attrs: { height: "70" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "chartjs-size-monitor",
-            staticStyle: {
-              position: "absolute",
-              left: "0px",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              overflow: "hidden",
-              "pointer-events": "none",
-              visibility: "hidden",
-              "z-index": "-1"
-            }
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-expand",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "1000000px",
-                    height: "1000000px",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            ),
-            _c(
-              "div",
-              {
-                staticClass: "chartjs-size-monitor-shrink",
-                staticStyle: {
-                  position: "absolute",
-                  left: "0",
-                  top: "0",
-                  right: "0",
-                  bottom: "0",
-                  overflow: "hidden",
-                  "pointer-events": "none",
-                  visibility: "hidden",
-                  "z-index": "-1"
-                }
-              },
-              [
-                _c("div", {
-                  staticStyle: {
-                    position: "absolute",
-                    width: "200%",
-                    height: "200%",
-                    left: "0",
-                    top: "0"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "228px", height: "53px" },
-          attrs: { id: "widgetChart3", height: "53", width: "228" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -63923,11 +63674,107 @@ var staticRenderFns = [
           ]
         ),
         _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "166px", height: "38px" },
-          attrs: { id: "widgetChart4", height: "38", width: "166" }
-        })
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas3.png", alt: "" } })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "mb-0" }, [
+      _c("span", { staticClass: "count" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "chart-wrapper px-3",
+        staticStyle: { height: "90px" },
+        attrs: { height: "90" }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "chartjs-size-monitor",
+            staticStyle: {
+              position: "absolute",
+              left: "0px",
+              top: "0px",
+              right: "0px",
+              bottom: "0px",
+              overflow: "hidden",
+              "pointer-events": "none",
+              visibility: "hidden",
+              "z-index": "-1"
+            }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "chartjs-size-monitor-expand",
+                staticStyle: {
+                  position: "absolute",
+                  left: "0",
+                  top: "0",
+                  right: "0",
+                  bottom: "0",
+                  overflow: "hidden",
+                  "pointer-events": "none",
+                  visibility: "hidden",
+                  "z-index": "-1"
+                }
+              },
+              [
+                _c("div", {
+                  staticStyle: {
+                    position: "absolute",
+                    width: "1000000px",
+                    height: "1000000px",
+                    left: "0",
+                    top: "0"
+                  }
+                })
+              ]
+            ),
+            _c(
+              "div",
+              {
+                staticClass: "chartjs-size-monitor-shrink",
+                staticStyle: {
+                  position: "absolute",
+                  left: "0",
+                  top: "0",
+                  right: "0",
+                  bottom: "0",
+                  overflow: "hidden",
+                  "pointer-events": "none",
+                  visibility: "hidden",
+                  "z-index": "-1"
+                }
+              },
+              [
+                _c("div", {
+                  staticStyle: {
+                    position: "absolute",
+                    width: "200%",
+                    height: "200%",
+                    left: "0",
+                    top: "0"
+                  }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas4.png", alt: "" } })
       ]
     )
   },
@@ -65451,18 +65298,29 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.name))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.typeofwork))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.time2))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.helper))]),
                     _vm._v(" "),
                     _c("td", [
                       _c(
-                        "a",
+                        "button",
                         {
+                          staticClass: "btn btn-sm",
                           attrs: {
-                            href: "./storage/" + item.caseid + "/" + item.docs,
-                            download: ""
+                            type: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#exampleModals1" + item.caseid
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showFile(item)
+                            }
                           }
                         },
-                        [_vm._v(_vm._s(item.docs))]
+                        [_c("i", { staticClass: "fa fa-file" })]
                       )
                     ]),
                     _vm._v(" "),
@@ -65485,10 +65343,71 @@ var render = function() {
                             staticClass: "fa fa-envelope",
                             attrs: { "aria-hidden": "true" }
                           }),
-                          _vm._v("\n\nOPEN")
+                          _vm._v("OPEN")
                         ]
                       )
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "exampleModals1" + item.caseid,
+                          tabindex: "-1",
+                          role: "dialog",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "modal-dialog modal-md",
+                            attrs: { role: "document" }
+                          },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(3, true),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-body" }, [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-bordered" },
+                                  [
+                                    _vm._m(4, true),
+                                    _vm._v(" "),
+                                    _c("tr", [
+                                      _c("td", [
+                                        _c("ul", [
+                                          _c("li", [
+                                            _c(
+                                              "a",
+                                              {
+                                                attrs: {
+                                                  href:
+                                                    "./storage/" +
+                                                    item.caseid +
+                                                    "/" +
+                                                    item.docs,
+                                                  download: ""
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(item.docs))]
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
                   ])
                 }),
                 0
@@ -65547,15 +65466,50 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
         _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("TOW")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
+        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Related Documents")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Docs")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Documents")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Admin docs")])])
   }
 ]
 render._withStripped = true
@@ -68405,6 +68359,10 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.name))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.typeofwork))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.time2))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.helper))]),
                     _vm._v(" "),
                     _c("td", [
@@ -68665,6 +68623,10 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("TOW")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Helper")]),
         _vm._v(" "),
