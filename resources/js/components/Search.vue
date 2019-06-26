@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid">
+    <navheader @search = "MethodName"></navheader>
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -23,7 +24,16 @@
 
 <script>
 export default {
-
+    data(){
+        return{
+            
+        }
+    },
+    methods: {
+        MethodName(){
+            console.log();
+        }
+    }
 }
 </script>
 

@@ -105,10 +105,11 @@
                      axios.get('api/searchanything?token='+token, {params: {queryString:this.queryString}}).then(res =>  {
                       res.data.forEach((Detail) =>  {
                             this.searchAnythingData.push(Detail);
-                            
+
                         })
                     })
                 }
+            this.$emit('search', this.searchAnythingData);
             }
         }
     }

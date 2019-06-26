@@ -66,13 +66,13 @@
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
-        <span class="count"></span>
+        <span class="count">0</span>
       </h4>
       <router-link to="/empbillingcase" v-if="users.selected == 0"><p class="text-light">Credit Billed</p></router-link>
       <router-link to="/empbillingcase" v-else-if="users.selected == 1"><p class="text-light">Credit Billed</p></router-link>
       <router-link to="/empbillingcase" v-else><p class="text-light">Billing Case</p></router-link>
 
-      <div class="chart-wrapper px-3" style="height:90px;" height="90"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+      <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <img src="sufeeadmin/images/canvas4.png" alt="">
     </div>
 
@@ -81,7 +81,7 @@
 </div>
 <!--/.col-->
 <div class="col-sm-6 col-lg-3">
-  <div class="card text-white bg-flat-color-1">
+  <div class="card text-white bg-flat-color-20">
     <div class="card-body pb-0">
       <h4 class="mb-0">
         <span class="count">{{ approvedcase }}</span>
@@ -89,7 +89,7 @@
      <router-link to="/approvedcase"><p class="text-light">Approved Case</p></router-link>
 
       <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-      <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
+      <img src="sufeeadmin/images/canvas2.png" alt="">
     </div>
 
   </div>
@@ -99,7 +99,7 @@
 <!--/.col-->
 
 <div class="col-sm-6 col-lg-3">
-  <div class="card text-white bg-flat-color-2">
+  <div class="card text-white bg-flat-color-30">
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
@@ -112,7 +112,7 @@
       <router-link to="/completedcaseemp" v-else><p class="text-light">Completed Case</p></router-link>
 
       <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-      <canvas id="widgetChart2" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
+      <img src="sufeeadmin/images/canvas4.png" alt="">
     </div>
 
   </div>
@@ -121,7 +121,7 @@
 <!--/.col-->
 
 <div class="col-sm-6 col-lg-3">
-  <div class="card text-white bg-flat-color-3">
+  <div class="card text-white bg-flat-color-40">
     <div class="card-body pb-0">
       <h4 class="mb-0">
         <span class="count" v-if="users.selected == 0"> {{  completedcase }}</span>
@@ -133,7 +133,7 @@
       <router-link to="/onprocesscase" v-else><p class="text-light">On Process Case</p></router-link>
 
      <div class="chart-wrapper px-0" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-      <canvas id="widgetChart1" height="70" width="198" class="chartjs-render-monitor" style="display: block; width: 198px; height: 70px;"></canvas>
+      <img src="sufeeadmin/images/canvas.png" alt="">
     </div>
 
     </div>
@@ -142,18 +142,18 @@
 <!--/.col-->
 
 <div class="col-sm-6 col-lg-3">
-  <div class="card text-white bg-flat-color-4">
+  <div class="card text-white bg-flat-color-50">
     <div class="card-body pb-0">
 
       <h4 class="mb-0">
         <span class="count" v-if="users.selected == 0">{{ rejectedcase }}</span>
-        <span class="count" v-else-if="users.selected == 0">{{ rejectedcase }}</span>
+        <span class="count" v-else-if="users.selected == 1">{{ rejectedcase }}</span>
         <span class="count" v-else>{{ rejectedCaseEmp }}</span>
       </h4>
        <router-link to="/rejectedcase"><p class="text-light">Rejected Case</p></router-link>
 
       <div class="chart-wrapper px-3" style="height:70px;" height="70"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-      <canvas id="widgetChart4" height="38" width="166" class="chartjs-render-monitor" style="display: block; width: 166px; height: 38px;"></canvas>
+      <img src="sufeeadmin/images/canvas3.png" alt="">
     </div>
   </div>
 </div>
@@ -162,7 +162,7 @@
     <div class="card">
     <div class="card-body">
         <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Today's Collection</div>
                 <div class="stat-digit">{{ OverallTotalCollection }}</div>
@@ -175,7 +175,7 @@
     <div class="card">
     <div class="card-body">
         <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Due Amount</div>
                 <div class="stat-digit">{{ totalActualAmount-OverallTotalCollection }}</div>
@@ -188,7 +188,7 @@
     <div class="card">
     <div class="card-body">
         <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Monthly Collection</div>
                 <div class="stat-digit">1,012</div>
@@ -201,7 +201,7 @@
     <div class="card">
     <div class="card-body">
         <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
             <div class="stat-content dib">
                 <div class="stat-text">Credit Amount</div>
                 <div class="stat-digit">1,012</div>

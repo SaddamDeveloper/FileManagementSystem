@@ -119,6 +119,18 @@ textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.
 #gstinText{
 		text-align: left;
 }
+.bg-flat-color-20 {
+    background: #932b65;
+}
+.bg-flat-color-30 {
+    background: #0e8028;
+}
+.bg-flat-color-40 {
+    background: #272c33;
+}
+.bg-flat-color-50 {
+    background: #911111;
+}
 
 @media print {
   #savenprint {

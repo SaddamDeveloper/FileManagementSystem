@@ -76,6 +76,6 @@
             </div>
         </div>
     <script src="/js/app.js"></script>
-    <script src="{{ asset('sufeeadmin/assets/js/main.js') }}"></script>
+    <script src="{{ asset('public/sufeeadmin/assets/js/main.js') }}"></script>
     </body>
 </html>

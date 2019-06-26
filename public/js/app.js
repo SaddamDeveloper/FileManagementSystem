@@ -6912,6 +6912,8 @@ __webpack_require__.r(__webpack_exports__);
           });
         });
       }
+
+      this.$emit('search', this.searchAnythingData);
     }
   }
 });
@@ -9485,7 +9487,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  methods: {
+    MethodName: function MethodName() {
+      console.log();
+    }
+  }
+});
 
 /***/ }),
 
@@ -63392,7 +63404,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-20" }, [
           _c(
             "div",
             { staticClass: "card-body pb-0" },
@@ -63417,7 +63429,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-30" }, [
           _c(
             "div",
             { staticClass: "card-body pb-0" },
@@ -63462,7 +63474,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-3" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-40" }, [
           _c(
             "div",
             { staticClass: "card-body pb-0" },
@@ -63507,7 +63519,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-4" }, [
+        _c("div", { staticClass: "card text-white bg-flat-color-50" }, [
           _c(
             "div",
             { staticClass: "card-body pb-0" },
@@ -63517,7 +63529,7 @@ var render = function() {
                   ? _c("span", { staticClass: "count" }, [
                       _vm._v(_vm._s(_vm.rejectedcase))
                     ])
-                  : _vm.users.selected == 0
+                  : _vm.users.selected == 1
                   ? _c("span", { staticClass: "count" }, [
                       _vm._v(_vm._s(_vm.rejectedcase))
                     ])
@@ -63683,7 +63695,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h4", { staticClass: "mb-0" }, [
-      _c("span", { staticClass: "count" })
+      _c("span", { staticClass: "count" }, [_vm._v("0")])
     ])
   },
   function() {
@@ -63694,8 +63706,8 @@ var staticRenderFns = [
       "div",
       {
         staticClass: "chart-wrapper px-3",
-        staticStyle: { height: "90px" },
-        attrs: { height: "90" }
+        staticStyle: { height: "70px" },
+        attrs: { height: "70" }
       },
       [
         _c(
@@ -63866,11 +63878,7 @@ var staticRenderFns = [
           ]
         ),
         _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "198px", height: "70px" },
-          attrs: { id: "widgetChart1", height: "70", width: "198" }
-        })
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas2.png", alt: "" } })
       ]
     )
   },
@@ -63962,11 +63970,7 @@ var staticRenderFns = [
           ]
         ),
         _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "198px", height: "70px" },
-          attrs: { id: "widgetChart2", height: "70", width: "198" }
-        })
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas4.png", alt: "" } })
       ]
     )
   },
@@ -64058,11 +64062,7 @@ var staticRenderFns = [
           ]
         ),
         _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "198px", height: "70px" },
-          attrs: { id: "widgetChart1", height: "70", width: "198" }
-        })
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas.png", alt: "" } })
       ]
     )
   },
@@ -64154,11 +64154,7 @@ var staticRenderFns = [
           ]
         ),
         _vm._v(" "),
-        _c("canvas", {
-          staticClass: "chartjs-render-monitor",
-          staticStyle: { display: "block", width: "166px", height: "38px" },
-          attrs: { id: "widgetChart4", height: "38", width: "166" }
-        })
+        _c("img", { attrs: { src: "sufeeadmin/images/canvas3.png", alt: "" } })
       ]
     )
   },
@@ -64167,7 +64163,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "stat-icon dib" }, [
-      _c("i", { staticClass: "ti-money text-success border-success" })
+      _c("i", { staticClass: "text-success border-success" }, [_vm._v("₹")])
     ])
   },
   function() {
@@ -64175,7 +64171,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "stat-icon dib" }, [
-      _c("i", { staticClass: "ti-money text-success border-success" })
+      _c("i", { staticClass: "text-success border-success" }, [_vm._v("₹")])
     ])
   },
   function() {
@@ -64187,7 +64183,9 @@ var staticRenderFns = [
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "stat-widget-one" }, [
             _c("div", { staticClass: "stat-icon dib" }, [
-              _c("i", { staticClass: "ti-money text-success border-success" })
+              _c("i", { staticClass: "text-success border-success" }, [
+                _vm._v("₹")
+              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "stat-content dib" }, [
@@ -64211,7 +64209,9 @@ var staticRenderFns = [
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "stat-widget-one" }, [
             _c("div", { staticClass: "stat-icon dib" }, [
-              _c("i", { staticClass: "ti-money text-success border-success" })
+              _c("i", { staticClass: "text-success border-success" }, [
+                _vm._v("₹")
+              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "stat-content dib" }, [
@@ -72319,39 +72319,46 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "options" }, [
-              _c(
-                "ul",
-                _vm._l(_vm.clientDetailsNo, function(detail, index) {
-                  return _c(
-                    "li",
-                    {
-                      key: index,
-                      domProps: { textContent: _vm._s(detail.contactNo) },
-                      on: {
-                        click: function($event) {
-                          return _vm.selectClientsNo(detail)
+  return _c(
+    "div",
+    { staticClass: "container-fluid" },
+    [
+      _c("navheader", { on: { search: _vm.MethodName } }),
+      _vm._v(" "),
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "options" }, [
+                _c(
+                  "ul",
+                  _vm._l(_vm.clientDetailsNo, function(detail, index) {
+                    return _c(
+                      "li",
+                      {
+                        key: index,
+                        domProps: { textContent: _vm._s(detail.contactNo) },
+                        on: {
+                          click: function($event) {
+                            return _vm.selectClientsNo(detail)
+                          }
                         }
-                      }
-                    },
-                    [_vm._v(_vm._s(detail.contactNo))]
-                  )
-                }),
-                0
-              )
+                      },
+                      [_vm._v(_vm._s(detail.contactNo))]
+                    )
+                  }),
+                  0
+                )
+              ])
             ])
           ])
         ])
       ])
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
