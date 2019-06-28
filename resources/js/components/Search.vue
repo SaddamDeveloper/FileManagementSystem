@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-    <navheader @search = "MethodName"></navheader>
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -9,9 +8,9 @@
                     </div>
                     <div class="card-body">
                         <div class="options">
-                            <ul>
+                            <!-- <ul>
                                 <li v-for="(detail, index) in clientDetailsNo" v-bind:key="index" @click="selectClientsNo(detail)" v-text="detail.contactNo">{{ detail.contactNo }}</li>
-                            </ul>
+                            </ul> -->
                         </div>
                     </div>
                 </div>
@@ -26,8 +25,15 @@
 export default {
     data(){
         return{
-            
+
         }
+    },
+    created(){
+        Event.$on('searching', () => {
+        let query = this;
+        console.log(query);
+            // console.log("hello")
+        })
     },
     methods: {
         MethodName(){

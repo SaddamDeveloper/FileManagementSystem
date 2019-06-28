@@ -39,7 +39,7 @@ const toast = Swal.mixin({
 
 
 window.Fire = new Vue();
-
+window.Event = new Vue();
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 window.toast = toast;
@@ -94,7 +94,6 @@ let routes = [
   //   { path: '/signup', component: require('./components/SignUp.vue').default },
   ]
 
-
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
@@ -120,5 +119,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+
+    },
+    methods: {
+
+    },
 });

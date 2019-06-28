@@ -10,7 +10,7 @@
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
                         <div class="form-inline">
                             <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search" v-on:keyup="search()" v-text="queryString" @input="queryString = $event.target.value" v-model="queryString">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search" v-on:keyup="search" v-model="searchData" ref="search">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
                         </div>
@@ -66,12 +66,12 @@
         data(){
             return{
                 name:'',
-                queryString: '',
+                searchData: '',
                 searchAnythingData:[],
             }
         },
         created(){
-        this.fetchUser();
+            this.fetchUser();
         },
         methods: {
         fetchUser(){
@@ -99,17 +99,7 @@
 
             },
             search(){
-                this.searchAnythingData = [];
-                const token = localStorage.getItem('token');
-                if(this.queryString){
-                     axios.get('api/searchanything?token='+token, {params: {queryString:this.queryString}}).then(res =>  {
-                      res.data.forEach((Detail) =>  {
-                            this.searchAnythingData.push(Detail);
-
-                        })
-                    })
-                }
-            this.$emit('search', this.searchAnythingData);
+                Event.$emit('searching');
             }
         }
     }

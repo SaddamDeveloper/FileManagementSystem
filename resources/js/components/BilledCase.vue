@@ -325,7 +325,7 @@
                 </tr>
                 <tr>
                     <td class="meta-head">INVOICE NO:</td>
-                    <td><input type="text" readonly id="invoice_no"></td>
+                    <td><input type="text" readonly id="invoice_no" v-model="item.invoiceNo"></td>
                 </tr>
                 <tr>
                     <td class="meta-head">INVOICE DATE:</td>
@@ -398,7 +398,7 @@
 		  </tr>
 		  <tr>
 		  	<td colspan="2">Invoice Value(in words)</td>
-		  	<td><span>{{ d = amount + c | toWords | capitalize }} Rupees Only</span></td>
+		  	<td><span>{{ d = amount - c | toWords | capitalize }} Rupees Only</span></td>
 		      <td class="total-line" colspan="3">Total Invoice Amount</td>
 		  </tr>
 		  <tr>
@@ -427,7 +427,6 @@
 </div>
         </div>
                 <div class="modal-footer">
-
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" @click="print">Save & Print</button>
                 </div>
@@ -559,7 +558,7 @@ export default {
                     var sgst = amount * 0.09;
                     var cgst = amount * 0.09;
                     var gst = sgst + cgst;
-                    var amount1 = parseFloat(amount) + parseFloat(gst);
+                    var amount1 = parseFloat(amount) - parseFloat(gst);
                     var advance = item.advamount;
                     var finalAmount = amount1-advance;
                     var address = this.namenaddress;

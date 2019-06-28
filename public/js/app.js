@@ -3083,7 +3083,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3197,7 +3196,7 @@ __webpack_require__.r(__webpack_exports__);
           var sgst = amount * 0.09;
           var cgst = amount * 0.09;
           var gst = sgst + cgst;
-          var amount1 = parseFloat(amount) + parseFloat(gst);
+          var amount1 = parseFloat(amount) - parseFloat(gst);
           var advance = item.advamount;
           var finalAmount = amount1 - advance;
           var address = _this2.namenaddress;
@@ -4905,6 +4904,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -6856,7 +6858,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       name: '',
-      queryString: '',
+      searchData: '',
       searchAnythingData: []
     };
   },
@@ -6896,24 +6898,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     search: function search() {
-      var _this3 = this;
-
-      this.searchAnythingData = [];
-      var token = localStorage.getItem('token');
-
-      if (this.queryString) {
-        axios.get('api/searchanything?token=' + token, {
-          params: {
-            queryString: this.queryString
-          }
-        }).then(function (res) {
-          res.data.forEach(function (Detail) {
-            _this3.searchAnythingData.push(Detail);
-          });
-        });
-      }
-
-      this.$emit('search', this.searchAnythingData);
+      Event.$emit('searching');
     }
   }
 });
@@ -7536,6 +7521,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -9487,10 +9474,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
+  },
+  created: function created() {
+    var _this = this;
+
+    Event.$on('searching', function () {
+      var query = _this;
+      console.log(query); // console.log("hello")
+    });
   },
   methods: {
     MethodName: function MethodName() {
@@ -57953,7 +57947,46 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(16, true),
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticClass: "meta-head" },
+                                            [_vm._v("INVOICE NO:")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: item.invoiceNo,
+                                                  expression: "item.invoiceNo"
+                                                }
+                                              ],
+                                              attrs: {
+                                                type: "text",
+                                                readonly: "",
+                                                id: "invoice_no"
+                                              },
+                                              domProps: {
+                                                value: item.invoiceNo
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    item,
+                                                    "invoiceNo",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ])
+                                        ]),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -57996,7 +58029,7 @@ var render = function() {
                                         { staticStyle: { width: "900px" } },
                                         [
                                           _c("tr", [
-                                            _vm._m(17, true),
+                                            _vm._m(16, true),
                                             _vm._v(" "),
                                             _c(
                                               "td",
@@ -58049,14 +58082,14 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _vm._m(18, true),
+                                          _vm._m(17, true),
                                           _vm._v(" "),
-                                          _vm._m(19, true)
+                                          _vm._m(18, true)
                                         ]
                                       ),
                                       _vm._v(" "),
                                       _c("table", { attrs: { id: "items" } }, [
-                                        _vm._m(20, true),
+                                        _vm._m(19, true),
                                         _vm._v(" "),
                                         _c(
                                           "tr",
@@ -58067,7 +58100,7 @@ var render = function() {
                                           [
                                             _c("td", [_vm._v("1")]),
                                             _vm._v(" "),
-                                            _vm._m(21, true),
+                                            _vm._m(20, true),
                                             _vm._v(" "),
                                             _c("td", [
                                               _c("input", {
@@ -58183,7 +58216,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(22, true),
+                                          _vm._m(21, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -58212,7 +58245,7 @@ var render = function() {
                                             attrs: { colspan: "2" }
                                           }),
                                           _vm._v(" "),
-                                          _vm._m(23, true),
+                                          _vm._m(22, true),
                                           _vm._v(" "),
                                           _c(
                                             "td",
@@ -58278,7 +58311,7 @@ var render = function() {
                                                   _vm._f("capitalize")(
                                                     _vm._f("toWords")(
                                                       (_vm.d =
-                                                        _vm.amount + _vm.c)
+                                                        _vm.amount - _vm.c)
                                                     )
                                                   )
                                                 ) + " Rupees Only"
@@ -58372,7 +58405,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(24, true),
+                                        _vm._m(23, true),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c(
@@ -58732,18 +58765,6 @@ var staticRenderFns = [
             value: "17AAJFD4695B1ZE"
           }
         })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "meta-head" }, [_vm._v("INVOICE NO:")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("input", { attrs: { type: "text", readonly: "", id: "invoice_no" } })
       ])
     ])
   },
@@ -63551,49 +63572,57 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "stat-widget-one" }, [
-              _vm._m(7),
-              _vm._v(" "),
-              _c("div", { staticClass: "stat-content dib" }, [
-                _c("div", { staticClass: "stat-text" }, [
-                  _vm._v("Today's Collection")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "stat-digit" }, [
-                  _vm._v(_vm._s(_vm.OverallTotalCollection))
+      _vm.users.selected != 2
+        ? _c("div", [
+            _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "stat-widget-one" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "stat-content dib" }, [
+                      _c("div", { staticClass: "stat-text" }, [
+                        _vm._v("Today's Collection")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "stat-digit" }, [
+                        _vm._v(_vm._s(_vm.OverallTotalCollection))
+                      ])
+                    ])
+                  ])
                 ])
               ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "stat-widget-one" }, [
-              _vm._m(8),
-              _vm._v(" "),
-              _c("div", { staticClass: "stat-content dib" }, [
-                _c("div", { staticClass: "stat-text" }, [_vm._v("Due Amount")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "stat-digit" }, [
-                  _vm._v(
-                    _vm._s(_vm.totalActualAmount - _vm.OverallTotalCollection)
-                  )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "stat-widget-one" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "stat-content dib" }, [
+                      _c("div", { staticClass: "stat-text" }, [
+                        _vm._v("Due Amount")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "stat-digit" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.totalActualAmount - _vm.OverallTotalCollection
+                          )
+                        )
+                      ])
+                    ])
+                  ])
                 ])
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _vm._m(9),
+            _vm._v(" "),
+            _vm._m(10)
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(9),
-      _vm._v(" "),
-      _vm._m(10)
+        : _vm._e()
     ])
   ])
 }
@@ -66648,35 +66677,26 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.queryString,
-                    expression: "queryString"
+                    value: _vm.searchData,
+                    expression: "searchData"
                   }
                 ],
+                ref: "search",
                 staticClass: "form-control mr-sm-2",
                 attrs: {
                   type: "text",
                   placeholder: "Search ...",
                   "aria-label": "Search"
                 },
-                domProps: {
-                  textContent: _vm._s(_vm.queryString),
-                  value: _vm.queryString
-                },
+                domProps: { value: _vm.searchData },
                 on: {
-                  keyup: function($event) {
-                    return _vm.search()
-                  },
-                  input: [
-                    function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.queryString = $event.target.value
-                    },
-                    function($event) {
-                      _vm.queryString = $event.target.value
+                  keyup: _vm.search,
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  ]
+                    _vm.searchData = $event.target.value
+                  }
                 }
               }),
               _vm._v(" "),
@@ -68359,6 +68379,8 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.name))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.clientName))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.typeofwork))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.time2))]),
@@ -68623,6 +68645,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Assigned Employee")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Client")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("TOW")]),
         _vm._v(" "),
@@ -72319,54 +72343,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container-fluid" },
-    [
-      _c("navheader", { on: { search: _vm.MethodName } }),
-      _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "options" }, [
-                _c(
-                  "ul",
-                  _vm._l(_vm.clientDetailsNo, function(detail, index) {
-                    return _c(
-                      "li",
-                      {
-                        key: index,
-                        domProps: { textContent: _vm._s(detail.contactNo) },
-                        on: {
-                          click: function($event) {
-                            return _vm.selectClientsNo(detail)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(detail.contactNo))]
-                    )
-                  }),
-                  0
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ],
-    1
-  )
+  return _vm._m(0)
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("strong", { staticClass: "card-title" }, [_vm._v("Search results")])
+    return _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("strong", { staticClass: "card-title" }, [
+                _vm._v("Search results")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "options" })
+            ])
+          ])
+        ])
+      ])
     ])
   }
 ]
@@ -89255,6 +89254,7 @@ var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.mixin({
   timer: 3000
 });
 window.Fire = new Vue();
+window.Event = new Vue();
 
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_8___default.a);
 window.toast = toast;
@@ -89369,7 +89369,9 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  data: {},
+  methods: {}
 });
 
 /***/ }),

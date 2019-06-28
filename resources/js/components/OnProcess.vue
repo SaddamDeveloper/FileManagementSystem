@@ -31,6 +31,7 @@
                             <tr>
                             <th scope="col">#Case</th>
                             <th scope="col">Assigned Employee</th>
+                            <th scope="col">Client</th>
                             <th scope="col">TOW</th>
                             <th scope="col">Delivery Date</th>
                             <th scope="col">Helper</th>
@@ -43,6 +44,7 @@
                     <tr v-for="item in assignedemployees" v-bind:key="item.caseid">
                         <td>{{ item.caseid }}</td>
                         <td>{{ item.name }}</td>
+                        <td>{{ item.clientName }}</td>
                         <td>{{ item.typeofwork }}</td>
                         <td>{{ item.time2 }}</td>
                         <td>{{ item.helper }}</td>
