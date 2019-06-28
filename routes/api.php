@@ -132,6 +132,8 @@ Route::delete('sendtoadminagain/{id}', 'EmployeeController@deleteSendToAdmin');
 
 Route::get('search', ['uses' => 'CaseController@search', 'middleware' => 'jwt']);
 
+Route::get( 'searchperson', ['uses' => 'CaseController@searchPerson', 'middleware' => 'jwt']);
+
 Route::get('caseid', ['uses' => 'CaseController@showCaseId', 'middleware' => 'jwt']);
 
 Route::get('searchphone', 'CaseController@searchPhone');

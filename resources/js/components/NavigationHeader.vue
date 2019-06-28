@@ -11,7 +11,7 @@
                         <div class="form-inline">
                             <form class="search-form">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search" v-on:keyup="search" v-model="searchData" ref="search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                                <button class="search-close" type="submit" @click="clear"><i class="fa fa-close"></i></button>
                             </form>
                         </div>
                     </div>
@@ -99,7 +99,10 @@
 
             },
             search(){
-                Event.$emit('searching');
+                Event.$emit('searching', this.searchData);
+            },
+            clear(){
+                 this.$router.push({ path: '/dashboard', redirect: '/dashboard' })
             }
         }
     }

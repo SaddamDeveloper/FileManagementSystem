@@ -609,7 +609,7 @@ class EmployeeController extends Controller
         $employee = DB::table('send_to_employees')
             ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
             ->join('cases', 'send_to_employees.caseid', '=', 'cases.caseid')
-            ->join('users', 'employees.email', '=', 'users.email')
+            ->join('users', 'employees.employee_id', '=', 'users.employee_id')
             ->orderBy('send_to_employees.id', 'DESC')
             ->where('send_to_employees.employee_id', $id)
             ->paginate(15);

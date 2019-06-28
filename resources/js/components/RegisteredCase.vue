@@ -878,7 +878,7 @@ export default {
         this.clientDetails = [];
         const token = localStorage.getItem('token');
         if(this.queryString){
-            axios.get('api/search?token='+token, {params: {queryString:this.queryString}}).then(res =>  {
+            axios.get('api/searchperson?token='+token, {params: {queryString:this.queryString}}).then(res =>  {
                 res.data.forEach((clientDetail) =>  {
                     this.clientDetails.push(clientDetail);
                 })

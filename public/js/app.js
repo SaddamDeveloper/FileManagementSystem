@@ -5123,6 +5123,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5151,6 +5152,7 @@ __webpack_require__.r(__webpack_exports__);
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
       OverallTotalCollection: '',
+      searchResult: '',
       totalActualAmount: '',
       newRegisteredEmp: '',
       onprocessEmp: '',
@@ -5161,58 +5163,67 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    var _this = this;
+
     this.loadCounter();
     this.fetchUser();
     this.loadEmployeeCounter();
     this.fetchCollectionRegister();
+    var token = localStorage.getItem('token');
+    Event.$on("searching", function (inputWord) {
+      axios.get('/api/search?q=' + inputWord + '&token=' + token).then(function (data) {
+        _this.searchResult = data.data; // import('./MyComponent.vue')
+        // Vue.component('search', require('../components/Search.vue').default);
+      });
+    });
   },
   methods: {
     loadCounter: function loadCounter() {
-      var _this = this;
+      var _this2 = this;
 
       var token = localStorage.getItem('token');
       fetch('api/counter?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.NewRegistered = res.newRegistered;
-        _this.waitingforapprove = res.waitingforapprove;
-        _this.assignedcase = res.assignedcase;
-        _this.completedcase = res.completedcase;
-        _this.approvedcase = res.approvedCase;
-        _this.billedcase = res.billedcase;
-        _this.rejectedcase = res.rejectedcase;
-        _this.onprocesscase = res.onprocess;
-        _this.newRegisteredEmp = res.newRegisteredEmp;
-        _this.onprocessEmp = res.onprocessEmp;
-        _this.waitingforapproveEmp = res.waitingforapproveEmp;
-        _this.completedCaseEmp = res.completedCaseEmp;
-        _this.approvedCaseEmp = res.approvedCaseEmp;
-        _this.rejectedCaseEmp = res.rejectedCaseEmp;
+        _this2.NewRegistered = res.newRegistered;
+        _this2.waitingforapprove = res.waitingforapprove;
+        _this2.assignedcase = res.assignedcase;
+        _this2.completedcase = res.completedcase;
+        _this2.approvedcase = res.approvedCase;
+        _this2.billedcase = res.billedcase;
+        _this2.rejectedcase = res.rejectedcase;
+        _this2.onprocesscase = res.onprocess;
+        _this2.newRegisteredEmp = res.newRegisteredEmp;
+        _this2.onprocessEmp = res.onprocessEmp;
+        _this2.waitingforapproveEmp = res.waitingforapproveEmp;
+        _this2.completedCaseEmp = res.completedCaseEmp;
+        _this2.approvedCaseEmp = res.approvedCaseEmp;
+        _this2.rejectedCaseEmp = res.rejectedCaseEmp;
       });
     },
     loadEmployeeCounter: function loadEmployeeCounter() {
-      var _this2 = this;
+      var _this3 = this;
 
       var token = localStorage.getItem('token');
       fetch('api/employeecounter?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.empNewRegistered = res.employeeAssigned;
-        _this2.empWaitingforapprove = res.waitingforapprove;
-        _this2.empRejectedcase = res.rejectedcase;
-        _this2.empCompletedcase = res.completedcase;
-        _this2.empApprovedcase = res.approvecaseEmp;
+        _this3.empNewRegistered = res.employeeAssigned;
+        _this3.empWaitingforapprove = res.waitingforapprove;
+        _this3.empRejectedcase = res.rejectedcase;
+        _this3.empCompletedcase = res.completedcase;
+        _this3.empApprovedcase = res.approvecaseEmp;
       });
     },
     fetchUser: function fetchUser() {
-      var _this3 = this;
+      var _this4 = this;
 
       var token = localStorage.getItem('token');
       fetch('/api/auth/me?token=' + token).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this3.users.email = data.email;
-        _this3.users.selected = data.selected;
+        _this4.users.email = data.email;
+        _this4.users.selected = data.selected;
 
         if (data.error == "Token is expired") {
           window.location.href = '/';
@@ -5220,30 +5231,30 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     fetchCollectionRegister: function fetchCollectionRegister() {
-      var _this4 = this;
+      var _this5 = this;
 
       var token = localStorage.getItem('token');
       fetch('api/fetchcollectionregister?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this4.OveralltotalAmount = res.OverallTotalAmount;
-        _this4.OverallTotalCollection = res.OverallTotalCollection;
-        _this4.totalActualAmount = res.actualAmount;
-        _this4.OverallgstAmount = res.OverallgstAmount;
-        _this4.todaystotalAmount = res.todaystotalAmount;
-        _this4.todaysgstAmount = res.todaysgstAmount;
-        _this4.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
-        _this4.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
-        _this4.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+        _this5.OveralltotalAmount = res.OverallTotalAmount;
+        _this5.OverallTotalCollection = res.OverallTotalCollection;
+        _this5.totalActualAmount = res.actualAmount;
+        _this5.OverallgstAmount = res.OverallgstAmount;
+        _this5.todaystotalAmount = res.todaystotalAmount;
+        _this5.todaysgstAmount = res.todaysgstAmount;
+        _this5.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
+        _this5.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
+        _this5.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
       });
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
     window.onpopstate = function (event) {
-      if (window.localStorage.getItem("info") !== null && _this5.$route.path == "/siginin") {
-        _this5.$router.push("/dashboard");
+      if (window.localStorage.getItem("info") !== null && _this6.$route.path == "/siginin") {
+        _this6.$router.push("/dashboard");
       }
     };
   }
@@ -6898,7 +6909,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     search: function search() {
-      Event.$emit('searching');
+      Event.$emit('searching', this.searchData);
+    },
+    clear: function clear() {
+      this.$router.push({
+        path: '/dashboard',
+        redirect: '/dashboard'
+      });
     }
   }
 });
@@ -8768,7 +8785,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var token = localStorage.getItem('token');
 
       if (this.queryString) {
-        axios.get('api/search?token=' + token, {
+        axios.get('api/searchperson?token=' + token, {
           params: {
             queryString: this.queryString
           }
@@ -9474,41 +9491,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {};
-  },
-  created: function created() {
-    var _this = this;
-
-    Event.$on('searching', function () {
-      var query = _this;
-      console.log(query); // console.log("hello")
-    });
-  },
-  methods: {
-    MethodName: function MethodName() {
-      console.log();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SignUp.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SignUp.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -9532,27 +9514,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      users: {
-        name: '',
-        email: '',
-        password: '',
-        selected: ''
-      }
+      searchResult: [],
+      nodata: ''
     };
   },
-  methods: {
-    signup: function signup() {
-      fetch('api/user', {
-        method: 'post',
-        body: JSON.stringify(this.users),
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function (response) {
-        return console.log(response);
-      }).catch(function (error) {
-        return console.log(error);
+  created: function created() {
+    var _this = this;
+
+    var token = localStorage.getItem('token');
+    Event.$on("searching", function (inputWord) {
+      axios.get('/api/search?q=' + inputWord + '&token=' + token).then(function (data) {
+        _this.searchResult = data.data;
+        console.log(data);
       });
+    });
+  },
+  methods: {
+    MethodName: function MethodName() {
+      console.log();
     }
   }
 });
@@ -63242,389 +63221,427 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.NewRegistered))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.NewRegistered))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.newRegisteredEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/registeredcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Register New Case")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/newcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Newly Registered Case")
-                    ])
-                  ])
-                : _c(
-                    "router-link",
-                    { attrs: { to: "/employeeassignedcase" } },
-                    [
-                      _c("p", { staticClass: "text-light" }, [
-                        _vm._v("New Case")
-                      ])
-                    ]
-                  ),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: "sufeeadmin/images/canvas.png", alt: "" }
-              })
-            ],
-            1
-          )
-        ])
-      ]),
+  return _c(
+    "div",
+    { staticClass: "container-fluid" },
+    [
+      this.searchResult ? _c("search") : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.waitingforapprove))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.waitingforapprove))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.approvedCaseEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/assignedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Assigned Case")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/forapprovalcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Waiting For Approval Case")
-                    ])
-                  ])
-                : _c("router-link", { attrs: { to: "/empapprovedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Approved Case")
-                    ])
-                  ]),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: "sufeeadmin/images/canvas2.png", alt: "" }
-              })
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-3" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.billedcase))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.billedcase))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.waitingforapproveEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/billedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Billed Case")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/billedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Billed Case")
-                    ])
-                  ])
-                : _c(
-                    "router-link",
-                    { attrs: { to: "/waitingforapproavalcase" } },
-                    [
-                      _c("p", { staticClass: "text-light" }, [
-                        _vm._v("To be Approved")
-                      ])
-                    ]
-                  )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm._m(0)
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-4" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/empbillingcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Credit Billed")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/empbillingcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Credit Billed")
-                    ])
-                  ])
-                : _c("router-link", { attrs: { to: "/empbillingcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Billing Case")
-                    ])
-                  ]),
-              _vm._v(" "),
-              _vm._m(2)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-20" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _c("span", { staticClass: "count" }, [
-                  _vm._v(_vm._s(_vm.approvedcase))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/approvedcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Approved Case")
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(3)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-30" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.completedcase))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.completedcase))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.completedCaseEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/completedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Completed Case")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/completedcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Completed Case")
-                    ])
-                  ])
-                : _c("router-link", { attrs: { to: "/completedcaseemp" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Completed Case")
-                    ])
-                  ]),
-              _vm._v(" "),
-              _vm._m(4)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-40" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(" " + _vm._s(_vm.completedcase))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(" " + _vm._s(_vm.completedcase))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(" " + _vm._s(_vm.onprocessEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _vm.users.selected == 0
-                ? _c("router-link", { attrs: { to: "/billingcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Billing Case")
-                    ])
-                  ])
-                : _vm.users.selected == 1
-                ? _c("router-link", { attrs: { to: "/billingcase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("Billing Case")
-                    ])
-                  ])
-                : _c("router-link", { attrs: { to: "/onprocesscase" } }, [
-                    _c("p", { staticClass: "text-light" }, [
-                      _vm._v("On Process Case")
-                    ])
-                  ]),
-              _vm._v(" "),
-              _vm._m(5)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
-        _c("div", { staticClass: "card text-white bg-flat-color-50" }, [
-          _c(
-            "div",
-            { staticClass: "card-body pb-0" },
-            [
-              _c("h4", { staticClass: "mb-0" }, [
-                _vm.users.selected == 0
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.rejectedcase))
-                    ])
-                  : _vm.users.selected == 1
-                  ? _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.rejectedcase))
-                    ])
-                  : _c("span", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.rejectedCaseEmp))
-                    ])
-              ]),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/rejectedcase" } }, [
-                _c("p", { staticClass: "text-light" }, [
-                  _vm._v("Rejected Case")
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(6)
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.users.selected != 2
-        ? _c("div", [
-            _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "stat-widget-one" }, [
-                    _vm._m(7),
+      !this.searchResult
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.NewRegistered))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.NewRegistered))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.newRegisteredEmp))
+                          ])
+                    ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "stat-content dib" }, [
-                      _c("div", { staticClass: "stat-text" }, [
-                        _vm._v("Today's Collection")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "stat-digit" }, [
-                        _vm._v(_vm._s(_vm.OverallTotalCollection))
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "stat-widget-one" }, [
-                    _vm._m(8),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "stat-content dib" }, [
-                      _c("div", { staticClass: "stat-text" }, [
-                        _vm._v("Due Amount")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "stat-digit" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm.totalActualAmount - _vm.OverallTotalCollection
-                          )
+                    _vm.users.selected == 0
+                      ? _c(
+                          "router-link",
+                          { attrs: { to: "/registeredcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Register New Case")
+                            ])
+                          ]
                         )
-                      ])
-                    ])
-                  ])
-                ])
+                      : _vm.users.selected == 1
+                      ? _c("router-link", { attrs: { to: "/newcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Newly Registered Case")
+                          ])
+                        ])
+                      : _c(
+                          "router-link",
+                          { attrs: { to: "/employeeassignedcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("New Case")
+                            ])
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _c("img", {
+                      attrs: { src: "sufeeadmin/images/canvas.png", alt: "" }
+                    })
+                  ],
+                  1
+                )
               ])
             ]),
             _vm._v(" "),
-            _vm._m(9),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.waitingforapprove))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.waitingforapprove))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.approvedCaseEmp))
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.users.selected == 0
+                      ? _c("router-link", { attrs: { to: "/assignedcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Assigned Case")
+                          ])
+                        ])
+                      : _vm.users.selected == 1
+                      ? _c(
+                          "router-link",
+                          { attrs: { to: "/forapprovalcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Waiting For Approval Case")
+                            ])
+                          ]
+                        )
+                      : _c(
+                          "router-link",
+                          { attrs: { to: "/empapprovedcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Approved Case")
+                            ])
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _c("img", {
+                      attrs: { src: "sufeeadmin/images/canvas2.png", alt: "" }
+                    })
+                  ],
+                  1
+                )
+              ])
+            ]),
             _vm._v(" "),
-            _vm._m(10)
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-3" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.billedcase))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.billedcase))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.waitingforapproveEmp))
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.users.selected == 0
+                      ? _c("router-link", { attrs: { to: "/billedcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Billed Case")
+                          ])
+                        ])
+                      : _vm.users.selected == 1
+                      ? _c("router-link", { attrs: { to: "/billedcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Billed Case")
+                          ])
+                        ])
+                      : _c(
+                          "router-link",
+                          { attrs: { to: "/waitingforapproavalcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("To be Approved")
+                            ])
+                          ]
+                        )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm.users.selected == 0
+                      ? _c(
+                          "router-link",
+                          { attrs: { to: "/empbillingcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Credit Billed")
+                            ])
+                          ]
+                        )
+                      : _vm.users.selected == 1
+                      ? _c(
+                          "router-link",
+                          { attrs: { to: "/empbillingcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Credit Billed")
+                            ])
+                          ]
+                        )
+                      : _c(
+                          "router-link",
+                          { attrs: { to: "/empbillingcase" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Billing Case")
+                            ])
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-20" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _c("span", { staticClass: "count" }, [
+                        _vm._v(_vm._s(_vm.approvedcase))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("router-link", { attrs: { to: "/approvedcase" } }, [
+                      _c("p", { staticClass: "text-light" }, [
+                        _vm._v("Approved Case")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(3)
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-30" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.completedcase))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.completedcase))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.completedCaseEmp))
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.users.selected == 0
+                      ? _c("router-link", { attrs: { to: "/completedcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Completed Case")
+                          ])
+                        ])
+                      : _vm.users.selected == 1
+                      ? _c("router-link", { attrs: { to: "/completedcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Completed Case")
+                          ])
+                        ])
+                      : _c(
+                          "router-link",
+                          { attrs: { to: "/completedcaseemp" } },
+                          [
+                            _c("p", { staticClass: "text-light" }, [
+                              _vm._v("Completed Case")
+                            ])
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _vm._m(4)
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-40" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(" " + _vm._s(_vm.completedcase))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(" " + _vm._s(_vm.completedcase))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(" " + _vm._s(_vm.onprocessEmp))
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.users.selected == 0
+                      ? _c("router-link", { attrs: { to: "/billingcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Billing Case")
+                          ])
+                        ])
+                      : _vm.users.selected == 1
+                      ? _c("router-link", { attrs: { to: "/billingcase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("Billing Case")
+                          ])
+                        ])
+                      : _c("router-link", { attrs: { to: "/onprocesscase" } }, [
+                          _c("p", { staticClass: "text-light" }, [
+                            _vm._v("On Process Case")
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _vm._m(5)
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6 col-lg-3" }, [
+              _c("div", { staticClass: "card text-white bg-flat-color-50" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body pb-0" },
+                  [
+                    _c("h4", { staticClass: "mb-0" }, [
+                      _vm.users.selected == 0
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.rejectedcase))
+                          ])
+                        : _vm.users.selected == 1
+                        ? _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.rejectedcase))
+                          ])
+                        : _c("span", { staticClass: "count" }, [
+                            _vm._v(_vm._s(_vm.rejectedCaseEmp))
+                          ])
+                    ]),
+                    _vm._v(" "),
+                    _c("router-link", { attrs: { to: "/rejectedcase" } }, [
+                      _c("p", { staticClass: "text-light" }, [
+                        _vm._v("Rejected Case")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(6)
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.users.selected != 2
+              ? _c("div", [
+                  _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+                    _c("div", { staticClass: "card" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("div", { staticClass: "stat-widget-one" }, [
+                          _vm._m(7),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "stat-content dib" }, [
+                            _c("div", { staticClass: "stat-text" }, [
+                              _vm._v("Today's Collection")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "stat-digit" }, [
+                              _vm._v(_vm._s(_vm.OverallTotalCollection))
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-xl-3 col-lg-6" }, [
+                    _c("div", { staticClass: "card" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("div", { staticClass: "stat-widget-one" }, [
+                          _vm._m(8),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "stat-content dib" }, [
+                            _c("div", { staticClass: "stat-text" }, [
+                              _vm._v("Due Amount")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "stat-digit" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.totalActualAmount -
+                                    _vm.OverallTotalCollection
+                                )
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _vm._m(10)
+                ])
+              : _vm._e()
           ])
         : _vm._e()
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -66700,7 +66717,15 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _vm._m(2)
+              _c(
+                "button",
+                {
+                  staticClass: "search-close",
+                  attrs: { type: "submit" },
+                  on: { click: _vm.clear }
+                },
+                [_c("i", { staticClass: "fa fa-close" })]
+              )
             ])
           ])
         ])
@@ -66745,7 +66770,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(3)
+        _vm._m(2)
       ])
     ])
   ])
@@ -66768,16 +66793,6 @@ var staticRenderFns = [
     return _c("button", { staticClass: "search-trigger" }, [
       _c("i", { staticClass: "fa fa-search" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "search-close", attrs: { type: "submit" } },
-      [_c("i", { staticClass: "fa fa-close" })]
-    )
   },
   function() {
     var _vm = this
@@ -72343,197 +72358,78 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.searchResult, function(item) {
+                  return _c("tr", { key: item.caseid }, [
+                    _c("td", [_vm._v(_vm._s(item.caseid))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.clientName))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.contactNo))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.email))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.typeofwork))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.amount))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.time2))])
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("strong", { staticClass: "card-title" }, [
-                _vm._v("Search results")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "options" })
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("strong", { staticClass: "card-title" }, [_vm._v("Search results")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#Case")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("ClientName")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact No")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("TOW")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Delivery Date")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")])
       ])
     ])
   }
 ]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63&":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63& ***!
-  \*********************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.signup($event)
-        }
-      }
-    },
-    [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("UserName")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.users.name,
-              expression: "users.name"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", name: "name" },
-          domProps: { value: _vm.users.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.users, "name", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "email" } }, [_vm._v("email")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.users.email,
-              expression: "users.email"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "email", id: "email", name: "email" },
-          domProps: { value: _vm.users.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.users, "email", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.users.password,
-              expression: "users.password"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "password", id: "password", name: "password" },
-          domProps: { value: _vm.users.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.users, "password", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "dropdown" }, [
-        _vm._v("\n    Role\n    "),
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.users.selected,
-                expression: "users.selected"
-              }
-            ],
-            staticClass: "form-control mb-4",
-            attrs: { name: "role" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.users,
-                  "selected",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "1" } }, [_vm._v("Admin")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "0" } }, [_vm._v("User")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "3" } }, [_vm._v("Employee")])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary pull-right",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Submit")]
-      )
-    ]
-  )
-}
-var staticRenderFns = []
 render._withStripped = true
 
 
@@ -89267,7 +89163,7 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"];
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["HasError"]);
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"]);
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.component('signup', __webpack_require__(/*! ./components/SignUp.vue */ "./resources/js/components/SignUp.vue").default);
+Vue.component('search', __webpack_require__(/*! ./components/Search.vue */ "./resources/js/components/Search.vue").default);
 Vue.component('userlogin', __webpack_require__(/*! ./components/LogIn.vue */ "./resources/js/components/LogIn.vue").default); // Vue.component('registeredcase', require('./components/RegisteredCase.vue').default);
 
 Vue.component('navheader', __webpack_require__(/*! ./components/NavigationHeader.vue */ "./resources/js/components/NavigationHeader.vue").default);
@@ -91009,75 +90905,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/SignUp.vue":
-/*!********************************************!*\
-  !*** ./resources/js/components/SignUp.vue ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SignUp.vue?vue&type=template&id=2573bf63& */ "./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63&");
-/* harmony import */ var _SignUp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SignUp.vue?vue&type=script&lang=js& */ "./resources/js/components/SignUp.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SignUp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/SignUp.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/SignUp.vue?vue&type=script&lang=js&":
-/*!*********************************************************************!*\
-  !*** ./resources/js/components/SignUp.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SignUp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SignUp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SignUp.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SignUp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63& ***!
-  \***************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SignUp.vue?vue&type=template&id=2573bf63& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SignUp.vue?vue&type=template&id=2573bf63&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SignUp_vue_vue_type_template_id_2573bf63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

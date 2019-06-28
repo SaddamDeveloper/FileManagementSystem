@@ -54,7 +54,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(VueRouter)
-Vue.component('signup', require('./components/SignUp.vue').default);
+Vue.component('search', require('./components/Search.vue').default);
 Vue.component('userlogin', require('./components/LogIn.vue').default);
 // Vue.component('registeredcase', require('./components/RegisteredCase.vue').default);
 Vue.component('navheader', require('./components/NavigationHeader.vue').default);

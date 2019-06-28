@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+<search v-if="this.searchResult"></search>
+    <div class="row" v-if="!this.searchResult">
       <div class="col-sm-6 col-lg-3">
         <div class="card text-white bg-flat-color-1">
           <div class="card-body pb-0">
@@ -246,6 +247,7 @@ export default {
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
       OverallTotalCollection: '',
+      searchResult: '',
       totalActualAmount: '',
         newRegisteredEmp: '',
         onprocessEmp: '',
@@ -260,6 +262,15 @@ export default {
     this. fetchUser();
     this.loadEmployeeCounter();
     this.fetchCollectionRegister();
+    const token = localStorage.getItem('token');
+        Event.$on("searching", inputWord => {
+            axios.get('/api/search?q='+inputWord+'&token='+token)
+            .then((data) => {
+                this.searchResult = data.data;
+                // import('./MyComponent.vue')
+            // Vue.component('search', require('../components/Search.vue').default);
+            })
+    })
   },
   methods: {
     loadCounter(){

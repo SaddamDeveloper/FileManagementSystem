@@ -396,9 +396,29 @@ class CaseController extends Controller
     }
 
     public function search(){
+        $queryString = Input::get('q');
+        $cases2 = \App\ClientDetailsAnother::with('cases')
+            ->join('cases', 'cases.caseid', '=', 'clientdetails2.caseid');
+        if($queryString){
+            $cases = ClientDetails::with('cases')
+                    ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+                    ->where('client_details.clientid', 'like', '%'.$queryString.'%')
+                    ->orWhere('cases.caseid', 'like', '%'.$queryString.'%')
+                    ->orWhere('client_details.clientName', 'like', '%'.$queryString.'%')
+                    ->orWhere('client_details.contactNo', 'like', '%'.$queryString.'%')
+                    ->orWhere( 'client_details.email', 'like', '%'.$queryString.'%')
+                    ->get();
+        }
+        else{
+            $cases = response()->json(['message' => 404]);
+        }
+        return response()->json($cases);
+    }
+
+    public function searchPerson(){
         $queryString = Input::get('queryString');
-        $clientDetails = ClientDetails::where('clientid', 'like', '%'.$queryString.'%')->get();
-        return response()->json($clientDetails);
+            $clientDetails = ClientDetails::where('clientid', 'like', '%' . $queryString . '%')->get();
+             return response()->json($clientDetails);
     }
 
     public function searchAnything(){
