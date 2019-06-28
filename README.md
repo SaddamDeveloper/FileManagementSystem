@@ -21,13 +21,15 @@ run the project by following steps
 
 
 
+### important links 
 https://medium.com/@ripoche.b/create-a-spa-with-role-based-authentication-with-laravel-and-vue-js-ac4b260b882f
 
 
 
 
 
-
+## Screenshot
+![FileManagementSytem](https://user-images.githubusercontent.com/36893768/60245567-7ed9b480-98da-11e9-843c-fb7c49bb3cf0.JPG)
 
 
 ## License
