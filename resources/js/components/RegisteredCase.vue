@@ -1,5 +1,8 @@
 <template>
     <div class="container-fluid">
+        <search v-if="this.searchResult"></search>
+        <div v-if="!this.searchResult">
+
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -535,8 +538,8 @@
                             </div>
                         </div>
         </div>
-
     </div>
+</div>
 
 </template>
 <style>
@@ -545,8 +548,8 @@
         display: block;
         width:90%;
         z-index:1;
-        overflow-x: scroll;
-        height: 200px;
+        overflow-y: scroll;
+        height: 100px;
     }
     .options ul {
         padding-left: 0;
@@ -569,6 +572,7 @@ export default {
     data(){
         return {
             first_page_url: '',
+            searchResult: '',
             last_page_url: '',
             next_page_url: '',
             prev_page_url: '',
@@ -641,6 +645,15 @@ export default {
         this.showCaseId();
         this.govtnAll();
         this.status();
+        const token = localStorage.getItem('token');
+        Event.$on("searching", inputWord => {
+        axios.get('/api/search?q='+inputWord+'&token='+token)
+             .then((data) => {
+                this.searchResult = data.data;
+                // import('./MyComponent.vue')
+            // Vue.component('search', require('../components/Search.vue').default);
+                })
+            })
     },
     computed: {
         filterClientbyId: function(){
@@ -908,7 +921,6 @@ export default {
         },
         selectClientsNo(details){
             this.searchEdit = true;
-
             this.queryString = details.clientid;
             this.clientNo= details.contactNo;
             this.casee.clientName = details.clientName;

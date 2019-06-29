@@ -1,5 +1,7 @@
 <template>
     <div class="container-fluid">
+        <search v-if="this.searchResult"></search>
+        <div v-if="!this.searchResult">
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -286,6 +288,7 @@
         </div>
 
     </div>
+</div>
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
@@ -298,6 +301,7 @@ data(){
         time1: '',
         time2: '',
         time3: '',
+        searchResult: '',
         // custom lang
         lang: 'en',
         rejectedCase: [],
@@ -327,6 +331,15 @@ created(){
     // this.loadEmployee();
     // console.log(this.$refs)
     // console.log(field);
+    const token = localStorage.getItem('token');
+        Event.$on("searching", inputWord => {
+        axios.get('/api/search?q='+inputWord+'&token='+token)
+        .then((data) => {
+            this.searchResult = data.data;
+            // import('./MyComponent.vue')
+        // Vue.component('search', require('../components/Search.vue').default);
+            })
+        })
 },
     methods: {
         fetchCases(page_url){

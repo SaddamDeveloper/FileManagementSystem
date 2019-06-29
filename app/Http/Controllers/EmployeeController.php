@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use App\sendFileToAdmin;
 use App\UploadedFile;
 use App\Http\Resources\Cases;
+use App\ToInvoice;
 
 class EmployeeController extends Controller
 {
@@ -269,9 +270,10 @@ class EmployeeController extends Controller
         $toApproval = $request->isMethod('put') ? sendToApproval::findOrFail
         ($request->employee_id) : new sendToApproval;
 
+        $toInvoice = new ToInvoice;
 
         //Generate INVOICE NO
-        $invoice = DB::table('approvedcase')->select(DB::raw( 'max(substring(invoiceNo, 21, 3)) as max_val'))->get();
+        $invoice = DB::table('invoice')->select(DB::raw( 'max(substring(invoice_no, 21, 3)) as max_val'))->get();
         foreach ($invoice as $row_data) {
             $postfix =  $row_data->max_val;
         }
@@ -283,7 +285,7 @@ class EmployeeController extends Controller
         $nextYear = $currentYear + 1;
         $finalYearSplit = $currentYear.'-'.$nextYear;
         $invoice = 'DDAS/INST/'.$finalYearSplit.'/'.$reformattedMonth.'/';
-        $count = DB::table( 'approvedcase')->select(DB::raw('max(substring(invoiceNo, 5, 5)) as max_val'))->get()->count();
+        $count = DB::table( 'invoice')->select(DB::raw('max(substring(invoice_no, 5, 5)) as max_val'))->get()->count();
         if ($count == 0) {
             $invoice = $invoice . '001';
         } else {
@@ -292,10 +294,12 @@ class EmployeeController extends Controller
             $invoice = $invoice . $addVal;
         }
             $toApproval->invoiceNo = $invoice;
+            $toInvoice->invoice_no = $invoice;
+            $toInvoice->caseid = $request->input('caseid');
             $toApproval->caseid = $request->input('caseid');
             $toApproval->employee_id = $request->input('employee_id');
 
-            if($toApproval->save()){
+            if($toApproval->save() && $toInvoice->save()){
             return new EmployeeResource($toApproval);
         }
     }

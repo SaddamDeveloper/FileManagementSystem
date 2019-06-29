@@ -307,6 +307,9 @@ export default {
                             'content-type' : 'application/json'
                         }
                     })
+                    // fetch('api/deleteonprocess/'+id.caseid+'?token='+token, {
+                    //  method: 'delete'
+                    // })
                     .then(res => res.json())
                     .then((res)=>{
 
@@ -316,9 +319,6 @@ export default {
                         //     console.log(res)
                         // })
                         // if(res){
-                        //     fetch('api/deleteonprocess/'+id.caseid+'?token='+token, {
-                        //     method: 'delete'
-                        //      })
                         // }
                         if(res.message == 0){
                             Swal.fire(

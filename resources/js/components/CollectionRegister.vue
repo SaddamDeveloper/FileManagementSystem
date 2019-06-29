@@ -1,5 +1,7 @@
 <template>
     <div class="container-fluid">
+        <search v-if="this.searchResult"></search>
+        <div v-if="!this.searchResult">
             <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -174,8 +176,8 @@
                         </button>
                       </div>
                     </div>
-
             </div>
+        </div>
 </template>
 
 <script>
@@ -184,6 +186,7 @@ export default {
   components: { DatePicker },
   data() {
     return {
+        searchResult: '',
         twothousand: '',
         fivehundred: '',
         twohundred: '',
@@ -242,6 +245,15 @@ methods: {
 },
         created() {
             this.fetchCollectionRegister();
+            const token = localStorage.getItem('token');
+            Event.$on("searching", inputWord => {
+            axios.get('/api/search?q='+inputWord+'&token='+token)
+            .then((data) => {
+                this.searchResult = data.data;
+                // import('./MyComponent.vue')
+            // Vue.component('search', require('../components/Search.vue').default);
+                })
+            })
         }
     }
 </script>

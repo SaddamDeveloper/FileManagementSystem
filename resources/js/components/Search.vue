@@ -55,7 +55,7 @@ export default {
                 axios.get('/api/search?q='+inputWord+'&token='+token)
                 .then((data) => {
                     this.searchResult = data.data;
-                    console.log(data);
+
                 })
             })
     },

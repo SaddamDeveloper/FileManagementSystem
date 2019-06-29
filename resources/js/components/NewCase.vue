@@ -1,24 +1,26 @@
 <template>
     <div class="container-fluid">
-        <div class="breadcrumbs">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1><strong>New Case</strong></h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="#">Dashboard</a></li>
-                            <li class="active">New Case</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <search v-if="this.searchResult"></search>
+        <div v-if="!this.searchResult">
+            <div class="breadcrumbs">
+                            <div class="col-sm-4">
+                                <div class="page-header float-left">
+                                    <div class="page-title">
+                                        <h1><strong>New Case</strong></h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="page-header float-right">
+                                    <div class="page-title">
+                                        <ol class="breadcrumb text-right">
+                                            <li><a href="#">Dashboard</a></li>
+                                            <li class="active">New Case</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
@@ -284,6 +286,8 @@
                         </div>
 
     </div>
+        </div>
+
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
@@ -291,6 +295,7 @@
 export default {
         data(){
         return {
+            searchResult: '',
             first_page_url: '',
             last_page_url: '',
             next_page_url: '',
@@ -364,6 +369,15 @@ export default {
         this.fetchGovtnAll();
         this.fetchUser();
         this.loadSupportStaff();
+        const token = localStorage.getItem('token');
+        Event.$on("searching", inputWord => {
+            axios.get('/api/search?q='+inputWord+'&token='+token)
+            .then((data) => {
+                this.searchResult = data.data;
+                // import('./MyComponent.vue')
+            // Vue.component('search', require('../components/Search.vue').default);
+            })
+    })
         // this.fetchsendEmployees();
     },
     methods: {

@@ -102,6 +102,7 @@
                 Event.$emit('searching', this.searchData);
             },
             clear(){
+                console.log(this);
                  this.$router.push({ path: '/dashboard', redirect: '/dashboard' })
             }
         }

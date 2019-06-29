@@ -33,12 +33,30 @@
     <ul class="sub-menu children dropdown-menu show">
         <li><i class="fa fa-puzzle-piece"></i><a href="/registeredcase">Register New Case</a></li>
         <li><i class="fa fa-id-badge"></i><a href="assignedcase">Assigned Case</a></li>
-        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Billed Case</a></li>
-        <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">Credit Billed</a></li>
-        <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Approved Case</a></li>
-        <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Completed Case</a></li>
-        <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Billing Case</a></li>
-        <li><i class="fa fa-fire"></i><a href="ui-modals.html">Rejected Case</a></li>
+        <li><i class="fa fa-bars"></i><a href="billedcase">Billed Case</a></li>
+        <li><i class="fa fa-share-square-o"></i><a href="empbillingcase">Credit Billed</a></li>
+        <li><i class="fa fa-id-card-o"></i><a href="approvedcase">Approved Case</a></li>
+        <li><i class="fa fa-exclamation-triangle"></i><a href="completedcase">Completed Case</a></li>
+        <li><i class="fa fa-spinner"></i><a href="billingcase">Billing Case</a></li>
+        <li><i class="fa fa-fire"></i><a href="rejectedcase">Rejected Case</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+<ul class="nav navbar-nav" v-if="users.selected == 1">
+<h3 class="menu-title">Master</h3>
+<li class="menu-item-has-children dropdown show">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-laptop"></i>Components</a>
+    <ul class="sub-menu children dropdown-menu show">
+        <li><i class="fa fa-puzzle-piece"></i><a href="/newcase">Newly Registerd Case</a></li>
+        <li><i class="fa fa-id-badge"></i><a href="forapprovalcase">Waiting for approval</a></li>
+        <li><i class="fa fa-bars"></i><a href="billedcase">Billed Case</a></li>
+        <li><i class="fa fa-share-square-o"></i><a href="empbillingcase">Credit Billed</a></li>
+        <li><i class="fa fa-id-card-o"></i><a href="approvedcase">Approved Case</a></li>
+        <li><i class="fa fa-exclamation-triangle"></i><a href="completedcase">Completed Case</a></li>
+        <li><i class="fa fa-spinner"></i><a href="billingcase">Billing Case</a></li>
+        <li><i class="fa fa-fire"></i><a href="rejectedcase">Rejected Case</a></li>
     </ul>
 </li>
 </ul>

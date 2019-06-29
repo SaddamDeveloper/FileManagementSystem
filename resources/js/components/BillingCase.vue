@@ -1,5 +1,7 @@
 <template>
     <div class="container-fluid">
+        <search v-if="this.searchResult"></search>
+        <div v-if="!this.searchResult">
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -338,6 +340,7 @@
         </div>
 
     </div>
+</div>
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
@@ -352,6 +355,7 @@ export default {
             return converter.toWords(value);
             })
         return {
+            searchResult: '',
             lessadvance: '',
             value: null,
             numbers: '',
@@ -367,6 +371,15 @@ export default {
     },
     created(){
         this.fetchCases();
+        const token = localStorage.getItem('token');
+        Event.$on("searching", inputWord => {
+        axios.get('/api/search?q='+inputWord+'&token='+token)
+        .then((data) => {
+            this.searchResult = data.data;
+            // import('./MyComponent.vue')
+        // Vue.component('search', require('../components/Search.vue').default);
+            })
+        })
     },
 
     methods: {
