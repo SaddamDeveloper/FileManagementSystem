@@ -26,8 +26,8 @@
       <div class="card text-white bg-flat-color-2">
         <div class="card-body pb-0">
           <h4 class="mb-0">
-            <span class="count" v-if="users.selected == 0">{{ waitingforapprove }}</span>
-            <span class="count" v-else-if="users.selected == 1">{{ waitingforapprove }}</span>
+            <span class="count" v-if="users.selected == 0">{{ assignedcase }}</span>
+            <span class="count" v-else-if="users.selected == 1">{{ assignedcase }}</span>
             <span class="count" v-else>{{ approvedCaseEmp }}</span>
           </h4>
           <router-link to="/assignedcase"  v-if="users.selected == 0"><p class="text-light">Assigned Case</p></router-link>

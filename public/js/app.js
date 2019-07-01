@@ -9688,6 +9688,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -65528,11 +65541,11 @@ var render = function() {
                     _c("h4", { staticClass: "mb-0" }, [
                       _vm.users.selected == 0
                         ? _c("span", { staticClass: "count" }, [
-                            _vm._v(_vm._s(_vm.waitingforapprove))
+                            _vm._v(_vm._s(_vm.assignedcase))
                           ])
                         : _vm.users.selected == 1
                         ? _c("span", { staticClass: "count" }, [
-                            _vm._v(_vm._s(_vm.waitingforapprove))
+                            _vm._v(_vm._s(_vm.assignedcase))
                           ])
                         : _c("span", { staticClass: "count" }, [
                             _vm._v(_vm._s(_vm.approvedCaseEmp))
@@ -75328,8 +75341,10 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm._m(1),
+            _vm._v(" "),
             _c("table", { staticClass: "table" }, [
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -75366,6 +75381,28 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("strong", { staticClass: "card-title" }, [_vm._v("Search results")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("select", { staticClass: "mb-2 form-control col-md-4" }, [
+          _c("option", [_vm._v("--Filter--")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("Completed Case")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("Approved case")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("Rejected Case")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("input", { staticClass: "form-control", attrs: { type: "date" } })
+        ])
+      ])
     ])
   },
   function() {

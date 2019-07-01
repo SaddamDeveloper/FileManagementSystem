@@ -7,6 +7,19 @@
                         <strong class="card-title">Search results</strong>
                     </div>
                     <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                            <select class="mb-2 form-control col-md-4">
+                                <option >--Filter--</option>
+                                <option >Completed Case</option>
+                                <option >Approved case</option>
+                                <option >Rejected Case</option>
+                            </select>
+                            <div class="col-md-4">
+                                <input type="date" class="form-control">
+                            </div>
+                            </div>
+                        </div>
                             <table class="table">
                                 <thead>
                                     <tr>
