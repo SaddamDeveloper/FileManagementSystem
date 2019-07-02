@@ -427,6 +427,16 @@ class CaseController extends Controller
         return response()->json($cases);
     }
 
+    public function searchUsingDate()
+    {
+        $date = Input::get('date');
+        $data = ClientDetails::with('cases')
+            ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            ->where('cases.time2', 'like', '%' . $date . '%')
+            ->get();
+        return response()->json($data);
+    }
+
     public function showCaseId(){
         $sql = DB::table('cases')->select(DB::raw('max(substring(caseid, 5, 5)) as max_val'))->get();
         foreach($sql as $row_data){

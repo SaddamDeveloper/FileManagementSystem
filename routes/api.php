@@ -140,6 +140,8 @@ Route::get('searchphone', 'CaseController@searchPhone');
 
 Route::get('empcompletedcase', ['uses' => 'EmployeeController@empCompletedCase', 'middleware' => 'jwt']);
 
+Route::get( 'searchusingdate', ['uses' => 'CaseController@searchUsingDate', 'middleware' => 'jwt']);
+
 
 
 

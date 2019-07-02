@@ -16,7 +16,7 @@
                                 <option >Rejected Case</option>
                             </select>
                             <div class="col-md-4">
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" v-model="form.date" @change="searchUsingDate">
                             </div>
                             </div>
                         </div>
@@ -59,7 +59,10 @@ export default {
     data(){
         return{
             searchResult: [],
-            nodata: ''
+            nodata: '',
+            form : {
+                date : '',
+            }
         }
     },
     created(){
@@ -73,8 +76,13 @@ export default {
             })
     },
     methods: {
-        MethodName(){
-            console.log();
+        searchUsingDate(){
+            const token = localStorage.getItem('token');
+            axios.get('api/searchusingdate?date='+this.form.date+'&token='+token)
+            .then((res)=>{
+                this.searchResult = res.data;
+                console.log(this.searchResult);
+            })
         }
     }
 }

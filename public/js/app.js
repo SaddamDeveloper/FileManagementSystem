@@ -9705,7 +9705,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchResult: [],
-      nodata: ''
+      nodata: '',
+      form: {
+        date: ''
+      }
     };
   },
   created: function created() {
@@ -9719,8 +9722,14 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    MethodName: function MethodName() {
-      console.log();
+    searchUsingDate: function searchUsingDate() {
+      var _this2 = this;
+
+      var token = localStorage.getItem('token');
+      axios.get('api/searchusingdate?date=' + this.form.date + '&token=' + token).then(function (res) {
+        _this2.searchResult = res.data;
+        console.log(_this2.searchResult);
+      });
     }
   }
 });
@@ -75341,7 +75350,36 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "container" }, [
+              _c("div", { staticClass: "row" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.date,
+                        expression: "form.date"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "date" },
+                    domProps: { value: _vm.form.date },
+                    on: {
+                      change: _vm.searchUsingDate,
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "date", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ])
+            ]),
             _vm._v(" "),
             _c("table", { staticClass: "table" }, [
               _vm._m(2),
@@ -75387,22 +75425,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("select", { staticClass: "mb-2 form-control col-md-4" }, [
-          _c("option", [_vm._v("--Filter--")]),
-          _vm._v(" "),
-          _c("option", [_vm._v("Completed Case")]),
-          _vm._v(" "),
-          _c("option", [_vm._v("Approved case")]),
-          _vm._v(" "),
-          _c("option", [_vm._v("Rejected Case")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", { staticClass: "form-control", attrs: { type: "date" } })
-        ])
-      ])
+    return _c("select", { staticClass: "mb-2 form-control col-md-4" }, [
+      _c("option", [_vm._v("--Filter--")]),
+      _vm._v(" "),
+      _c("option", [_vm._v("Completed Case")]),
+      _vm._v(" "),
+      _c("option", [_vm._v("Approved case")]),
+      _vm._v(" "),
+      _c("option", [_vm._v("Rejected Case")])
     ])
   },
   function() {
