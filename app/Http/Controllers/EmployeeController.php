@@ -744,7 +744,8 @@ class EmployeeController extends Controller
         $DailyCollectionCheque = DB::table('cheque')->join('amount', 'cheque.caseid', '=', 'amount.caseid')->sum('advamount');
         $DailyCollectionRtgs = DB::table('rtgs')->join('amount', 'rtgs.caseid', '=', 'amount.caseid')->sum('advamount');
 
-        $posts = DB::table('cases')->whereDate('created_at', DB::raw('CURDATE()'))->get();
+        $MonthlyCollection = DB::table('cases')->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+
         // return $posts;
         $TodaysDailyCollectionCash = DB::table('cash')->join('amount', 'cash.caseid', '=', 'amount.caseid')->join('cases', 'cash.caseid', '=', 'cases.caseid')->whereDate('created_at', DB::raw('CURDATE()'))->sum('advamount');
         // return $TodaysDailyCollectionCash;
@@ -763,7 +764,7 @@ class EmployeeController extends Controller
         // $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
         // $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
         // $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
-        $custom = collect([ 'TotalAmountByCash' => $DailyCollectionCash, 'TotalAmountByCheque' => $DailyCollectionCheque, 'TotalAmountByRtgs' => $DailyCollectionRtgs,  'TodaysTotalAmountByCash' => $TodaysDailyCollectionCash, 'TodaysTotalAmountByCheque' => $TodaysDailyCollectionCheque, 'TodaysTotalAmountByRtgs' => $TodaysDailyCollectionRtgs, 'OverallTotalCollection' => $OveralltotalCollection, 'actualAmount' => $actualAmount]);
+        $custom = collect([ 'TotalAmountByCash' => $DailyCollectionCash, 'TotalAmountByCheque' => $DailyCollectionCheque, 'TotalAmountByRtgs' => $DailyCollectionRtgs,  'TodaysTotalAmountByCash' => $TodaysDailyCollectionCash, 'TodaysTotalAmountByCheque' => $TodaysDailyCollectionCheque, 'TodaysTotalAmountByRtgs' => $TodaysDailyCollectionRtgs, 'OverallTotalCollection' => $OveralltotalCollection, 'actualAmount' => $actualAmount, 'monthlyCollection' => $MonthlyCollection]);
         // $data = $custom->merge($cash);
         return response()->json($custom);
         // $data =

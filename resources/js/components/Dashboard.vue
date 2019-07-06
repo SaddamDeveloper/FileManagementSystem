@@ -163,11 +163,33 @@
 <div class="col-xl-3 col-lg-6">
     <div class="card">
     <div class="card-body">
-        <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
-            <div class="stat-content dib">
-                <div class="stat-text">Today's Collection</div>
-                <div class="stat-digit">{{ OverallTotalCollection }}</div>
+        <div class="stat-widget-one row">
+            <div class="col-md-3">
+                <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
+            </div>
+            <div class="col-md-9">
+                <div class="stat-content dib">
+                    <div class="stat-text">Today's Collection</div>
+                    <div class="stat-digit">{{ OverallTotalCollection }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="col-xl-3 col-lg-6">
+    <div class="card">
+    <div class="card-body">
+        <div class="stat-widget-one row">
+            <div class="col-md-3">
+                <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
+            </div>
+            <div class="col-md-9">
+                <div class="stat-content dib">
+                    <div class="stat-text">Due Amount</div>
+                    <div class="stat-digit">{{ totalActualAmount-OverallTotalCollection }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -176,11 +198,15 @@
 <div class="col-xl-3 col-lg-6">
     <div class="card">
     <div class="card-body">
-        <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
-            <div class="stat-content dib">
-                <div class="stat-text">Due Amount</div>
-                <div class="stat-digit">{{ totalActualAmount-OverallTotalCollection }}</div>
+        <div class="stat-widget-one row">
+            <div class="col-md-3">
+                <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
+            </div>
+            <div class="col-md-9">
+                <div class="stat-content dib">
+                    <div class="stat-text">Monthly Collection</div>
+                    <div class="stat-digit">{{ monthlyCollection }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -189,24 +215,15 @@
 <div class="col-xl-3 col-lg-6">
     <div class="card">
     <div class="card-body">
-        <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
-            <div class="stat-content dib">
-                <div class="stat-text">Monthly Collection</div>
-                <div class="stat-digit">1,012</div>
+        <div class="stat-widget-one row">
+            <div class="col-md-3">
+                <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
             </div>
-        </div>
-    </div>
-    </div>
-</div>
-<div class="col-xl-3 col-lg-6">
-    <div class="card">
-    <div class="card-body">
-        <div class="stat-widget-one">
-            <div class="stat-icon dib"><i class="text-success border-success">₹</i></div>
-            <div class="stat-content dib">
-                <div class="stat-text">Credit Amount</div>
-                <div class="stat-digit">1,012</div>
+            <div class="col-md-9">
+                <div class="stat-content dib">
+                    <div class="stat-text">Credit Amount</div>
+                    <div class="stat-digit">0</div>
+                </div>
             </div>
         </div>
     </div>
@@ -246,6 +263,7 @@ export default {
       TodaysTotalAmountByCash: '',
       TodaysTotalAmountByCheque: '',
       TodaysTotalAmountByRtgs: '',
+      monthlyCollection: '',
       OverallTotalCollection: '',
       searchResult: '',
       totalActualAmount: '',
@@ -332,6 +350,7 @@ export default {
             this.TodaysTotalAmountByCash = res.TodaysTotalAmountByCash;
             this.TodaysTotalAmountByCheque = res.TodaysTotalAmountByCheque;
             this.TodaysTotalAmountByRtgs = res.TodaysTotalAmountByRtgs;
+            this.monthlyCollection = res.monthlyCollection;
         })
     }
   },

@@ -803,7 +803,7 @@ export default {
             //Add Case
             const token = localStorage.getItem('token')
             if(this.casee.advamount == null){
-                this.casee.advamount = '0'
+                this.casee.advamount = '0';
             }
             fetch('api/case?token=' + token, {
                 method: 'post',

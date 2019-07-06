@@ -9,16 +9,25 @@
                     <div class="card-body">
                         <div class="container">
                             <div class="row">
-                            <select class="mb-2 form-control col-md-4">
-                                <option >--Filter--</option>
-                                <option >Completed Case</option>
-                                <option >Approved case</option>
-                                <option >Rejected Case</option>
-                            </select>
-                            <div class="col-md-4">
-                                <input type="date" class="form-control" v-model="form.date" @change="searchUsingDate">
+                            <div class="col-md-12">
+                                <button @click="myFunction()" class="btn btn-success btn-block mb-2">Filter</button>
+                                <div id="myDIV" style="display: none">
+                                    <date-range-picker :from="$route.query.from" :to="$route.query.to" :panel="$route.query.panel" @update ="update" />
+                                    <div class="row mb-2">
+                                        <select class="form-control col-md-6">
+                                            <option >--Filter--</option>
+                                            <option >Completed Case</option>
+                                            <option >Approved case</option>
+                                            <option >Rejected Case</option>
+                                        </select>
+                                        <div class="col-md-6">
+                                            <input type="date" class="form-control" v-model="form.date" @change="searchUsingDate">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             </div>
+
                         </div>
                             <table class="table">
                                 <thead>
@@ -58,10 +67,11 @@
 export default {
     data(){
         return{
+            isActive: false,
             searchResult: [],
             nodata: '',
             form : {
-                date : '',
+                date : ''
             }
         }
     },
@@ -76,6 +86,26 @@ export default {
             })
     },
     methods: {
+        myFilter: function(){
+            this.isActive = !this.isActive;
+          // some code to filter users
+        },
+        update(values){
+            const token = localStorage.getItem('token');
+
+            this.$router.push({ query: Object.assign({}, this.$route.query, {
+                to: values.to,
+                from: values.from,
+                })
+            })
+            var to = this.$route.query.to.substr(0,10);
+            var from = this.$route.query.from.substr(0,10);
+            axios.get('api/searchusingdaterange?from='+from+'&to='+to+'&token='+token)
+            .then((res) => {
+               this.searchResult = res.data;
+        })
+        // console.log(this)
+        },
         searchUsingDate(){
             const token = localStorage.getItem('token');
             axios.get('api/searchusingdate?date='+this.form.date+'&token='+token)
@@ -83,6 +113,14 @@ export default {
                 this.searchResult = res.data;
                 console.log(this.searchResult);
             })
+        },
+        myFunction(){
+               var x = document.getElementById("myDIV");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
         }
     }
 }

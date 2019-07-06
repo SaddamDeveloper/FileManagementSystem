@@ -16,10 +16,13 @@ import Multiselect from 'vue-multiselect';
 import toWords from 'number-to-words';
 import inToWords from 'written-number';
 import pagination from 'laravel-vue-pagination';
+import DateRangePicker from 'vue-mj-daterangepicker';
+import 'vue-mj-daterangepicker/dist/vue-mj-daterangepicker.css';
 
 Vue.use(inToWords);
 Vue.use(toWords);
 
+Vue.use(DateRangePicker);
 Vue.component('multiselect', Multiselect);
 Vue.component('pagination', pagination);
 

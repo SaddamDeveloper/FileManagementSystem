@@ -461,6 +461,17 @@ class CaseController extends Controller
         return response()->json($clientDetails);
     }
 
+    public function searchUsingDateRange(){
+        $to = Input::get('to'). ' 23:59:59';
+        $from = Input::get('from'). ' 00:00:00';
+        $data = ClientDetails::with('cases')
+            ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            ->whereBetween('cases.created_at', [$from, $to])
+            ->get();
+        return response()->json($data);
+
+    }
+
     public function pushToDb(Request $request){
         $user = JWTAuth::parseToken()->toUser();
         $test = new Test();

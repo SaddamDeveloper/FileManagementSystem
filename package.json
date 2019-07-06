@@ -31,6 +31,7 @@
         "printd": "^1.3.0",
         "sweetalert2": "^8.5.0",
         "vform": "^1.0.0",
+        "vue-mj-daterangepicker": "^0.1.5",
         "vue-multiselect": "^2.1.4",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
