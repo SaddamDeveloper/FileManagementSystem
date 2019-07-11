@@ -210,6 +210,3 @@ Route::post('amountreassign/', ['uses' => 'EmployeeController@AmountReassign', '
 Route::get('searchanything', ['uses' => 'CaseController@searchAnything', 'middleware' => 'jwt']);
 
 Route::get('searchusingdaterange', ['uses' => 'CaseController@searchUsingDateRange', 'middleware' => 'jwt']);
-
-
-

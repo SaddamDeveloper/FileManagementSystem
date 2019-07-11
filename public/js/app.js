@@ -7382,6 +7382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      assigned: true,
       searchResult: '',
       first_page_url: '',
       last_page_url: '',
@@ -7676,7 +7677,6 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        // console.log(res);
         _this11.assignedemployee = res.data;
       });
     }
@@ -69531,15 +69531,15 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("Email")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { scope: "col" } }, [
                                     _vm._v("Delivery Date")
                                   ]),
                                   _vm._v(" "),
                                   _c("th", { attrs: { scope: "col" } }, [
                                     _vm._v("Assigned To")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", { attrs: { scope: "col" } }, [
+                                    _vm._v("Status")
                                   ]),
                                   _vm._v(" "),
                                   _vm.users.selected == 1
@@ -69563,8 +69563,6 @@ var render = function() {
                                     _c("td", [_vm._v(_vm._s(item.clientName))]),
                                     _vm._v(" "),
                                     _c("td", [_vm._v(_vm._s(item.contactNo))]),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(item.email))]),
                                     _vm._v(" "),
                                     _c("td", [_vm._v(_vm._s(item.time2))]),
                                     _vm._v(" "),
@@ -69594,6 +69592,24 @@ var render = function() {
                                       }),
                                       0
                                     ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      item.status == null
+                                        ? _c(
+                                            "div",
+                                            {
+                                              staticClass: "alert alert-success"
+                                            },
+                                            [_vm._v("Unassigned")]
+                                          )
+                                        : _c(
+                                            "div",
+                                            {
+                                              staticClass: "alert alert-success"
+                                            },
+                                            [_vm._v(_vm._s(item.status))]
+                                          )
+                                    ]),
                                     _vm._v(" "),
                                     _vm.users.selected == 1
                                       ? _c("td", [

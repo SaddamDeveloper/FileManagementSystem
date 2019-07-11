@@ -39,6 +39,7 @@ class CaseController extends Controller
 
         $cases = DB::table('cases')
             ->join('client_details', 'cases.caseid', '=', 'client_details.caseid')
+            ->leftjoin('status', 'cases.caseid', '=', 'status.caseid')
             // ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
             ->paginate(10);
         return $cases;
@@ -408,6 +409,7 @@ class CaseController extends Controller
                     ->orWhere('client_details.contactNo', 'like', '%'.$queryString.'%')
                     ->orWhere( 'client_details.email', 'like', '%'.$queryString.'%')
                     ->get();
+
         }
         else{
             $cases = response()->json(['message' => 404]);
@@ -479,6 +481,5 @@ class CaseController extends Controller
         $test->save();
         return response()->json(['content'  =>  $test, 'user'   =>  $user]);
     }
-
 
 }
