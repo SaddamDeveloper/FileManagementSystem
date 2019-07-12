@@ -705,7 +705,6 @@ export default {
                 })
         },
         print(item){
-
             Swal.fire({
             title: 'Do you want to Rise bill?',
             text: "You won't be able to revert this!",
@@ -721,8 +720,6 @@ export default {
                     this.toBill.caseid = item.caseid;
                     this.toBill.employee_id = item.employee_id;
                     this.toBill.invoiceNo = item.invoiceNo;
-
-
                     fetch('api/tobill?token='+token, {
                     method: 'post',
                     body: JSON.stringify(this.toBill),

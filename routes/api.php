@@ -183,6 +183,8 @@ Route::post('tobill', ['uses' => 'EmployeeController@toBill', 'middleware' => 'j
 
 Route::delete( 'deleteapprovedcase/{id}', ['uses' => 'EmployeeController@deleteApprovedCase', 'middleware' => 'jwt']);
 
+Route::delete( 'deletebilledcase/{id}', ['uses' => 'EmployeeController@deleteBilledCase', 'middleware' => 'jwt']);
+
 Route::get( 'billedcase', ['uses' => 'EmployeeController@fetchBilledCase', 'middleware' => 'jwt']);
 
 Route::post( 'checkwheathersentornot/{id}', ['uses' => 'EmployeeController@checkIfSent', 'middleware' => 'jwt']);
@@ -210,3 +212,7 @@ Route::post('amountreassign/', ['uses' => 'EmployeeController@AmountReassign', '
 Route::get('searchanything', ['uses' => 'CaseController@searchAnything', 'middleware' => 'jwt']);
 
 Route::get('searchusingdaterange', ['uses' => 'CaseController@searchUsingDateRange', 'middleware' => 'jwt']);
+
+Route::post('caseupdate', ['uses' => 'EmployeeController@caseUpdate', 'middleware' => 'jwt']);
+
+Route::get('fetchcaseupdate/{id}', ['uses' => 'EmployeeController@fetchCaseUpdate', 'middleware' => 'jwt']);

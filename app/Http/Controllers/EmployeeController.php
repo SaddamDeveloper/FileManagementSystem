@@ -27,6 +27,7 @@ use App\sendFileToAdmin;
 use App\UploadedFile;
 use App\Http\Resources\Cases;
 use App\ToInvoice;
+use App\caseUpdate;
 
 class EmployeeController extends Controller
 {
@@ -120,9 +121,10 @@ class EmployeeController extends Controller
          $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
         ($request->employee_id) : new sendToEmployee;
 
-
-        $toEmployee->caseid = $request->input('caseid');;
+        $toEmployee->caseid = $request->input('caseid');
         $toEmployee->employee_id = $request->input('employee_id');
+
+
 
         if($request->input('docs') == null){
             $toEmployee->docs = '';
@@ -151,7 +153,7 @@ class EmployeeController extends Controller
             $toEmployee->helper = $helper;
         }
 
-        if($toEmployee->save()){
+        if($toEmployee->save() &&  DB::statement( "UPDATE status SET status = 'newassigned' WHERE caseid = '$toEmployee->caseid'")){
                 return new EmployeeResource($toEmployee);
         }
 
@@ -244,7 +246,7 @@ class EmployeeController extends Controller
 
         $dbCheck = sendToAdmin::where('caseid', '=', Input::get('caseid'))->first();
         if($dbCheck == null){
-            if($toAdmin->save()){
+            if($toAdmin->save() &&  DB::statement( "UPDATE status SET status = 'waitingforapprove' WHERE caseid = '$toAdmin->caseid'")){
                 return response()->json(['message'=> '0'],200);
             }
         }
@@ -299,7 +301,7 @@ class EmployeeController extends Controller
             $toApproval->caseid = $request->input('caseid');
             $toApproval->employee_id = $request->input('employee_id');
 
-            if($toApproval->save() && $toInvoice->save()){
+            if($toApproval->save() && $toInvoice->save() &&  DB::statement( "UPDATE status SET status = 'approved' WHERE caseid = '$toApproval->caseid'")){
             return new EmployeeResource($toApproval);
         }
     }
@@ -530,6 +532,7 @@ class EmployeeController extends Controller
         $onprocess = DB::table('onprocess')
             ->join('employees', 'onprocess.employee_id', '=', 'employees.employee_id')
             ->join('users', 'onprocess.employee_id', '=', 'users.employee_id')
+            ->join('status', 'onprocess.caseid', '=', 'status.caseid')
             ->paginate(15);
         // $all = DB::table("onprocess")->union(DB::table('send_to_employees'))->paginate(15);
 
@@ -597,7 +600,7 @@ class EmployeeController extends Controller
         else{
             $OnProcessCase->helper = $request->input('helper');
         }
-        if ($OnProcessCase->save()) {
+        if ($OnProcessCase->save() && DB::statement( "UPDATE status SET status = 'onprocess' WHERE caseid = '$OnProcessCase->caseid'")) {
             return new EmployeeResource($OnProcessCase);
         }
 
@@ -627,7 +630,7 @@ class EmployeeController extends Controller
         $toBill->employee_id = $request->input('employee_id');
         $toBill->invoiceNo = $request->input('invoiceNo');
 
-        if ( $toBill->save()) {
+        if ( $toBill->save() &&  DB::statement( "UPDATE status SET status = 'billedcase' WHERE caseid = '$toBill->caseid'")) {
             return new EmployeeResource($toBill);
         }
     }
@@ -635,6 +638,11 @@ class EmployeeController extends Controller
     public function deleteApprovedCase($id){
         DB::table('approvedcase')->where('caseid', '=', $id)->delete();
     }
+
+    public function deleteBilledCase($id){
+        DB::table('billedcase')->where('caseid', '=', $id)->delete();
+    }
+
 
     public function fetchBilledCase(){
         $BilledCase = DB::table('billedcase')
@@ -686,7 +694,7 @@ class EmployeeController extends Controller
 
         $dbCheck = ToComplete::where('caseid', '=', Input::get('caseid'))->first();
         if($dbCheck == null){
-            if($toComplete->save() && $byCash->save()){
+            if($toComplete->save() && $byCash->save() &&  DB::statement( "UPDATE status SET status = 'completed' WHERE caseid = '$byCash->caseid'") ){
                 return response()->json(['message' => '0'], 200);
             }
             else{
@@ -837,9 +845,34 @@ class EmployeeController extends Controller
         $onprocessdelete->delete();
     }
 
-    public function AmountReassign( Request $request){
+    public function AmountReassign(Request $request){
         DB::statement("UPDATE amount SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
         DB::statement("UPDATE cases SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
+    }
+
+    public function caseUpdate(Request $request){
+        $status = new caseUpdate;
+        $status->caseid = $request->input('caseid');
+        $status->employee_id = $request->input('employeeid');
+        $status->date = $request->input('date');
+        $status->status = $request->input('status');
+
+        if($status->save()){
+          return response()->json(['message' => '1'], 200);
+        }
+        else{
+          return response()->json(['message' => '2'], 200);
+        }
+    }
+
+    public function fetchCaseUpdate($id){
+      // $user = auth()->user();
+      // $id = $user['employee_id'];
+      $status = DB::table( 'casestatus')
+          ->where('caseid', $id)
+          ->orderBy('date', 'desc')
+          ->paginate(15);
+      return $status;
     }
 
 }

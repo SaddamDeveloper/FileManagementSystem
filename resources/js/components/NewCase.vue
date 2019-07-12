@@ -59,8 +59,8 @@
                         <td>{{ item.clientName }}</td>
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.time2 }}</td>
-                        <td><div class="alert alert-danger" v-for="emp in employeeassigned" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
-                        <td><div class="alert alert-success" v-if="item.status == null">Unassigned</div><div class="alert alert-success" v-else>{{item.status}}</div></td>
+                        <td><div class="alert alert-danger click" v-for="emp in employeeassigned" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
+                        <td><div class="alert alert-success">{{item.status}}</div></td>
                         <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -169,9 +169,9 @@
                                                             <th scope="col">Amount</th>
                                                             <th scope="col">Contact Person Name</th>
                                                             <th scope="col">Organisation</th>
-                                                            <th scope="col">Department</th>
                                                             <th scope="col">Delivery Date</th>
                                                             <th scope="col">Assigned To</th>
+                                                            <th scope="col">Status</th>
                                                             <th scope="col" v-if="users.selected == 1">Action</th>
                                                         </tr>
                                                     </thead>
@@ -182,9 +182,9 @@
                                                             <td>{{ item.amount }}</td>
                                                             <td>{{ item.contactPersonName }}</td>
                                                             <td>{{ item.orgName }}</td>
-                                                            <td>{{ item.dept }}</td>
                                                             <td>{{ item.time2 }}</td>
-                                                            <td><div class="alert alert-danger" v-for="emp in assignedemployee" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
+                                                            <td><div class="alert alert-danger click" v-for="emp in employeeassigned" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
+                                                            <td><div class="alert alert-success">{{item.status}}</div></td>
                                                             <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
     <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -291,6 +291,11 @@
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+  .click{
+    cursor: pointer;
+  }
+</style>
 <script>
 export default {
         data(){

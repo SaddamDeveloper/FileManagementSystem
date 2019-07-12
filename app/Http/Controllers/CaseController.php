@@ -23,6 +23,7 @@ use App\chequenrtgs;
 use App\Cheque;
 use App\Rtgs;
 use App\Amount;
+use App\Status;
 
 class CaseController extends Controller
 {
@@ -39,7 +40,7 @@ class CaseController extends Controller
 
         $cases = DB::table('cases')
             ->join('client_details', 'cases.caseid', '=', 'client_details.caseid')
-            ->leftjoin('status', 'cases.caseid', '=', 'status.caseid')
+            ->join('status', 'cases.caseid', '=', 'status.caseid')
             // ->join('clientdetails2', 'cases.clientType', '=', 'clientdetails2.clientType')
             ->paginate(10);
         return $cases;
@@ -72,6 +73,7 @@ class CaseController extends Controller
         $cases = DB::table('cases')
             // ->join('client_detsails', 'cases.caseid', '=', 'client_details.caseid')
             ->join('clientdetails2', 'cases.caseid', '=', 'clientdetails2.caseid')
+            ->join('status', 'cases.caseid', '=', 'status.caseid')
             ->paginate(10);
         return $cases;
     }
@@ -109,6 +111,7 @@ class CaseController extends Controller
             $check = new Cheque;
             $rtgs = new Rtgs;
             $amount = new Amount;
+            $status = new Status;
         }
 
         //Generating CaseID
@@ -319,6 +322,8 @@ class CaseController extends Controller
             $amount->caseid = $caseid;
             $amount->time2 = $formatedDate;
 
+            $status->caseid = $caseid;
+            $status->status = 'unassigned';
             // if($request->input('selected') == 2){
             //     $amount->caseid = $caseid;
             //     $amount->paymentmode = $request->input('selected');
@@ -338,20 +343,20 @@ class CaseController extends Controller
 
             // }
             if( $request->input('selected') == 2){
-                if ($case->save() && $cdetails2->save() && $cash->save() && $amount->save()) {
+                if ($case->save() && $cdetails2->save() && $cash->save() && $amount->save() && $status->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                     return new AmountsResource($cash);
                 }
             }
             else if( $request->input('selected') == 3){
-                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $check->save() && $amount->save()) {
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $check->save() && $amount->save() && $status->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                 }
             }
             else if( $request->input('selected') == 4){
-                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $rtgs->save() && $amount->save()) {
+                if ($case->save() && $cdetails2->save() && $chequenrtgs->save() && $rtgs->save() && $amount->save() && $status->save()) {
                     return new CaseResource($case);
                     return new ClientDetailsResource($cdetails2);
                 }

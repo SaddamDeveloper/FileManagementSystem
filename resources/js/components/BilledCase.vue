@@ -598,6 +598,9 @@ export default {
                         'content-type': 'application/json'
                         }
                     })
+                    fetch(`api/deletebilledcase/${item.caseid}?token=`+token, {
+                        method: 'delete'
+                    })
                     .then(res => res.json())
                     .then((res => {
                         if(res.message == 0){

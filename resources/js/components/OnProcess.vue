@@ -36,7 +36,7 @@
                             <th scope="col">Delivery Date</th>
                             <th scope="col">Helper</th>
                             <th scope="col">Docs</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Updated On</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -52,7 +52,7 @@
                             <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button>
                         </td>
-                        <td> NA </td>
+                        <td>12/07/2019 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#updatedOn'+item.caseid" @click="fetchCaseUpdate(item)"><i class="fa fa-plus"></i></button></td>
                         <td><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -83,6 +83,43 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" :id="'updatedOn'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Case status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="caseUpdate(item)">
+                <div class="modal-body">
+                  <div class="container">
+                    <table class="table table-bordered">
+                      <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                      </tr>
+                      <tr>
+                        <td><input type="date" name="date" v-model="cUpdate.date" value=""></td>
+                        <td><input type="text" name="status" v-model="cUpdate.status" placeholder="Enter status here"></td>
+                      </tr>
+                    </table>
+                    <ul v-for="ts in updatedCase"  :key="ts.id">
+                      <li>{{ ts.date }}</li>
+                      <li>{{ ts.status }}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </form>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" :id="'exampleModals1'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
@@ -148,6 +185,13 @@
 export default {
         data(){
         return {
+          updatedCase: [],
+            cUpdate: {
+              date: '',
+              status: '',
+              caseid: '',
+              employeeid: ''
+            },
             value: null,
             time1: '',
             time2: '',
@@ -360,6 +404,34 @@ export default {
                 .then(res => {
                    this.files = res
                 })
+        },
+        caseUpdate(item){
+          const token = localStorage.getItem('token');
+          this.cUpdate.caseid = item.caseid;
+          this.cUpdate.employeeid = item.employee_id;
+          fetch(`api/caseupdate?token=`+token, {
+              method: 'post',
+              body: JSON.stringify(this.cUpdate),
+              headers: {
+                  'content-type' : 'application/json'
+              }
+          })
+          .then(res => res.json())
+          .then(res => {
+            if(res.message == 1){
+              alert('Status Updated');
+              this.caseUpdate.date = '';
+              this.caseUpdate.status = '';
+            }
+          })
+        },
+        fetchCaseUpdate(item){
+          const token = localStorage.getItem('token');
+          fetch('api/fetchcaseupdate/'+item.caseid+'?token='+token)
+          .then(res => res.json())
+          .then(res => {
+            this.updatedCase = res.data;
+          })
         }
     }
 }
