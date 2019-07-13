@@ -5255,7 +5255,7 @@ __webpack_require__.r(__webpack_exports__);
       waitingforapproveEmp: '',
       completedCaseEmp: '',
       approvedCaseEmp: '',
-      rejectedCaseEmp: ''
+      rejectedcaseEmp: ''
     };
   },
   created: function created() {
@@ -7384,9 +7384,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      updatedCase: [],
       assigned: true,
       searchResult: '',
       first_page_url: '',
@@ -7479,6 +7551,7 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchGovtnAll();
     this.fetchUser();
     this.loadSupportStaff();
+    this.fetchCaseUpdate();
     var token = localStorage.getItem('token');
     Event.$on("searching", function (inputWord) {
       axios.get('/api/search?q=' + inputWord + '&token=' + token).then(function (data) {
@@ -7684,17 +7757,27 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this11.assignedemployee = res.data;
       });
+    },
+    fetchCaseUpdate: function fetchCaseUpdate() {
+      var _this12 = this;
+
+      var token = localStorage.getItem('token');
+      fetch("/api/fetchcaseupdateall?token=" + token).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this12.updatedCase = res.data;
+      });
     }
   },
   computed: {
     isDisabled: function isDisabled() {
-      var _this12 = this;
+      var _this13 = this;
 
       var token = localStorage.getItem('token');
       fetch("/api/fetchsendemployees?token=" + token).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this12.status = res;
+        _this13.status = res;
         console.log(res);
       });
     }
@@ -7895,9 +7978,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      recentUpdatedDate: '',
       updatedCase: [],
       cUpdate: {
         date: '',
@@ -8129,6 +8215,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch('api/fetchcaseupdate/' + item.caseid + '?token=' + token).then(function (res) {
         return res.json();
       }).then(function (res) {
+        _this8.recentUpdatedDate = res.data[0].date;
         _this8.updatedCase = res.data;
       });
     }
@@ -15261,7 +15348,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.click{\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n.click{\n  cursor: pointer;\n}\n.tooltip-container {\n    cursor: pointer;\n    position: relative;\n    display: inline-block;\n}\n.tooltip {\n    opacity: 0;\n    z-index: 99;\n    color: #bbb;\n    width: 300px;\n    display: block;\n    font-size: 11px;\n    padding: 5px 10px;\n    border-radius: 3px;\n    text-align: center;\n    text-shadow: 1px 1px 2px #111;\n    background: rgba(51,51,51,0.9);\n    border: 1px solid rgba(34,34,34,0.9);\n    box-shadow: 0 0 3px rgba(0,0,0,0.5);\n    transition: all .2s ease-in-out;\n    -webkit-transform: scale(0);\n    transform: scale(0);\n    position: absolute;\n    right: -80px;\n    bottom: 40px;\n}\n.tooltip:before,.tooltip:after {\n    content: '';\n    border-left: 10px solid transparent;\n    border-right: 10px solid transparent;\n    border-top: 10px solid rgba(51,51,51,0.9);\n    position: absolute;\n    bottom: -10px;\n    left: 43%;\n}\n.tooltip-container:hover .tooltip,a:hover .tooltip {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1);\n}\n", ""]);
 
 // exports
 
@@ -69727,7 +69814,134 @@ var render = function() {
                                       _c(
                                         "div",
                                         { staticClass: "alert alert-success" },
-                                        [_vm._v(_vm._s(item.status))]
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "tool tooltip-container"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                            " +
+                                                  _vm._s(item.status) +
+                                                  "\n                            "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "tooltip" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                Update Details:\n                                "
+                                                  ),
+                                                  _c(
+                                                    "table",
+                                                    {
+                                                      staticClass:
+                                                        "table table-bordered"
+                                                    },
+                                                    [
+                                                      _c("tr", [
+                                                        _c(
+                                                          "th",
+                                                          [
+                                                            _c(
+                                                              "font",
+                                                              {
+                                                                attrs: {
+                                                                  color: "white"
+                                                                }
+                                                              },
+                                                              [_vm._v("Date")]
+                                                            )
+                                                          ],
+                                                          1
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          [
+                                                            _c(
+                                                              "font",
+                                                              {
+                                                                attrs: {
+                                                                  color: "white"
+                                                                }
+                                                              },
+                                                              [_vm._v("status")]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _vm._l(
+                                                        _vm.updatedCase,
+                                                        function(t) {
+                                                          return item.caseid ==
+                                                            t.caseid
+                                                            ? _c(
+                                                                "tr",
+                                                                { key: t.id },
+                                                                [
+                                                                  _c(
+                                                                    "td",
+                                                                    [
+                                                                      _c(
+                                                                        "font",
+                                                                        {
+                                                                          attrs: {
+                                                                            color:
+                                                                              "white"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            _vm._s(
+                                                                              t.date
+                                                                            )
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "td",
+                                                                    [
+                                                                      _c(
+                                                                        "font",
+                                                                        {
+                                                                          attrs: {
+                                                                            color:
+                                                                              "white"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            _vm._s(
+                                                                              t.status
+                                                                            )
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ]
+                                                              )
+                                                            : _vm._e()
+                                                        }
+                                                      )
+                                                    ],
+                                                    2
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
                                       )
                                     ]),
                                     _vm._v(" "),
@@ -71339,7 +71553,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v("12/07/2019 "),
+                      _vm._v(_vm._s(_vm.recentUpdatedDate) + " "),
                       _c(
                         "button",
                         {
@@ -71475,106 +71689,108 @@ var render = function() {
                                 },
                                 [
                                   _c("div", { staticClass: "modal-body" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "container" },
-                                      [
-                                        _c(
-                                          "table",
-                                          {
-                                            staticClass: "table table-bordered"
-                                          },
-                                          [
-                                            _vm._m(7, true),
+                                    _c("div", { staticClass: "container" }, [
+                                      _c(
+                                        "table",
+                                        { staticClass: "table table-bordered" },
+                                        [
+                                          _vm._m(7, true),
+                                          _vm._v(" "),
+                                          _c("tr", [
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.cUpdate.date,
+                                                    expression: "cUpdate.date"
+                                                  }
+                                                ],
+                                                attrs: {
+                                                  type: "date",
+                                                  name: "date",
+                                                  value: ""
+                                                },
+                                                domProps: {
+                                                  value: _vm.cUpdate.date
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.cUpdate,
+                                                      "date",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]),
                                             _vm._v(" "),
-                                            _c("tr", [
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: _vm.cUpdate.date,
-                                                      expression: "cUpdate.date"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "date",
-                                                    name: "date",
-                                                    value: ""
-                                                  },
-                                                  domProps: {
-                                                    value: _vm.cUpdate.date
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        _vm.cUpdate,
-                                                        "date",
-                                                        $event.target.value
-                                                      )
-                                                    }
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.cUpdate.status,
+                                                    expression: "cUpdate.status"
                                                   }
-                                                })
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: _vm.cUpdate.status,
-                                                      expression:
-                                                        "cUpdate.status"
+                                                ],
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "status",
+                                                  placeholder:
+                                                    "Enter status here"
+                                                },
+                                                domProps: {
+                                                  value: _vm.cUpdate.status
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
                                                     }
-                                                  ],
-                                                  attrs: {
-                                                    type: "text",
-                                                    name: "status",
-                                                    placeholder:
-                                                      "Enter status here"
-                                                  },
-                                                  domProps: {
-                                                    value: _vm.cUpdate.status
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        _vm.cUpdate,
-                                                        "status",
-                                                        $event.target.value
-                                                      )
-                                                    }
+                                                    _vm.$set(
+                                                      _vm.cUpdate,
+                                                      "status",
+                                                      $event.target.value
+                                                    )
                                                   }
-                                                })
-                                              ])
+                                                }
+                                              })
                                             ])
-                                          ]
-                                        ),
-                                        _vm._v(" "),
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "table",
+                                        {
+                                          staticClass: "table table-bordered",
+                                          staticStyle: {
+                                            "overflow-x": "scroll"
+                                          }
+                                        },
                                         _vm._l(_vm.updatedCase, function(ts) {
-                                          return _c("ul", { key: ts.id }, [
-                                            _c("li", [_vm._v(_vm._s(ts.date))]),
+                                          return _c("tr", { key: ts.id }, [
+                                            _c("th", [_vm._v(_vm._s(ts.date))]),
                                             _vm._v(" "),
-                                            _c("li", [
+                                            _c("th", [
                                               _vm._v(_vm._s(ts.status))
                                             ])
                                           ])
-                                        })
-                                      ],
-                                      2
-                                    )
+                                        }),
+                                        0
+                                      )
+                                    ])
                                   ]),
                                   _vm._v(" "),
                                   _vm._m(8, true)

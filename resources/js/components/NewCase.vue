@@ -60,7 +60,26 @@
                         <td>{{ item.contactNo }}</td>
                         <td>{{ item.time2 }}</td>
                         <td><div class="alert alert-danger click" v-for="emp in employeeassigned" v-bind:key="emp.id" :value="emp.employee_id" v-if="item.caseid == emp.caseid" data-toggle="modal" :data-target="'#exampleModalss'+item.caseid">{{ emp.name }}</div></td>
-                        <td><div class="alert alert-success">{{item.status}}</div></td>
+                        <td>
+                          <div class="alert alert-success">
+                            <div class="tool tooltip-container">
+                              {{item.status}}
+                              <span class="tooltip">
+                                  Update Details:
+                                  <table class="table table-bordered">
+                                    <tr>
+                                      <th><font color="white">Date</font></th>
+                                      <th><font color="white">status</font></th>
+                                    </tr>
+                                    <tr v-for="t in updatedCase"  :key="t.id" v-if="item.caseid == t.caseid">
+                                      <td><font color="white">{{t.date}}</font></td>
+                                      <td><font color="white">{{t.status}}</font></td>
+                                    </tr>
+                                  </table>
+                                </span>
+                              </div>
+                            </div>
+                          </td>
                         <td v-if="users.selected == 1"><div class="btn btn-group"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button><button type="button" @click="editCase(item)" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button><button type="button" @click="deleteCase(item.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></div></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -286,8 +305,7 @@
                         </div>
 
     </div>
-        </div>
-
+  </div>
 
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
@@ -295,11 +313,65 @@
   .click{
     cursor: pointer;
   }
+  .tooltip-container {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+  }
+
+  .tooltip {
+      opacity: 0;
+      z-index: 99;
+      color: #bbb;
+      width: 300px;
+      display: block;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      text-align: center;
+      text-shadow: 1px 1px 2px #111;
+      background: rgba(51,51,51,0.9);
+      border: 1px solid rgba(34,34,34,0.9);
+      box-shadow: 0 0 3px rgba(0,0,0,0.5);
+      -webkit-transition: all .2s ease-in-out;
+      -moz-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+      -ms-transition: all .2s ease-in-out;
+      transition: all .2s ease-in-out;
+      -webkit-transform: scale(0);
+      -moz-transform: scale(0);
+      -o-transform: scale(0);
+      -ms-transform: scale(0);
+      transform: scale(0);
+      position: absolute;
+      right: -80px;
+      bottom: 40px;
+  }
+
+  .tooltip:before,.tooltip:after {
+      content: '';
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid rgba(51,51,51,0.9);
+      position: absolute;
+      bottom: -10px;
+      left: 43%;
+  }
+
+  .tooltip-container:hover .tooltip,a:hover .tooltip {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -o-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+  }
 </style>
 <script>
 export default {
         data(){
         return {
+          updatedCase: [],
             assigned: true ,
             searchResult: '',
             first_page_url: '',
@@ -375,6 +447,7 @@ export default {
         this.fetchGovtnAll();
         this.fetchUser();
         this.loadSupportStaff();
+        this.fetchCaseUpdate();
         const token = localStorage.getItem('token');
         Event.$on("searching", inputWord => {
             axios.get('/api/search?q='+inputWord+'&token='+token)
@@ -587,6 +660,14 @@ export default {
                 .then(res => {
                     this.assignedemployee = res.data;
             })
+        },
+        fetchCaseUpdate(){
+          const token = localStorage.getItem('token');
+          fetch("/api/fetchcaseupdateall?token="+token)
+              .then(res => res.json())
+              .then(res => {
+                  this.updatedCase = res.data;
+          })
         }
     },
     computed: {

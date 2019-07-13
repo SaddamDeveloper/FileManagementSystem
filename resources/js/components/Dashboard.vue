@@ -270,7 +270,7 @@ export default {
         waitingforapproveEmp: '',
         completedCaseEmp: '',
         approvedCaseEmp: '',
-        rejectedCaseEmp: ''
+        rejectedcaseEmp: ''
     }
   },
   created(){

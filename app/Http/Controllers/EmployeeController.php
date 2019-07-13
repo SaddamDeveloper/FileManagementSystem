@@ -875,4 +875,10 @@ class EmployeeController extends Controller
       return $status;
     }
 
+    public function fetchCaseUpdateAll(){
+      $status = DB::table( 'casestatus')
+          ->paginate(15);
+      return $status;
+    }
+
 }

@@ -52,7 +52,7 @@
                             <button type="button" class="btn btn-sm" data-toggle="modal" :data-target="'#exampleModals1'+item.caseid" @click="showFile(item)"><i class="fa fa-file"></i></button>
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#exampleModal'+item.caseid"><i class="fa fa-plus"></i></button>
                         </td>
-                        <td>12/07/2019 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#updatedOn'+item.caseid" @click="fetchCaseUpdate(item)"><i class="fa fa-plus"></i></button></td>
+                        <td>{{ recentUpdatedDate }} <button type="button" class="btn btn-success btn-sm" data-toggle="modal" :data-target="'#updatedOn'+item.caseid" @click="fetchCaseUpdate(item)"><i class="fa fa-plus"></i></button></td>
                         <td><button type="button" @click="sendToAdmin(item)" class="btn btn-primary btn-sm"><i class="fa fa-send-o"></i></button></td>
                                    <!-- Modal -->
         <div class="modal fade" :id="'exampleModal'+item.caseid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -105,10 +105,12 @@
                         <td><input type="text" name="status" v-model="cUpdate.status" placeholder="Enter status here"></td>
                       </tr>
                     </table>
-                    <ul v-for="ts in updatedCase"  :key="ts.id">
-                      <li>{{ ts.date }}</li>
-                      <li>{{ ts.status }}</li>
-                    </ul>
+                    <table class="table table-bordered" style="overflow-x: scroll;">
+                        <tr v-for="ts in updatedCase"  :key="ts.id">
+                          <th>{{ ts.date }}</th>
+                          <th>{{ ts.status }}</th>
+                        </tr>
+                    </table>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -185,6 +187,7 @@
 export default {
         data(){
         return {
+          recentUpdatedDate: '',
           updatedCase: [],
             cUpdate: {
               date: '',
@@ -430,6 +433,7 @@ export default {
           fetch('api/fetchcaseupdate/'+item.caseid+'?token='+token)
           .then(res => res.json())
           .then(res => {
+            this.recentUpdatedDate = res.data[0].date;
             this.updatedCase = res.data;
           })
         }

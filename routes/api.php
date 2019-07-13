@@ -216,3 +216,5 @@ Route::get('searchusingdaterange', ['uses' => 'CaseController@searchUsingDateRan
 Route::post('caseupdate', ['uses' => 'EmployeeController@caseUpdate', 'middleware' => 'jwt']);
 
 Route::get('fetchcaseupdate/{id}', ['uses' => 'EmployeeController@fetchCaseUpdate', 'middleware' => 'jwt']);
+
+Route::get('fetchcaseupdateall', ['uses' => 'EmployeeController@fetchCaseUpdateAll', 'middleware' => 'jwt']);
