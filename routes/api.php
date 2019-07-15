@@ -50,6 +50,8 @@ Route::delete('cases/{id}', ['uses'  =>  'CaseController@destroy', 'middleware' 
 //Showw all Empoyees
 Route::get('employees', ['uses' => 'EmployeeController@index', 'middleware' => 'jwt']);
 
+Route::get('employeesfetch', ['uses' => 'EmployeeController@employeeFetch', 'middleware' => 'jwt']);
+
 //List single case
 Route::get('employee/{id}', 'EmployeeController@show');
 

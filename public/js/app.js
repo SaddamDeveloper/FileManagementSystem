@@ -5885,7 +5885,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var token = localStorage.getItem('token');
       var vm = this;
-      page_url = page_url || 'api/employees?token=' + token;
+      page_url = page_url || 'api/employeesfetch?token=' + token;
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {

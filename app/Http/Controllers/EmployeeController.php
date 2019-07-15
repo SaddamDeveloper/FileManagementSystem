@@ -46,6 +46,16 @@ class EmployeeController extends Controller
             ->get();
             return $data;
     }
+    public function employeeFetch()
+    {
+        //List of Employees
+        // $employees = Employee::paginate(15);
+        // return  EmployeeResource::collection($employees);
+        $data = DB::table('users')
+            ->join('employees', 'users.email', '=', 'employees.email')
+            ->paginate(1);
+            return $data;
+    }
 
     /**
      * Store a newly created resource in storage.

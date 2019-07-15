@@ -210,7 +210,7 @@ export default {
         fetchEmployees(page_url){
             const token = localStorage.getItem('token');
             let vm = this;
-            page_url = page_url || 'api/employees?token='+token;
+            page_url = page_url || 'api/employeesfetch?token='+token;
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
