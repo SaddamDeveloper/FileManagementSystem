@@ -439,6 +439,7 @@ class CaseController extends Controller
         $date = Input::get('date');
         $data = ClientDetails::with('cases')
             ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            // ->join('status', 'cases.caseid', '=', 'client_details.caseid')
             ->where('cases.time2', 'like', '%' . $date . '%')
             ->get();
         return response()->json($data);
@@ -473,6 +474,7 @@ class CaseController extends Controller
         $from = Input::get('from'). ' 00:00:00';
         $data = ClientDetails::with('cases')
             ->join('cases', 'cases.caseid', '=', 'client_details.caseid')
+            ->join('status', 'cases.caseid', '=', 'status.caseid')
             ->whereBetween('cases.created_at', [$from, $to])
             ->get();
         return response()->json($data);

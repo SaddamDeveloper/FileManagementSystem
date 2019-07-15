@@ -116,9 +116,9 @@
                     </div>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
-                            <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchEmployees(pagination.prev_page_url)">Previous</a></li>
-                            <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of {{ pagination.last_page }}</a></li>
-                            <li v-bind:class="[{disabled: !pagination.next_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchEmployees(pagination.next_page_url)">Next</a></li>
+                            <li class="page-item" v-bind:class="[{ disabled: !prev_page_url }]"><a class="page-link" href="#" @click="fetchEmployees(prev_page_url)">Previous</a></li>
+                            <li class="page-item disabled"><a class="page-link text-dark" href="#">Page {{ current_page }} of {{ last_page }}</a></li>
+                            <li class="page-item" v-bind:class="[{ disabled: !next_page_url }]"><a class="page-link" href="#" @click="fetchEmployees(next_page_url)">Next</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -170,6 +170,12 @@
 export default {
     data (){
         return {
+            first_page_url: '',
+            last_page_url: '',
+            next_page_url: '',
+            prev_page_url: '',
+            current_page: '',
+            last_page: '',
             employees: [],
             searchResult: '',
             employee: {
@@ -208,19 +214,25 @@ export default {
             fetch(page_url)
             .then(res => res.json())
             .then(res => {
-                this.employees = res;
+                this.employees = res.data;
+                this.first_page_url = res.first_page_url+"&token="+token;
+                this.last_page_url = res.last_page_url+"&token="+token;
+                this.next_page_url = res.next_page_url+"&token="+token;
+                this.prev_page_url = res.prev_page_url+"&token="+token;
+                this.current_page = res.current_page;
+                this.last_page = res.last_page;
                 vm.makePagination(res.meta, res.links);
             })
             .catch(err => console.log(err));
         },
         makePagination(meta, links){
-            let pagination = {
-                current_page: meta.current_page,
-                last_page: meta.last_page,
-                next_page_url: links.next,
-                prev_page_url: links.prev
-            };
-            this.pagination = pagination;
+          let pagination = {
+              current_page: meta.current_page,
+              last_page: meta.last_page,
+              next_page_url: links.next,
+              prev_page_url: links.prev
+          }
+          this.pagination = pagination;
         },
         deleteEmployee(id){
             Swal.fire({
@@ -317,4 +329,3 @@ export default {
     }
 }
 </script>
-

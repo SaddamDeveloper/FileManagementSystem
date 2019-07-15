@@ -5843,6 +5843,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      first_page_url: '',
+      last_page_url: '',
+      next_page_url: '',
+      prev_page_url: '',
+      current_page: '',
+      last_page: '',
       employees: [],
       searchResult: '',
       employee: {
@@ -5883,7 +5889,13 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.employees = res;
+        _this2.employees = res.data;
+        _this2.first_page_url = res.first_page_url + "&token=" + token;
+        _this2.last_page_url = res.last_page_url + "&token=" + token;
+        _this2.next_page_url = res.next_page_url + "&token=" + token;
+        _this2.prev_page_url = res.prev_page_url + "&token=" + token;
+        _this2.current_page = res.current_page;
+        _this2.last_page = res.last_page;
         vm.makePagination(res.meta, res.links);
       }).catch(function (err) {
         return console.log(err);
@@ -67775,7 +67787,7 @@ var render = function() {
                         "li",
                         {
                           staticClass: "page-item",
-                          class: [{ disabled: !_vm.pagination.prev_page_url }]
+                          class: [{ disabled: !_vm.prev_page_url }]
                         },
                         [
                           _c(
@@ -67785,9 +67797,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.fetchEmployees(
-                                    _vm.pagination.prev_page_url
-                                  )
+                                  return _vm.fetchEmployees(_vm.prev_page_url)
                                 }
                               }
                             },
@@ -67806,9 +67816,9 @@ var render = function() {
                           [
                             _vm._v(
                               "Page " +
-                                _vm._s(_vm.pagination.current_page) +
+                                _vm._s(_vm.current_page) +
                                 " of " +
-                                _vm._s(_vm.pagination.last_page)
+                                _vm._s(_vm.last_page)
                             )
                           ]
                         )
@@ -67818,7 +67828,7 @@ var render = function() {
                         "li",
                         {
                           staticClass: "page-item",
-                          class: [{ disabled: !_vm.pagination.next_page_url }]
+                          class: [{ disabled: !_vm.next_page_url }]
                         },
                         [
                           _c(
@@ -67828,9 +67838,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.fetchEmployees(
-                                    _vm.pagination.next_page_url
-                                  )
+                                  return _vm.fetchEmployees(_vm.next_page_url)
                                 }
                               }
                             },

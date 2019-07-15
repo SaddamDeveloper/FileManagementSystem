@@ -92,7 +92,6 @@ export default {
         },
         update(values){
             const token = localStorage.getItem('token');
-
             this.$router.push({ query: Object.assign({}, this.$route.query, {
                 to: values.to,
                 from: values.from,
@@ -125,4 +124,3 @@ export default {
     }
 }
 </script>
-

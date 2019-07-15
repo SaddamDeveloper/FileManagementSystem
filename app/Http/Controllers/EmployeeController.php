@@ -43,7 +43,7 @@ class EmployeeController extends Controller
         // return  EmployeeResource::collection($employees);
         $data = DB::table('users')
             ->join('employees', 'users.email', '=', 'employees.email')
-            ->get();
+            ->paginate(10);
             return $data;
     }
 
