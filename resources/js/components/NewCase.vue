@@ -323,7 +323,7 @@
       opacity: 0;
       z-index: 99;
       color: #bbb;
-      width: 300px;
+      width: 190px;
       display: block;
       font-size: 11px;
       padding: 5px 10px;
