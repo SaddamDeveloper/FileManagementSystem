@@ -28,12 +28,6 @@ class AuthController extends Controller
             $users = new User;
         }
 
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|string|email|max:191',
-        //     'password'  =>  'required'
-        // ]);
-
         //generate employee id
         $sql = DB::table('employees')->select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get();
         foreach ($sql as $row_data) {

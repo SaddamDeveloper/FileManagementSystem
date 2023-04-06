@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Employee;
 use App\Http\Resources\EmployeeResource as EmployeeResource;
 use App\sendToEmployee;
-use App\sendToDb;
 use App\sendToAdmin;
 use App\sendToApproval;
 use App\rejectCase;
@@ -15,156 +13,85 @@ use App\OnProcessCase;
 use App\toBill;
 use App\byCash;
 use Storage;
-use File;
 use DB;
 use App\TransferCase;
 use Illuminate\Support\Facades\Input;
 use App\ToComplete;
-use App\byNeft;
-use App\byCheque;
 use Carbon\Carbon;
-use App\sendFileToAdmin;
 use App\UploadedFile;
-use App\Http\Resources\Cases;
 use App\ToInvoice;
 use App\caseUpdate;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //List of Employees
-        // $employees = Employee::paginate(15);
-        // return  EmployeeResource::collection($employees);
-        $data = DB::table('users')
-            ->join('employees', 'users.email', '=', 'employees.email')
-            ->get();
-            return $data;
-    }
-    public function employeeFetch()
-    {
-        //List of Employees
-        // $employees = Employee::paginate(15);
-        // return  EmployeeResource::collection($employees);
-        $data = DB::table('users')
-            ->join('employees', 'users.email', '=', 'employees.email')
-            ->paginate(1);
-            return $data;
+        return Employee::paginate(15);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //Store or Update
-        $employee = $request->isMethod('put') ? Employee::findOrFail
-        ($request->employee_id) : new Employee;
-
-        $sql = DB::table('employees')->select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get();
-            foreach($sql as $row_data){
-                $postfix =  $row_data->max_val;
-            }
-
-            $employee_id = 'EMP';
-            $count = DB::table('employees')->select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get()->count();
-            if($count == 0){
-                $employee_id = $employee_id.'00001';
-            }
-            else{
-                $postfix = $postfix + 1;
-                $addVal=str_pad($postfix, 5, '0', STR_PAD_LEFT);
-                $employee_id=$employee_id.$addVal;
-            }
-
-        $employee->employee_id = $employee_id;
+        $employee = $request->isMethod('put') ? Employee::findOrFail($request->employee_id) : new Employee;
+        $employee->employee_id = $this->generateEmployeeId();
         $employee->name = $request->input('name');
         $employee->no = $request->input('no');
         $employee->email = $request->input('email');
         $employee->designation = $request->input('designation');
-        $employee->expertise = implode(",",$request->input('select'));
+        $employee->expertise = implode(",", $request->input('select'));
         $employee->address = $request->input('address');
-
-        if($employee->save()){
-            return new EmployeeResource($employee);
-        }
+        $employee->save();
+        return new EmployeeResource($employee);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //Get Employee
         $employee = Employee::findOrFail($id);
         return new EmployeeResource($employee);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-     //delete Employee
         $employee = Employee::findOrFail($id);
-
-        if($employee->delete()){
-            return new EmployeeResource($employee);
-        }
+        $employee->delete();
+        return response()->noContent();
     }
-    public function send(Request $request){
-         //send to employee
-         $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail
-        ($request->employee_id) : new sendToEmployee;
+    public function send(Request $request)
+    {
+        //send to employee
+        $toEmployee = $request->isMethod('put') ? sendToEmployee::findOrFail($request->employee_id) : new sendToEmployee;
 
         $toEmployee->caseid = $request->input('caseid');
         $toEmployee->employee_id = $request->input('employee_id');
 
 
 
-        if($request->input('docs') == null){
+        if ($request->input('docs') == null) {
             $toEmployee->docs = '';
-        }
-        else{
+        } else {
             $exploded = explode(',', $request->docs);
             $decoded = base64_decode($exploded[1]);
 
-           $fileName = $request->fileName;
-           $caseId = $request->input('caseid');
-           $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
-           if ($idCheck === null) {
-               Storage::put('public/'.$caseId.'/'.$fileName, $decoded);
-           }
-           else{
-               return response()->json(['message' => 'Case is already reserved'], 200);
-           }
+            $fileName = $request->fileName;
+            $caseId = $request->input('caseid');
+            $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
+            if ($idCheck === null) {
+                Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+            } else {
+                return response()->json(['message' => 'Case is already reserved'], 200);
+            }
             $toEmployee->docs = $fileName;
         }
 
-        if($request->input('helper') == null){
+        if ($request->input('helper') == null) {
             $toEmployee->helper = '';
-        }
-        else{
+        } else {
             $helper = implode(",", $request->input('helper'));
             $toEmployee->helper = $helper;
         }
 
-        if($toEmployee->save() &&  DB::statement( "UPDATE status SET status = 'newassigned' WHERE caseid = '$toEmployee->caseid'")){
-                return new EmployeeResource($toEmployee);
+        if ($toEmployee->save() &&  DB::statement("UPDATE status SET status = 'newassigned' WHERE caseid = '$toEmployee->caseid'")) {
+            return new EmployeeResource($toEmployee);
         }
 
         // $inquiries = DB::table('send_to_employees')->where('caseid', $caseId)->get();
@@ -192,21 +119,22 @@ class EmployeeController extends Controller
         // if($toEmployee->save()){
         //   return new EmployeeResource($toEmployee);
         // }
-            // foreach ( $inquiries as $kunde ) {
-            //      $existing_kunde = DB::table('send_to_employees')->where('caseid', $kunde->caseid)->first();
-            //      return $existing_kunde;
-            // //      return $existing_kunde;
-            // //     // if ( ! $kunde_exists ) {
-            // //     //     DB::connection( 'inn_db' )->table( 'customers' )->insert(
-            // //     //         [ $kunde->customer_id
-            // //     //              $kunde->name,
-            // //     //              $kunde->email]);
-            // //     //   }
-            // }
+        // foreach ( $inquiries as $kunde ) {
+        //      $existing_kunde = DB::table('send_to_employees')->where('caseid', $kunde->caseid)->first();
+        //      return $existing_kunde;
+        // //      return $existing_kunde;
+        // //     // if ( ! $kunde_exists ) {
+        // //     //     DB::connection( 'inn_db' )->table( 'customers' )->insert(
+        // //     //         [ $kunde->customer_id
+        // //     //              $kunde->name,
+        // //     //              $kunde->email]);
+        // //     //   }
+        // }
 
     }
 
-        public function toDb(Request $request){
+    public function toDb(Request $request)
+    {
         //  //send to Db
         $toDb = $request->isMethod('put') ? UploadedFile::findOrFail($request->docs) : new UploadedFile;
         $exploded = explode(',', $request->docs);
@@ -215,7 +143,7 @@ class EmployeeController extends Controller
         $caseId = $request->input('caseid');
         // $idCheck = UploadedFile::where('caseid', '=', Input::get('caseid'))->first();
         // if ($idCheck === null) {
-            $store = Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
+        $store = Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
 
         // } else {
         // }
@@ -229,18 +157,16 @@ class EmployeeController extends Controller
         } else {
             return response()->json(['message' => '1'], 200);
         }
-
     }
-    public function toAdmin(Request $request){
-        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail
-        ($request->employee_id) : new sendToAdmin();
+    public function toAdmin(Request $request)
+    {
+        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail($request->employee_id) : new sendToAdmin();
 
         // $count = DB::table('toadmin')->select('caseid')->get();
         // return $count;
-        if($request->input('docs') == null){
+        if ($request->input('docs') == null) {
             $toAdmin->docs = '';
-        }
-        else{
+        } else {
             $toAdmin->docs = $request->input('docs');
         }
         $toAdmin->helper = $request->input('helper');
@@ -255,49 +181,49 @@ class EmployeeController extends Controller
         // }
 
         $dbCheck = sendToAdmin::where('caseid', '=', Input::get('caseid'))->first();
-        if($dbCheck == null){
-            if($toAdmin->save() &&  DB::statement( "UPDATE status SET status = 'waitingforapprove' WHERE caseid = '$toAdmin->caseid'")){
-                return response()->json(['message'=> '0'],200);
+        if ($dbCheck == null) {
+            if ($toAdmin->save() &&  DB::statement("UPDATE status SET status = 'waitingforapprove' WHERE caseid = '$toAdmin->caseid'")) {
+                return response()->json(['message' => '0'], 200);
             }
-        }
-        else{
-            return response()->json(['message'=> '1'],200);
+        } else {
+            return response()->json(['message' => '1'], 200);
         }
     }
 
-    public function fetchApproveCase(){
+    public function fetchApproveCase()
+    {
         // $approvedCase = sendToAdmin::paginate(15);
-    //     $approvedCase = \App\sendToAdmin::with('sendAdmin')
-    //    ->paginate(15);
+        //     $approvedCase = \App\sendToAdmin::with('sendAdmin')
+        //    ->paginate(15);
 
-       $approvedCase = DB::table('toadmin')
+        $approvedCase = DB::table('toadmin')
             ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
             // ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
             ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
             ->paginate(15);
-            return $approvedCase;
+        return $approvedCase;
         // return  EmployeeResource::collection($approvedCase);
     }
-    public function AprovedCase(Request $request){
-        $toApproval = $request->isMethod('put') ? sendToApproval::findOrFail
-        ($request->employee_id) : new sendToApproval;
+    public function AprovedCase(Request $request)
+    {
+        $toApproval = $request->isMethod('put') ? sendToApproval::findOrFail($request->employee_id) : new sendToApproval;
 
         $toInvoice = new ToInvoice;
 
         //Generate INVOICE NO
-        $invoice = DB::table('invoice')->select(DB::raw( 'max(substring(invoice_no, 21, 3)) as max_val'))->get();
+        $invoice = DB::table('invoice')->select(DB::raw('max(substring(invoice_no, 21, 3)) as max_val'))->get();
         foreach ($invoice as $row_data) {
             $postfix =  $row_data->max_val;
         }
         $now = Carbon::now();
         $month = $now->format('F');
-        $reformattedMonth = substr($month, 0,3);
+        $reformattedMonth = substr($month, 0, 3);
         $year = $now->year;
         $currentYear =  substr($year, 2, 5);
         $nextYear = $currentYear + 1;
-        $finalYearSplit = $currentYear.'-'.$nextYear;
-        $invoice = 'DDAS/INST/'.$finalYearSplit.'/'.$reformattedMonth.'/';
-        $count = DB::table( 'invoice')->select(DB::raw('max(substring(invoice_no, 5, 5)) as max_val'))->get()->count();
+        $finalYearSplit = $currentYear . '-' . $nextYear;
+        $invoice = 'DDAS/INST/' . $finalYearSplit . '/' . $reformattedMonth . '/';
+        $count = DB::table('invoice')->select(DB::raw('max(substring(invoice_no, 5, 5)) as max_val'))->get()->count();
         if ($count == 0) {
             $invoice = $invoice . '001';
         } else {
@@ -305,18 +231,19 @@ class EmployeeController extends Controller
             $addVal = str_pad($postfix, 3, '0', STR_PAD_LEFT);
             $invoice = $invoice . $addVal;
         }
-            $toApproval->invoiceNo = $invoice;
-            $toInvoice->invoice_no = $invoice;
-            $toInvoice->caseid = $request->input('caseid');
-            $toApproval->caseid = $request->input('caseid');
-            $toApproval->employee_id = $request->input('employee_id');
+        $toApproval->invoiceNo = $invoice;
+        $toInvoice->invoice_no = $invoice;
+        $toInvoice->caseid = $request->input('caseid');
+        $toApproval->caseid = $request->input('caseid');
+        $toApproval->employee_id = $request->input('employee_id');
 
-            if($toApproval->save() && $toInvoice->save() &&  DB::statement( "UPDATE status SET status = 'approved' WHERE caseid = '$toApproval->caseid'")){
+        if ($toApproval->save() && $toInvoice->save() &&  DB::statement("UPDATE status SET status = 'approved' WHERE caseid = '$toApproval->caseid'")) {
             return new EmployeeResource($toApproval);
         }
     }
 
-    public function AdminCompletedCase(){
+    public function AdminCompletedCase()
+    {
         $completedCase = DB::table('completedcase')
             ->join('amount', 'completedcase.caseid', '=', 'amount.caseid')
             ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
@@ -327,9 +254,10 @@ class EmployeeController extends Controller
             ->paginate(15);
         return $completedCase;
     }
-    public function CompletedCase(){
+    public function CompletedCase()
+    {
 
-        $completedCase = DB::table( 'approvedcase')
+        $completedCase = DB::table('approvedcase')
             ->join('amount', 'approvedcase.caseid', '=', 'amount.caseid')
             ->join('onprocess', 'approvedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'approvedcase.employee_id', '=', 'employees.employee_id')
@@ -337,11 +265,12 @@ class EmployeeController extends Controller
             // ->join('cases', 'approvedcase.caseid', '=', 'cases.caseid')
             // ->join('payment', 'approvedcase.caseid', '=', 'payment.caseid')
             ->paginate(15);
-            return $completedCase;
-              // return  EmployeeResource::collection($completedCase);
+        return $completedCase;
+        // return  EmployeeResource::collection($completedCase);
     }
 
-    public function CompletedCaseEmp(){
+    public function CompletedCaseEmp()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
         $CompletedCaseEmp = DB::table('completedcase')
@@ -353,7 +282,8 @@ class EmployeeController extends Controller
         return $CompletedCaseEmp;
     }
 
-    public function ApprovedCaseEmp(){
+    public function ApprovedCaseEmp()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
         $ApprovedCaseEmp = DB::table('approvedcase')
@@ -362,33 +292,35 @@ class EmployeeController extends Controller
             ->join('users', 'employees.email', '=', 'users.email')
             ->where('users.employee_id', $id)
             ->paginate(15);
-            return $ApprovedCaseEmp;
+        return $ApprovedCaseEmp;
     }
 
-    public function RejectCase(Request $request){
-         $rejectCase = $request->isMethod('put') ? rejectCase::findOrFail
-        ($request->employee_id) : new rejectCase;
+    public function RejectCase(Request $request)
+    {
+        $rejectCase = $request->isMethod('put') ? rejectCase::findOrFail($request->employee_id) : new rejectCase;
 
         //  $toApproval->caseid = $request->input('caseid');
-             $rejectCase->caseid = $request->input('caseid');
-            $rejectCase->employee_id = $request->input('employee_id');
-            $rejectCase->msg = $request->input('msg');
+        $rejectCase->caseid = $request->input('caseid');
+        $rejectCase->employee_id = $request->input('employee_id');
+        $rejectCase->msg = $request->input('msg');
 
-        if($rejectCase->save()){
+        if ($rejectCase->save()) {
             return new EmployeeResource($rejectCase);
         }
     }
 
-    public function FetchRejectCase(){
+    public function FetchRejectCase()
+    {
 
-         $rejectedCase = DB::table('rejectcase')
+        $rejectedCase = DB::table('rejectcase')
             ->join('onprocess', 'rejectcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'rejectcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'employees.email', '=', 'users.email')
             ->paginate(15);
-            return $rejectedCase;
+        return $rejectedCase;
     }
-    public function FetchRejectCaseEmployee(){
+    public function FetchRejectCaseEmployee()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
         $rejectedCaseEmployee = DB::table('rejectcase')
@@ -400,34 +332,39 @@ class EmployeeController extends Controller
         return $rejectedCaseEmployee;
     }
 
-    public function DeleteAprovedCase($id){
-      DB::table('toadmin')->where('caseid', '=', $id)->delete();
+    public function DeleteAprovedCase($id)
+    {
+        DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
 
-    public function deleteToAdmin($id){
+    public function deleteToAdmin($id)
+    {
 
-      if($id){
-        DB::table('send_to_employees')->where('caseid', '=', $id)->delete();
-      }
+        if ($id) {
+            DB::table('send_to_employees')->where('caseid', '=', $id)->delete();
+        }
     }
 
-    public function DeleteRejectCase($id){
-      DB::table('toadmin')->where('caseid', '=', $id)->delete();
+    public function DeleteRejectCase($id)
+    {
+        DB::table('toadmin')->where('caseid', '=', $id)->delete();
     }
 
-    public function fetchApproving(){
+    public function fetchApproving()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
-      $approving = DB::table('toadmin')
-      ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
-      ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
-      ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
-        ->where('toadmin.employee_id', '=', $id)
-           ->paginate(15);
-           return $approving;
+        $approving = DB::table('toadmin')
+            ->join('onprocess', 'toadmin.caseid', '=', 'onprocess.caseid')
+            ->join('employees', 'toadmin.employee_id', '=', 'employees.employee_id')
+            ->join('users', 'toadmin.employee_id', '=', 'users.employee_id')
+            ->where('toadmin.employee_id', '=', $id)
+            ->paginate(15);
+        return $approving;
     }
 
-    public function countingNewlyRegisterd(){
+    public function countingNewlyRegisterd()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
 
@@ -440,15 +377,15 @@ class EmployeeController extends Controller
         $completedCase = DB::table('completedcase')->count();
         $completedCaseEmp = DB::table('completedcase')->where('employee_id', '=', $id)->count();
 
-        $approvedCase = DB::table( 'approvedcase')->count();
-        $approvedCaseEmp = DB::table( 'approvedcase')->where('employee_id', '=', $id)->count();
+        $approvedCase = DB::table('approvedcase')->count();
+        $approvedCaseEmp = DB::table('approvedcase')->where('employee_id', '=', $id)->count();
 
         $billedCase = DB::table('billedcase')->count();
         $rejectedcase = DB::table('rejectcase')->count();
         $rejectedcaseEmp = DB::table('rejectcase')->where('employee_id', '=', $id)->count();
         $onprocesscase = DB::table('onprocess')->count();
-      $count = array(
-            'newRegistered'=> $newRegistered,
+        $count = array(
+            'newRegistered' => $newRegistered,
             'waitingforapprove' => $waitingforapprove,
             'assignedcase' => $assignedcase,
             'completedcase' => $completedCase,
@@ -462,53 +399,57 @@ class EmployeeController extends Controller
             'completedCaseEmp'  =>  $completedCaseEmp,
             'approvedCaseEmp'   => $approvedCaseEmp,
             'rejectedcaseEmp'   => $rejectedcaseEmp
-            );
-      return $count;
+        );
+        return $count;
     }
 
-    public function EmployeeCounter(){
+    public function EmployeeCounter()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
         $employeeAssignedCase = DB::table('send_to_employees')->where('employee_id', $id)->count();
         $waitingforapprove = DB::table('toadmin')->where('employee_id', $id)->count();
         $completedCase = DB::table('completedcase')->where('employee_id', $id)->count();
         $rejectedCase = DB::table('rejectcase')->where('employee_id', $id)->count();
-        $billedCase = DB::table( 'billedcase')->where('employee_id', $id)->count();
+        $billedCase = DB::table('billedcase')->where('employee_id', $id)->count();
         $approvedCaseEmp = DB::table('approvedcase')->where('employee_id', $id)->count();
         $count = array('employeeAssigned' => $employeeAssignedCase, 'waitingforapprove' => $waitingforapprove, 'completedcase' => $completedCase, 'rejectedcase' => $rejectedCase, 'billedcase' => $billedCase, 'approvecaseEmp' => $approvedCaseEmp);
         return $count;
     }
 
-    public function sendToadminAgain(Request $request){
-        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail
-        ($request->employee_id) : new sendToAdmin;
+    public function sendToadminAgain(Request $request)
+    {
+        $toAdmin = $request->isMethod('put') ? sendToAdmin::findOrFail($request->employee_id) : new sendToAdmin;
         $toAdmin->caseid = $request->input('caseid');
         // return $request->input('assignedEmployee');
         $toAdmin->employee_id = $request->input('assignedEmployee');
         // $toAdmin->docs = $request->input('docs');
 
-        if($toAdmin->save()){
+        if ($toAdmin->save()) {
             return new EmployeeResource($toAdmin);
         }
     }
 
-    public function deleteSendToAdmin($id){
+    public function deleteSendToAdmin($id)
+    {
         DB::table('rejectcase')->where('caseid', '=', $id)->delete();
     }
 
-    public function empCompletedCase(){
+    public function empCompletedCase()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
-         $completedCase = DB::table('completedcase')
+        $completedCase = DB::table('completedcase')
             ->join('onprocess', 'completedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'completedcase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'completedcase.employee_id', '=', 'users.employee_id')
             ->where('completedcase.employee_id', $id)
             ->paginate(15);
-            return $completedCase;
+        return $completedCase;
     }
 
-    public function sendApprovalAgain(Request $request){
+    public function sendApprovalAgain(Request $request)
+    {
         $toAprrovalAgain = $request->isMethod('put') ? TransferCase::findOrFail($request->employee_id) : new TransferCase;
         $toAprrovalAgain->caseid = $request->input('caseid');
         // return $request->input('assignedEmployee');
@@ -520,19 +461,21 @@ class EmployeeController extends Controller
         }
     }
 
-    public function fetchTransferCaseEmp(){
+    public function fetchTransferCaseEmp()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
-         $completedCase = DB::table('transfercase')
+        $completedCase = DB::table('transfercase')
             // ->join('send_to_employees', 'completedcase.caseid', '=', 'send_to_employees.caseid')
             ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
             ->join('users', 'transfercase.employee_id', '=', 'users.employee_id')
             ->where('transfercase.employee_id', $id)
             ->paginate(15);
-            return $completedCase;
+        return $completedCase;
     }
 
-    public function fetchSendToEmployees(){
+    public function fetchSendToEmployees()
+    {
 
         // $sendEmployees = DB::table('send_to_employees')
         // ->join('employees', 'send_to_employees.employee_id', '=', 'employees.employee_id')
@@ -582,45 +525,46 @@ class EmployeeController extends Controller
 
     }
 
-    public function UpdateEmp( Request $request, $id){
+    public function UpdateEmp(Request $request, $id)
+    {
         // $idCheck = sendToEmployee::where('caseid', '=', Input::get('caseid'))->first();
         // if ($idCheck === null) {
         //     Storage::put('public/' . $caseId . '/' . $fileName, $decoded);
         // }
-       DB::statement( "UPDATE onprocess SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
+        DB::statement("UPDATE onprocess SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
 
-       DB::statement( "UPDATE send_to_employees SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
+        DB::statement("UPDATE send_to_employees SET employee_id = '$request->employee_id' WHERE caseid = '$id'");
     }
 
-    public function TransferToOnprocess(Request $request){
+    public function TransferToOnprocess(Request $request)
+    {
         $OnProcessCase = $request->isMethod('put') ? OnProcessCase::findOrFail($request->employee_id) : new OnProcessCase;
         $OnProcessCase->caseid = $request->input('caseid');
         // return $request->input('assignedEmployee');
         $OnProcessCase->employee_id = $request->input('employee_id');
-        if( $request->input('docs') == null){
+        if ($request->input('docs') == null) {
             $OnProcessCase->docs = '';
-        }
-        else{
+        } else {
             $OnProcessCase->docs = $request->input('docs');
         }
 
-        if( $request->input('helper') == null){
+        if ($request->input('helper') == null) {
             $OnProcessCase->helper = '';
-        }
-        else{
+        } else {
             $OnProcessCase->helper = $request->input('helper');
         }
-        if ($OnProcessCase->save() && DB::statement( "UPDATE status SET status = 'onprocess' WHERE caseid = '$OnProcessCase->caseid'")) {
+        if ($OnProcessCase->save() && DB::statement("UPDATE status SET status = 'onprocess' WHERE caseid = '$OnProcessCase->caseid'")) {
             return new EmployeeResource($OnProcessCase);
         }
-
     }
 
-    public function DeleteEmpNewCase($id){
+    public function DeleteEmpNewCase($id)
+    {
         DB::table('send_to_employees')->where('caseid', '=', $id)->delete();
     }
 
-    public function checkSendEmployees(){
+    public function checkSendEmployees()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
         $employee = DB::table('send_to_employees')
@@ -633,28 +577,32 @@ class EmployeeController extends Controller
         return $employee;
     }
 
-    public function toBill(Request $request){
+    public function toBill(Request $request)
+    {
         $toBill = $request->isMethod('put') ? toBill::findOrFail($request->employee_id) : new toBill;
 
         $toBill->caseid = $request->input('caseid');
         $toBill->employee_id = $request->input('employee_id');
         $toBill->invoiceNo = $request->input('invoiceNo');
 
-        if ( $toBill->save() &&  DB::statement( "UPDATE status SET status = 'billedcase' WHERE caseid = '$toBill->caseid'")) {
+        if ($toBill->save() &&  DB::statement("UPDATE status SET status = 'billedcase' WHERE caseid = '$toBill->caseid'")) {
             return new EmployeeResource($toBill);
         }
     }
 
-    public function deleteApprovedCase($id){
+    public function deleteApprovedCase($id)
+    {
         DB::table('approvedcase')->where('caseid', '=', $id)->delete();
     }
 
-    public function deleteBilledCase($id){
+    public function deleteBilledCase($id)
+    {
         DB::table('billedcase')->where('caseid', '=', $id)->delete();
     }
 
 
-    public function fetchBilledCase(){
+    public function fetchBilledCase()
+    {
         $BilledCase = DB::table('billedcase')
             ->join('onprocess', 'billedcase.caseid', '=', 'onprocess.caseid')
             ->join('employees', 'billedcase.employee_id', '=', 'employees.employee_id')
@@ -664,7 +612,8 @@ class EmployeeController extends Controller
         return $BilledCase;
     }
 
-    public function paymentByCash(Request $request){
+    public function paymentByCash(Request $request)
+    {
         $toComplete = $request->isMethod('put') ? ToComplete::findOrFail($request->employee_id) : new ToComplete();
         $byCash = $request->isMethod('put') ? byCash::findOrFail($request->employee_id) : new byCash();
         // $byNeft = $request->isMethod('put') ? byNeft::findOrFail($request->employee_id) : new byNeft();
@@ -679,13 +628,11 @@ class EmployeeController extends Controller
 
         $toComplete->method = $request->input('selected');
         $toComplete->date = $request->input('date');
-        if( $request->input('selected') == 1){
+        if ($request->input('selected') == 1) {
             $byCash->name = "By Cash";
-        }
-        else if( $request->input('selected') == 2){
+        } else if ($request->input('selected') == 2) {
             $byCash->name = "By Cheque";
-        }
-        else{
+        } else {
             $byCash->name = "By RTGS";
         }
         $byCash->caseid = $request->input('caseid');
@@ -703,15 +650,13 @@ class EmployeeController extends Controller
         // $byCheque->bankName = $request->input('bankNamec');
 
         $dbCheck = ToComplete::where('caseid', '=', Input::get('caseid'))->first();
-        if($dbCheck == null){
-            if($toComplete->save() && $byCash->save() &&  DB::statement( "UPDATE status SET status = 'completed' WHERE caseid = '$byCash->caseid'") ){
+        if ($dbCheck == null) {
+            if ($toComplete->save() && $byCash->save() &&  DB::statement("UPDATE status SET status = 'completed' WHERE caseid = '$byCash->caseid'")) {
                 return response()->json(['message' => '0'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['message' => '1'], 200);
             }
-        }
-        else{
+        } else {
             return response()->json(['message' => '2'], 200);
         }
         // if ( $request->input('selected') == 1) {
@@ -751,7 +696,8 @@ class EmployeeController extends Controller
         // }
     }
 
-    public function fetchCollectionRegister(){
+    public function fetchCollectionRegister()
+    {
 
         $cash = DB::table('completedcase')
             ->join('bycash', 'completedcase.method', '=', 'bycash.method')
@@ -782,7 +728,7 @@ class EmployeeController extends Controller
         // $todaystotalAmountByCash =  DB::table('completedcase')->where('date', $date)->where('method', '1')->sum('paidamount');
         // $todaystotalAmountByCheque =  DB::table('completedcase')->where('date', $date)->where('method', '2')->sum('paidamount');
         // $todaystotalAmountByRtgs =  DB::table('completedcase')->where('date', $date)->where('method', '3')->sum('paidamount');
-        $custom = collect([ 'TotalAmountByCash' => $DailyCollectionCash, 'TotalAmountByCheque' => $DailyCollectionCheque, 'TotalAmountByRtgs' => $DailyCollectionRtgs,  'TodaysTotalAmountByCash' => $TodaysDailyCollectionCash, 'TodaysTotalAmountByCheque' => $TodaysDailyCollectionCheque, 'TodaysTotalAmountByRtgs' => $TodaysDailyCollectionRtgs, 'OverallTotalCollection' => $OveralltotalCollection, 'actualAmount' => $actualAmount, 'monthlyCollection' => $MonthlyCollection]);
+        $custom = collect(['TotalAmountByCash' => $DailyCollectionCash, 'TotalAmountByCheque' => $DailyCollectionCheque, 'TotalAmountByRtgs' => $DailyCollectionRtgs,  'TodaysTotalAmountByCash' => $TodaysDailyCollectionCash, 'TodaysTotalAmountByCheque' => $TodaysDailyCollectionCheque, 'TodaysTotalAmountByRtgs' => $TodaysDailyCollectionRtgs, 'OverallTotalCollection' => $OveralltotalCollection, 'actualAmount' => $actualAmount, 'monthlyCollection' => $MonthlyCollection]);
         // $data = $custom->merge($cash);
         return response()->json($custom);
         // $data =
@@ -790,10 +736,10 @@ class EmployeeController extends Controller
         // $cheque = DB::table('completedcase')
         //         ->join('bycheque', 'completedcase.method', '=', 'bycheque.method')->get();
 
-        $cheque = DB::table( "completedcase")
-        // ->join('bycash', 'completedcase.method', '=', 'bycash.method')
-        ->join('byneft', 'completedcase.method', '=', 'byneft.method')
-        ->get();
+        $cheque = DB::table("completedcase")
+            // ->join('bycash', 'completedcase.method', '=', 'bycash.method')
+            ->join('byneft', 'completedcase.method', '=', 'byneft.method')
+            ->get();
 
         // $data = array($cash);
         // $totalAmount =  DB::table('completedcase')->sum('paidamount');
@@ -809,7 +755,7 @@ class EmployeeController extends Controller
 
         // $cheque = DB::table('completedcase')->unionAll($cash)->get();
 
-            // return $cash;
+        // return $cash;
 
         // else if ($data->method == 2) {
         //     $data1 = DB::table('completedcase')
@@ -818,25 +764,29 @@ class EmployeeController extends Controller
         // }
     }
 
-    public function getInvoice(){
-       $data = DB::table('approvedcase')->paginate(15);
-       return $data;
+    public function getInvoice()
+    {
+        $data = DB::table('approvedcase')->paginate(15);
+        return $data;
     }
 
-    public function fetchFiles(){
+    public function fetchFiles()
+    {
         $data = DB::table('sendfiletoadmin')->paginate(15);
         return $data;
     }
 
-    public function status(){
+    public function status()
+    {
         $data = DB::table('toadmin')->paginate(15);
         return $data;
     }
 
-    public function VerifyEmployee(){
+    public function VerifyEmployee()
+    {
         $user = auth()->user();
         $id = $user['employee_id'];
-        $verifyEmployee = DB::table( 'transfercase')
+        $verifyEmployee = DB::table('transfercase')
             ->join('cases', 'transfercase.caseid', '=', 'cases.caseid')
             ->join('employees', 'transfercase.employee_id', '=', 'employees.employee_id')
             ->where('transfercase.employee_id', $id)
@@ -844,51 +794,70 @@ class EmployeeController extends Controller
         return $verifyEmployee;
     }
 
-    public function SupportStaff(){
+    public function SupportStaff()
+    {
         $data = DB::table('users')->where('users.selected', 2)->pluck('users.name');
         return $data;
     }
 
-    public function DeleteOnProcess($id){
+    public function DeleteOnProcess($id)
+    {
         $onprocessdelete = DB::table('onprocess')->where('caseid', $id);
 
         $onprocessdelete->delete();
     }
 
-    public function AmountReassign(Request $request){
+    public function AmountReassign(Request $request)
+    {
         DB::statement("UPDATE amount SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
         DB::statement("UPDATE cases SET amount = '$request->amount' WHERE caseid = '$request->caseid'");
     }
 
-    public function caseUpdate(Request $request){
+    public function caseUpdate(Request $request)
+    {
         $status = new caseUpdate;
         $status->caseid = $request->input('caseid');
         $status->employee_id = $request->input('employeeid');
         $status->date = $request->input('date');
         $status->status = $request->input('status');
 
-        if($status->save()){
-          return response()->json(['message' => '1'], 200);
+        if ($status->save()) {
+            return response()->json(['message' => '1'], 200);
+        } else {
+            return response()->json(['message' => '2'], 200);
         }
-        else{
-          return response()->json(['message' => '2'], 200);
+    }
+
+    public function fetchCaseUpdate($id)
+    {
+        // $user = auth()->user();
+        // $id = $user['employee_id'];
+        $status = DB::table('casestatus')
+            ->where('caseid', $id)
+            ->orderBy('date', 'desc')
+            ->paginate(15);
+        return $status;
+    }
+
+    public function fetchCaseUpdateAll()
+    {
+        $status = DB::table('casestatus')
+            ->paginate(15);
+        return $status;
+    }
+
+    private function generateEmployeeId(): string
+    {
+        $sql = Employee::select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->get();
+        foreach ($sql as $row_data) {
+            $postfix =  $row_data->max_val;
         }
-    }
 
-    public function fetchCaseUpdate($id){
-      // $user = auth()->user();
-      // $id = $user['employee_id'];
-      $status = DB::table( 'casestatus')
-          ->where('caseid', $id)
-          ->orderBy('date', 'desc')
-          ->paginate(15);
-      return $status;
+        $employee_id = 'EMP';
+        $count = Employee::select(DB::raw('max(substring(employee_id, 5, 5)) as max_val'))->count();
+        if ($count < 1) $employee_id . '00001';
+        $postfix = $postfix + 1;
+        $addVal = str_pad($postfix, 5, '0', STR_PAD_LEFT);
+        return $employee_id . $addVal;
     }
-
-    public function fetchCaseUpdateAll(){
-      $status = DB::table( 'casestatus')
-          ->paginate(15);
-      return $status;
-    }
-
 }
